@@ -313,11 +313,11 @@ public class Client {
         }
     }
 
-    public static class Response {
+    public static interface Response {
 
     }
 
-    public static class Configuration {
+    public static interface Configuration {
 
     }
 
