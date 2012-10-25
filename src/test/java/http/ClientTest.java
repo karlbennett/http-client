@@ -14,7 +14,7 @@ import java.net.URL;
  */
 public class ClientTest {
 
-    private static final String URL_STRING = "";
+    private static final String URL_STRING = "http://localhost/";
 
     private static final URL URL;
     static {
