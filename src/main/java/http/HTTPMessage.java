@@ -3,5 +3,5 @@ package http;
 /**
  * @author Karl Bennett
  */
-public interface HTTPMessage {
+public class HTTPMessage {
 }

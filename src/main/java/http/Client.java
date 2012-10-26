@@ -725,7 +725,7 @@ public class Client {
     /**
      * Represents an {@code HTTP} request and can be populated with all the standard request components.
      */
-    public static class Request {
+    public static class Request extends HTTPMessage {
 
         /**
          * Generate a new {@code java.net.URL} instance from a {@code java.lang.String} without throwing a checked
@@ -774,7 +774,7 @@ public class Client {
     /**
      * Represents an {@code HTTP} response and provides access to all the standard response components.
      */
-    public static interface Response {
+    public static class Response extends HTTPMessage {
 
     }
 }
