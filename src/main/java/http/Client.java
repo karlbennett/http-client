@@ -4,6 +4,7 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.List;
 
 /**
  * A simple {@code HTTP} client API that can be used to make request to any {@code HTTP 1.0/1.1} server.
@@ -424,7 +425,7 @@ public class Client {
     /**
      * Sends an {@code OPTIONS} request to the {@code HTTP} server defined within the provided {@link Request}.
      *
-     * Any {@link Headers}'s, {@link Parameter}'s, and {@link Body} that have been populated in the request will be sent.
+     * Any {@link Header}'s, {@link Parameter}'s, and {@link Body} that have been populated in the request will be sent.
      *
      * @param request the {@code Request} that will be sent to the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
@@ -459,7 +460,7 @@ public class Client {
     /**
      * Sends an {@code GET} request to the {@code HTTP} server defined within the provided {@link Request}.
      *
-     * Any {@link Headers}'s, {@link Parameter}'s, and {@link Body} that have been populated in the request will be sent.
+     * Any {@link Header}'s, {@link Parameter}'s, and {@link Body} that have been populated in the request will be sent.
      *
      * @param request the {@code Request} that will be sent to the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
@@ -494,7 +495,7 @@ public class Client {
     /**
      * Sends an {@code HEAD} request to the {@code HTTP} server defined within the provided {@link Request}.
      *
-     * Any {@link Headers}'s, {@link Parameter}'s, and {@link Body} that have been populated in the request will be sent.
+     * Any {@link Header}'s, {@link Parameter}'s, and {@link Body} that have been populated in the request will be sent.
      *
      * @param request the {@code Request} that will be sent to the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
@@ -529,7 +530,7 @@ public class Client {
     /**
      * Sends an {@code POST} request to the {@code HTTP} server defined within the provided {@link Request}.
      *
-     * Any {@link Headers}'s, {@link Parameter}'s, and {@link Body} that have been populated in the request will be sent.
+     * Any {@link Header}'s, {@link Parameter}'s, and {@link Body} that have been populated in the request will be sent.
      *
      * @param request the {@code Request} that will be sent to the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
@@ -564,7 +565,7 @@ public class Client {
     /**
      * Sends an {@code PUT} request to the {@code HTTP} server defined within the provided {@link Request}.
      *
-     * Any {@link Headers}'s, {@link Parameter}'s, and {@link Body} that have been populated in the request will be sent.
+     * Any {@link Header}'s, {@link Parameter}'s, and {@link Body} that have been populated in the request will be sent.
      *
      * @param request the {@code Request} that will be sent to the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
@@ -599,7 +600,7 @@ public class Client {
     /**
      * Sends an {@code DELETE} request to the {@code HTTP} server defined within the provided {@link Request}.
      *
-     * Any {@link Headers}'s, {@link Parameter}'s, and {@link Body} that have been populated in the request will be sent.
+     * Any {@link Header}'s, {@link Parameter}'s, and {@link Body} that have been populated in the request will be sent.
      *
      * @param request the {@code Request} that will be sent to the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
@@ -634,7 +635,7 @@ public class Client {
     /**
      * Sends an {@code TRACE} request to the {@code HTTP} server defined within the provided {@link Request}.
      *
-     * Any {@link Headers}'s, {@link Parameter}'s, and {@link Body} that have been populated in the request will be sent.
+     * Any {@link Header}'s, {@link Parameter}'s, and {@link Body} that have been populated in the request will be sent.
      *
      * @param request the {@code Request} that will be sent to the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
@@ -669,7 +670,7 @@ public class Client {
     /**
      * Sends an {@code CONNECT} request to the {@code HTTP} server defined within the provided {@link Request}.
      *
-     * Any {@link Headers}'s, {@link Parameter}'s, and {@link Body} that have been populated in the request will be sent.
+     * Any {@link Header}'s, {@link Parameter}'s, and {@link Body} that have been populated in the request will be sent.
      *
      * @param request the {@code Request} that will be sent to the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
@@ -700,6 +701,26 @@ public class Client {
 
     }
 
+
+    public static class Header extends HTTPAttribute {
+
+        public Header(String name, List<Object> values) {
+
+            super(name, values);
+        }
+    }
+
+    public static class Parameter extends HTTPAttribute {
+
+        public Parameter(String name, List<Object> values) {
+
+            super(name, values);
+        }
+    }
+
+    public static class Body {
+
+    }
 
     /**
      * Represents an {@code HTTP} request and can be populated with all the standard request components.
