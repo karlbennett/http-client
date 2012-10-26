@@ -117,13 +117,13 @@ public class ClientTest {
     @Test
     public void testPUTUrl() throws Exception {
 
-        PUT(URL_STRING);
+        PUT(URL);
     }
 
     @Test
     public void testPUTRequest() throws Exception {
 
-        PUT(URL_STRING);
+        PUT(REQUEST);
     }
 
     @Test
