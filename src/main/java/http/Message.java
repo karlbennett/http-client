@@ -19,4 +19,39 @@ public class Message {
     public void addHeader(Header header) {
 
     }
+
+    public Collection<Parameter> getParameters() {
+
+        return null;
+    }
+
+    public void setParameters(Collection<Parameter> parameters) {
+
+    }
+
+    public void addParameter(Parameter parameter) {
+
+    }
+
+    public Collection<Cookie> getCookies() {
+
+        return null;
+    }
+
+    public void setCookies(Collection<Cookie> cookies) {
+
+    }
+
+    public void addCookie(Cookie cookie) {
+
+    }
+
+    public Body getBody() {
+
+        return null;
+    }
+
+    public void setBody(Body body) {
+
+    }
 }
