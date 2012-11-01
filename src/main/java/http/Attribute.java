@@ -5,13 +5,13 @@ import java.util.List;
 /**
  * @author Karl Bennett
  */
-public class HTTPAttribute {
+public class Attribute {
 
     private final String name;
     private final List<Object> values;
 
 
-    public HTTPAttribute(String name, List<Object> values) {
+    public Attribute(String name, List<Object> values) {
 
         this.name = name;
         this.values = values;

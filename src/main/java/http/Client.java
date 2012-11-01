@@ -108,7 +108,7 @@ public class Client {
     }
 
     /**
-     * Static method that behaves exactly the same as the {@link #options(http.Client.Request)} method except that it is
+     * Static method that behaves exactly the same as the {@link #options(http.Request)} method except that it is
      * configure with the application global {@link #CONFIG(Configuration)} method.
      *
      * @param request the {@code Request} that will be sent to the {@code HTTP} server.
@@ -144,7 +144,7 @@ public class Client {
     }
 
     /**
-     * Static method that behaves exactly the same as the {@link #get(http.Client.Request)} method except that it is
+     * Static method that behaves exactly the same as the {@link #get(http.Request)} method except that it is
      * configure with the application global {@link #CONFIG(Configuration)} method.
      *
      * @param request the {@code Request} that will be sent to the {@code HTTP} server.
@@ -180,7 +180,7 @@ public class Client {
     }
 
     /**
-     * Static method that behaves exactly the same as the {@link #head(http.Client.Request)} method except that it is
+     * Static method that behaves exactly the same as the {@link #head(http.Request)} method except that it is
      * configure with the application global {@link #CONFIG(Configuration)} method.
      *
      * @param request the {@code Request} that will be sent to the {@code HTTP} server.
@@ -216,7 +216,7 @@ public class Client {
     }
 
     /**
-     * Static method that behaves exactly the same as the {@link #post(http.Client.Request)} method except that it is
+     * Static method that behaves exactly the same as the {@link #post(http.Request)} method except that it is
      * configure with the application global {@link #CONFIG(Configuration)} method.
      *
      * @param request the {@code Request} that will be sent to the {@code HTTP} server.
@@ -252,7 +252,7 @@ public class Client {
     }
 
     /**
-     * Static method that behaves exactly the same as the {@link #put(http.Client.Request)} method except that it is
+     * Static method that behaves exactly the same as the {@link #put(http.Request)} method except that it is
      * configure with the application global {@link #CONFIG(Configuration)} method.
      *
      * @param request the {@code Request} that will be sent to the {@code HTTP} server.
@@ -288,7 +288,7 @@ public class Client {
     }
 
     /**
-     * Static method that behaves exactly the same as the {@link #delete(http.Client.Request)} method except that it is
+     * Static method that behaves exactly the same as the {@link #delete(http.Request)} method except that it is
      * configure with the application global {@link #CONFIG(Configuration)} method.
      *
      * @param request the {@code Request} that will be sent to the {@code HTTP} server.
@@ -324,7 +324,7 @@ public class Client {
     }
 
     /**
-     * Static method that behaves exactly the same as the {@link #trace(http.Client.Request)} method except that it is
+     * Static method that behaves exactly the same as the {@link #trace(http.Request)} method except that it is
      * configure with the application global {@link #CONFIG(Configuration)} method.
      *
      * @param request the {@code Request} that will be sent to the {@code HTTP} server.
@@ -360,7 +360,7 @@ public class Client {
     }
 
     /**
-     * Static method that behaves exactly the same as the {@link #connect(http.Client.Request)} method except that it is
+     * Static method that behaves exactly the same as the {@link #connect(http.Request)} method except that it is
      * configure with the application global {@link #CONFIG(Configuration)} method.
      *
      * @param request the {@code Request} that will be sent to the {@code HTTP} server.
@@ -698,83 +698,6 @@ public class Client {
      * @param configuration a new {@code Configuration} instance.
      */
     public void config(Configuration configuration) {
-
-    }
-
-
-    public static class Header extends HTTPAttribute {
-
-        public Header(String name, List<Object> values) {
-
-            super(name, values);
-        }
-    }
-
-    public static class Parameter extends HTTPAttribute {
-
-        public Parameter(String name, List<Object> values) {
-
-            super(name, values);
-        }
-    }
-
-    public static class Body {
-
-    }
-
-    /**
-     * Represents an {@code HTTP} request and can be populated with all the standard request components.
-     */
-    public static class Request extends HTTPMessage {
-
-        /**
-         * Generate a new {@code java.net.URL} instance from a {@code java.lang.String} without throwing a checked
-         * exception.
-         *
-         * @param url the url string to use to create the new {@code java.net.URL} instance.
-         * @return a new {@code java.net.URL} instance.
-         * @throws URLException if an invalid url string is given.
-         */
-        private static URL quietUrl(String url) {
-
-            try {
-
-                return new URI(url).toURL();
-
-            } catch (MalformedURLException e) {
-
-                throw new URLException(e);
-
-            } catch (URISyntaxException e) {
-
-                throw new URLException(e);
-            }
-        }
-
-
-        /**
-         * Create a new {@code Request} that will be sent to the {@code HTTP} server at the supplied {@link URL}.
-         *
-         * @param url a {@code java.lang.String} containing the {@code URL} for the {@code HTTP} server.
-         */
-        public Request(String url) {
-
-            this(quietUrl(url));
-        }
-
-        /**
-         * Create a new {@code Request} that will be sent to the {@code HTTP} server at the supplied {@link URL}.
-         *
-         * @param url a {@code java.lang.String} containing the {@code java.net.URL} for the {@code HTTP} server.
-         */
-        public Request(URL url) {
-        }
-    }
-
-    /**
-     * Represents an {@code HTTP} response and provides access to all the standard response components.
-     */
-    public static class Response extends HTTPMessage {
 
     }
 }
