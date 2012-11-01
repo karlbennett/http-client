@@ -1,6 +1,7 @@
 package http;
 
 import java.util.Collection;
+import java.util.Collections;
 
 /**
  * @author Karl Bennett
@@ -16,6 +17,11 @@ public class Message {
 
     }
 
+    public void addHeader(String name, Object value) {
+
+        addHeader(new Header(name, Collections.singletonList(value)));
+    }
+
     public void addHeader(Header header) {
 
     }
@@ -29,6 +35,11 @@ public class Message {
 
     }
 
+    public void addParameter(String name, Object value) {
+
+        addParameter(new Parameter(name, Collections.singletonList(value)));
+    }
+
     public void addParameter(Parameter parameter) {
 
     }
@@ -40,6 +51,11 @@ public class Message {
 
     public void setCookies(Collection<Cookie> cookies) {
 
+    }
+
+    public void addCookie(String name, String value) {
+
+        addCookie(new Cookie(name, value));
     }
 
     public void addCookie(Cookie cookie) {
