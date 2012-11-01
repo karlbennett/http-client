@@ -7,4 +7,12 @@ package http;
  */
 public class Response extends Message {
 
+    public int getStatus() {
+
+        return 0;
+    }
+
+    public void setStatus(int status) {
+
+    }
 }
