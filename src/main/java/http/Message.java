@@ -13,6 +13,11 @@ public class Message {
         return null;
     }
 
+    public Header getHeader(String name) {
+
+        return null;
+    }
+
     public void setHeaders(Collection<Header> headers) {
 
     }
@@ -31,6 +36,11 @@ public class Message {
         return null;
     }
 
+    public Parameter getParameter(String name) {
+
+        return null;
+    }
+
     public void setParameters(Collection<Parameter> parameters) {
 
     }
@@ -45,6 +55,11 @@ public class Message {
     }
 
     public Collection<Cookie> getCookies() {
+
+        return null;
+    }
+
+    public Cookie getCookie(String name) {
 
         return null;
     }
