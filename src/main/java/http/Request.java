@@ -1,5 +1,6 @@
 package http;
 
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -10,7 +11,7 @@ import java.net.URL;
  *
  * @author Karl Bennett
  */
-public class Request extends Message {
+public class Request extends Message<InputStream> {
 
     /**
      * Generate a new {@code java.net.URL} instance from a {@code java.lang.String} without throwing a checked
