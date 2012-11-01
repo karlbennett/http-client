@@ -39,13 +39,4 @@ public class Body<S> {
     public void setContent(S stream) {
 
     }
-
-    public <T> T getContent(Class<T> type) {
-
-        return null;
-    }
-
-    public <T> void setContent(Class<T> type, T content) {
-
-    }
 }
