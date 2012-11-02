@@ -6,7 +6,7 @@ import java.util.Collections;
 /**
  * @author Karl Bennett
  */
-public class Message<S> {
+public class Message {
 
     public Collection<Header> getHeaders() {
 
@@ -77,12 +77,12 @@ public class Message<S> {
 
     }
 
-    public Body<S> getBody() {
+    public <T> Body<T> getBody() {
 
         return null;
     }
 
-    public void setBody(Body<S> body) {
+    public <T> void setBody(Body<T> body) {
 
     }
 }
