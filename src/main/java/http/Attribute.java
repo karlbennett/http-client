@@ -55,7 +55,7 @@ public class Attribute<T> {
     }
 
     /**
-     * @return the attributes single value or of the attribute has multiple values return the first one.
+     * @return the attributes single value or if the attribute has multiple values return the first one.
      */
     public T getValue() {
         return values.get(0);
