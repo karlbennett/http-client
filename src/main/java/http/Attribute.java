@@ -4,7 +4,8 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Represents a generic HTTP attribute with a name and multiple values.
+ * Represents a generic HTTP attribute with a name and a single or multiple values. The type of the value can be defined
+ * on instantiation.
  *
  * @author Karl Bennett
  */
