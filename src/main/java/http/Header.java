@@ -3,20 +3,30 @@ package http;
 import java.util.List;
 
 /**
- * Represent an HTTP header which is made up of a name and possibly multiple values.
+ * Represents an HTTP header which can have a name and a single or multiple values. The type of the value can be defined
+ * on instantiation.
  *
  * @author Karl Bennett
  */
-public class Header extends Attribute {
+public class Header<T> extends Attribute<T> {
 
     /**
-     * Create a new {@code Header} with the supplied name and values.
+     * Create an {@code Header} with a name and multiple values.
      *
-     * @param name the name of the header.
-     * @param values the values for the header.
+     * @param name the name of the attribute.
+     * @param values the values for the attribute.
      */
-    public Header(String name, List<Object> values) {
-
+    public Header(String name, List<T> values) {
         super(name, values);
+    }
+
+    /**
+     * Create an {@code Header} with a name and a single value.
+     *
+     * @param name the name of the attribute.
+     * @param value the single value for the attribute.
+     */
+    public Header(String name, T value) {
+        super(name, value);
     }
 }
