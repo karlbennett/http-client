@@ -11,8 +11,8 @@ import java.net.URL;
  * {@code import static http.Client.*}
  *
  * This will provide access to all the static request methods
- * ({@link #GET(String)}, {@link #POST(String)}, {@link #PUT(String)}...) as well as the request and response objects
- * ({@link Request}, {@link Request}, {@link Header}, {@link Parameter}, {@link Body}).
+ * ({@link #GET(String)}, {@link #POST(String)}, {@link #PUT(String)}...) as well as the  ({@link Request} and
+ * {@link Response} objects.
  *
  * The simplest way to use the client is through the static methods, these use a singleton instance of the client. This
  * singleton isn't instantiated until one of the static methods are used.
@@ -23,7 +23,7 @@ import java.net.URL;
  * <code>
  *     Request request = new Request("http://yourservice.com/post");
  *     request.addHeader(new ContentType("application/x-www-form-urlencoded"));
- *     request.setBody(new Body&lt;Parameter&gt;(new Parameter("some", "thing")));
+ *     request.setBody(new Parameter("some", "thing"));
  *     POST(request);
  * </code>
  *
@@ -421,7 +421,7 @@ public class Client {
     /**
      * Sends an {@code OPTIONS} request to the {@code HTTP} server defined within the provided {@link Request}.
      *
-     * Any {@link Header}'s, {@link Parameter}'s, and {@link Body} that have been populated in the request will be sent.
+     * Any {@link Header}'s, {@link Parameter}'s, and body that have been populated in the request will be sent.
      *
      * @param request the {@code Request} that will be sent to the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
@@ -456,7 +456,7 @@ public class Client {
     /**
      * Sends an {@code GET} request to the {@code HTTP} server defined within the provided {@link Request}.
      *
-     * Any {@link Header}'s, {@link Parameter}'s, and {@link Body} that have been populated in the request will be sent.
+     * Any {@link Header}'s, {@link Parameter}'s, and body that have been populated in the request will be sent.
      *
      * @param request the {@code Request} that will be sent to the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
@@ -491,7 +491,7 @@ public class Client {
     /**
      * Sends an {@code HEAD} request to the {@code HTTP} server defined within the provided {@link Request}.
      *
-     * Any {@link Header}'s, {@link Parameter}'s, and {@link Body} that have been populated in the request will be sent.
+     * Any {@link Header}'s, {@link Parameter}'s, and body that have been populated in the request will be sent.
      *
      * @param request the {@code Request} that will be sent to the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
@@ -526,7 +526,7 @@ public class Client {
     /**
      * Sends an {@code POST} request to the {@code HTTP} server defined within the provided {@link Request}.
      *
-     * Any {@link Header}'s, {@link Parameter}'s, and {@link Body} that have been populated in the request will be sent.
+     * Any {@link Header}'s, {@link Parameter}'s, and body that have been populated in the request will be sent.
      *
      * @param request the {@code Request} that will be sent to the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
@@ -561,7 +561,7 @@ public class Client {
     /**
      * Sends an {@code PUT} request to the {@code HTTP} server defined within the provided {@link Request}.
      *
-     * Any {@link Header}'s, {@link Parameter}'s, and {@link Body} that have been populated in the request will be sent.
+     * Any {@link Header}'s, {@link Parameter}'s, and body that have been populated in the request will be sent.
      *
      * @param request the {@code Request} that will be sent to the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
@@ -596,7 +596,7 @@ public class Client {
     /**
      * Sends an {@code DELETE} request to the {@code HTTP} server defined within the provided {@link Request}.
      *
-     * Any {@link Header}'s, {@link Parameter}'s, and {@link Body} that have been populated in the request will be sent.
+     * Any {@link Header}'s, {@link Parameter}'s, and body that have been populated in the request will be sent.
      *
      * @param request the {@code Request} that will be sent to the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
@@ -631,7 +631,7 @@ public class Client {
     /**
      * Sends an {@code TRACE} request to the {@code HTTP} server defined within the provided {@link Request}.
      *
-     * Any {@link Header}'s, {@link Parameter}'s, and {@link Body} that have been populated in the request will be sent.
+     * Any {@link Header}'s, {@link Parameter}'s, and body that have been populated in the request will be sent.
      *
      * @param request the {@code Request} that will be sent to the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
@@ -666,7 +666,7 @@ public class Client {
     /**
      * Sends an {@code CONNECT} request to the {@code HTTP} server defined within the provided {@link Request}.
      *
-     * Any {@link Header}'s, {@link Parameter}'s, and {@link Body} that have been populated in the request will be sent.
+     * Any {@link Header}'s, {@link Parameter}'s, and body that have been populated in the request will be sent.
      *
      * @param request the {@code Request} that will be sent to the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.

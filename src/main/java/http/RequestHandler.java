@@ -9,5 +9,5 @@ import java.util.Collection;
 interface RequestHandler {
 
     public Response handleRequest(String method, Collection<Header> headers, Collection<Parameter> parameters,
-                                  Collection<Cookie> cookies, Body<InputStream> body);
+                                  Collection<Cookie> cookies, InputStream body);
 }

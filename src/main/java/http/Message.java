@@ -8,7 +8,7 @@ import java.util.Collection;
  *
  * @author Karl Bennett
  */
-public class Message {
+public class Message<T> {
 
     /**
      * Get all the headers set for the current {@code Message}.
@@ -21,7 +21,16 @@ public class Message {
     }
 
     /**
-     * Get the {@code Header} with the supplied name. If the header does not exist this method will return null.
+     * Get the {@link Header} with the supplied name. If the header does not exist this method will return null.
+     *
+     * Care must be taken with this method because it will implicitly cast the generic type of the {@code Header} so can
+     * produce ClassCastExceptions exceptions at runtime.
+     *
+     * <code>
+     *     request.addHeader(new Header&lt;String&gt;("number", "one"));
+     *     Header&lt;Integer&gt; header = request.getHeader("number"); // This will not produce an unchecked warning.
+     *     int number = header.getValue(); // This will compile and fail at runtime with a ClassCastException.
+     * </code>
      *
      * @param name the name of the header to retrieve.
      * @param <T> the type of the headers value.
@@ -55,7 +64,7 @@ public class Message {
     }
 
     /**
-     * Add a {@code Header} to the {@code Message} appending it to any added previously. If a header with the a matching
+     * Add a {@link Header} to the {@code Message} appending it to any added previously. If a header with the a matching
      * name already exists then the new headers value will be added to the existing headers values.
      *
      * @param header the new header to add to the message.
@@ -76,7 +85,16 @@ public class Message {
     }
 
     /**
-     * Get the {@code Parameter} with the supplied name. If the parameter does not exist this method will return null.
+     * Get the {@link Parameter} with the supplied name. If the parameter does not exist this method will return null.
+     *
+     * Care must be taken with this method because it will implicitly cast the generic type of the {@code Parameter} so
+     * can produce {@link ClassCastException} exceptions at runtime.
+     *
+     * <code>
+     *     request.addParameter(new Parameter&lt;String&gt;("number", "one"));
+     *     Parameter&lt;Integer&gt; parameter = request.getParameter("number"); // This will not produce an unchecked warning.
+     *     int number = parameter.getValue(); // This will compile and fail at runtime with a ClassCastException.
+     * </code>
      *
      * @param name the name of the parameter to retrieve.
      * @param <T> the type of the parameters value.
@@ -110,7 +128,7 @@ public class Message {
     }
 
     /**
-     * Add a {@code Parameter} to the {@code Message} appending it to any added previously. If a parameter with the a
+     * Add a {@link Parameter} to the {@code Message} appending it to any added previously. If a parameter with the a
      * matching name already exists then the new parameters value will be added to the existing parameters values.
      *
      * @param parameter the new parameter to add to the message.
@@ -131,7 +149,7 @@ public class Message {
     }
 
     /**
-     * Get the {@code Cookie} with the supplied name. If the cookie does not exist this method will return null.
+     * Get the {@link Cookie} with the supplied name. If the cookie does not exist this method will return null.
      *
      * @param name the name of the cookie to retrieve.
      * @return the requested cookie if it exists otherwise null.
@@ -163,7 +181,7 @@ public class Message {
     }
 
     /**
-     * Add a {@code Cookie} to the {@code Message} appending it to any added previously. If a cookie with the a
+     * Add a {@link Cookie} to the {@code Message} appending it to any added previously. If a cookie with the a
      * matching name already exists then it will be replaced with the new cookie.
      *
      * @param cookie the new parameter to add to the message.
@@ -173,23 +191,24 @@ public class Message {
     }
 
     /**
-     * Get the {@link Body} of the current message.
+     * Get the body of the current message.
      *
-     * @param <T> the type of the body's content.
      * @return the messages body.
      */
-    public <T> Body<T> getBody() {
+    public T getBody() {
 
         return null;
     }
 
     /**
-     * Set the {@link Body} of the current message.
+     * Set the body of the current message. The message body can be set to be of any type as long as there is a
+     * {@link http.conversion.Converter} available that supports the conversion of that type into the generic type of
+     * the {@code Message}.
      *
      * @param body the new message body.
-     * @param <T> the type of the body's content.
+     * @throws IllegalStateException if there is no supported converter for the supplied body type.
      */
-    public <T> void setBody(Body<T> body) {
+    public <T> void setBody(T body) {
 
     }
 }
