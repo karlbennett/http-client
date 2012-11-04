@@ -62,7 +62,7 @@ import java.net.URL;
  * <code>
  *     Request request = new Request("http://yourservice.com/post");
  *     request.addHeader(new ContentType("application/x-www-form-urlencoded"));
- *     request.getBody(new Parameter("some", "thing"));
+ *     request.setBody(new Parameter("some", "thing"));
  *     new Client().post(request);
  * </code>
  *
