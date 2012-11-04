@@ -3,6 +3,8 @@ package http;
 import java.util.Collections;
 import java.util.List;
 
+import static http.util.Assert.assertNotNull;
+
 /**
  * Represents a generic HTTP attribute with a name and a single or multiple values. The type of the value can be defined
  * on instantiation.
@@ -23,6 +25,9 @@ public class Attribute<T> {
      */
     public Attribute(String name, List<T> values) {
 
+        assertNotNull("name", name);
+        assertNotNull("values", values);
+
         this.name = name;
         this.values = values;
     }
@@ -34,6 +39,9 @@ public class Attribute<T> {
      * @param value the single value for the attribute.
      */
     public Attribute(String name, T value) {
+
+        assertNotNull("name", name);
+        assertNotNull("value", value);
 
         this.name = name;
         this.values = Collections.singletonList(value);
