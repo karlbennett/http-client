@@ -3,6 +3,8 @@ package http;
 import java.io.InputStream;
 import java.util.Collection;
 
+import static http.Client.Response;
+
 /**
  * @author Karl Bennett
  */
