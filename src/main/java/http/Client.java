@@ -13,7 +13,7 @@ import java.util.Collection;
  * required to use the API.
  * <p/>
  * <code>
- *      import static http.Client.*
+ * &nbsp;&nbsp;&nbsp;&nbsp;import static http.Client.*
  * </code>
  * <p/>
  * This will provide access to all the static request methods
@@ -23,41 +23,42 @@ import java.util.Collection;
  * The simplest way to use the client is through the static methods, these use a singleton instance of the client. This
  * singleton isn't instantiated until one of the static methods are used.
  * <p/>
- * Usage:
+ * Usage:<br/>
  * <code>
- *      System.out.println(GET("http://yoursite.com"))}
+ * &nbsp;&nbsp;&nbsp;&nbsp;System.out.println(GET("http://yoursite.com"))}
  * </code>
  * <p/>
  * <code>
- *      Request request = new Request("http://yourservice.com/post");
- *      request.addHeader(new ContentType("application/x-www-form-urlencoded"));
- *      request.setBody(new Parameter("some", "thing"));
- *      POST(request);
+ * &nbsp;&nbsp;&nbsp;&nbsp;Request request = new Request("http://yourservice.com/post");<br/>
+ * &nbsp;&nbsp;&nbsp;&nbsp;request.addHeader(new ContentType("application/x-www-form-urlencoded"));<br/>
+ * &nbsp;&nbsp;&nbsp;&nbsp;request.setBody(new Parameter("some", "thing"));<br/>
+ * &nbsp;&nbsp;&nbsp;&nbsp;POST(request);
  * </code>
  * <p/>
  * The singleton client can be configured with the {@link Configuration} instance returned or set by the
- * {@link #SET_CONFIGURATION} or {@link #GET_CONFIGURATION} methods respectively. It also automatically picks up the uses the
- * JVM SSL and proxy properties.
- * Proxy:
+ * {@link #GET_CONFIGURATION} or {@link #SET_CONFIGURATION} methods respectively. It also automatically imports and uses
+ * the JVM SSL and proxy properties.
+ * <p/>
+ * Proxy:<br/>
  * <code>
- *      http.proxyHost
- *      http.proxyPort
- *      http.nonProxyHosts
- *      https.proxyHost
- *      https.proxyPort
- *      https.nonProxyHosts
- *      socksProxyHost
- *      socksProxyPort
+ * &nbsp;&nbsp;&nbsp;&nbsp;http.proxyHost<br/>
+ * &nbsp;&nbsp;&nbsp;&nbsp;http.proxyPort<br/>
+ * &nbsp;&nbsp;&nbsp;&nbsp;http.nonProxyHosts<br/>
+ * &nbsp;&nbsp;&nbsp;&nbsp;https.proxyHost<br/>
+ * &nbsp;&nbsp;&nbsp;&nbsp;https.proxyPort<br/>
+ * &nbsp;&nbsp;&nbsp;&nbsp;https.nonProxyHosts<br/>
+ * &nbsp;&nbsp;&nbsp;&nbsp;socksProxyHost<br/>
+ * &nbsp;&nbsp;&nbsp;&nbsp;socksProxyPort<br/>
  * </code>
  * <p/>
- * SSL:
+ * SSL:<br/>
  * <code>
- *      javax.net.ssl.trustStore
- *      javax.net.ssl.trustStoreType
- *      javax.net.ssl.trustStorePassword
- *      javax.net.ssl.keyStore
- *      javax.net.ssl.keyStoreType
- *      javax.net.ssl.keyStorePassword
+ * &nbsp;&nbsp;&nbsp;&nbsp;javax.net.ssl.trustStore<br/>
+ * &nbsp;&nbsp;&nbsp;&nbsp;javax.net.ssl.trustStoreType<br/>
+ * &nbsp;&nbsp;&nbsp;&nbsp;javax.net.ssl.trustStorePassword<br/>
+ * &nbsp;&nbsp;&nbsp;&nbsp;javax.net.ssl.keyStore<br/>
+ * &nbsp;&nbsp;&nbsp;&nbsp;javax.net.ssl.keyStoreType<br/>
+ * &nbsp;&nbsp;&nbsp;&nbsp;javax.net.ssl.keyStorePassword<br/>
  * </code>
  * <p/>
  * If multiple client configuration profiles are required a new instance of the {@code Client} class can be created for
@@ -65,16 +66,16 @@ import java.util.Collection;
  * {@link Client#setConfiguration} methods. The instance HTTP request methods would then be used
  * ({@link Client#get(String)}, {@link Client#post(String)}, {@link Client#put(String)}...).
  * <p/>
- * Usage:
+ * Usage:<br/>
  * <code>
- *      System.out.println(new Client().get("http://yoursite.com"))}
+ * &nbsp;&nbsp;&nbsp;&nbsp;System.out.println(new Client().get("http://yoursite.com"))}
  * </code>
  * <p/>
  * <code>
- *      Request request = new Request("http://yourservice.com/post");
- *      request.addHeader(new ContentType("application/x-www-form-urlencoded"));
- *      request.setBody(new Parameter("some", "thing"));
- *      new Client().post(request);
+ * &nbsp;&nbsp;&nbsp;&nbsp;Request request = new Request("http://yourservice.com/post");<br/>
+ * &nbsp;&nbsp;&nbsp;&nbsp;request.addHeader(new ContentType("application/x-www-form-urlencoded"));<br/>
+ * &nbsp;&nbsp;&nbsp;&nbsp;request.setBody(new Parameter("some", "thing"));<br/>
+ * &nbsp;&nbsp;&nbsp;&nbsp;new Client().post(request);<br/>
  * </code>
  *
  * @author Karl Bennett
@@ -402,7 +403,7 @@ public class Client {
      *
      * @return the current static global {@code Configuration} instance.
      */
-    public static Configuration SET_CONFIGURATION() {
+    public static Configuration GET_CONFIGURATION() {
 
         return getInstance().getConfiguration();
     }
@@ -414,7 +415,7 @@ public class Client {
      *
      * @param configuration a new {@code Configuration} instance.
      */
-    public static void GET_CONFIGURATION(Configuration configuration) {
+    public static void SET_CONFIGURATION(Configuration configuration) {
 
         getInstance().setConfiguration(configuration);
     }
