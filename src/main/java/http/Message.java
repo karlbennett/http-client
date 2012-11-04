@@ -1,7 +1,6 @@
 package http;
 
 import java.util.Collection;
-import java.util.Collections;
 
 /**
  * Represents a generic HTTP message and supplies accessor methods for retrieving and populating the common HTTP message
@@ -11,7 +10,12 @@ import java.util.Collections;
  */
 public class Message {
 
-    public <T> Collection<Header<T>> getHeaders() {
+    /**
+     * Get all the headers set for the current {@code Message}.
+     *
+     * @return the message headers.
+     */
+    public Collection<Header<?>> getHeaders() {
 
         return null;
     }
@@ -21,7 +25,7 @@ public class Message {
         return null;
     }
 
-    public <T> void setHeaders(Collection<Header<T>> headers) {
+    public void setHeaders(Collection<Header<?>> headers) {
 
     }
 
@@ -34,7 +38,7 @@ public class Message {
 
     }
 
-    public <T> Collection<Parameter<T>> getParameters() {
+    public Collection<Parameter<?>> getParameters() {
 
         return null;
     }
@@ -44,7 +48,7 @@ public class Message {
         return null;
     }
 
-    public <T> void setParameters(Collection<Parameter<T>> parameters) {
+    public void setParameters(Collection<Parameter<?>> parameters) {
 
     }
 
