@@ -191,8 +191,6 @@ public class Message<T> {
     }
 
     /**
-     * Get the body of the current message.
-     *
      * @return the messages body.
      */
     public T getBody() {
@@ -201,14 +199,11 @@ public class Message<T> {
     }
 
     /**
-     * Set the body of the current message. The message body can be set to be of any type as long as there is a
-     * {@link http.conversion.Converter} available that supports the conversion of that type into the generic type of
-     * the {@code Message}.
+     * Set the body of the current message.
      *
      * @param body the new message body.
-     * @throws IllegalStateException if there is no supported converter for the supplied body type.
      */
-    public <T> void setBody(T body) {
+    public void setBody(T body) {
 
     }
 }
