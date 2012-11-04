@@ -15,7 +15,7 @@ public class Message {
      *
      * @return the message headers.
      */
-    public Collection<Header<?>> getHeaders() {
+    public Collection<Header> getHeaders() {
 
         return null;
     }
@@ -25,7 +25,7 @@ public class Message {
         return null;
     }
 
-    public void setHeaders(Collection<Header<?>> headers) {
+    public void setHeaders(Collection<Header> headers) {
 
     }
 
@@ -38,7 +38,7 @@ public class Message {
 
     }
 
-    public Collection<Parameter<?>> getParameters() {
+    public Collection<Parameter> getParameters() {
 
         return null;
     }
@@ -48,7 +48,7 @@ public class Message {
         return null;
     }
 
-    public void setParameters(Collection<Parameter<?>> parameters) {
+    public void setParameters(Collection<Parameter> parameters) {
 
     }
 
