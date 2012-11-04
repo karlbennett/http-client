@@ -16,7 +16,7 @@ public class Attribute<T> {
 
 
     /**
-     * Create an {@code Attribute} with a name and values.
+     * Create an {@code Attribute} with a name and multiple values.
      *
      * @param name the name of the attribute.
      * @param values the values for the attribute.
@@ -28,7 +28,7 @@ public class Attribute<T> {
     }
 
     /**
-     * Create an {@code Attribute} with a name and single value.
+     * Create an {@code Attribute} with a name and a single value.
      *
      * @param name the name of the attribute.
      * @param value the single value for the attribute.
