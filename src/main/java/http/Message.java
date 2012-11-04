@@ -4,50 +4,53 @@ import java.util.Collection;
 import java.util.Collections;
 
 /**
+ * Represents a generic HTTP message and supplies accessor methods for retrieving and populating the common HTTP message
+ * components.
+ *
  * @author Karl Bennett
  */
 public class Message {
 
-    public Collection<Header> getHeaders() {
+    public <T> Collection<Header<T>> getHeaders() {
 
         return null;
     }
 
-    public Header getHeader(String name) {
+    public <T> Header<T> getHeader(String name) {
 
         return null;
     }
 
-    public void setHeaders(Collection<Header> headers) {
+    public <T> void setHeaders(Collection<Header<T>> headers) {
 
     }
 
-    public void addHeader(String name, Object value) {
+    public <T> void addHeader(String name, T value) {
 
-        addHeader(new Header(name, Collections.singletonList(value)));
+        addHeader(new Header<T>(name, value));
     }
 
-    public void addHeader(Header header) {
+    public <T> void addHeader(Header<T> header) {
 
     }
 
-    public Collection<Parameter> getParameters() {
+    public <T> Collection<Parameter<T>> getParameters() {
 
         return null;
     }
 
-    public Parameter getParameter(String name) {
+    public <T> Parameter<T> getParameter(String name) {
 
         return null;
     }
 
-    public void setParameters(Collection<Parameter> parameters) {
+    public <T> void setParameters(Collection<Parameter<T>> parameters) {
 
     }
 
-    public void addParameter(String name, Object value) {
+    public <T> void addParameter(String name, T value) {
 
-        addParameter(new Parameter(name, Collections.singletonList(value)));
+        addParameter(new Parameter<T>(name, value));
     }
 
     public void addParameter(Parameter parameter) {
