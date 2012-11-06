@@ -2,6 +2,7 @@ package http;
 
 import java.net.URI;
 import java.util.Collection;
+import java.util.Date;
 
 /**
  * Represents an HTTP cookie, that is a header with the name {@code Cookie} and a value containing the cookie name and
@@ -60,19 +61,55 @@ public class Cookie {
     }
 
     /**
-     * @return the max age of the cookie.
+     * @return the date that the cookie expires.
      */
-    public long getMaxAge() {
+    public Date getExpires() {
 
-        return 0L;
+        return null;
     }
 
     /**
-     * Set the maximum age of the cookie as the number of milliseconds from the current time stamp.
+     * Set the expiry date for the cookie with a {@link String}.
+     *
+     * @param expires a {@code String} containing the cookies expiry date. This must be in the format
+     *                "E',' dd MMM yyyy HH':'mm':'ss z".
+     * @throws http.date.DateParseException if the expires string is malformed.
+     */
+    public void setExpires(String expires) {
+
+    }
+
+    /**
+     * Set the expiry date for the cookie.
+     *
+     * @param expires the cookies expiry date.
+     */
+    public void setExpires(Date expires) {
+
+    }
+
+    /**
+     * @return true if the cookie has expired, otherwise false.
+     */
+    public boolean hasExpired() {
+
+        return false;
+    }
+
+    /**
+     * @return the max age of the cookie.
+     */
+    public int getMaxAge() {
+
+        return 0;
+    }
+
+    /**
+     * Set the maximum age of the cookie as the number of seconds from the current time stamp.
      *
      * @param expiry how long till the cookie expires.
      */
-    public void setMaxAge(long expiry) {
+    public void setMaxAge(int expiry) {
 
     }
 
@@ -155,11 +192,11 @@ public class Cookie {
     /**
      * Parse the supplied {@code Cookie} header into the cookies contained within its value.
      *
-     * @param header the {@code Cookie} header to parse.
+     * @param value the value of a {@code Cookie} header that will be parsed into one or more cookies.
      * @return a collection of all the cookies contained within the header.
      * @throws IllegalArgumentException if the supplied header is not a {@code Cookie} header.
      */
-    public static Collection<Cookie> parse(Header header) {
+    public static Collection<Cookie> parse(String value) {
 
         return null;
     }
