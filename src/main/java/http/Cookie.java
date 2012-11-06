@@ -1,24 +1,24 @@
 package http;
 
 import java.net.URI;
-import java.net.URL;
 import java.util.Collection;
 
 /**
  * Represents an HTTP cookie, that is a header with the name {@code Cookie} and a value containing the cookie name and
  * value.
- *
+ * <p/>
  * Example:
- *      Cookie: myCookie=myCookieValue;
+ * Cookie: myCookie=myCookieValue;
  *
  * @author Karl Bennett
+ * @see <a href="http://www.ietf.org/rfc/rfc2109.txt">RFC 2109</a>
  */
 public class Cookie {
 
     /**
      * Create a new {@code Cookie} with the supplied name and value.
      *
-     * @param name the name of the cookie.
+     * @param name  the name of the cookie.
      * @param value the value of the cookie.
      */
     public Cookie(String name, String value) {
@@ -39,49 +39,6 @@ public class Cookie {
      * @param comment the new cookie comment.
      */
     public void setComment(String comment) {
-
-    }
-
-    /**
-     * @return the cookies comment URL.
-     */
-    public URL getCommentURL() {
-
-        return null;
-    }
-
-    /**
-     * Set the comment URL for the cookie.
-     *
-     * @param commentURL a {@code String} containing the new cookie comments URL.
-     */
-    public void setCommentURL(String commentURL) {
-
-    }
-
-    /**
-     * Set the comment URL for the cookie.
-     *
-     * @param commentURL the new cookie comments URL.
-     */
-    public void setCommentURL(URL commentURL) {
-
-    }
-
-    /**
-     * @return true if the cookie should be discarded otherwise false.
-     */
-    public boolean isDiscard() {
-
-        return false;
-    }
-
-    /**
-     * Set whether the cookie should be discarded or not.
-     *
-     * @param discard true to discard, otherwise false.
-     */
-    public void setDiscard(boolean discard) {
 
     }
 
@@ -117,6 +74,14 @@ public class Cookie {
      */
     public void setMaxAge(long expiry) {
 
+    }
+
+    /**
+     * @return the name of the cookie.
+     */
+    public String getName() {
+
+        return null;
     }
 
     /**
@@ -163,14 +128,6 @@ public class Cookie {
     }
 
     /**
-     * @return the name of the cookie.
-     */
-    public String getName() {
-
-        return null;
-    }
-
-    /**
      * @return the value of the cookie.
      */
     public String getValue() {
@@ -193,31 +150,6 @@ public class Cookie {
      */
     public void setVersion(int version) {
 
-    }
-
-    /**
-     * @return the port list for the cookie.
-     */
-    public String getPortlist() {
-
-        return null;
-    }
-
-    /**
-     * Set the cookies port list.
-     *
-     * @param ports the new cookie port list.
-     */
-    public void setPortlist(String ports) {
-
-    }
-
-    /**
-     * @return true if the cookie has expired otherwise false.
-     */
-    public boolean hasExpired() {
-
-        return false;
     }
 
     /**
