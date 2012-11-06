@@ -38,6 +38,13 @@ public class AttributeTest {
 
     @Test(expected = IllegalArgumentException.class)
     @SuppressWarnings("unchecked")
+    public void testCreateAttributeWithEmptyName() throws Exception {
+
+        new Attribute("", new Object());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    @SuppressWarnings("unchecked")
     public void testCreateAttributeWithNullValue() throws Exception {
 
         new Attribute(TEST_ATTRIBUTE_NAME, null);
