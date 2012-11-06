@@ -754,7 +754,7 @@ public class Client {
          *
          * @param url the url string to use to create the new {@code java.net.URL} instance.
          * @return a new {@code java.net.URL} instance.
-         * @throws URLException if an invalid url string is given.
+         * @throws URIException if an invalid url string is given.
          */
         private static URL quietUrl(String url) {
 
@@ -764,11 +764,11 @@ public class Client {
 
             } catch (MalformedURLException e) {
 
-                throw new URLException(e);
+                throw new URIException(e);
 
             } catch (URISyntaxException e) {
 
-                throw new URLException(e);
+                throw new URIException(e);
             }
         }
 

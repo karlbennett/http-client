@@ -185,7 +185,7 @@ public class CookieTest {
         assertFalse("the verion of the cookie should not be in the cookie string.", matcher.find());
     }
 
-    @Test(expected = URLException.class)
+    @Test(expected = URIException.class)
     public void testSetNullPath() throws Exception {
 
         Cookie cookie = new Cookie(NAME, VALUE);
