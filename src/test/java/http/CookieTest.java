@@ -9,6 +9,7 @@ import org.junit.Test;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Collection;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -152,6 +153,42 @@ public class CookieTest {
 
         Cookie cookie = new Cookie(NAME, VALUE);
         cookie.setExpires((String) null);
+    }
+
+    @Test
+    public void testHasExpired() throws Exception {
+
+        Cookie cookie = new Cookie(NAME, VALUE);
+        cookie.setExpires(DateTime.now().minusMinutes(1).toDate());
+
+        assertTrue("the cookie should have expired.", cookie.hasExpired());
+    }
+
+    @Test
+    public void testHasExpiredWithMaxAge() throws Exception {
+
+        Cookie cookie = new Cookie(NAME, VALUE);
+        cookie.setMaxAge(0);
+
+        assertTrue("the cookie should have expired.", cookie.hasExpired());
+    }
+
+    @Test
+    public void testHasExpiredWithFutureDate() throws Exception {
+
+        Cookie cookie = new Cookie(NAME, VALUE);
+        cookie.setExpires(DateTime.now().plusDays(1).toDate());
+
+        assertFalse("the cookie should not have expired.", cookie.hasExpired());
+    }
+
+    @Test
+    public void testHasExpiredWithFutureMaxAge() throws Exception {
+
+        Cookie cookie = new Cookie(NAME, VALUE);
+        cookie.setMaxAge((int) (DateTime.now().plusDays(1).getMillis() / 1000));
+
+        assertFalse("the cookie should not have expired.", cookie.hasExpired());
     }
 
     @Test
