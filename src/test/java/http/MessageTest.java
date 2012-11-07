@@ -8,18 +8,12 @@ import org.junit.Test;
 public class MessageTest {
 
     @Test
-    public void testGetHeaders() throws Exception {
-
-
-    }
-
-    @Test
     public void testGetHeader() throws Exception {
 
     }
 
     @Test
-    public void testSetHeaders() throws Exception {
+    public void testGetHeaderThatDoesNotExist() throws Exception {
 
     }
 
@@ -29,12 +23,72 @@ public class MessageTest {
     }
 
     @Test
+    public void testAddHeaderWithNameAndEmptyValue() throws Exception {
+
+    }
+
+    @Test
+    public void testAddHeaderWithNameAndNullValue() throws Exception {
+
+    }
+
+    @Test
+    public void testAddHeaderWithEmptyNameAndValue() throws Exception {
+
+    }
+
+    @Test
+    public void testAddHeaderWithNullNameAndValue() throws Exception {
+
+    }
+
+    @Test
+    public void testAddHeaderWithEmptyNameAndEmptyValue() throws Exception {
+
+    }
+
+    @Test
+    public void testAddHeaderWithNullNameAndNullValue() throws Exception {
+
+    }
+
+    @Test
     public void testAddHeader() throws Exception {
 
     }
 
     @Test
-    public void testGetParameters() throws Exception {
+    public void testAddHeaderWithEmptyValue() throws Exception {
+
+    }
+
+    @Test
+    public void testAddHeaderWithNullValue() throws Exception {
+
+    }
+
+    @Test
+    public void testAddHeaderWithEmptyName() throws Exception {
+
+    }
+
+    @Test
+    public void testAddHeaderWithNullName() throws Exception {
+
+    }
+
+    @Test
+    public void testAddHeaderWithEmptyValues() throws Exception {
+
+    }
+
+    @Test
+    public void testAddHeaderWithNullValues() throws Exception {
+
+    }
+
+    @Test
+    public void testAddHeaderWithNullHeader() throws Exception {
 
     }
 
@@ -44,7 +98,7 @@ public class MessageTest {
     }
 
     @Test
-    public void testSetParameters() throws Exception {
+    public void testGetParameterThatDoesNotExist() throws Exception {
 
     }
 
@@ -54,7 +108,57 @@ public class MessageTest {
     }
 
     @Test
+    public void testAddParameterWithNameAndNullValue() throws Exception {
+
+    }
+
+    @Test
+    public void testAddParameterWithNullNameAndValue() throws Exception {
+
+    }
+
+    @Test
+    public void testAddParameterWithNullNameAndNullValue() throws Exception {
+
+    }
+
+    @Test
     public void testAddParameter() throws Exception {
+
+    }
+
+    @Test
+    public void testAddParameterEmptyValue() throws Exception {
+
+    }
+
+    @Test
+    public void testAddParameterNullValue() throws Exception {
+
+    }
+
+    @Test
+    public void testAddParameterEmptyName() throws Exception {
+
+    }
+
+    @Test
+    public void testAddParameterNullName() throws Exception {
+
+    }
+
+    @Test
+    public void testAddParameterEmptyNameAndValue() throws Exception {
+
+    }
+
+    @Test
+    public void testAddParameterNullNameAndValue() throws Exception {
+
+    }
+
+    @Test
+    public void testAddParameterWithNullParameter() throws Exception {
 
     }
 
@@ -64,7 +168,17 @@ public class MessageTest {
     }
 
     @Test
+    public void testGetCookiesWhenNoCookiesHaveBeenAdded() throws Exception {
+
+    }
+
+    @Test
     public void testGetCookie() throws Exception {
+
+    }
+
+   @Test
+    public void testGetCookieThatDoesNotExist() throws Exception {
 
     }
 
@@ -74,7 +188,32 @@ public class MessageTest {
     }
 
     @Test
+    public void testSetCookiesWithEmptyCollection() throws Exception {
+
+    }
+
+    @Test
+    public void testSetCookiesWithNull() throws Exception {
+
+    }
+
+    @Test
     public void testAddCookieWithNameAndValue() throws Exception {
+
+    }
+
+    @Test
+    public void testAddCookieWithNameAndNullValue() throws Exception {
+
+    }
+
+    @Test
+    public void testAddCookieWithNullNameAndValue() throws Exception {
+
+    }
+
+    @Test
+    public void testAddCookieWithNullNameAndNullValue() throws Exception {
 
     }
 
@@ -84,12 +223,37 @@ public class MessageTest {
     }
 
     @Test
-    public void testGetBody() throws Exception {
+    public void testAddCookieEmptyValue() throws Exception {
 
     }
 
     @Test
-    public void testSetBody() throws Exception {
+    public void testAddCookieNullValue() throws Exception {
+
+    }
+
+    @Test
+    public void testAddCookieEmptyName() throws Exception {
+
+    }
+
+    @Test
+    public void testAddCookieNullName() throws Exception {
+
+    }
+
+    @Test
+    public void testAddCookieEmptyNameAndValue() throws Exception {
+
+    }
+
+    @Test
+    public void testAddCookieNullNameAndValue() throws Exception {
+
+    }
+
+    @Test
+    public void testAddCookieWithNullCookie() throws Exception {
 
     }
 }
