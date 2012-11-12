@@ -5,6 +5,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Collection;
+import java.util.Collections;
 
 /**
  * A simple {@code HTTP} client API that can be used to make request to any {@code HTTP 1.0/1.1} server.
@@ -784,12 +785,92 @@ public class Client {
         }
 
         /**
+         * Create a new {@code Request} that will be sent to the {@code HTTP} server at the supplied {@link URL}. It
+         * will aso contain parameters supplied.
+         *
+         * @param url a {@code java.lang.String} containing the {@code URL} for the {@code HTTP} server.
+         * @param parameters any parameters that should be sent in the HTTP request.
+         */
+        public Request(String url, Collection<Parameter> parameters) {
+
+            this(quietUrl(url), parameters);
+        }
+
+        /**
+         * Create a new {@code Request} that will be sent to the {@code HTTP} server at the supplied {@link URL}. It
+         * will aso contain the headers and parameters supplied.
+         *
+         * @param url a {@code java.lang.String} containing the {@code URL} for the {@code HTTP} server.
+         * @param headers any headers that should be sent in the HTTP request.
+         * @param parameters any parameters that should be sent in the HTTP request.
+         */
+        public Request(String url, Collection<Header> headers, Collection<Parameter> parameters) {
+
+            this(quietUrl(url), headers, parameters);
+        }
+
+        /**
+         * Create a new {@code Request} that will be sent to the {@code HTTP} server at the supplied {@link URL}. It
+         * will aso contain the headers, parameters, and cookies supplied.
+         *
+         * @param url a {@code java.lang.String} containing the {@code URL} for the {@code HTTP} server.
+         * @param headers any headers that should be sent in the HTTP request.
+         * @param cookies any cookies that should be sent in the HTTP request.
+         * @param parameters any parameters that should be sent in the HTTP request.
+         */
+        public Request(String url, Collection<Header> headers, Collection<Cookie> cookies, Collection<Parameter> parameters) {
+
+            this(quietUrl(url), headers, cookies, parameters);
+        }
+
+        /**
          * Create a new {@code Request} that will be sent to the {@code HTTP} server at the supplied {@link URL}.
          *
-         * @param url a {@code java.lang.String} containing the {@code java.net.URL} for the {@code HTTP} server.
+         * @param url a {@code java.lang.String} containing the {@code URL} for the {@code HTTP} server.
          */
         public Request(URL url) {
+
+            this(url, Collections.<Parameter>emptySet());
         }
+
+
+        /**
+         * Create a new {@code Request} that will be sent to the {@code HTTP} server at the supplied {@link URL}. It
+         * will aso contain parameters supplied.
+         *
+         * @param url a {@code java.net.URL} representing the URL for the {@code HTTP} server.
+         * @param parameters any parameters that should be sent in the HTTP request.
+         */
+        public Request(URL url, Collection<Parameter> parameters) {
+
+            this(url, Collections.<Header>emptySet(), parameters);
+        }
+
+        /**
+         * Create a new {@code Request} that will be sent to the {@code HTTP} server at the supplied {@link URL}. It
+         * will aso contain the headers and parameters supplied.
+         *
+         * @param url a {@code java.net.URL} representing the URL for the {@code HTTP} server.
+         * @param headers any headers that should be sent in the HTTP request.
+         * @param parameters any parameters that should be sent in the HTTP request.
+         */
+        public Request(URL url, Collection<Header> headers, Collection<Parameter> parameters) {
+
+            this(url, headers, Collections.<Cookie>emptySet(), parameters);
+        }
+
+        /**
+         * Create a new {@code Request} that will be sent to the {@code HTTP} server at the supplied {@link URL}. It
+         * will aso contain the headers, parameters, and cookies supplied.
+         *
+         * @param url a {@code java.net.URL} representing the URL for the {@code HTTP} server.
+         * @param headers any headers that should be sent in the HTTP request.
+         * @param cookies any cookies that should be sent in the HTTP request.
+         * @param parameters any parameters that should be sent in the HTTP request.
+         */
+        public Request(URL url, Collection<Header> headers, Collection<Cookie> cookies, Collection<Parameter> parameters) {
+        }
+
 
         /**
          * Get all the parameters set for the current {@code Message}.
