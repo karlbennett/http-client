@@ -873,6 +873,14 @@ public class Client {
 
 
         /**
+         * @return the url for this request.
+         */
+        public URL getUrl() {
+
+            return null;
+        }
+
+        /**
          * Get all the parameters set for the current {@code Message}.
          *
          * @return the message parameters.
