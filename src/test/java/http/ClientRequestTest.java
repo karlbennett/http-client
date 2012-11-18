@@ -21,15 +21,16 @@ import static org.junit.Assert.assertEquals;
  */
 public class ClientRequestTest {
 
-    public static final URL TEST_URL;
+    public static final String TEST_URL_STRING = "http://test.com";
 
+    public static final URL TEST_URL;
     static {
 
         URL url = null;
 
         try {
 
-            url = new URI("http://test.com").toURL();
+            url = new URI(TEST_URL_STRING).toURL();
 
         } catch (MalformedURLException e) {
 
@@ -60,11 +61,28 @@ public class ClientRequestTest {
     public static final Collection<Parameter> PARAMETERS = Collections.unmodifiableCollection(
             Arrays.<Parameter>asList((Parameter) PARAMETER_ONE, (Parameter) PARAMETER_TWO, (Parameter) PARAMETER_THREE));
 
+    public static final String TEST_QUERY_STRING = "?" + PARAMETER_NAME_ONE + "=" + PARAMETER_VALUE_ONE + "&" +
+            PARAMETER_NAME_TWO + "=" + PARAMETER_VALUE_TWO + "&" + PARAMETER_NAME_THREE + "=" + PARAMETER_VALUE_THREE;
+
 
     @Test
     public void testCreateRequestWithUrlString() throws Exception {
 
         assertEquals("the request URL should be correct.", TEST_URL, new Request(TEST_URL.toString()).getUrl());
+    }
+
+    @Test
+    public void testCreateRequestWithUrlStringAndQueryString() throws Exception {
+
+        Request<Object> request = new Request<Object>(TEST_URL_STRING + TEST_QUERY_STRING);
+
+        URL url = new URI(TEST_URL_STRING + TEST_QUERY_STRING).toURL();
+
+        assertEquals("the request URL should be correct.", url, request.getUrl());
+
+        Collection<Parameter> parameters = request.getParameters();
+
+        assertEquals("the correct parameters are included in the request.", PARAMETERS, parameters);
     }
 
     @Test
