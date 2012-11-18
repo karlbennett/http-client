@@ -1,0 +1,33 @@
+package http;
+
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+
+/**
+ * A utility class containing constant parameter values that can be used within tests.
+ *
+ * @author Karl Bennett
+ */
+public final class Parameters {
+
+    private Parameters() {
+    }
+
+    public static final String PARAMETER_NAME_ONE = "parameter_name_one";
+    public static final String PARAMETER_VALUE_ONE = "parameter_value_one";
+    public static final String PARAMETER_NAME_TWO = "parameter_name_two";
+    public static final String PARAMETER_VALUE_TWO = "parameter_value_two";
+    public static final String PARAMETER_NAME_THREE = "parameter_name_three";
+    public static final String PARAMETER_VALUE_THREE = "parameter_value_three";
+
+    public static final Parameter<String> PARAMETER_ONE = new Parameter<String>(PARAMETER_NAME_ONE,
+            PARAMETER_VALUE_ONE);
+    public static final Parameter<String> PARAMETER_TWO = new Parameter<String>(PARAMETER_NAME_TWO,
+            PARAMETER_VALUE_TWO);
+    public static final Parameter<String> PARAMETER_THREE = new Parameter<String>(PARAMETER_NAME_THREE,
+            PARAMETER_VALUE_THREE);
+
+    public static final Collection<Parameter> PARAMETERS = Collections.unmodifiableCollection(
+            Arrays.<Parameter>asList((Parameter) PARAMETER_ONE, (Parameter) PARAMETER_TWO, (Parameter) PARAMETER_THREE));
+}
