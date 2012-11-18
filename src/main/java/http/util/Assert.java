@@ -7,7 +7,7 @@ public final class Assert {
 
     /**
      * The {@code Assert} constructor is private because it is a utility class so does not contain any state and should
-     * never be instantiated..
+     * never be instantiated.
      */
     private Assert() {
     }
