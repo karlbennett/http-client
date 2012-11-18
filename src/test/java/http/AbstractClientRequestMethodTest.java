@@ -15,9 +15,9 @@ import static http.RequestExecutor.METHOD_TYPE;
 import static org.junit.Assert.*;
 
 /**
- * This class must be implemented to test the different request methods. This has be done because the request method
- * test are all exactly the same for the different HTTP methods, the only real difference is in the HTTP method string
- * that is produced.
+ * This class is implemented to test the different request methods. This has be done because the request method tests
+ * are all very similar for the different HTTP methods, the only real difference is in the HTTP method string that is
+ * produced.
  *
  * @author Karl Bennett
  */
@@ -25,6 +25,7 @@ public abstract class AbstractClientRequestMethodTest implements RequestHandler 
 
     public static final String TEST_RESPONSE_STRING = "test response";
     public static final Response<String> TEST_RESPONSE = new Response<String>(HttpURLConnection.HTTP_OK, TEST_RESPONSE_STRING);
+
 
     private String testMethod;
     private METHOD_TYPE testMethodType;
