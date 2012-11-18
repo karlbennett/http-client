@@ -29,7 +29,7 @@ public class ClientRequestTest {
 
         Request<Object> request = new Request<Object>(TEST_URL_STRING + TEST_QUERY_STRING);
 
-        URL url = new URI(TEST_URL_STRING + TEST_QUERY_STRING).toURL();
+        URL url = new URI(TEST_URL_STRING_WITH_QUERY_STRING).toURL();
 
         assertEquals("the request URL should be correct.", url, request.getUrl());
 
