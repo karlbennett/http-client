@@ -83,6 +83,18 @@ import java.util.Collections;
  */
 public class Client {
 
+    /**
+     * HTTP method string constants. These represent the names of all the valid methods within the HTTP protocol.
+     */
+    public static final String OPTIONS = "OPTIONS";
+    public static final String GET = "GET";
+    public static final String HEAD = "HEAD";
+    public static final String POST = "POST";
+    public static final String PUT = "PUT";
+    public static final String DELETE = "DELETE";
+    public static final String TRACE = "TRACE";
+    public static final String CONNECT = "CONNECT";
+
     private static class SingletonHolder {
         public static final Client INSTANCE = new Client();
     }
