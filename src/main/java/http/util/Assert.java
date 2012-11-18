@@ -1,6 +1,8 @@
 package http.util;
 
 /**
+ * Assertion methods that help with verifying class and method arguments.
+ *
  * @author Karl Bennett
  */
 public final class Assert {
