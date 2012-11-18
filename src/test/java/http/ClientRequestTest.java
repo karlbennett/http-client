@@ -2,68 +2,21 @@ package http;
 
 import org.junit.Test;
 
-import java.net.MalformedURLException;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 
 import static http.Client.Request;
-
-import static org.junit.Assert.*;
+import static http.Parameters.*;
+import static http.Urls.*;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 /**
  * @author Karl Bennett
  */
 public class ClientRequestTest {
-
-    public static final String TEST_URL_STRING = "http://test.com";
-
-    public static final URL TEST_URL;
-    static {
-
-        URL url = null;
-
-        try {
-
-            url = new URI(TEST_URL_STRING).toURL();
-
-        } catch (MalformedURLException e) {
-
-            throw new RuntimeException(e);
-
-        } catch (URISyntaxException e) {
-
-            throw new RuntimeException(e);
-        }
-
-        TEST_URL = url;
-    }
-
-    public static final String PARAMETER_NAME_ONE = "parameter_name_one";
-    public static final String PARAMETER_VALUE_ONE = "parameter_value_one";
-    public static final String PARAMETER_NAME_TWO = "parameter_name_two";
-    public static final String PARAMETER_VALUE_TWO = "parameter_value_two";
-    public static final String PARAMETER_NAME_THREE = "parameter_name_three";
-    public static final String PARAMETER_VALUE_THREE = "parameter_value_three";
-
-    public static final Parameter<String> PARAMETER_ONE = new Parameter<String>(PARAMETER_NAME_ONE,
-            PARAMETER_VALUE_ONE);
-    public static final Parameter<String> PARAMETER_TWO = new Parameter<String>(PARAMETER_NAME_TWO,
-            PARAMETER_VALUE_TWO);
-    public static final Parameter<String> PARAMETER_THREE = new Parameter<String>(PARAMETER_NAME_THREE,
-            PARAMETER_VALUE_THREE);
-
-    public static final Collection<Parameter> PARAMETERS = Collections.unmodifiableCollection(
-            Arrays.<Parameter>asList((Parameter) PARAMETER_ONE, (Parameter) PARAMETER_TWO, (Parameter) PARAMETER_THREE));
-
-    public static final String TEST_QUERY_STRING = "?" + PARAMETER_NAME_ONE + "=" + PARAMETER_VALUE_ONE + "&" +
-            PARAMETER_NAME_TWO + "=" + PARAMETER_VALUE_TWO + "&" + PARAMETER_NAME_THREE + "=" + PARAMETER_VALUE_THREE;
-
 
     @Test
     public void testCreateRequestWithUrlString() throws Exception {
@@ -101,7 +54,7 @@ public class ClientRequestTest {
 
         Request<Object> request = new Request<Object>(TEST_URL);
 
-        assertNull("retrieving a parameter when no parameters exist should return null.", 
+        assertNull("retrieving a parameter when no parameters exist should return null.",
                 request.getParameter(PARAMETER_NAME_ONE));
 
         request.setParameters(new HashSet<Parameter>(PARAMETERS));
