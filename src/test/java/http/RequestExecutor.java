@@ -19,6 +19,11 @@ public interface RequestExecutor<T> {
     public String getMethod();
 
     /**
+     * @return whether a static or instance method is being called.
+     */
+    public String getMethodType();
+
+    /**
      * Execute the wrapped request method method. This could be a static or instance method e.g.
      * {@link Client#GET(String)}, {@link Client#POST(String)}, {@link Client#PUT(String)}, or
      * {@link Client#get(String)}, {@link Client#post(String)}, {@link Client#put(String)}...
