@@ -51,15 +51,17 @@ public abstract class AbstractClientRequestMethodTest implements RequestHandler 
 
 
     private String method;
+    private URL url;
     private Collection<Header> headers;
     private Collection<Parameter> parameters;
     private Collection<Cookie> cookies;
     private InputStream body;
 
     @Override
-    public Response handleRequest(String method, URL url, Collection<Header> headers, Collection<Cookie> cookies, Collection<Parameter> parameters,
-                                  InputStream body) {
+    public Response handleRequest(String method, URL url, Collection<Header> headers, Collection<Cookie> cookies,
+                                  Collection<Parameter> parameters, InputStream body) {
 
+        this.url = url;
         this.method = method;
         this.headers = headers;
         this.parameters = parameters;
@@ -72,37 +74,40 @@ public abstract class AbstractClientRequestMethodTest implements RequestHandler 
     @Test
     public void testSimpleStringRequest() throws Exception {
 
-        simpleRequestTest(stringRequestExecutor.execute(TEST_URL_STRING));
+        simpleRequestTest(TEST_URL, stringRequestExecutor.execute(TEST_URL_STRING));
     }
 
     @Test
     public void testSimpleUrlRequest() throws Exception {
 
-        simpleRequestTest(urlRequestExecutor.execute(TEST_URL));
+        simpleRequestTest(TEST_URL, urlRequestExecutor.execute(TEST_URL));
     }
 
     @Test
     public void testSimpleRequest() throws Exception {
 
-        simpleRequestTest(requestExecutor.execute(new Request(TEST_URL)));
+        simpleRequestTest(TEST_URL, requestExecutor.execute(new Request(TEST_URL)));
     }
 
     @Test
     public void testStringRequestWithQueryString() throws Exception {
 
-        requestWithParametersTest(PARAMETERS, stringRequestExecutor.execute(TEST_URL_STRING_WITH_QUERY_STRING));
+        requestWithParametersTest(TEST_URL_WITH_QUERY_STRING, PARAMETERS,
+                stringRequestExecutor.execute(TEST_URL_STRING_WITH_QUERY_STRING));
     }
 
     @Test
     public void testUrlRequestWithQueryString() throws Exception {
 
-        requestWithParametersTest(PARAMETERS, urlRequestExecutor.execute(TEST_URL_WITH_QUERY_STRING));
+        requestWithParametersTest(TEST_URL_WITH_QUERY_STRING, PARAMETERS,
+                urlRequestExecutor.execute(TEST_URL_WITH_QUERY_STRING));
     }
 
     @Test
     public void testRequestWithQueryString() throws Exception {
 
-        requestWithParametersTest(PARAMETERS, requestExecutor.execute(new Request(TEST_URL_WITH_QUERY_STRING)));
+        requestWithParametersTest(TEST_URL_WITH_QUERY_STRING, PARAMETERS,
+                requestExecutor.execute(new Request(TEST_URL_WITH_QUERY_STRING)));
     }
 
     @Test
@@ -111,7 +116,7 @@ public abstract class AbstractClientRequestMethodTest implements RequestHandler 
         Request request = new Request(TEST_URL);
         request.setHeaders(HEADERS);
 
-        requestWithHeadersTest(HEADERS, requestExecutor.execute(request));
+        requestWithHeadersTest(TEST_URL, HEADERS, requestExecutor.execute(request));
     }
 
     @Test
@@ -120,7 +125,7 @@ public abstract class AbstractClientRequestMethodTest implements RequestHandler 
         Request request = new Request(TEST_URL);
         request.setCookies(COOKIES);
 
-        requestWithCookiesTest(COOKIES, requestExecutor.execute(request));
+        requestWithCookiesTest(TEST_URL, COOKIES, requestExecutor.execute(request));
     }
 
     @Test
@@ -129,7 +134,7 @@ public abstract class AbstractClientRequestMethodTest implements RequestHandler 
         Request request = new Request(TEST_URL);
         request.setParameters(PARAMETERS);
 
-        requestWithParametersTest(PARAMETERS, requestExecutor.execute(request));
+        requestWithParametersTest(TEST_URL_WITH_QUERY_STRING, PARAMETERS, requestExecutor.execute(request));
     }
 
     @Test
@@ -138,7 +143,7 @@ public abstract class AbstractClientRequestMethodTest implements RequestHandler 
         Request<String> request = new Request<String>(TEST_URL);
         request.setBody(TEST_STRING_BODY);
 
-        requestWithBodyTest(TEST_STRING_BODY, requestExecutor.execute(request));
+        requestWithBodyTest(TEST_URL, TEST_STRING_BODY, requestExecutor.execute(request));
     }
 
     @Test
@@ -147,7 +152,7 @@ public abstract class AbstractClientRequestMethodTest implements RequestHandler 
         Request<InputStream> request = new Request<InputStream>(TEST_URL);
         request.setBody(TEST_INPUT_STREAM_BODY);
 
-        requestWithBodyTest(TEST_INPUT_STREAM_BODY, requestExecutor.execute(request));
+        requestWithBodyTest(TEST_URL, TEST_INPUT_STREAM_BODY, requestExecutor.execute(request));
     }
 
     @Test
@@ -156,17 +161,19 @@ public abstract class AbstractClientRequestMethodTest implements RequestHandler 
         Request<Object> request = new Request<Object>(TEST_URL);
         request.setBody(TEST_OBJECT_BODY);
 
-        requestWithBodyTest(TEST_OBJECT_BODY, requestExecutor.execute(request));
+        requestWithBodyTest(TEST_URL, TEST_OBJECT_BODY, requestExecutor.execute(request));
     }
 
 
-    private void simpleRequestTest(Response testResponse) throws Exception {
+    private void simpleRequestTest(URL url, Response testResponse) throws Exception {
 
         assertEquals("the correct response should be returned from the " + testMethodType + " " + testMethod + " method.",
                 TEST_RESPONSE, testResponse);
 
         assertEquals("a " + testMethod + " method string should have been produced from the " + testMethodType + " " +
                 testMethod + " method.", testMethod, method);
+        assertEquals("the correct URL should have been produced from the " + testMethodType + " " +
+                testMethod + " method.", url, this.url);
         assertEquals("no headers should have been produced from the " + testMethodType + " " + testMethod + " method.",
                 0, headers.size());
         assertEquals("no cookies should have been produced from the " + testMethodType + " " + testMethod + " method.",
@@ -177,13 +184,15 @@ public abstract class AbstractClientRequestMethodTest implements RequestHandler 
                 " method.", body);
     }
 
-    private void requestWithHeadersTest(Collection<Header> headers, Response testResponse) throws Exception {
+    private void requestWithHeadersTest(URL url, Collection<Header> headers, Response testResponse) throws Exception {
 
         assertEquals("the correct response should be returned from the " + testMethodType + " " + testMethod + " method.",
                 TEST_RESPONSE, testResponse);
 
         assertEquals("a " + testMethod + " method string should have been produced from the " + testMethodType + " " +
                 testMethod + " method.", testMethod, method);
+        assertEquals("the correct URL should have been produced from the " + testMethodType + " " +
+                testMethod + " method.", url, this.url);
         assertEquals("the correct headers should have been produced from the " + testMethodType + " " + testMethod +
                 " method.", headers, this.headers);
         assertEquals("no cookies should have been produced from the " + testMethodType + " " + testMethod + " method.",
@@ -194,13 +203,15 @@ public abstract class AbstractClientRequestMethodTest implements RequestHandler 
                 " method.", body);
     }
 
-    private void requestWithCookiesTest(Collection<Cookie> cookies, Response testResponse) throws Exception {
+    private void requestWithCookiesTest(URL url, Collection<Cookie> cookies, Response testResponse) throws Exception {
 
         assertEquals("the correct response should be returned from the " + testMethodType + " " + testMethod + " method.",
                 TEST_RESPONSE, testResponse);
 
         assertEquals("a " + testMethod + " method string should have been produced from the " + testMethodType + " " +
                 testMethod + " method.", testMethod, method);
+        assertEquals("the correct URL should have been produced from the " + testMethodType + " " +
+                testMethod + " method.", url, this.url);
         assertEquals("no headers should have been produced from the " + testMethodType + " " + testMethod + " method.",
                 0, headers.size());
         assertEquals("the correct cookies should have been produced from the " + testMethodType + " " + testMethod +
@@ -211,13 +222,15 @@ public abstract class AbstractClientRequestMethodTest implements RequestHandler 
                 " method.", body);
     }
 
-    private void requestWithParametersTest(Collection<Parameter> parameters, Response testResponse) throws Exception {
+    private void requestWithParametersTest(URL url, Collection<Parameter> parameters, Response testResponse) throws Exception {
 
         assertEquals("the correct response should be returned from the " + testMethodType + " " + testMethod +
                 " method.", TEST_RESPONSE, testResponse);
 
         assertEquals("a " + testMethod + " method string should have been produced from the " + testMethodType + " " +
                 testMethod + " method.", testMethod, method);
+        assertEquals("the correct URL should have been produced from the " + testMethodType + " " +
+                testMethod + " method.", url, this.url);
         assertEquals("no headers should have been produced from the " + testMethodType + " " + testMethod + " method.",
                 0, headers.size());
         assertEquals("no cookies should have been produced from the " + testMethodType + " " + testMethod + " method.",
@@ -228,13 +241,15 @@ public abstract class AbstractClientRequestMethodTest implements RequestHandler 
                 " method.", body);
     }
 
-    private void requestWithBodyTest(Object body, Response testResponse) throws Exception {
+    private void requestWithBodyTest(URL url, Object body, Response testResponse) throws Exception {
 
         assertEquals("the correct response should be returned from the " + testMethodType + " " + testMethod + " method.",
                 TEST_RESPONSE, testResponse);
 
         assertEquals("a " + testMethod + " method string should have been produced from the " + testMethodType + " " +
                 testMethod + " method.", testMethod, method);
+        assertEquals("the correct URL should have been produced from the " + testMethodType + " " +
+                testMethod + " method.", url, this.url);
         assertEquals("no headers should have been produced from the " + testMethodType + " " + testMethod + " method.",
                 0, headers.size());
         assertEquals("no cookies should have been produced from the " + testMethodType + " " + testMethod + " method.",
