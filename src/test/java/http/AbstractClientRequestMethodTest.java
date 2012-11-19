@@ -1,5 +1,6 @@
 package http;
 
+import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 
 import java.io.InputStream;
@@ -7,11 +8,14 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Collection;
 
-import static http.Client.*;
-import static http.Urls.*;
-import static http.Parameters.*;
+import static http.Bodies.*;
+import static http.Client.Request;
+import static http.Client.Response;
+import static http.Cookies.COOKIES;
+import static http.Headers.HEADERS;
+import static http.Parameters.PARAMETERS;
 import static http.RequestExecutor.METHOD_TYPE;
-
+import static http.Urls.*;
 import static org.junit.Assert.*;
 
 /**
@@ -86,20 +90,75 @@ public abstract class AbstractClientRequestMethodTest implements RequestHandler 
     @Test
     public void testStringRequestWithQueryString() throws Exception {
 
-        requestWithQueryStringTest(stringRequestExecutor.execute(TEST_URL_STRING_WITH_QUERY_STRING));
+        requestWithParametersTest(PARAMETERS, stringRequestExecutor.execute(TEST_URL_STRING_WITH_QUERY_STRING));
     }
 
     @Test
     public void testUrlRequestWithQueryString() throws Exception {
 
-        requestWithQueryStringTest(urlRequestExecutor.execute(TEST_URL_WITH_QUERY_STRING));
+        requestWithParametersTest(PARAMETERS, urlRequestExecutor.execute(TEST_URL_WITH_QUERY_STRING));
     }
 
     @Test
     public void testRequestWithQueryString() throws Exception {
 
-        requestWithQueryStringTest(requestExecutor.execute(new Request(TEST_URL_WITH_QUERY_STRING)));
+        requestWithParametersTest(PARAMETERS, requestExecutor.execute(new Request(TEST_URL_WITH_QUERY_STRING)));
     }
+
+    @Test
+    public void testRequestWithHeaders() throws Exception {
+
+        Request request = new Request(TEST_URL);
+        request.setHeaders(HEADERS);
+
+        requestWithHeadersTest(HEADERS, requestExecutor.execute(request));
+    }
+
+    @Test
+    public void testRequestWithCookies() throws Exception {
+
+        Request request = new Request(TEST_URL);
+        request.setCookies(COOKIES);
+
+        requestWithCookiesTest(COOKIES, requestExecutor.execute(request));
+    }
+
+    @Test
+    public void testRequestWithParameters() throws Exception {
+
+        Request request = new Request(TEST_URL);
+        request.setParameters(PARAMETERS);
+
+        requestWithParametersTest(PARAMETERS, requestExecutor.execute(request));
+    }
+
+    @Test
+    public void testRequestWithStringBody() throws Exception {
+
+        Request<String> request = new Request<String>(TEST_URL);
+        request.setBody(TEST_STRING_BODY);
+
+        requestWithBodyTest(TEST_STRING_BODY, requestExecutor.execute(request));
+    }
+
+    @Test
+    public void testRequestWithInputStreamBody() throws Exception {
+
+        Request<InputStream> request = new Request<InputStream>(TEST_URL);
+        request.setBody(TEST_INPUT_STREAM_BODY);
+
+        requestWithBodyTest(TEST_INPUT_STREAM_BODY, requestExecutor.execute(request));
+    }
+
+    @Test
+    public void testRequestWithObjectBody() throws Exception {
+
+        Request<Object> request = new Request<Object>(TEST_URL);
+        request.setBody(TEST_OBJECT_BODY);
+
+        requestWithBodyTest(TEST_OBJECT_BODY, requestExecutor.execute(request));
+    }
+
 
     private void simpleRequestTest(Response testResponse) throws Exception {
 
@@ -118,7 +177,41 @@ public abstract class AbstractClientRequestMethodTest implements RequestHandler 
                 " method.", body);
     }
 
-    private void requestWithQueryStringTest(Response testResponse) throws Exception {
+    private void requestWithHeadersTest(Collection<Header> headers, Response testResponse) throws Exception {
+
+        assertEquals("the correct response should be returned from the " + testMethodType + " " + testMethod + " method.",
+                TEST_RESPONSE, testResponse);
+
+        assertEquals("a " + testMethod + " method string should have been produced from the " + testMethodType + " " +
+                testMethod + " method.", testMethod, method);
+        assertEquals("the correct headers should have been produced from the " + testMethodType + " " + testMethod +
+                " method.", headers, this.headers);
+        assertEquals("no cookies should have been produced from the " + testMethodType + " " + testMethod + " method.",
+                0, cookies.size());
+        assertEquals("no parameters should have been produced from the " + testMethodType + " " + testMethod +
+                " method.", 0, parameters.size());
+        assertNull("no body content should have been produced from the " + testMethodType + " " + testMethod +
+                " method.", body);
+    }
+
+    private void requestWithCookiesTest(Collection<Cookie> cookies, Response testResponse) throws Exception {
+
+        assertEquals("the correct response should be returned from the " + testMethodType + " " + testMethod + " method.",
+                TEST_RESPONSE, testResponse);
+
+        assertEquals("a " + testMethod + " method string should have been produced from the " + testMethodType + " " +
+                testMethod + " method.", testMethod, method);
+        assertEquals("no headers should have been produced from the " + testMethodType + " " + testMethod + " method.",
+                0, headers.size());
+        assertEquals("the correct cookies should have been produced from the " + testMethodType + " " + testMethod +
+                " method.", cookies, this.cookies);
+        assertEquals("no parameters should have been produced from the " + testMethodType + " " + testMethod +
+                " method.", 0, parameters.size());
+        assertNull("no body content should have been produced from the " + testMethodType + " " + testMethod +
+                " method.", body);
+    }
+
+    private void requestWithParametersTest(Collection<Parameter> parameters, Response testResponse) throws Exception {
 
         assertEquals("the correct response should be returned from the " + testMethodType + " " + testMethod +
                 " method.", TEST_RESPONSE, testResponse);
@@ -130,8 +223,40 @@ public abstract class AbstractClientRequestMethodTest implements RequestHandler 
         assertEquals("no cookies should have been produced from the " + testMethodType + " " + testMethod + " method.",
                 0, cookies.size());
         assertEquals("the correct parameters should have been produced from the " + testMethodType + " " + testMethod +
-                " method.", PARAMETERS, parameters);
+                " method.", parameters, this.parameters);
         assertNull("no body content should have been produced from the " + testMethodType + " " + testMethod +
                 " method.", body);
+    }
+
+    private void requestWithBodyTest(Object body, Response testResponse) throws Exception {
+
+        assertEquals("the correct response should be returned from the " + testMethodType + " " + testMethod + " method.",
+                TEST_RESPONSE, testResponse);
+
+        assertEquals("a " + testMethod + " method string should have been produced from the " + testMethodType + " " +
+                testMethod + " method.", testMethod, method);
+        assertEquals("no headers should have been produced from the " + testMethodType + " " + testMethod + " method.",
+                0, headers.size());
+        assertEquals("no cookies should have been produced from the " + testMethodType + " " + testMethod + " method.",
+                0, cookies.size());
+        assertEquals("no parameters should have been produced from the " + testMethodType + " " + testMethod +
+                " method.", 0, parameters.size());
+        assertNotNull("some body content should have been produced from the " + testMethodType + " " + testMethod +
+                " method.", body);
+
+        if (body instanceof String) {
+
+            assertEquals("the correct body content should have been produced from the " + testMethodType + " " +
+                    testMethod + " method.", body, IOUtils.toString(this.body));
+
+        } else if (body instanceof InputStream) {
+
+            assertEquals("the correct body content should have been produced from the " + testMethodType + " " +
+                    testMethod + " method.", IOUtils.toString((InputStream) body), IOUtils.toString(this.body));
+        } else {
+
+            assertEquals("the correct body content should have been produced from the " + testMethodType + " " +
+                    testMethod + " method.", body.toString(), IOUtils.toString(this.body));
+        }
     }
 }
