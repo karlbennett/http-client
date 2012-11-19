@@ -55,16 +55,25 @@
     </build>
 
     <dependencies>
+        <!-- The Unit testing framework that is used to run all the projects tests. -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.8.2</version>
             <scope>test</scope>
         </dependency>
+        <!-- Joda time is used within the unit tests to make generating time based test data easier. -->
         <dependency>
             <groupId>joda-time</groupId>
             <artifactId>joda-time</artifactId>
             <version>2.1</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- The Apache Commons IO libraries are used to simplify the setup of test data input streams. -->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.4</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
