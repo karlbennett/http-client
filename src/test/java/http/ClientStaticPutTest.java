@@ -3,7 +3,7 @@ package http;
 import java.net.URL;
 
 import static http.Client.*;
-import static http.RequestExecutor.METHOD_TYPE.STATIC;
+import static http.AbstractClientRequestMethodTest.METHOD_TYPE.STATIC;
 
 /**
  * @author Karl Bennett
