@@ -56,11 +56,10 @@ public class Message<T> {
      *
      * @param name the name of the new header.
      * @param value the value for the new header.
-     * @param <T> the type of the headers value.
      */
-    public <T> void addHeader(String name, T value) {
+    public void addHeader(String name, Object value) {
 
-        addHeader(new Header<T>(name, value));
+        addHeader(new Header<Object>(name, value));
     }
 
     /**
@@ -68,9 +67,8 @@ public class Message<T> {
      * name already exists then the new headers value will be added to the existing headers values.
      *
      * @param header the new header to add to the message.
-     * @param <T> the type of the headers value.
      */
-    public <T> void addHeader(Header<T> header) {
+    public void addHeader(Header header) {
 
     }
 
