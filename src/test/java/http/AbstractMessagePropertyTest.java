@@ -84,8 +84,8 @@ public abstract class AbstractMessagePropertyTest<P> {
 
         assertEquals("the number of message properties is correct", 3, properties.size());
         assertTrue("the first property has been set correctly", properties.contains(propertyOne));
-        assertTrue("the second property has been set correctly", properties.contains(propertyOne));
-        assertTrue("the third property has been set correctly", properties.contains(propertyOne));
+        assertTrue("the second property has been set correctly", properties.contains(propertyTwo));
+        assertTrue("the third property has been set correctly", properties.contains(propertyThree));
     }
 
     @Test
