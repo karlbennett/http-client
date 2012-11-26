@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.HashSet;
 
 import static http.Client.Request;
+import static http.Cookies.*;
 import static http.Parameters.*;
 import static http.Urls.*;
 import static org.junit.Assert.assertEquals;
@@ -16,7 +17,18 @@ import static org.junit.Assert.assertNull;
 /**
  * @author Karl Bennett
  */
-public class ClientRequestTest {
+public class ClientRequestTest extends AbstractMessageCookieTest<Object, Request<Object>> {
+
+    public ClientRequestTest() {
+        super(COOKIE, new RequestCreator<Object, Request<Object>>() {
+
+            @Override
+            public Request<Object> newRequest() {
+
+                return new Request<Object>(TEST_URL);
+            }
+        });
+    }
 
     @Test
     public void testCreateRequestWithUrlString() throws Exception {
@@ -37,6 +49,8 @@ public class ClientRequestTest {
 
         assertEquals("the correct parameters are included in the request.", PARAMETERS, parameters);
     }
+
+
 
     @Test
     public void testGetParameter() throws Exception {
