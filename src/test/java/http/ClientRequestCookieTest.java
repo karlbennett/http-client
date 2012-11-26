@@ -17,9 +17,9 @@ import static org.junit.Assert.assertNull;
 /**
  * @author Karl Bennett
  */
-public class ClientRequestTest extends AbstractMessageCookieTest<Object, Request<Object>> {
+public class ClientRequestCookieTest extends AbstractMessageCookieTest<Object, Request<Object>> {
 
-    public ClientRequestTest() {
+    public ClientRequestCookieTest() {
         super(COOKIE, new RequestCreator<Object, Request<Object>>() {
 
             @Override
