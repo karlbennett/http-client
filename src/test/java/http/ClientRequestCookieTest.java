@@ -53,7 +53,7 @@ public class ClientRequestCookieTest extends AbstractMessageCookieTest<Object, R
 
 
     @Test
-    public void testGetParameter() throws Exception {
+    public void testGetParameterDUPE() throws Exception {
 
         Request<Object> request = new Request<Object>(TEST_URL, new HashSet<Parameter>(PARAMETERS));
 
@@ -64,7 +64,7 @@ public class ClientRequestCookieTest extends AbstractMessageCookieTest<Object, R
     }
 
     @Test
-    public void testGetParameterThatDoesNotExist() throws Exception {
+    public void testGetParameterThatDoesNotExistDUPE() throws Exception {
 
         Request<Object> request = new Request<Object>(TEST_URL);
 
@@ -77,7 +77,7 @@ public class ClientRequestCookieTest extends AbstractMessageCookieTest<Object, R
     }
 
     @Test
-    public void testAddParameterWithNameAndValue() throws Exception {
+    public void testAddParameterWithNameAndValueDUPE() throws Exception {
 
         Request<Object> request = new Request<Object>(TEST_URL, new HashSet<Parameter>(PARAMETERS));
 
@@ -110,7 +110,7 @@ public class ClientRequestCookieTest extends AbstractMessageCookieTest<Object, R
     }
 
     @Test
-    public void testAddParameterWithNameAndEmptyValue() throws Exception {
+    public void testAddParameterWithNameAndEmptyValueDUPE() throws Exception {
 
         Request<Object> request = new Request<Object>(TEST_URL, new HashSet<Parameter>(PARAMETERS));
 
@@ -158,7 +158,7 @@ public class ClientRequestCookieTest extends AbstractMessageCookieTest<Object, R
     }
 
     @Test
-    public void testAddParameterWithEmptyNameAndValue() throws Exception {
+    public void testAddParameterWithEmptyNameAndValueDUPE() throws Exception {
 
         Request<Object> request = new Request<Object>(TEST_URL, new HashSet<Parameter>(PARAMETERS));
 
@@ -170,7 +170,7 @@ public class ClientRequestCookieTest extends AbstractMessageCookieTest<Object, R
     }
 
     @Test
-    public void testAddParameterWithNullNameAndValue() throws Exception {
+    public void testAddParameterWithNullNameAndValueDUPE() throws Exception {
 
         Request<Object> request = new Request<Object>(TEST_URL, new HashSet<Parameter>(PARAMETERS));
 
@@ -182,7 +182,7 @@ public class ClientRequestCookieTest extends AbstractMessageCookieTest<Object, R
     }
 
     @Test
-    public void testAddParameterWithEmptyNameAndEmptyValue() throws Exception {
+    public void testAddParameterWithEmptyNameAndEmptyValueDUPE() throws Exception {
 
         Request<Object> request = new Request<Object>(TEST_URL, new HashSet<Parameter>(PARAMETERS));
 
@@ -194,7 +194,7 @@ public class ClientRequestCookieTest extends AbstractMessageCookieTest<Object, R
     }
 
     @Test
-    public void testAddParameterWithNullNameAndNullValue() throws Exception {
+    public void testAddParameterWithNullNameAndNullValueDUPE() throws Exception {
 
         Request<Object> request = new Request<Object>(TEST_URL, new HashSet<Parameter>(PARAMETERS));
 
@@ -206,7 +206,7 @@ public class ClientRequestCookieTest extends AbstractMessageCookieTest<Object, R
     }
 
     @Test
-    public void testAddParameter() throws Exception {
+    public void testAddParameterDUPE() throws Exception {
 
         Request<Object> request = new Request<Object>(TEST_URL, new HashSet<Parameter>(PARAMETERS));
 
@@ -239,7 +239,7 @@ public class ClientRequestCookieTest extends AbstractMessageCookieTest<Object, R
     }
 
     @Test
-    public void testAddParameterWithEmptyValue() throws Exception {
+    public void testAddParameterWithEmptyValueDUPE() throws Exception {
 
         Request<Object> request = new Request<Object>(TEST_URL, new HashSet<Parameter>(PARAMETERS));
 
@@ -263,7 +263,7 @@ public class ClientRequestCookieTest extends AbstractMessageCookieTest<Object, R
     }
 
     @Test
-    public void testAddParameterWithNullValue() throws Exception {
+    public void testAddParameterWithNullValueDUPE() throws Exception {
 
         Request<Object> request = new Request<Object>(TEST_URL, new HashSet<Parameter>(PARAMETERS));
 
@@ -287,7 +287,7 @@ public class ClientRequestCookieTest extends AbstractMessageCookieTest<Object, R
     }
 
     @Test
-    public void testAddParameterWithEmptyName() throws Exception {
+    public void testAddParameterWithEmptyNameDUPE() throws Exception {
 
         Request<Object> request = new Request<Object>(TEST_URL, new HashSet<Parameter>(PARAMETERS));
 
@@ -299,7 +299,7 @@ public class ClientRequestCookieTest extends AbstractMessageCookieTest<Object, R
     }
 
     @Test
-    public void testAddParameterWithNullName() throws Exception {
+    public void testAddParameterWithNullNameDUPE() throws Exception {
 
         Request<Object> request = new Request<Object>(TEST_URL, new HashSet<Parameter>(PARAMETERS));
 
@@ -311,7 +311,7 @@ public class ClientRequestCookieTest extends AbstractMessageCookieTest<Object, R
     }
 
     @Test
-    public void testAddParameterWithEmptyValues() throws Exception {
+    public void testAddParameterWithEmptyValuesDUPE() throws Exception {
 
         Request<Object> request = new Request<Object>(TEST_URL, new HashSet<Parameter>(PARAMETERS));
 
@@ -323,7 +323,7 @@ public class ClientRequestCookieTest extends AbstractMessageCookieTest<Object, R
     }
 
     @Test
-    public void testAddParameterWithNullValues() throws Exception {
+    public void testAddParameterWithNullValuesDUPE() throws Exception {
 
         Request<Object> request = new Request<Object>(TEST_URL, new HashSet<Parameter>(PARAMETERS));
 
@@ -335,7 +335,7 @@ public class ClientRequestCookieTest extends AbstractMessageCookieTest<Object, R
     }
 
     @Test
-    public void testAddParameterWithNullParameter() throws Exception {
+    public void testAddParameterWithNullParameterDUPE() throws Exception {
 
         Request<Object> request = new Request<Object>(TEST_URL, new HashSet<Parameter>(PARAMETERS));
 
