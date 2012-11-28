@@ -2,10 +2,8 @@ package http;
 
 import org.junit.Test;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
@@ -13,32 +11,9 @@ import static org.junit.Assert.assertEquals;
 /**
  * @author Karl Bennett
  */
-public abstract class AbstractMessagePropertyTest<P> {
+public abstract class AbstractMessagePropertyTest<P> extends AbstractPropertyProducer<P> {
 
-    public static final String NAME_ONE = "name_one";
-    public static final String VALUE_ONE = "value_one";
-    public static final String NAME_TWO = "name_two";
-    public static final String VALUE_TWO = "value_two";
-    public static final String NAME_THREE = "name_three";
-    public static final String VALUE_THREE = "value_three";
-
-
-    protected interface MessageExecutor<P> {
-
-        public abstract P newProperty(String name, Object value);
-
-        public abstract <T> P getProperty(Message<T> message, String name);
-
-        public abstract <T> Collection<P> getProperties(Message<T> message);
-
-        public abstract <T> void setProperties(Message<T> message, Collection<P> properties);
-
-        public abstract <T> void addProperty(Message<T> message, String name, Object value);
-
-        public abstract <T> void addProperty(Message<T> message, P property);
-    }
-
-
+    private PropertyExecutor<P> propertyExecutor;
     private MessageExecutor<P> messageExecutor;
     private P propertyOne;
     private P propertyTwo;
@@ -46,26 +21,28 @@ public abstract class AbstractMessagePropertyTest<P> {
     private Collection<P> properties;
 
 
-    protected AbstractMessagePropertyTest(MessageExecutor<P> messageExecutor) {
+    protected AbstractMessagePropertyTest(PropertyExecutor<P> propertyExecutor, MessageExecutor<P> messageExecutor) {
+        super(propertyExecutor);
 
+        this.propertyExecutor = propertyExecutor;
         this.messageExecutor = messageExecutor;
-
-        propertyOne = messageExecutor.newProperty(NAME_ONE, VALUE_ONE);
-        propertyTwo = messageExecutor.newProperty(NAME_TWO, VALUE_TWO);
-        propertyThree = messageExecutor.newProperty(NAME_THREE, VALUE_THREE);
-
-        properties = Arrays.asList(propertyOne, propertyTwo, propertyThree);
-
-        exposeProperties(propertyOne, propertyTwo, propertyThree, properties);
     }
 
-    protected void exposeProperties(P propertyOne, P propertyTwo, P propertyThree, Collection<P> properties) {
+
+    @Override
+    public void exposeProperties(P propertyOne, P propertyTwo, P propertyThree, Collection<P> properties) {
+
+        this.propertyOne = propertyOne;
+        this.propertyTwo = propertyTwo;
+        this.propertyThree = propertyThree;
+        this.properties = properties;
     }
+
 
     @Test
     public void testGetPropertiesWhenNoPropertiesHaveBeenAdded() throws Exception {
 
-        Message<Object> message = new Message<Object>();
+        Message<Object> message = messageExecutor.newMessage();
 
         Collection<P> properties = messageExecutor.getProperties(message);
 
@@ -76,7 +53,7 @@ public abstract class AbstractMessagePropertyTest<P> {
     @Test
     public void testSetProperties() throws Exception {
 
-        Message<Object> message = new Message<Object>();
+        Message<Object> message = messageExecutor.newMessage();
 
         messageExecutor.setProperties(message, properties);
 
@@ -103,7 +80,7 @@ public abstract class AbstractMessagePropertyTest<P> {
     @Test
     public void testGetProperty() throws Exception {
 
-        Message<Object> message = new Message<Object>();
+        Message<Object> message = messageExecutor.newMessage();
         messageExecutor.setProperties(message, properties);
 
         assertEquals("property one is retrieved correctly.", propertyOne,
@@ -117,7 +94,7 @@ public abstract class AbstractMessagePropertyTest<P> {
     @Test
     public void testGetPropertyThatDoesNotExist() throws Exception {
 
-        Message<Object> message = new Message<Object>();
+        Message<Object> message = messageExecutor.newMessage();
 
         assertNull("retrieving a property when no properties exist should return null.",
                 messageExecutor.getProperty(message, NAME_ONE));
@@ -129,153 +106,77 @@ public abstract class AbstractMessagePropertyTest<P> {
     }
 
     @Test
-    public void testAddPropertyWithNameAndValue() throws Exception {
-
-        new AddPropertyTester<Object>() {
-
-            @Override
-            public void addProperty(Message<Object> message, String name, Object value) {
-
-                messageExecutor.addProperty(message, name, value);
-            }
-        };
-    }
-
-    @Test
-    public void testAddPropertyWithNameAndEmptyValue() throws Exception {
-
-        new AddNameValuePropertyWithBlankValueTester<Object>("");
-    }
-
-    @Test
-    public void testAddPropertyWithNameAndNullValue() throws Exception {
-
-        new AddNameValuePropertyWithBlankValueTester<Object>(null);
-    }
-
-    @Test
-    public void testAddPropertyWithEmptyNameAndValue() throws Exception {
-
-       new AddNameValuePropertyWithBlankNameAndValueTester<Object>("", VALUE_ONE);
-    }
-
-    @Test
-    public void testAddPropertyWithNullNameAndValue() throws Exception {
-
-        new AddNameValuePropertyWithBlankNameAndValueTester<Object>(null, VALUE_ONE);
-    }
-
-    @Test
-    public void testAddPropertyWithEmptyNameAndEmptyValue() throws Exception {
-
-        new AddNameValuePropertyWithBlankNameAndValueTester<Object>("", "");
-    }
-
-    @Test
-    public void testAddPropertyWithNullNameAndNullValue() throws Exception {
-
-        new AddNameValuePropertyWithBlankNameAndValueTester<Object>(null, null);
-    }
-
-    @Test
     public void testAddProperty() throws Exception {
 
-        new AddPropertyTester<Object>() {
+        Message<Object> message = messageExecutor.newMessage();
 
-            @Override
-            public void addProperty(Message<Object> message, String name, Object value) {
+        assertEquals("no properties should exist", 0, messageExecutor.getProperties(message).size());
 
-                messageExecutor.addProperty(message, messageExecutor.newProperty(name, value));
-            }
-        };
+        messageExecutor.addProperty(message, propertyExecutor.newProperty(NAME_ONE, VALUE_ONE));
+
+        assertEquals("one property should exist", 1, messageExecutor.getProperties(message).size());
+        assertEquals("property one should have been added", propertyOne,
+                messageExecutor.getProperty(message, NAME_ONE));
+
+        messageExecutor.addProperty(message, propertyExecutor.newProperty(NAME_TWO, VALUE_TWO));
+
+        assertEquals("two properties should exist", 2, messageExecutor.getProperties(message).size());
+        assertEquals("property two should have been added", propertyTwo,
+                messageExecutor.getProperty(message, NAME_TWO));
+
+        messageExecutor.addProperty(message, propertyExecutor.newProperty(NAME_THREE, VALUE_THREE));
+
+        assertEquals("three properties should exist", 3, messageExecutor.getProperties(message).size());
+        assertEquals("property three should have been added", propertyThree,
+                messageExecutor.getProperty(message, NAME_THREE));
     }
 
     @Test
     public void testAddPropertyWithEmptyValue() throws Exception {
 
-        new AddObjectPropertyWithBlankValueTester<Object>("");
+        addPropertyWithBlankValueTest(propertyExecutor.newProperty(propertyExecutor.getName(propertyOne), ""));
     }
 
     @Test
     public void testAddPropertyWithNullValue() throws Exception {
 
-        new AddObjectPropertyWithBlankValueTester<Object>(null);
+        addPropertyWithBlankValueTest(propertyExecutor.newProperty(propertyExecutor.getName(propertyOne), null));
     }
 
     @Test
     public void testAddPropertyWithEmptyName() throws Exception {
 
-        new AddObjectPropertyWithBlankNameAndValueTester<Object>("", VALUE_ONE);
+        addPropertyWithBlankNameAndValueTest(propertyExecutor.newProperty("", propertyExecutor.getValue(propertyOne)));
     }
 
     @Test
     public void testAddPropertyWithNullName() throws Exception {
 
-        new AddObjectPropertyWithBlankNameAndValueTester<Object>(null, VALUE_ONE);
+        addPropertyWithBlankNameAndValueTest(propertyExecutor.newProperty(null, propertyExecutor.getValue(propertyOne)));
     }
 
     @Test
     public void testAddPropertyWithEmptyValues() throws Exception {
 
-        new AddObjectPropertyWithBlankNameAndValueTester<Object>("", "");
+        addPropertyWithBlankNameAndValueTest(propertyExecutor.newProperty("", ""));
     }
 
     @Test
     public void testAddPropertyWithNullValues() throws Exception {
 
-        new AddObjectPropertyWithBlankNameAndValueTester<Object>(null, null);
+        addPropertyWithBlankNameAndValueTest(propertyExecutor.newProperty(null, null));
     }
 
     @Test
     public void testAddPropertyWithNullProperty() throws Exception {
 
-        new AddPropertyWithBlankNameAndValueTester<Object>(null, null) {
-
-            @Override
-            public void addProperty(Message<Object> message, String name, Object value) {
-
-                messageExecutor.addProperty(message, null);
-            }
-        };
+        addPropertyWithBlankNameAndValueTest(null);
     }
 
-
-    protected interface PropertyAdder<T> {
-
-        public abstract void addProperty(Message<T> message, String name, Object value);
-    }
-
-    private abstract class AddPropertyTester<T> implements PropertyAdder<T> {
-
-        protected AddPropertyTester() {
-
-            Message<T> message = new Message<T>();
-
-            assertEquals("no properties should exist", 0, messageExecutor.getProperties(message).size());
-
-            addProperty(message, NAME_ONE, VALUE_ONE);
-
-            assertEquals("one property should exist", 1, messageExecutor.getProperties(message).size());
-            assertEquals("property one should have been added", propertyOne,
-                    messageExecutor.getProperty(message, NAME_ONE));
-
-            addProperty(message, NAME_TWO, VALUE_TWO);
-
-            assertEquals("two properties should exist", 2, messageExecutor.getProperties(message).size());
-            assertEquals("property two should have been added", propertyTwo,
-                    messageExecutor.getProperty(message, NAME_TWO));
-
-            addProperty(message, NAME_THREE, VALUE_THREE);
-
-            assertEquals("three properties should exist", 3, messageExecutor.getProperties(message).size());
-            assertEquals("property three should have been added", propertyThree,
-                    messageExecutor.getProperty(message, NAME_THREE));
-        }
-    }
 
     private void addNoPropertiesTest(Collection<P> empty) {
 
-        Message<Object> message = new Message<Object>();
+        Message<Object> message = messageExecutor.newMessage();
         messageExecutor.setProperties(message, empty);
 
         Collection<P> properties = messageExecutor.getProperties(message);
@@ -284,93 +185,33 @@ public abstract class AbstractMessagePropertyTest<P> {
         assertEquals("the number of properties should be zero.", 0, properties.size());
     }
 
-    private abstract class AddPropertyWithBlankValueTester<T> implements PropertyAdder<T> {
+    private void addPropertyWithBlankValueTest(P property) {
 
-        protected AddPropertyWithBlankValueTester(Object blank) {
+        Message<Object> message = messageExecutor.newMessage();
 
-            Message<T> message = new Message<T>();
+        assertEquals("no properties should exist", 0, messageExecutor.getProperties(message).size());
 
-            P property = messageExecutor.newProperty(NAME_ONE, blank);
+        messageExecutor.addProperty(message, property);
 
-            assertEquals("no properties should exist", 0, messageExecutor.getProperties(message).size());
+        assertEquals("one property should exist", 1, messageExecutor.getProperties(message).size());
+        assertEquals("property one should have an empty value", property,
+                messageExecutor.getProperty(message, propertyExecutor.getName(property)));
 
-            addProperty(message, NAME_ONE, blank);
+        messageExecutor.addProperty(message, property);
 
-            assertEquals("one property should exist", 1, messageExecutor.getProperties(message).size());
-            assertEquals("property one should have an empty value", property,
-                    messageExecutor.getProperty(message, NAME_ONE));
-
-            addProperty(message, NAME_ONE, blank);
-
-            assertEquals("one property should exist", 1, messageExecutor.getProperties(message).size());
-            assertEquals("property one should have an empty value", property,
-                    messageExecutor.getProperty(message, NAME_ONE));
-        }
+        assertEquals("one property should exist", 1, messageExecutor.getProperties(message).size());
+        assertEquals("property one should have an empty value", property,
+                messageExecutor.getProperty(message, propertyExecutor.getName(property)));
     }
 
-    private class AddNameValuePropertyWithBlankValueTester<T> extends AddPropertyWithBlankValueTester<T> {
+    private void addPropertyWithBlankNameAndValueTest(P property) {
 
-        protected AddNameValuePropertyWithBlankValueTester(Object blank) {
-            super(blank);
-        }
+        Message<Object> message = messageExecutor.newMessage();
 
-        @Override
-        public void addProperty(Message<T> message, String name, Object value) {
+        assertEquals("no properties should exist", 0, messageExecutor.getProperties(message).size());
 
-            messageExecutor.addProperty(message, name, value);
-        }
-    }
+        messageExecutor.addProperty(message, property);
 
-    private class AddObjectPropertyWithBlankValueTester<T> extends AddPropertyWithBlankValueTester<T> {
-
-        protected AddObjectPropertyWithBlankValueTester(Object blank) {
-            super(blank);
-        }
-
-        @Override
-        public void addProperty(Message<T> message, String name, Object value) {
-
-            messageExecutor.addProperty(message, messageExecutor.newProperty(name, value));
-        }
-    }
-
-    private abstract class AddPropertyWithBlankNameAndValueTester<T> implements PropertyAdder<T> {
-
-        protected AddPropertyWithBlankNameAndValueTester(String name, Object value) {
-
-            Message<T> message = new Message<T>();
-
-            assertEquals("no properties should exist", 0, messageExecutor.getProperties(message).size());
-
-            addProperty(message, name, value);
-
-            assertEquals("no properties should have been added.", 0, messageExecutor.getProperties(message).size());
-        }
-    }
-
-    private class AddNameValuePropertyWithBlankNameAndValueTester<T> extends AddPropertyWithBlankNameAndValueTester<T> {
-
-        protected AddNameValuePropertyWithBlankNameAndValueTester(String name, Object value) {
-            super(name, value);
-        }
-
-        @Override
-        public void addProperty(Message<T> message, String name, Object value) {
-
-            messageExecutor.addProperty(message, name, value);
-        }
-    }
-
-    private class AddObjectPropertyWithBlankNameAndValueTester<T> extends AddPropertyWithBlankNameAndValueTester<T> {
-
-        protected AddObjectPropertyWithBlankNameAndValueTester(String name, Object value) {
-            super(name, value);
-        }
-
-        @Override
-        public void addProperty(Message<T> message, String name, Object value) {
-
-            messageExecutor.addProperty(message, messageExecutor.newProperty(name, value));
-        }
+        assertEquals("no properties should have been added.", 0, messageExecutor.getProperties(message).size());
     }
 }
