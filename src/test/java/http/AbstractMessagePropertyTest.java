@@ -205,11 +205,11 @@ public abstract class AbstractMessagePropertyTest<P> extends AbstractPropertyPro
         assertEquals("the number of properties should be zero.", 0, properties.size());
     }
 
-    private void addPropertyWithBlankValueTest(Object value) {
+    private void addPropertyWithBlankValueTest(Object blank) {
 
         Message<Object> message = messageExecutor.newMessage();
 
-        P property = propertyExecutor.newProperty(propertyExecutor.getName(propertyOne), value);
+        P property = propertyExecutor.newProperty(propertyExecutor.getName(propertyOne), blank);
 
         assertEquals("no properties should exist", 0, messageExecutor.getProperties(message).size());
 
