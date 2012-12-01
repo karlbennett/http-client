@@ -11,20 +11,24 @@ import static org.junit.Assert.assertEquals;
  */
 public abstract class AbstractMessageAttributeTest<A extends Attribute> extends AbstractMessagePropertyTest<A> {
 
+    private PropertyExecutor<A> propertyExecutor;
     private MessageExecutor<A> messageExecutor;
     private A attributeOne;
     private A attributeTwo;
     private A attributeThree;
     private Collection<A> attributes;
 
+
     protected AbstractMessageAttributeTest(MessageExecutor<A> messageExecutor) {
-        super(messageExecutor);
+        super(null, messageExecutor);
 
         this.messageExecutor = messageExecutor;
     }
 
+
     @Override
-    protected void exposeProperties(A propertyOne, A propertyTwo, A propertyThree, Collection<A> properties) {
+    public void exposeProperties(A propertyOne, A propertyTwo, A propertyThree, Collection<A> properties) {
+        super.exposeProperties(propertyOne, propertyTwo, propertyThree, properties);
 
         this.attributeOne = propertyOne;
         this.attributeTwo = propertyTwo;
@@ -36,115 +40,50 @@ public abstract class AbstractMessageAttributeTest<A extends Attribute> extends 
     @Test
     public void testAddValueToExistingAttribute() throws Exception {
 
-        new AddAttributeValueTester<Object>() {
+        Message<Object> message = messageExecutor.newMessage();
 
-            @Override
-            public void addProperty(Message<Object> message, String name, Object value) {
+        messageExecutor.setProperties(message, attributes);
 
-                messageExecutor.addProperty(message, name, value);
-            }
-        };
+        messageExecutor.addProperty(message, propertyExecutor.newProperty(attributeOne.getName(),
+                attributeOne.getValue()));
+
+        assertEquals("three attributes should exist when a value has been added to attribute one", 3,
+                messageExecutor.getProperties(message).size());
+        assertEquals("two values should exist when a value has been added to attribute one", 2,
+                messageExecutor.getProperty(message, attributeOne.getName()).getValues().size());
+        assertEquals("attribute one should have value one.", attributeOne.getValue(),
+                messageExecutor.getProperty(message, attributeOne.getName()).getValue());
+        assertEquals("attribute one should have value two.", attributeTwo.getValue(),
+                messageExecutor.getProperty(message, attributeOne.getName()).getValues().get(1));
     }
 
     @Test
     public void testAddEmptyValueToExistingAttribute() throws Exception {
 
-        new AddNameValueBlankAttributeValueTester("");
+        addBlankAttributeValueTest("");
     }
 
     @Test
     public void testAddHeaderWithNameAndNullValue() throws Exception {
 
-        new AddNameValueBlankAttributeValueTester(null);
+        addBlankAttributeValueTest(null);
     }
 
-    @Test
-    public void testAddHeader() throws Exception {
 
-        new AddAttributeValueTester<Object>() {
+    private void addBlankAttributeValueTest(Object blank) {
 
-            @Override
-            public void addProperty(Message<Object> message, String name, Object value) {
+        Message<Object> message = messageExecutor.newMessage();
 
-                messageExecutor.addProperty(message, messageExecutor.newProperty(name, value));
-            }
-        };
-    }
+        A attribute = propertyExecutor.newProperty(attributeOne.getName(), blank);
 
-    @Test
-    public void testAddHeaderWithEmptyValue() throws Exception {
+        messageExecutor.addProperty(message, attribute);
 
-        new AddObjectBlankAttributeValueTester<Object>("");
-    }
+        assertEquals("attribute one should have one value", 1,
+                messageExecutor.getProperty(message, attributeOne.getName()).getValues().size());
 
-    @Test
-    public void testAddHeaderWithNullValue() throws Exception {
+        messageExecutor.addProperty(message, attribute);
 
-        new AddObjectBlankAttributeValueTester<Object>(null);
-    }
-
-    private abstract class AddAttributeValueTester<T> implements PropertyAdder<T> {
-
-        protected AddAttributeValueTester() {
-
-            Message<T> message = new Message<T>();
-
-            messageExecutor.setProperties(message, attributes);
-
-            addProperty(message, NAME_ONE, VALUE_TWO);
-
-            assertEquals("three attributes should exist when a value has been added to attribute one", 3,
-                    messageExecutor.getProperties(message).size());
-            assertEquals("two values should exist when a value has been added to attribute one", 2,
-                    messageExecutor.getProperty(message, NAME_ONE).getValues().size());
-            assertEquals("attribute one should have value one.", VALUE_ONE,
-                    messageExecutor.getProperty(message, NAME_ONE).getValue());
-            assertEquals("attribute one should have value two.", VALUE_TWO,
-                    messageExecutor.getProperty(message, NAME_ONE).getValues().get(1));
-        }
-    }
-
-    private abstract class AddBlankAttributeValueTester<T> implements PropertyAdder<T> {
-
-        protected AddBlankAttributeValueTester(Object blank) {
-
-            Message<T> message = new Message<T>();
-
-            addProperty(message, NAME_ONE, blank);
-
-            assertEquals("attribute one should have one value", 1,
-                    messageExecutor.getProperty(message, NAME_ONE).getValues().size());
-
-            addProperty(message, NAME_ONE, blank);
-
-            assertEquals("attribute one should still only have have one value", 1,
-                    messageExecutor.getProperty(message, NAME_ONE).getValues().size());
-        }
-    }
-
-    private class AddNameValueBlankAttributeValueTester<T> extends AddBlankAttributeValueTester<T> {
-
-        protected AddNameValueBlankAttributeValueTester(Object blank) {
-            super(blank);
-        }
-
-        @Override
-        public void addProperty(Message<T> message, String name, Object value) {
-
-            messageExecutor.addProperty(message, name, value);
-        }
-    }
-
-    private class AddObjectBlankAttributeValueTester<T> extends AddBlankAttributeValueTester<T> {
-
-        protected AddObjectBlankAttributeValueTester(Object blank) {
-            super(blank);
-        }
-
-        @Override
-        public void addProperty(Message<T> message, String name, Object value) {
-
-            messageExecutor.addProperty(message, messageExecutor.newProperty(name, value));
-        }
+        assertEquals("attribute one should still only have have one value", 1,
+                messageExecutor.getProperty(message, attributeOne.getName()).getValues().size());
     }
 }
