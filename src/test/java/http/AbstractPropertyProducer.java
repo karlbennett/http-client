@@ -25,19 +25,6 @@ public abstract class AbstractPropertyProducer<P> {
         public <T> T getValue(P property);
     }
 
-    protected interface MessageExecutor<P> {
-
-        public abstract <T> Message<T> newMessage();
-
-        public abstract <T> P getProperty(Message<T> message, String name);
-
-        public abstract <T> void addProperty(Message<T> message, P property);
-
-        public abstract <T> Collection<P> getProperties(Message<T> message);
-
-        public abstract <T> void setProperties(Message<T> message, Collection<P> properties);
-    }
-
 
     private PropertyExecutor<P> propertyExecutor;
     private P propertyOne;
@@ -59,5 +46,6 @@ public abstract class AbstractPropertyProducer<P> {
         exposeProperties(propertyOne, propertyTwo, propertyThree, properties);
     }
 
-    public abstract void exposeProperties(P propertyOne, P propertyTwo, P propertyThree, Collection<P> properties);
+
+    protected abstract void exposeProperties(P propertyOne, P propertyTwo, P propertyThree, Collection<P> properties);
 }

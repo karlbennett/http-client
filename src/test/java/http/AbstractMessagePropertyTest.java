@@ -13,6 +13,20 @@ import static org.junit.Assert.assertEquals;
  */
 public abstract class AbstractMessagePropertyTest<P> extends AbstractPropertyProducer<P> {
 
+    protected interface MessageExecutor<P> {
+
+        public abstract <T> Message<T> newMessage();
+
+        public abstract <T> P getProperty(Message<T> message, String name);
+
+        public abstract <T> void addProperty(Message<T> message, P property);
+
+        public abstract <T> Collection<P> getProperties(Message<T> message);
+
+        public abstract <T> void setProperties(Message<T> message, Collection<P> properties);
+    }
+
+
     private PropertyExecutor<P> propertyExecutor;
     private MessageExecutor<P> messageExecutor;
     private P propertyOne;
@@ -30,7 +44,7 @@ public abstract class AbstractMessagePropertyTest<P> extends AbstractPropertyPro
 
 
     @Override
-    public void exposeProperties(P propertyOne, P propertyTwo, P propertyThree, Collection<P> properties) {
+    protected void exposeProperties(P propertyOne, P propertyTwo, P propertyThree, Collection<P> properties) {
 
         this.propertyOne = propertyOne;
         this.propertyTwo = propertyTwo;
