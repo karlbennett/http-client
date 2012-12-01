@@ -19,9 +19,10 @@ public abstract class AbstractMessageAttributeTest<A extends Attribute> extends 
     private Collection<A> attributes;
 
 
-    protected AbstractMessageAttributeTest(MessageExecutor<A> messageExecutor) {
-        super(null, messageExecutor);
+    protected AbstractMessageAttributeTest(PropertyExecutor<A> propertyExecutor, MessageExecutor<A> messageExecutor) {
+        super(propertyExecutor, messageExecutor);
 
+        this.propertyExecutor = propertyExecutor;
         this.messageExecutor = messageExecutor;
     }
 

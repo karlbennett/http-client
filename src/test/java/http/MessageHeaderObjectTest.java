@@ -5,7 +5,7 @@ import java.util.Collection;
 /**
  * @author Karl Bennett
  */
-public class MessageHeaderObjectTest extends AbstractMessagePropertyTest<Header> {
+public class MessageHeaderObjectTest extends AbstractMessageAttributeTest<Header> {
 
     public MessageHeaderObjectTest() {
 
