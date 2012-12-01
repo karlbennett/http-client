@@ -98,11 +98,11 @@ public abstract class AbstractMessagePropertyTest<P> extends AbstractPropertyPro
         messageExecutor.setProperties(message, properties);
 
         assertEquals("property one is retrieved correctly.", propertyOne,
-                messageExecutor.getProperty(message, NAME_ONE));
+                messageExecutor.getProperty(message, propertyExecutor.getName(propertyOne)));
         assertEquals("property two is retrieved correctly.", propertyTwo,
-                messageExecutor.getProperty(message, NAME_TWO));
+                messageExecutor.getProperty(message, propertyExecutor.getName(propertyTwo)));
         assertEquals("property three is retrieved correctly.", propertyThree,
-                messageExecutor.getProperty(message, NAME_THREE));
+                messageExecutor.getProperty(message, propertyExecutor.getName(propertyThree)));
     }
 
     @Test
@@ -111,7 +111,7 @@ public abstract class AbstractMessagePropertyTest<P> extends AbstractPropertyPro
         Message<Object> message = messageExecutor.newMessage();
 
         assertNull("retrieving a property when no properties exist should return null.",
-                messageExecutor.getProperty(message, NAME_ONE));
+                messageExecutor.getProperty(message, propertyExecutor.getName(propertyOne)));
 
         messageExecutor.setProperties(message, properties);
 
@@ -126,35 +126,41 @@ public abstract class AbstractMessagePropertyTest<P> extends AbstractPropertyPro
 
         assertEquals("no properties should exist", 0, messageExecutor.getProperties(message).size());
 
-        messageExecutor.addProperty(message, propertyExecutor.newProperty(NAME_ONE, VALUE_ONE));
+        messageExecutor.addProperty(message, 
+                propertyExecutor.newProperty(propertyExecutor.getName(propertyOne), 
+                        propertyExecutor.getValue(propertyOne)));
 
         assertEquals("one property should exist", 1, messageExecutor.getProperties(message).size());
         assertEquals("property one should have been added", propertyOne,
-                messageExecutor.getProperty(message, NAME_ONE));
+                messageExecutor.getProperty(message, propertyExecutor.getName(propertyOne)));
 
-        messageExecutor.addProperty(message, propertyExecutor.newProperty(NAME_TWO, VALUE_TWO));
+        messageExecutor.addProperty(message,
+                propertyExecutor.newProperty(propertyExecutor.getName(propertyTwo),
+                        propertyExecutor.getValue(propertyTwo)));
 
         assertEquals("two properties should exist", 2, messageExecutor.getProperties(message).size());
         assertEquals("property two should have been added", propertyTwo,
-                messageExecutor.getProperty(message, NAME_TWO));
+                messageExecutor.getProperty(message, propertyExecutor.getName(propertyTwo)));
 
-        messageExecutor.addProperty(message, propertyExecutor.newProperty(NAME_THREE, VALUE_THREE));
+        messageExecutor.addProperty(message,
+                propertyExecutor.newProperty(propertyExecutor.getName(propertyThree),
+                        propertyExecutor.getValue(propertyThree)));
 
         assertEquals("three properties should exist", 3, messageExecutor.getProperties(message).size());
         assertEquals("property three should have been added", propertyThree,
-                messageExecutor.getProperty(message, NAME_THREE));
+                messageExecutor.getProperty(message, propertyExecutor.getName(propertyThree)));
     }
 
     @Test
     public void testAddPropertyWithEmptyValue() throws Exception {
 
-        addPropertyWithBlankValueTest(propertyExecutor.newProperty(propertyExecutor.getName(propertyOne), ""));
+        addPropertyWithBlankValueTest("");
     }
 
     @Test
     public void testAddPropertyWithNullValue() throws Exception {
 
-        addPropertyWithBlankValueTest(propertyExecutor.newProperty(propertyExecutor.getName(propertyOne), null));
+        addPropertyWithBlankValueTest(null);
     }
 
     @Test
@@ -199,9 +205,11 @@ public abstract class AbstractMessagePropertyTest<P> extends AbstractPropertyPro
         assertEquals("the number of properties should be zero.", 0, properties.size());
     }
 
-    private void addPropertyWithBlankValueTest(P property) {
+    private void addPropertyWithBlankValueTest(Object value) {
 
         Message<Object> message = messageExecutor.newMessage();
+
+        P property = propertyExecutor.newProperty(propertyExecutor.getName(propertyOne), value);
 
         assertEquals("no properties should exist", 0, messageExecutor.getProperties(message).size());
 
