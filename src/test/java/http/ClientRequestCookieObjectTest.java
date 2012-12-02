@@ -1,16 +1,10 @@
 package http;
 
-import org.junit.Test;
-
-import java.net.URI;
-import java.net.URL;
 import java.util.Collection;
 
 import static http.Client.Request;
 import static http.Cookies.*;
-import static http.Parameters.*;
 import static http.Urls.*;
-import static org.junit.Assert.assertEquals;
 
 /**
  * @author Karl Bennett
