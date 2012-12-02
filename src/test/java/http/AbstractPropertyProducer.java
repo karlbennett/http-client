@@ -26,7 +26,6 @@ public abstract class AbstractPropertyProducer<P> {
     }
 
 
-    private PropertyExecutor<P> propertyExecutor;
     private P propertyOne;
     private P propertyTwo;
     private P propertyThree;
@@ -34,8 +33,6 @@ public abstract class AbstractPropertyProducer<P> {
 
 
     protected AbstractPropertyProducer(PropertyExecutor<P> propertyExecutor) {
-
-        this.propertyExecutor = propertyExecutor;
 
         propertyOne = propertyExecutor.newProperty(NAME_ONE, VALUE_ONE);
         propertyTwo = propertyExecutor.newProperty(NAME_TWO, VALUE_TWO);
