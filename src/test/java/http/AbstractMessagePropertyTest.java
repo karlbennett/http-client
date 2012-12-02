@@ -11,31 +11,31 @@ import static org.junit.Assert.assertEquals;
 /**
  * @author Karl Bennett
  */
-public abstract class AbstractMessagePropertyTest<P> extends AbstractPropertyProducer<P> {
+public abstract class AbstractMessagePropertyTest<M, P> extends AbstractPropertyProducer<P> {
 
-    protected interface MessageExecutor<P> {
+    protected interface MessageExecutor<M, P> {
 
-        public abstract <T> Message<T> newMessage();
+        public abstract M newMessage();
 
-        public abstract <T> P getProperty(Message<T> message, String name);
+        public abstract P getProperty(M message, String name);
 
-        public abstract <T> void addProperty(Message<T> message, P property);
+        public abstract void addProperty(M message, P property);
 
-        public abstract <T> Collection<P> getProperties(Message<T> message);
+        public abstract Collection<P> getProperties(M message);
 
-        public abstract <T> void setProperties(Message<T> message, Collection<P> properties);
+        public abstract void setProperties(M message, Collection<P> properties);
     }
 
 
     private PropertyExecutor<P> propertyExecutor;
-    private MessageExecutor<P> messageExecutor;
+    private MessageExecutor<M, P> messageExecutor;
     private P propertyOne;
     private P propertyTwo;
     private P propertyThree;
     private Collection<P> properties;
 
 
-    protected AbstractMessagePropertyTest(PropertyExecutor<P> propertyExecutor, MessageExecutor<P> messageExecutor) {
+    protected AbstractMessagePropertyTest(PropertyExecutor<P> propertyExecutor, MessageExecutor<M, P> messageExecutor) {
         super(propertyExecutor);
 
         this.propertyExecutor = propertyExecutor;
@@ -56,7 +56,7 @@ public abstract class AbstractMessagePropertyTest<P> extends AbstractPropertyPro
     @Test
     public void testGetPropertiesWhenNoPropertiesHaveBeenAdded() throws Exception {
 
-        Message<Object> message = messageExecutor.newMessage();
+        M message = messageExecutor.newMessage();
 
         Collection<P> properties = messageExecutor.getProperties(message);
 
@@ -67,7 +67,7 @@ public abstract class AbstractMessagePropertyTest<P> extends AbstractPropertyPro
     @Test
     public void testSetProperties() throws Exception {
 
-        Message<Object> message = messageExecutor.newMessage();
+        M message = messageExecutor.newMessage();
 
         messageExecutor.setProperties(message, properties);
 
@@ -94,7 +94,7 @@ public abstract class AbstractMessagePropertyTest<P> extends AbstractPropertyPro
     @Test
     public void testGetProperty() throws Exception {
 
-        Message<Object> message = messageExecutor.newMessage();
+        M message = messageExecutor.newMessage();
         messageExecutor.setProperties(message, properties);
 
         assertEquals("property one is retrieved correctly.", propertyOne,
@@ -108,7 +108,7 @@ public abstract class AbstractMessagePropertyTest<P> extends AbstractPropertyPro
     @Test
     public void testGetPropertyThatDoesNotExist() throws Exception {
 
-        Message<Object> message = messageExecutor.newMessage();
+        M message = messageExecutor.newMessage();
 
         assertNull("retrieving a property when no properties exist should return null.",
                 messageExecutor.getProperty(message, propertyExecutor.getName(propertyOne)));
@@ -122,7 +122,7 @@ public abstract class AbstractMessagePropertyTest<P> extends AbstractPropertyPro
     @Test
     public void testAddProperty() throws Exception {
 
-        Message<Object> message = messageExecutor.newMessage();
+        M message = messageExecutor.newMessage();
 
         assertEquals("no properties should exist", 0, messageExecutor.getProperties(message).size());
 
@@ -196,7 +196,7 @@ public abstract class AbstractMessagePropertyTest<P> extends AbstractPropertyPro
 
     private void addNoPropertiesTest(Collection<P> empty) {
 
-        Message<Object> message = messageExecutor.newMessage();
+        M message = messageExecutor.newMessage();
         messageExecutor.setProperties(message, empty);
 
         Collection<P> properties = messageExecutor.getProperties(message);
@@ -207,7 +207,7 @@ public abstract class AbstractMessagePropertyTest<P> extends AbstractPropertyPro
 
     private void addPropertyWithBlankValueTest(Object blank) {
 
-        Message<Object> message = messageExecutor.newMessage();
+        M message = messageExecutor.newMessage();
 
         P property = propertyExecutor.newProperty(propertyExecutor.getName(propertyOne), blank);
 
@@ -228,7 +228,7 @@ public abstract class AbstractMessagePropertyTest<P> extends AbstractPropertyPro
 
     private void addPropertyWithBlankNameAndValueTest(P property) {
 
-        Message<Object> message = messageExecutor.newMessage();
+        M message = messageExecutor.newMessage();
 
         assertEquals("no properties should exist", 0, messageExecutor.getProperties(message).size());
 

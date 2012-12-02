@@ -5,7 +5,7 @@ import java.util.Collection;
 /**
  * @author Karl Bennett
  */
-public class MessageHeaderObjectTest extends AbstractMessageAttributeTest<Header> {
+public class MessageHeaderObjectTest extends AbstractMessageAttributeTest<Message<Object>, Header> {
 
     public MessageHeaderObjectTest() {
 
@@ -29,34 +29,34 @@ public class MessageHeaderObjectTest extends AbstractMessageAttributeTest<Header
                         return (T) property.getValue();
                     }
                 },
-                new MessageExecutor<Header>() {
+                new MessageExecutor<Message<Object>, Header>() {
 
                     @Override
-                    public <T> Message<T> newMessage() {
+                    public Message<Object> newMessage() {
 
-                        return new Message<T>();
+                        return new Message<Object>();
                     }
 
                     @Override
-                    public Header getProperty(Message message, String name) {
+                    public Header getProperty(Message<Object> message, String name) {
 
                         return message.getHeader(name);
                     }
 
                     @Override
-                    public <T> void addProperty(Message<T> message, Header property) {
+                    public void addProperty(Message<Object> message, Header property) {
 
                         message.addHeader(property);
                     }
 
                     @Override
-                    public <T> Collection<Header> getProperties(Message<T> message) {
+                    public Collection<Header> getProperties(Message<Object> message) {
 
                         return message.getHeaders();
                     }
 
                     @Override
-                    public <T> void setProperties(Message<T> message, Collection<Header> properties) {
+                    public void setProperties(Message<Object> message, Collection<Header> properties) {
 
                         message.setHeaders(properties);
                     }

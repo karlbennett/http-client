@@ -9,17 +9,17 @@ import static org.junit.Assert.assertEquals;
 /**
  * @author Karl Bennett
  */
-public abstract class AbstractMessageAttributeTest<A extends Attribute> extends AbstractMessagePropertyTest<A> {
+public abstract class AbstractMessageAttributeTest<M, A extends Attribute> extends AbstractMessagePropertyTest<M, A> {
 
     private PropertyExecutor<A> propertyExecutor;
-    private MessageExecutor<A> messageExecutor;
+    private MessageExecutor<M, A> messageExecutor;
     private A attributeOne;
     private A attributeTwo;
     private A attributeThree;
     private Collection<A> attributes;
 
 
-    protected AbstractMessageAttributeTest(PropertyExecutor<A> propertyExecutor, MessageExecutor<A> messageExecutor) {
+    protected AbstractMessageAttributeTest(PropertyExecutor<A> propertyExecutor, MessageExecutor<M, A> messageExecutor) {
         super(propertyExecutor, messageExecutor);
 
         this.propertyExecutor = propertyExecutor;
@@ -41,7 +41,7 @@ public abstract class AbstractMessageAttributeTest<A extends Attribute> extends 
     @Test
     public void testAddValueToExistingAttribute() throws Exception {
 
-        Message<Object> message = messageExecutor.newMessage();
+        M message = messageExecutor.newMessage();
 
         messageExecutor.setProperties(message, attributes);
 
@@ -73,7 +73,7 @@ public abstract class AbstractMessageAttributeTest<A extends Attribute> extends 
 
     private void addBlankAttributeValueTest(Object blank) {
 
-        Message<Object> message = messageExecutor.newMessage();
+        M message = messageExecutor.newMessage();
 
         A attribute = propertyExecutor.newProperty(attributeOne.getName(), blank);
 
