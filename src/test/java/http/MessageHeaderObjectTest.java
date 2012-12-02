@@ -5,62 +5,42 @@ import java.util.Collection;
 /**
  * @author Karl Bennett
  */
-public class MessageHeaderObjectTest extends AbstractMessageAttributeTest<Message<Object>, Header> {
+public class MessageHeaderObjectTest extends AbstractMessageHeaderTest<Message<Object>> {
 
     public MessageHeaderObjectTest() {
 
-        super(
-                new PropertyExecutor<Header>() {
-                    @Override
-                    public <T> Header newProperty(String name, T value) {
+        super(new MessageExecutor<Message<Object>, Header>() {
 
-                        return new Header<T>(name, value);
-                    }
+            @Override
+            public Message<Object> newMessage() {
 
-                    @Override
-                    public String getName(Header property) {
+                return new Message<Object>();
+            }
 
-                        return property.getName();
-                    }
+            @Override
+            public Header getProperty(Message<Object> message, String name) {
 
-                    @Override
-                    public <T> T getValue(Header property) {
+                return message.getHeader(name);
+            }
 
-                        return (T) property.getValue();
-                    }
-                },
-                new MessageExecutor<Message<Object>, Header>() {
+            @Override
+            public void addProperty(Message<Object> message, Header property) {
 
-                    @Override
-                    public Message<Object> newMessage() {
+                message.addHeader(property);
+            }
 
-                        return new Message<Object>();
-                    }
+            @Override
+            public Collection<Header> getProperties(Message<Object> message) {
 
-                    @Override
-                    public Header getProperty(Message<Object> message, String name) {
+                return message.getHeaders();
+            }
 
-                        return message.getHeader(name);
-                    }
+            @Override
+            public void setProperties(Message<Object> message, Collection<Header> properties) {
 
-                    @Override
-                    public void addProperty(Message<Object> message, Header property) {
-
-                        message.addHeader(property);
-                    }
-
-                    @Override
-                    public Collection<Header> getProperties(Message<Object> message) {
-
-                        return message.getHeaders();
-                    }
-
-                    @Override
-                    public void setProperties(Message<Object> message, Collection<Header> properties) {
-
-                        message.setHeaders(properties);
-                    }
-                }
+                message.setHeaders(properties);
+            }
+        }
         );
     }
 }
