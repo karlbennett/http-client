@@ -26,19 +26,13 @@ public abstract class AbstractPropertyProducer<P> {
     }
 
 
-    private P propertyOne;
-    private P propertyTwo;
-    private P propertyThree;
-    private Collection<P> properties;
-
-
     protected AbstractPropertyProducer(PropertyExecutor<P> propertyExecutor) {
 
-        propertyOne = propertyExecutor.newProperty(NAME_ONE, VALUE_ONE);
-        propertyTwo = propertyExecutor.newProperty(NAME_TWO, VALUE_TWO);
-        propertyThree = propertyExecutor.newProperty(NAME_THREE, VALUE_THREE);
+        P propertyOne = propertyExecutor.newProperty(NAME_ONE, VALUE_ONE);
+        P propertyTwo = propertyExecutor.newProperty(NAME_TWO, VALUE_TWO);
+        P propertyThree = propertyExecutor.newProperty(NAME_THREE, VALUE_THREE);
 
-        properties = Arrays.asList(propertyOne, propertyTwo, propertyThree);
+        Collection<P>properties = Arrays.asList(propertyOne, propertyTwo, propertyThree);
 
         exposeProperties(propertyOne, propertyTwo, propertyThree, properties);
     }
