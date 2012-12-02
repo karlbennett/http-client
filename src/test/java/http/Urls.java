@@ -45,7 +45,7 @@ public final class Urls {
 
     public static final String TEST_URL_STRING_WITH_QUERY_STRING = TEST_URL_STRING + "?" + TEST_QUERY_STRING;
 
-    public static final URL TEST_URL_WITH_QUERY_STRING;
+    public static final URL TEST_URL_WITH_QUERY;
     static {
 
         URL url = null;
@@ -63,6 +63,6 @@ public final class Urls {
             throw new RuntimeException(e);
         }
 
-        TEST_URL_WITH_QUERY_STRING = url;
+        TEST_URL_WITH_QUERY = url;
     }
 }

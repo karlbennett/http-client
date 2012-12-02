@@ -124,22 +124,22 @@ public abstract class AbstractClientRequestMethodTest implements RequestHandler 
     @Test
     public void testStringRequestWithQueryString() throws Exception {
 
-        requestWithParametersTest(TEST_URL_WITH_QUERY_STRING, PARAMETERS,
+        requestWithParametersTest(TEST_URL_WITH_QUERY, PARAMETERS,
                 stringRequestExecutor.execute(TEST_URL_STRING_WITH_QUERY_STRING));
     }
 
     @Test
     public void testUrlRequestWithQueryString() throws Exception {
 
-        requestWithParametersTest(TEST_URL_WITH_QUERY_STRING, PARAMETERS,
-                urlRequestExecutor.execute(TEST_URL_WITH_QUERY_STRING));
+        requestWithParametersTest(TEST_URL_WITH_QUERY, PARAMETERS,
+                urlRequestExecutor.execute(TEST_URL_WITH_QUERY));
     }
 
     @Test
     public void testRequestWithQueryString() throws Exception {
 
-        requestWithParametersTest(TEST_URL_WITH_QUERY_STRING, PARAMETERS,
-                requestExecutor.execute(new Request(TEST_URL_WITH_QUERY_STRING)));
+        requestWithParametersTest(TEST_URL_WITH_QUERY, PARAMETERS,
+                requestExecutor.execute(new Request(TEST_URL_WITH_QUERY)));
     }
 
     @Test
@@ -166,7 +166,7 @@ public abstract class AbstractClientRequestMethodTest implements RequestHandler 
         Request request = new Request(TEST_URL);
         request.setParameters(PARAMETERS);
 
-        requestWithParametersTest(TEST_URL_WITH_QUERY_STRING, PARAMETERS, requestExecutor.execute(request));
+        requestWithParametersTest(TEST_URL_WITH_QUERY, PARAMETERS, requestExecutor.execute(request));
     }
 
     @Test
