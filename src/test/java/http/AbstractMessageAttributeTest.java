@@ -15,7 +15,6 @@ public abstract class AbstractMessageAttributeTest<M, A extends Attribute> exten
     private MessageExecutor<M, A> messageExecutor;
     private A attributeOne;
     private A attributeTwo;
-    private A attributeThree;
     private Collection<A> attributes;
 
 
@@ -33,7 +32,6 @@ public abstract class AbstractMessageAttributeTest<M, A extends Attribute> exten
 
         this.attributeOne = propertyOne;
         this.attributeTwo = propertyTwo;
-        this.attributeThree = propertyThree;
         this.attributes = properties;
     }
 
