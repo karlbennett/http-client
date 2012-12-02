@@ -15,10 +15,10 @@ import static org.junit.Assert.assertEquals;
 /**
  * @author Karl Bennett
  */
-public class ClientRequestCookieTest extends AbstractMessageCookieTest<Request<Object>> {
+public class ClientRequestCookieObjectTest extends AbstractMessageCookieTest<Request<Object>> {
 
 
-    public ClientRequestCookieTest() {
+    public ClientRequestCookieObjectTest() {
         super(new MessageExecutor<Request<Object>, Cookie>() {
 
             @Override
