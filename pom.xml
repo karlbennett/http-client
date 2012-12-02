@@ -55,6 +55,14 @@
     </build>
 
     <dependencies>
+        <!-- Jackson JSON parser used by the default JSON converter. This must be provided in by the user of the API. -->
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-core-asl</artifactId>
+            <version>1.9.9</version>
+            <scope>provided</scope>
+        </dependency>
+
         <!-- The Unit testing framework that is used to run all the projects tests. -->
         <dependency>
             <groupId>junit</groupId>
