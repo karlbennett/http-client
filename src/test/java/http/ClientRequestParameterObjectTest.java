@@ -26,6 +26,7 @@ public class ClientRequestParameterObjectTest extends AbstractClientRequestParam
             }
 
             @Override
+            @SuppressWarnings("unchecked")
             public void addProperty(Request<Object> message, Parameter property) {
 
                 message.addParameter(property);

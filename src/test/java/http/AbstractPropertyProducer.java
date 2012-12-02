@@ -25,7 +25,7 @@ public abstract class AbstractPropertyProducer<P> {
         public <T> T getValue(P property);
     }
 
-
+    @SuppressWarnings("unchecked")
     protected AbstractPropertyProducer(PropertyExecutor<P> propertyExecutor) {
 
         P propertyOne = propertyExecutor.newProperty(NAME_ONE, VALUE_ONE);

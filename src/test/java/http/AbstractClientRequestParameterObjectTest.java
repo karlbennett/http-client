@@ -23,6 +23,7 @@ public abstract class AbstractClientRequestParameterObjectTest extends AbstractM
             }
 
             @Override
+            @SuppressWarnings("unchecked")
             public <T> T getValue(Parameter property) {
 
                 return (T) property.getValue();

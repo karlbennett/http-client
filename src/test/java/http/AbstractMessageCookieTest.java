@@ -39,6 +39,7 @@ public abstract class AbstractMessageCookieTest<M extends Message<Object>> exten
             }
 
             @Override
+            @SuppressWarnings("unchecked")
             public <T> T getValue(Cookie property) {
 
                 return (T) property.getValue();

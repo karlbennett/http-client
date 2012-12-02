@@ -22,6 +22,7 @@ public abstract class AbstractMessageHeaderTest<M> extends AbstractMessageAttrib
             }
 
             @Override
+            @SuppressWarnings("unchecked")
             public <T> T getValue(Header property) {
 
                 return (T) property.getValue();
