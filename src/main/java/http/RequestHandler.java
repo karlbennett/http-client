@@ -25,6 +25,7 @@ interface RequestHandler {
      * @param body       an input stream to any content contained within the body of the request. This may be null.
      * @return a {@link Response} object containing all the data contain in the HTTP response.
      */
-    public Response handleRequest(String method, URL url, Collection<Header> headers, Collection<Cookie> cookies,
-                                  Collection<Parameter> parameters, InputStream body);
+    public Response<InputStream> handleRequest(String method, URL url, Collection<Header> headers,
+                                               Collection<Cookie> cookies, Collection<Parameter> parameters,
+                                               InputStream body);
 }

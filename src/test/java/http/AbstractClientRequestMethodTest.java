@@ -3,6 +3,7 @@ package http;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -55,12 +56,14 @@ public abstract class AbstractClientRequestMethodTest implements RequestHandler 
          * @param input the input for the request method, it's type is set generically for the class.
          * @return the response object returned from the request method.
          */
-        public Response execute(T input);
+        public <B> Response<B> execute(T input);
     }
 
 
     public static final String TEST_RESPONSE_STRING = "test response";
-    public static final Response<String> TEST_RESPONSE = new Response<String>(HttpURLConnection.HTTP_OK, TEST_RESPONSE_STRING);
+    public static final InputStream TEST_RESPONSE_INPUT_STREAM = new ByteArrayInputStream("test response".getBytes());
+    public static final Response<InputStream> TEST_RESPONSE = new Response<InputStream>(HttpURLConnection.HTTP_OK,
+            TEST_RESPONSE_INPUT_STREAM);
 
 
     private String testMethod;
@@ -90,8 +93,9 @@ public abstract class AbstractClientRequestMethodTest implements RequestHandler 
     private InputStream body;
 
     @Override
-    public Response handleRequest(String method, URL url, Collection<Header> headers, Collection<Cookie> cookies,
-                                  Collection<Parameter> parameters, InputStream body) {
+    public Response<InputStream> handleRequest(String method, URL url, Collection<Header> headers,
+                                               Collection<Cookie> cookies, Collection<Parameter> parameters,
+                                               InputStream body) {
 
         this.url = url;
         this.method = method;
@@ -106,40 +110,40 @@ public abstract class AbstractClientRequestMethodTest implements RequestHandler 
     @Test
     public void testSimpleStringRequest() throws Exception {
 
-        simpleRequestTest(TEST_URL, stringRequestExecutor.execute(TEST_URL_STRING));
+        simpleRequestTest(TEST_URL, stringRequestExecutor.<InputStream>execute(TEST_URL_STRING));
     }
 
     @Test
     public void testSimpleUrlRequest() throws Exception {
 
-        simpleRequestTest(TEST_URL, urlRequestExecutor.execute(TEST_URL));
+        simpleRequestTest(TEST_URL, urlRequestExecutor.<InputStream>execute(TEST_URL));
     }
 
     @Test
     public void testSimpleRequest() throws Exception {
 
-        simpleRequestTest(TEST_URL, requestExecutor.execute(new Request(TEST_URL)));
+        simpleRequestTest(TEST_URL, requestExecutor.<InputStream>execute(new Request(TEST_URL)));
     }
 
     @Test
     public void testStringRequestWithQueryString() throws Exception {
 
         requestWithParametersTest(TEST_URL_WITH_QUERY, PARAMETERS,
-                stringRequestExecutor.execute(TEST_URL_STRING_WITH_QUERY_STRING));
+                stringRequestExecutor.<InputStream>execute(TEST_URL_STRING_WITH_QUERY_STRING));
     }
 
     @Test
     public void testUrlRequestWithQueryString() throws Exception {
 
         requestWithParametersTest(TEST_URL_WITH_QUERY, PARAMETERS,
-                urlRequestExecutor.execute(TEST_URL_WITH_QUERY));
+                urlRequestExecutor.<InputStream>execute(TEST_URL_WITH_QUERY));
     }
 
     @Test
     public void testRequestWithQueryString() throws Exception {
 
         requestWithParametersTest(TEST_URL_WITH_QUERY, PARAMETERS,
-                requestExecutor.execute(new Request(TEST_URL_WITH_QUERY)));
+                requestExecutor.<InputStream>execute(new Request(TEST_URL_WITH_QUERY)));
     }
 
     @Test
@@ -148,7 +152,7 @@ public abstract class AbstractClientRequestMethodTest implements RequestHandler 
         Request request = new Request(TEST_URL);
         request.setHeaders(HEADERS);
 
-        requestWithHeadersTest(TEST_URL, HEADERS, requestExecutor.execute(request));
+        requestWithHeadersTest(TEST_URL, HEADERS, requestExecutor.<InputStream>execute(request));
     }
 
     @Test
@@ -157,7 +161,7 @@ public abstract class AbstractClientRequestMethodTest implements RequestHandler 
         Request request = new Request(TEST_URL);
         request.setCookies(COOKIES);
 
-        requestWithCookiesTest(TEST_URL, COOKIES, requestExecutor.execute(request));
+        requestWithCookiesTest(TEST_URL, COOKIES, requestExecutor.<InputStream>execute(request));
     }
 
     @Test
@@ -166,7 +170,7 @@ public abstract class AbstractClientRequestMethodTest implements RequestHandler 
         Request request = new Request(TEST_URL);
         request.setParameters(PARAMETERS);
 
-        requestWithParametersTest(TEST_URL_WITH_QUERY, PARAMETERS, requestExecutor.execute(request));
+        requestWithParametersTest(TEST_URL_WITH_QUERY, PARAMETERS, requestExecutor.<InputStream>execute(request));
     }
 
     @Test
@@ -175,7 +179,7 @@ public abstract class AbstractClientRequestMethodTest implements RequestHandler 
         Request<String> request = new Request<String>(TEST_URL);
         request.setBody(TEST_STRING_BODY);
 
-        requestWithBodyTest(TEST_URL, TEST_STRING_BODY, requestExecutor.execute(request));
+        requestWithBodyTest(TEST_URL, TEST_STRING_BODY, requestExecutor.<InputStream>execute(request));
     }
 
     @Test
@@ -184,7 +188,7 @@ public abstract class AbstractClientRequestMethodTest implements RequestHandler 
         Request<InputStream> request = new Request<InputStream>(TEST_URL);
         request.setBody(TEST_INPUT_STREAM_BODY);
 
-        requestWithBodyTest(TEST_URL, TEST_INPUT_STREAM_BODY, requestExecutor.execute(request));
+        requestWithBodyTest(TEST_URL, TEST_INPUT_STREAM_BODY, requestExecutor.<InputStream>execute(request));
     }
 
     @Test
@@ -193,11 +197,11 @@ public abstract class AbstractClientRequestMethodTest implements RequestHandler 
         Request<Object> request = new Request<Object>(TEST_URL);
         request.setBody(TEST_OBJECT_BODY);
 
-        requestWithBodyTest(TEST_URL, TEST_OBJECT_BODY, requestExecutor.execute(request));
+        requestWithBodyTest(TEST_URL, TEST_OBJECT_BODY, requestExecutor.<InputStream>execute(request));
     }
 
 
-    private void simpleRequestTest(URL url, Response testResponse) throws Exception {
+    private void simpleRequestTest(URL url, Response<InputStream> testResponse) throws Exception {
 
         assertEquals("the correct response should be returned from the " + testMethodType + " " + testMethod + " method.",
                 TEST_RESPONSE, testResponse);
@@ -216,7 +220,8 @@ public abstract class AbstractClientRequestMethodTest implements RequestHandler 
                 " method.", body);
     }
 
-    private void requestWithHeadersTest(URL url, Collection<Header> headers, Response testResponse) throws Exception {
+    private void requestWithHeadersTest(URL url, Collection<Header> headers, Response<InputStream> testResponse) throws
+            Exception {
 
         assertEquals("the correct response should be returned from the " + testMethodType + " " + testMethod + " method.",
                 TEST_RESPONSE, testResponse);
@@ -235,7 +240,8 @@ public abstract class AbstractClientRequestMethodTest implements RequestHandler 
                 " method.", body);
     }
 
-    private void requestWithCookiesTest(URL url, Collection<Cookie> cookies, Response testResponse) throws Exception {
+    private void requestWithCookiesTest(URL url, Collection<Cookie> cookies, Response<InputStream> testResponse) throws
+            Exception {
 
         assertEquals("the correct response should be returned from the " + testMethodType + " " + testMethod + " method.",
                 TEST_RESPONSE, testResponse);
@@ -254,7 +260,8 @@ public abstract class AbstractClientRequestMethodTest implements RequestHandler 
                 " method.", body);
     }
 
-    private void requestWithParametersTest(URL url, Collection<Parameter> parameters, Response testResponse) throws Exception {
+    private void requestWithParametersTest(URL url, Collection<Parameter> parameters,
+                                           Response<InputStream> testResponse) throws Exception {
 
         assertEquals("the correct response should be returned from the " + testMethodType + " " + testMethod +
                 " method.", TEST_RESPONSE, testResponse);
@@ -273,7 +280,7 @@ public abstract class AbstractClientRequestMethodTest implements RequestHandler 
                 " method.", body);
     }
 
-    private void requestWithBodyTest(URL url, Object body, Response testResponse) throws Exception {
+    private void requestWithBodyTest(URL url, Object body, Response<InputStream> testResponse) throws Exception {
 
         assertEquals("the correct response should be returned from the " + testMethodType + " " + testMethod + " method.",
                 TEST_RESPONSE, testResponse);

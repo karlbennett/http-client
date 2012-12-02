@@ -1,5 +1,6 @@
 package http;
 
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -111,7 +112,7 @@ public class Client {
      * @param url a {@code java.lang.String} containing the {@code URL} for the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
      */
-    public static Response OPTIONS(String url) {
+    public static Response<InputStream> OPTIONS(String url) {
 
         return getInstance().options(url);
     }
@@ -123,7 +124,7 @@ public class Client {
      * @param url the {@code URL} for the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
      */
-    public static Response OPTIONS(URL url) {
+    public static Response<InputStream> OPTIONS(URL url) {
 
         return getInstance().options(url);
     }
@@ -137,7 +138,7 @@ public class Client {
      * @throws IllegalStateException if a converter hasn't been registered that can convert the request body's type into
      *                               an {@link java.io.InputStream}.
      */
-    public static Response OPTIONS(Request request) {
+    public static Response<InputStream> OPTIONS(Request request) {
 
         return getInstance().options(request);
     }
@@ -149,7 +150,7 @@ public class Client {
      * @param url a {@code java.lang.String} containing the {@code URL} for the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
      */
-    public static Response GET(String url) {
+    public static Response<InputStream> GET(String url) {
 
         return getInstance().get(url);
     }
@@ -161,7 +162,7 @@ public class Client {
      * @param url the {@code URL} for the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
      */
-    public static Response GET(URL url) {
+    public static Response<InputStream> GET(URL url) {
 
         return getInstance().get(url);
     }
@@ -175,7 +176,7 @@ public class Client {
      * @throws IllegalStateException if a converter hasn't been registered that can convert the request body's type into
      *                               an {@link java.io.InputStream}.
      */
-    public static Response GET(Request request) {
+    public static Response<InputStream> GET(Request request) {
 
         return getInstance().get(request);
     }
@@ -187,7 +188,7 @@ public class Client {
      * @param url a {@code java.lang.String} containing the {@code URL} for the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
      */
-    public static Response HEAD(String url) {
+    public static Response<InputStream> HEAD(String url) {
 
         return getInstance().head(url);
     }
@@ -199,7 +200,7 @@ public class Client {
      * @param url the {@code URL} for the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
      */
-    public static Response HEAD(URL url) {
+    public static Response<InputStream> HEAD(URL url) {
 
         return getInstance().head(url);
     }
@@ -213,7 +214,7 @@ public class Client {
      * @throws IllegalStateException if a converter hasn't been registered that can convert the request body's type into
      *                               an {@link java.io.InputStream}.
      */
-    public static Response HEAD(Request request) {
+    public static Response<InputStream> HEAD(Request request) {
 
         return getInstance().head(request);
     }
@@ -225,7 +226,7 @@ public class Client {
      * @param url a {@code java.lang.String} containing the {@code URL} for the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
      */
-    public static Response POST(String url) {
+    public static Response<InputStream> POST(String url) {
 
         return getInstance().post(url);
     }
@@ -237,7 +238,7 @@ public class Client {
      * @param url the {@code URL} for the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
      */
-    public static Response POST(URL url) {
+    public static Response<InputStream> POST(URL url) {
 
         return getInstance().post(url);
     }
@@ -251,7 +252,7 @@ public class Client {
      * @throws IllegalStateException if a converter hasn't been registered that can convert the request body's type into
      *                               an {@link java.io.InputStream}.
      */
-    public static Response POST(Request request) {
+    public static Response<InputStream> POST(Request request) {
 
         return getInstance().post(request);
     }
@@ -263,7 +264,7 @@ public class Client {
      * @param url a {@code java.lang.String} containing the {@code URL} for the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
      */
-    public static Response PUT(String url) {
+    public static Response<InputStream> PUT(String url) {
 
         return getInstance().put(url);
     }
@@ -275,7 +276,7 @@ public class Client {
      * @param url the {@code URL} for the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
      */
-    public static Response PUT(URL url) {
+    public static Response<InputStream> PUT(URL url) {
 
         return getInstance().put(url);
     }
@@ -289,7 +290,7 @@ public class Client {
      * @throws IllegalStateException if a converter hasn't been registered that can convert the request body's type into
      *                               an {@link java.io.InputStream}.
      */
-    public static Response PUT(Request request) {
+    public static Response<InputStream> PUT(Request request) {
 
         return getInstance().put(request);
     }
@@ -301,7 +302,7 @@ public class Client {
      * @param url a {@code java.lang.String} containing the {@code URL} for the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
      */
-    public static Response DELETE(String url) {
+    public static Response<InputStream> DELETE(String url) {
 
         return getInstance().delete(url);
     }
@@ -313,7 +314,7 @@ public class Client {
      * @param url the {@code URL} for the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
      */
-    public static Response DELETE(URL url) {
+    public static Response<InputStream> DELETE(URL url) {
 
         return getInstance().delete(url);
     }
@@ -327,7 +328,7 @@ public class Client {
      * @throws IllegalStateException if a converter hasn't been registered that can convert the request body's type into
      *                               an {@link java.io.InputStream}.
      */
-    public static Response DELETE(Request request) {
+    public static Response<InputStream> DELETE(Request request) {
 
         return getInstance().delete(request);
     }
@@ -339,7 +340,7 @@ public class Client {
      * @param url a {@code java.lang.String} containing the {@code URL} for the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
      */
-    public static Response TRACE(String url) {
+    public static Response<InputStream> TRACE(String url) {
 
         return getInstance().trace(url);
     }
@@ -351,7 +352,7 @@ public class Client {
      * @param url the {@code URL} for the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
      */
-    public static Response TRACE(URL url) {
+    public static Response<InputStream> TRACE(URL url) {
 
         return getInstance().trace(url);
     }
@@ -365,7 +366,7 @@ public class Client {
      * @throws IllegalStateException if a converter hasn't been registered that can convert the request body's type into
      *                               an {@link java.io.InputStream}.
      */
-    public static Response TRACE(Request request) {
+    public static Response<InputStream> TRACE(Request request) {
 
         return getInstance().trace(request);
     }
@@ -377,7 +378,7 @@ public class Client {
      * @param url a {@code java.lang.String} containing the {@code URL} for the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
      */
-    public static Response CONNECT(String url) {
+    public static Response<InputStream> CONNECT(String url) {
 
         return getInstance().connect(url);
     }
@@ -389,7 +390,7 @@ public class Client {
      * @param url the {@code URL} for the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
      */
-    public static Response CONNECT(URL url) {
+    public static Response<InputStream> CONNECT(URL url) {
 
         return getInstance().connect(url);
     }
@@ -403,7 +404,7 @@ public class Client {
      * @throws IllegalStateException if a converter hasn't been registered that can convert the request body's type into
      *                               an {@link java.io.InputStream}.
      */
-    public static Response CONNECT(Request request) {
+    public static Response<InputStream> CONNECT(Request request) {
 
         return getInstance().connect(request);
     }
@@ -443,7 +444,7 @@ public class Client {
      * @param url a {@code java.lang.String} containing the {@code URL} for the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
      */
-    public Response options(String url) {
+    public Response<InputStream> options(String url) {
 
         return options(new Request(url));
     }
@@ -454,7 +455,7 @@ public class Client {
      * @param url the {@code URL} for the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
      */
-    public Response options(URL url) {
+    public Response<InputStream> options(URL url) {
 
         return options(new Request(url));
     }
@@ -469,7 +470,7 @@ public class Client {
      * @throws IllegalStateException if a converter hasn't been registered that can convert the request body's type into
      *                               an {@link java.io.InputStream}.
      */
-    public Response options(Request request) {
+    public Response<InputStream> options(Request request) {
 
         return null;
     }
@@ -480,7 +481,7 @@ public class Client {
      * @param url a {@code java.lang.String} containing the {@code URL} for the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
      */
-    public Response get(String url) {
+    public Response<InputStream> get(String url) {
 
         return get(new Request(url));
     }
@@ -491,7 +492,7 @@ public class Client {
      * @param url the {@code URL} for the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
      */
-    public Response get(URL url) {
+    public Response<InputStream> get(URL url) {
 
         return get(new Request(url));
     }
@@ -506,7 +507,7 @@ public class Client {
      * @throws IllegalStateException if a converter hasn't been registered that can convert the request body's type into
      *                               an {@link java.io.InputStream}.
      */
-    public Response get(Request request) {
+    public Response<InputStream> get(Request request) {
 
         return null;
     }
@@ -517,7 +518,7 @@ public class Client {
      * @param url a {@code java.lang.String} containing the {@code URL} for the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
      */
-    public Response head(String url) {
+    public Response<InputStream> head(String url) {
 
         return head(new Request(url));
     }
@@ -528,7 +529,7 @@ public class Client {
      * @param url the {@code URL} for the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
      */
-    public Response head(URL url) {
+    public Response<InputStream> head(URL url) {
 
         return head(new Request(url));
     }
@@ -543,7 +544,7 @@ public class Client {
      * @throws IllegalStateException if a converter hasn't been registered that can convert the request body's type into
      *                               an {@link java.io.InputStream}.
      */
-    public Response head(Request request) {
+    public Response<InputStream> head(Request request) {
 
         return null;
     }
@@ -554,7 +555,7 @@ public class Client {
      * @param url a {@code java.lang.String} containing the {@code URL} for the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
      */
-    public Response post(String url) {
+    public Response<InputStream> post(String url) {
 
         return post(new Request(url));
     }
@@ -565,7 +566,7 @@ public class Client {
      * @param url the {@code URL} for the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
      */
-    public Response post(URL url) {
+    public Response<InputStream> post(URL url) {
 
         return post(new Request(url));
     }
@@ -580,7 +581,7 @@ public class Client {
      * @throws IllegalStateException if a converter hasn't been registered that can convert the request body's type into
      *                               an {@link java.io.InputStream}.
      */
-    public Response post(Request request) {
+    public Response<InputStream> post(Request request) {
 
         return null;
     }
@@ -591,7 +592,7 @@ public class Client {
      * @param url a {@code java.lang.String} containing the {@code URL} for the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
      */
-    public Response put(String url) {
+    public Response<InputStream> put(String url) {
 
         return put(new Request(url));
     }
@@ -602,7 +603,7 @@ public class Client {
      * @param url the {@code URL} for the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
      */
-    public Response put(URL url) {
+    public Response<InputStream> put(URL url) {
 
         return put(new Request(url));
     }
@@ -617,7 +618,7 @@ public class Client {
      * @throws IllegalStateException if a converter hasn't been registered that can convert the request body's type into
      *                               an {@link java.io.InputStream}.
      */
-    public Response put(Request request) {
+    public Response<InputStream> put(Request request) {
 
         return null;
     }
@@ -628,7 +629,7 @@ public class Client {
      * @param url a {@code java.lang.String} containing the {@code URL} for the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
      */
-    public Response delete(String url) {
+    public Response<InputStream> delete(String url) {
 
         return delete(new Request(url));
     }
@@ -639,7 +640,7 @@ public class Client {
      * @param url the {@code URL} for the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
      */
-    public Response delete(URL url) {
+    public Response<InputStream> delete(URL url) {
 
         return delete(new Request(url));
     }
@@ -654,7 +655,7 @@ public class Client {
      * @throws IllegalStateException if a converter hasn't been registered that can convert the request body's type into
      *                               an {@link java.io.InputStream}.
      */
-    public Response delete(Request request) {
+    public Response<InputStream> delete(Request request) {
 
         return null;
     }
@@ -665,7 +666,7 @@ public class Client {
      * @param url a {@code java.lang.String} containing the {@code URL} for the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
      */
-    public Response trace(String url) {
+    public Response<InputStream> trace(String url) {
 
         return trace(new Request(url));
     }
@@ -676,7 +677,7 @@ public class Client {
      * @param url the {@code URL} for the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
      */
-    public Response trace(URL url) {
+    public Response<InputStream> trace(URL url) {
 
         return trace(new Request(url));
     }
@@ -691,7 +692,7 @@ public class Client {
      * @throws IllegalStateException if a converter hasn't been registered that can convert the request body's type into
      *                               an {@link java.io.InputStream}.
      */
-    public Response trace(Request request) {
+    public Response<InputStream> trace(Request request) {
 
         return null;
     }
@@ -702,7 +703,7 @@ public class Client {
      * @param url a {@code java.lang.String} containing the {@code URL} for the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
      */
-    public Response connect(String url) {
+    public Response<InputStream> connect(String url) {
 
         return connect(new Request(url));
     }
@@ -713,7 +714,7 @@ public class Client {
      * @param url the {@code URL} for the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
      */
-    public Response connect(URL url) {
+    public Response<InputStream> connect(URL url) {
 
         return connect(new Request(url));
     }
@@ -728,7 +729,7 @@ public class Client {
      * @throws IllegalStateException if a converter hasn't been registered that can convert the request body's type into
      *                               an {@link java.io.InputStream}.
      */
-    public Response connect(Request request) {
+    public Response<InputStream> connect(Request request) {
 
         return null;
     }
