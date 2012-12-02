@@ -23,46 +23,40 @@ public class AttributeTest {
     );
 
     @Test
-    @SuppressWarnings("unchecked")
     public void testCreateAttribute() throws Exception {
 
-        new Attribute(TEST_ATTRIBUTE_NAME, new Object());
+        new Attribute<Object>(TEST_ATTRIBUTE_NAME, new Object());
     }
 
     @Test(expected = IllegalArgumentException.class)
-    @SuppressWarnings("unchecked")
     public void testCreateAttributeWithNullName() throws Exception {
 
-        new Attribute(null, new Object());
+        new Attribute<Object>(null, new Object());
     }
 
     @Test(expected = IllegalArgumentException.class)
-    @SuppressWarnings("unchecked")
     public void testCreateAttributeWithEmptyName() throws Exception {
 
-        new Attribute("", new Object());
+        new Attribute<Object>("", new Object());
     }
 
     @Test(expected = IllegalArgumentException.class)
-    @SuppressWarnings("unchecked")
     public void testCreateAttributeWithNullValue() throws Exception {
 
-        new Attribute(TEST_ATTRIBUTE_NAME, null);
+        new Attribute<Object>(TEST_ATTRIBUTE_NAME, null);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    @SuppressWarnings("unchecked")
     public void testCreateAttributeWithNullNameAndValue() throws Exception {
 
-        new Attribute(null, null);
+        new Attribute<Object>(null, null);
     }
 
     @Test
-    @SuppressWarnings("unchecked")
     public void testGetName() throws Exception {
 
         assertEquals("the attribute name should be correct.",
-                TEST_ATTRIBUTE_NAME, new Attribute(TEST_ATTRIBUTE_NAME, new Object()).getName());
+                TEST_ATTRIBUTE_NAME, new Attribute<Object>(TEST_ATTRIBUTE_NAME, new Object()).getName());
     }
 
     @Test
