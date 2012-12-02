@@ -22,7 +22,7 @@ public final class Urls {
     public static final URL TEST_URL;
     static {
 
-        URL url = null;
+        URL url;
 
         try {
 
@@ -48,7 +48,7 @@ public final class Urls {
     public static final URL TEST_URL_WITH_QUERY;
     static {
 
-        URL url = null;
+        URL url;
 
         try {
 
