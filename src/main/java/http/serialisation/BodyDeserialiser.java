@@ -35,12 +35,12 @@ public abstract class BodyDeserialiser<I, C extends ContentType> {
 
 
     /**
-     * Convert the supplied input into the required type.
+     * Deserialise the supplied input into the required type.
      *
-     * @param type the type of object that will be output after conversion.
-     * @param input the input to be converted.
+     * @param type the type of object to deserialise to.
+     * @param input the input to be deserialise.
      * @param <T> the output type.
-     * @return the converted input.
+     * @return the deserialise input.
      */
     public abstract <T> T deserialise(Class<T> type, I input);
 
