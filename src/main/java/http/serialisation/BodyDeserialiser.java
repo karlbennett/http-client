@@ -6,8 +6,8 @@ import http.header.ContentType;
  * Deserialise the body that contains a specified {@code Content-Type} and is contained in a specified input type.
  *
  * The {@code Content-Type} will usually be something like {@code application/json}, {@code application/xml}, or
- * {@code application/x-www-form-urlencoded}. Where as the input type will be some for of {@link java.io.InputStream} or
- * {@link CharSequence}.
+ * {@code application/x-www-form-urlencoded}. Where as the input type will be some form of {@link java.io.InputStream}
+ * or {@link CharSequence}.
  *
  * @param <I>   the type of input the {@code BodyDeserialiser} accepts.
  * @param <C>   the type of {@code Content-Type} the {@code BodyDeserialiser} accepts. This should be set using a typed
