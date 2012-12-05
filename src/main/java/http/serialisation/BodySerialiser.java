@@ -1,17 +1,17 @@
-package http.conversion;
+package http.serialisation;
 
 import http.header.ContentType;
 
 /**
  * @author Karl Bennett
  */
-public abstract class ContentTypeInputConverter<O, C extends ContentType> {
+public abstract class BodySerialiser<O, C extends ContentType> {
 
     private final Class<O> outputType;
     private final Class<C> contentType;
 
 
-    protected ContentTypeInputConverter(Class<O> outputType, Class<C> contentType) {
+    protected BodySerialiser(Class<O> outputType, Class<C> contentType) {
 
         this.outputType = outputType;
         this.contentType = contentType;

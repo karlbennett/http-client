@@ -1,4 +1,4 @@
-package http.conversion;
+package http.serialisation;
 
 import http.header.FormDataContentType;
 
@@ -6,16 +6,20 @@ import java.io.File;
 import java.io.InputStream;
 
 /**
+ * A deserialiser for multipart form data. It can be used to deserialise a multipart request body that contains multiple
+ * parameters into an object or {@link java.util.Map} or a multipart request with a single parameter into a
+ * {@link String} or {@link InputStream}.
+ *
  * @author Karl Bennett
  */
-public class FormDataContentTypeOutputConverter extends InputStreamContentTypeOutputConverter<FormDataContentType> {
+public class FormDataBodyDeserialiser extends InputStreamBodyDeserialiser<FormDataContentType> {
 
-    protected FormDataContentTypeOutputConverter() {
+    protected FormDataBodyDeserialiser() {
         super(FormDataContentType.class);
     }
 
     @Override
-    public <T> T convert(Class<T> type, InputStream input) {
+    public <T> T deserialise(Class<T> type, InputStream input) {
 
         return null;
     }
