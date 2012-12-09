@@ -6,13 +6,23 @@ import java.util.Collection;
 import java.util.Collections;
 
 import static org.junit.Assert.*;
-import static org.junit.Assert.assertEquals;
 
 /**
+ * This is an abstract class that is used to test the common behaviour between the different type of property methods on
+ * a {@link Message} object e.g. {@link Message#addHeader(Header)}, {@link Message#addHeader(String, Object)}, and
+ * {@link Message#addCookie(Cookie)}.
+ *
  * @author Karl Bennett
  */
 public abstract class AbstractMessagePropertyTest<M, P> extends AbstractPropertyProducer<P> {
 
+    /**
+     * A wrapper for the {@code Message} object that will be tested. It is used to decouple the method call within the
+     * test from the method that is being tested. So that different methods can be called within the same test.
+     *
+     * @param <M> the type of message object that will be tested.
+     * @param <P> the type of property that will be tested.
+     */
     protected interface MessageExecutor<M, P> {
 
         public abstract M newMessage();
@@ -35,6 +45,13 @@ public abstract class AbstractMessagePropertyTest<M, P> extends AbstractProperty
     private Collection<P> properties;
 
 
+    /**
+     * Create a new {@code AbstractMessagePropertyTest} with a property and message executor that will be used within
+     * all the tests.
+     *
+     * @param propertyExecutor the property executor that will be used to create and inspect properties.
+     * @param messageExecutor  the message executor that will be used to create and test a message object.
+     */
     protected AbstractMessagePropertyTest(PropertyExecutor<P> propertyExecutor, MessageExecutor<M, P> messageExecutor) {
         super(propertyExecutor);
 
@@ -126,8 +143,8 @@ public abstract class AbstractMessagePropertyTest<M, P> extends AbstractProperty
 
         assertEquals("no properties should exist", 0, messageExecutor.getProperties(message).size());
 
-        messageExecutor.addProperty(message, 
-                propertyExecutor.newProperty(propertyExecutor.getName(propertyOne), 
+        messageExecutor.addProperty(message,
+                propertyExecutor.newProperty(propertyExecutor.getName(propertyOne),
                         propertyExecutor.getValue(propertyOne)));
 
         assertEquals("one property should exist", 1, messageExecutor.getProperties(message).size());
