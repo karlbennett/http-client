@@ -38,9 +38,4 @@ public class FormDataBodyDeserialiser extends InputStreamBodyDeserialiser<FormDa
 
         return null;
     }
-
-    public File convertToFile(InputStream input) {
-
-        return null;
-    }
 }
