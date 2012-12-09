@@ -96,7 +96,6 @@ public class FormDataBodyDeserialiserTest extends AbstractBodyDeserialiserTester
     private static final String MULTIPART_HEADER = "Content-Type: multipart/form-data; boundary=" + BOUNDERY + "\n\n";
     private static final String MULTIPART_FOOTER = "--" + BOUNDERY + "--";
 
-    private static final String NAME = "Test User";
     private static final String FILE_NAME = "Test User";
     private static final String FILE_CONTENT = "This is the contents of the test file.\n" +
             "We should have a few lines in this really.\n" +
