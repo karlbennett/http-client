@@ -21,7 +21,7 @@ public class JsonBodyDeserialiserTest extends AbstractBodyDeserialiserTester<Jso
             "}";
 
 
-    protected JsonBodyDeserialiserTest() {
+    public JsonBodyDeserialiserTest() {
         super(new JsonBodyDeserialiser(), toInputStream(SERIALISED_VALUE), TEST_DESERIALISED_OBJECT);
     }
 }

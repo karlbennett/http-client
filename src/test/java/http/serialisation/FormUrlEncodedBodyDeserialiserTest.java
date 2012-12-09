@@ -14,7 +14,7 @@ public class FormUrlEncodedBodyDeserialiserTest extends AbstractBodyDeserialiser
             + FRIEND_TWO + "&friend=" + FRIEND_THREE;
 
 
-    protected FormUrlEncodedBodyDeserialiserTest() {
+    public FormUrlEncodedBodyDeserialiserTest() {
         super(new FormUrlEncodedBodyDeserialiser(), toInputStream(SERIALISED_VALUE), TEST_DESERIALISED_OBJECT);
     }
 }

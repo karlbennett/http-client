@@ -20,7 +20,7 @@ public class XmlBodyDeserialiserTest extends AbstractBodyDeserialiserTester<XmlC
                 "</friends>" +
             "</test>";
 
-    protected XmlBodyDeserialiserTest() {
+    public XmlBodyDeserialiserTest() {
         super(new XmlBodyDeserialiser(), toInputStream(SERIALISED_VALUE), TEST_DESERIALISED_OBJECT);
     }
 }

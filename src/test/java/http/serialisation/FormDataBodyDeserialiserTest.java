@@ -120,7 +120,7 @@ public class FormDataBodyDeserialiserTest extends AbstractBodyDeserialiserTester
     private static final FormDataBodyDeserialiser FORM_DATA_BODY_DESERIALISER = new FormDataBodyDeserialiser();
 
 
-    protected FormDataBodyDeserialiserTest() {
+    public FormDataBodyDeserialiserTest() {
         super(FORM_DATA_BODY_DESERIALISER, toInputStream(SERIALISED_VALUE), DESERIALISED_OBJECT);
     }
 
