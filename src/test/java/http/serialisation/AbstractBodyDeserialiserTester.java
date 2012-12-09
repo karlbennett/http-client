@@ -29,6 +29,9 @@ public abstract class AbstractBodyDeserialiserTester<C extends ContentType, T> {
     public static final TestDeserialisedObject TEST_DESERIALISED_OBJECT = new TestDeserialisedObject(ID, NAME, FRIENDS);
 
 
+    /**
+     * A class that can be used as a container to deserialise test data into.
+     */
     public static class TestDeserialisedObject {
 
         private Long id;
