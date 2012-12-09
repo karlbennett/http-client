@@ -20,7 +20,7 @@ public class JsonBodyDeserialiser extends InputStreamBodyDeserialiser<JsonConten
      * @inheritDoc
      */
     @Override
-    public <T> T deserialise(Class<T> type, InputStream input) {
+    public <T> T deserialise(InputStream input, Class<T> type) {
 
         return null;
     }
