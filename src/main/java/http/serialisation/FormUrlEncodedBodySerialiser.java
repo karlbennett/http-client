@@ -17,6 +17,9 @@ public class FormUrlEncodedBodySerialiser extends InputStreamBodySerialiser<Form
         super(FormUrlEncodedContentType.class);
     }
 
+    /**
+     * @inheritDoc
+     */
     @Override
     public <T> InputStream serialise(T object) {
 

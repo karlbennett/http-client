@@ -2,7 +2,6 @@ package http.serialisation;
 
 import http.header.FormDataContentType;
 
-import java.io.File;
 import java.io.InputStream;
 
 /**
@@ -18,6 +17,9 @@ public class FormDataBodyDeserialiser extends InputStreamBodyDeserialiser<FormDa
         super(FormDataContentType.class);
     }
 
+    /**
+     * @inheritDoc
+     */
     @Override
     public <T> T deserialise(Class<T> type, InputStream input) {
 

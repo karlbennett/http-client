@@ -16,6 +16,9 @@ public class JsonBodyDeserialiser extends InputStreamBodyDeserialiser<JsonConten
         super(JsonContentType.class);
     }
 
+    /**
+     * @inheritDoc
+     */
     @Override
     public <T> T deserialise(Class<T> type, InputStream input) {
 

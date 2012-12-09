@@ -15,6 +15,9 @@ public class JsonBodySerialiser extends InputStreamBodySerialiser<JsonContentTyp
         super(JsonContentType.class);
     }
 
+    /**
+     * @inheritDoc
+     */
     @Override
     public <T> InputStream serialise(T object) {
 

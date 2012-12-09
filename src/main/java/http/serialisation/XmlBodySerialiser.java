@@ -15,6 +15,9 @@ public class XmlBodySerialiser extends InputStreamBodySerialiser<XmlContentType>
         super(XmlContentType.class);
     }
 
+    /**
+     * @inheritDoc
+     */
     @Override
     public <T> InputStream serialise(T object) {
 

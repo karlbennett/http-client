@@ -16,6 +16,9 @@ public class XmlBodyDeserialiser extends InputStreamBodyDeserialiser<XmlContentT
         super(XmlContentType.class);
     }
 
+    /**
+     * @inheritDoc
+     */
     @Override
     public <T> T deserialise(Class<T> type, InputStream input) {
 

@@ -17,6 +17,9 @@ public class FormDataBodySerialiser extends InputStreamBodySerialiser<FormDataCo
         super(FormDataContentType.class);
     }
 
+    /**
+     * @inheritDoc
+     */
     @Override
     public <T> InputStream serialise(T object) {
 
