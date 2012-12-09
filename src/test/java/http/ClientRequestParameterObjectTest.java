@@ -8,7 +8,7 @@ import static http.Urls.TEST_URL;
 /**
  * @author Karl Bennett
  */
-public class ClientRequestParameterObjectTest extends AbstractClientRequestParameterObjectTest {
+public class ClientRequestParameterObjectTest extends AbstractClientRequestParameterTest {
 
     public ClientRequestParameterObjectTest() {
         super(new MessageExecutor<Request<Object>, Parameter>() {
