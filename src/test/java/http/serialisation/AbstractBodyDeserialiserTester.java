@@ -1,7 +1,6 @@
-package http;
+package http.serialisation;
 
 import http.header.ContentType;
-import http.serialisation.BodyDeserialiser;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;

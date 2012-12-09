@@ -1,6 +1,5 @@
 package http.serialisation;
 
-import http.AbstractBodyDeserialiserTester;
 import http.header.FormDataContentType;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
