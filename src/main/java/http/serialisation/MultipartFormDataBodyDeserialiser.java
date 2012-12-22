@@ -1,6 +1,6 @@
 package http.serialisation;
 
-import http.header.FormDataContentType;
+import http.header.MultipartFormDataContentType;
 
 import java.io.InputStream;
 
@@ -11,10 +11,10 @@ import java.io.InputStream;
  *
  * @author Karl Bennett
  */
-public class FormDataBodyDeserialiser extends InputStreamBodyDeserialiser<FormDataContentType> {
+public class MultipartFormDataBodyDeserialiser extends InputStreamBodyDeserialiser<MultipartFormDataContentType> {
 
-    protected FormDataBodyDeserialiser() {
-        super(FormDataContentType.class);
+    protected MultipartFormDataBodyDeserialiser() {
+        super(MultipartFormDataContentType.class);
     }
 
     /**

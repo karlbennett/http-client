@@ -1,6 +1,6 @@
 package http.serialisation;
 
-import http.header.FormDataContentType;
+import http.header.MultipartFormDataContentType;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 
@@ -8,13 +8,13 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import static org.apache.commons.io.IOUtils.toInputStream;
-import static http.serialisation.FormDataBodyDeserialiserTest.FormDataTestObject;
+import static http.serialisation.MultipartFormDataBodyDeserialiserTest.FormDataTestObject;
 import static org.junit.Assert.*;
 
 /**
  * @author Karl Bennett
  */
-public class FormDataBodyDeserialiserTest extends AbstractBodyDeserialiserTester<FormDataContentType, FormDataTestObject> {
+public class MultipartFormDataBodyDeserialiserTest extends AbstractBodyDeserialiserTester<MultipartFormDataContentType, FormDataTestObject> {
 
     public static class FormDataTestObject {
 
@@ -117,10 +117,10 @@ public class FormDataBodyDeserialiserTest extends AbstractBodyDeserialiserTester
     private static final FormDataTestObject DESERIALISED_OBJECT = new FormDataTestObject(NAME, FILE_NAME,
             toInputStream(FILE_CONTENT));
 
-    private static final FormDataBodyDeserialiser FORM_DATA_BODY_DESERIALISER = new FormDataBodyDeserialiser();
+    private static final MultipartFormDataBodyDeserialiser FORM_DATA_BODY_DESERIALISER = new MultipartFormDataBodyDeserialiser();
 
 
-    public FormDataBodyDeserialiserTest() {
+    public MultipartFormDataBodyDeserialiserTest() {
         super(FORM_DATA_BODY_DESERIALISER, toInputStream(SERIALISED_VALUE), DESERIALISED_OBJECT);
     }
 

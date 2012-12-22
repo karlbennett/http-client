@@ -7,7 +7,7 @@ import javax.activation.MimeType;
  *
  * @author Karl Bennett
  */
-public class FormDataContentType extends ContentType {
+public class MultipartFormDataContentType extends ContentType {
 
     /**
      * The {@code MIME} type string for Form data encoded content.
@@ -20,9 +20,9 @@ public class FormDataContentType extends ContentType {
     public static final MimeType MIME_TYPE = stringToMimeType(MULTIPART_FORM_DATA);
 
     /**
-     * Create a new {@code FormDataContentType}
+     * Create a new {@code MultipartFormDataContentType}
      */
-    public FormDataContentType() {
+    public MultipartFormDataContentType() {
         super(MIME_TYPE);
     }
 }

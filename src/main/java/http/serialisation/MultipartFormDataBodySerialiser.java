@@ -1,6 +1,6 @@
 package http.serialisation;
 
-import http.header.FormDataContentType;
+import http.header.MultipartFormDataContentType;
 
 import java.io.InputStream;
 
@@ -11,10 +11,10 @@ import java.io.InputStream;
  *
  * @author Karl Bennett
  */
-public class FormDataBodySerialiser extends InputStreamBodySerialiser<FormDataContentType> {
+public class MultipartFormDataBodySerialiser extends InputStreamBodySerialiser<MultipartFormDataContentType> {
 
-    protected FormDataBodySerialiser() {
-        super(FormDataContentType.class);
+    protected MultipartFormDataBodySerialiser() {
+        super(MultipartFormDataContentType.class);
     }
 
     /**
