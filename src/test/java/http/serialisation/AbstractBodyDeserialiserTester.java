@@ -51,24 +51,12 @@ public abstract class AbstractBodyDeserialiserTester<C extends ContentType, T> {
             return id;
         }
 
-        public void setId(Long id) {
-            this.id = id;
-        }
-
         public String getName() {
             return name;
         }
 
-        public void setName(String name) {
-            this.name = name;
-        }
-
         public Collection<String> getFriends() {
             return friends;
-        }
-
-        public void setFriends(Collection<String> friends) {
-            this.friends = friends;
         }
 
 
