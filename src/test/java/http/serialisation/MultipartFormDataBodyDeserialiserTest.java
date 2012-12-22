@@ -16,6 +16,10 @@ import static org.junit.Assert.*;
  */
 public class MultipartFormDataBodyDeserialiserTest extends AbstractBodyDeserialiserTester<MultipartFormDataContentType, FormDataTestObject> {
 
+    /**
+     * This class represents a serialised {@code multipart/form-data} message. I contains two {@link String} attributes
+     * and an {@link InputStream} to hold a file upload.
+     */
     public static class FormDataTestObject {
 
         private String name;
@@ -30,28 +34,31 @@ public class MultipartFormDataBodyDeserialiserTest extends AbstractBodyDeseriali
             this.file = file;
         }
 
+        /**
+         * Return the name attribute sent in the {@code multipart/form-data} message.
+         *
+         * @return the name value.
+         */
         public String getName() {
             return name;
         }
 
-        public void setName(String name) {
-            this.name = name;
-        }
-
+        /**
+         * Return the name of the file sent in the {@code multipart/form-data} message.
+         *
+         * @return the file name value.
+         */
         public String getFileName() {
             return fileName;
         }
 
-        public void setFileName(String fileName) {
-            this.fileName = fileName;
-        }
-
+        /**
+         * Return an {@link InputStream} for the contents of the file sent in the {@code multipart/form-data} message.
+         *
+         * @return the file name value.
+         */
         public InputStream getFile() {
             return file;
-        }
-
-        public void setFile(InputStream file) {
-            this.file = file;
         }
 
         @Override
