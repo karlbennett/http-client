@@ -2,7 +2,7 @@ package http.serialisation;
 
 import http.header.XmlContentType;
 
-import static http.serialisation.AbstractBodyDeserialiserTester.TestDeserialisedObject;
+import static http.serialisation.TestDeserialisedObject.*;
 import static org.apache.commons.io.IOUtils.toInputStream;
 
 /**

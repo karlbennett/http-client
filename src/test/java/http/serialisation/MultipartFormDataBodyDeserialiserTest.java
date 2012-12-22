@@ -7,9 +7,11 @@ import org.junit.Test;
 import java.io.IOException;
 import java.io.InputStream;
 
-import static org.apache.commons.io.IOUtils.toInputStream;
 import static http.serialisation.MultipartFormDataBodyDeserialiserTest.FormDataTestObject;
-import static org.junit.Assert.*;
+import static http.serialisation.TestDeserialisedObject.NAME;
+import static org.apache.commons.io.IOUtils.toInputStream;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Karl Bennett
@@ -69,8 +71,8 @@ public class MultipartFormDataBodyDeserialiserTest extends AbstractBodyDeseriali
 
             FormDataTestObject that = (FormDataTestObject) o;
 
-            String thisFile = null;
-            String thatFile = null;
+            String thisFile;
+            String thatFile;
 
             try {
 
