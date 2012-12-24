@@ -2,6 +2,8 @@ package http.header;
 
 import javax.activation.MimeType;
 
+import static http.util.MimeTypes.*;
+
 /**
  * {@code XML} {@code Content-Type} header.
  *
@@ -10,14 +12,9 @@ import javax.activation.MimeType;
 public class XmlContentType extends ContentType {
 
     /**
-     * The {@code MIME} type string for {@code XML} content.
-     */
-    public static final String APPLICATION_XML = "application/xml";
-
-    /**
      * The {@link MimeType} object for {@code XML} content.
      */
-    public static final MimeType MIME_TYPE = stringToMimeType(APPLICATION_XML);
+    public static final MimeType MIME_TYPE = quietMimeType(APPLICATION, XML);
 
 
     /**

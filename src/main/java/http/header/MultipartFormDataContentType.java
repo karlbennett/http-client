@@ -2,6 +2,8 @@ package http.header;
 
 import javax.activation.MimeType;
 
+import static http.util.MimeTypes.*;
+
 /**
  * Form data {@code Content-Type} header.
  *
@@ -10,14 +12,9 @@ import javax.activation.MimeType;
 public class MultipartFormDataContentType extends ContentType {
 
     /**
-     * The {@code MIME} type string for Form data encoded content.
-     */
-    public static final String MULTIPART_FORM_DATA = "multipart/form-data";
-
-    /**
      * The {@link javax.activation.MimeType} object for Form data encoded content.
      */
-    public static final MimeType MIME_TYPE = stringToMimeType(MULTIPART_FORM_DATA);
+    public static final MimeType MIME_TYPE = quietMimeType(MULTIPART, FORM_DATA);
 
     /**
      * Create a new {@code MultipartFormDataContentType}
