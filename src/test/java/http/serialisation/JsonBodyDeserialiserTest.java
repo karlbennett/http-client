@@ -1,14 +1,12 @@
 package http.serialisation;
 
-import http.header.JsonContentType;
-
 import static http.serialisation.TestDeserialisedObject.*;
 import static org.apache.commons.io.IOUtils.toInputStream;
 
 /**
  * @author Karl Bennett
  */
-public class JsonBodyDeserialiserTest extends AbstractBodyDeserialiserTester<JsonContentType, TestDeserialisedObject> {
+public class JsonBodyDeserialiserTest extends AbstractBodyDeserialiserTester<TestDeserialisedObject> {
 
     private static final String SERIALISED_VALUE = "{" +
                 "\"id\":" + ID + "," +
@@ -22,6 +20,6 @@ public class JsonBodyDeserialiserTest extends AbstractBodyDeserialiserTester<Jso
 
 
     public JsonBodyDeserialiserTest() {
-        super(new JsonBodyDeserialiser(), toInputStream(SERIALISED_VALUE), TEST_DESERIALISED_OBJECT);
+        super(new JsonDeserialiser(), toInputStream(SERIALISED_VALUE), TEST_DESERIALISED_OBJECT);
     }
 }

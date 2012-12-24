@@ -1,6 +1,5 @@
 package http.serialisation;
 
-import http.header.MultipartFormDataContentType;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 
@@ -16,7 +15,7 @@ import static org.junit.Assert.assertEquals;
 /**
  * @author Karl Bennett
  */
-public class MultipartFormDataBodyDeserialiserTest extends AbstractBodyDeserialiserTester<MultipartFormDataContentType, FormDataTestObject> {
+public class MultipartFormDataBodyDeserialiserTest extends AbstractBodyDeserialiserTester<FormDataTestObject> {
 
     /**
      * This class represents a serialised {@code multipart/form-data} message. I contains two {@link String} attributes
@@ -126,7 +125,7 @@ public class MultipartFormDataBodyDeserialiserTest extends AbstractBodyDeseriali
     private static final FormDataTestObject DESERIALISED_OBJECT = new FormDataTestObject(NAME, FILE_NAME,
             toInputStream(FILE_CONTENT));
 
-    private static final MultipartFormDataBodyDeserialiser FORM_DATA_BODY_DESERIALISER = new MultipartFormDataBodyDeserialiser();
+    private static final MultipartFormDataDeserialiser FORM_DATA_BODY_DESERIALISER = new MultipartFormDataDeserialiser();
 
 
     public MultipartFormDataBodyDeserialiserTest() {

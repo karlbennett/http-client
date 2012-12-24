@@ -1,6 +1,5 @@
 package http.serialisation;
 
-import http.header.ContentType;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
@@ -15,9 +14,9 @@ import static org.junit.Assert.assertNull;
  *
  * @author Karl Bennett
  */
-public abstract class AbstractBodyDeserialiserTester<C extends ContentType, T> {
+public abstract class AbstractBodyDeserialiserTester<T> {
 
-    private BodyDeserialiser<InputStream, C> bodyDeserialiser;
+    private Deserialiser<InputStream> deserialiser;
     private InputStream serialisedValue;
     private T deserialisedObject;
 
@@ -25,15 +24,15 @@ public abstract class AbstractBodyDeserialiserTester<C extends ContentType, T> {
     /**
      * Create a new {@code AbstractBodyDeserialiserTester} with a deserialiser and serialised and deserialsed value.
      *
-     * @param bodyDeserialiser   the deserialiser that will be tested.
+     * @param deserialiser   the deserialiser that will be tested.
      * @param serialisedValue    the serialised value that will be deserialised.
      * @param deserialisedObject the expected deserialised value.
      */
-    protected AbstractBodyDeserialiserTester(BodyDeserialiser<InputStream, C> bodyDeserialiser,
+    protected AbstractBodyDeserialiserTester(Deserialiser<InputStream> deserialiser,
                                              InputStream serialisedValue,
                                              T deserialisedObject) {
 
-        this.bodyDeserialiser = bodyDeserialiser;
+        this.deserialiser = deserialiser;
         this.serialisedValue = serialisedValue;
         this.deserialisedObject = deserialisedObject;
     }
@@ -43,26 +42,26 @@ public abstract class AbstractBodyDeserialiserTester<C extends ContentType, T> {
     public void testDeserialiseValue() throws Exception {
 
         assertEquals("the serialised value should be correctly deserialised.", deserialisedObject,
-                bodyDeserialiser.deserialise(serialisedValue, deserialisedObject.getClass()));
+                deserialiser.deserialise(serialisedValue, deserialisedObject.getClass()));
     }
 
     @Test
     public void testDeserialiseEmptyValue() throws Exception {
 
         assertNull("an empty value should be deserialised to null.",
-                bodyDeserialiser.deserialise(new ByteArrayInputStream("".getBytes()), deserialisedObject.getClass()));
+                deserialiser.deserialise(new ByteArrayInputStream("".getBytes()), deserialisedObject.getClass()));
     }
 
     @Test
     public void testDeserialiseNullValue() throws Exception {
 
         assertNull("a null value should be deserialised to null.",
-                bodyDeserialiser.deserialise(null, deserialisedObject.getClass()));
+                deserialiser.deserialise(null, deserialisedObject.getClass()));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testDeserialiseWithNullType() throws Exception {
 
-        bodyDeserialiser.deserialise(serialisedValue, null);
+        deserialiser.deserialise(serialisedValue, null);
     }
 }

@@ -1,14 +1,12 @@
 package http.serialisation;
 
-import http.header.XmlContentType;
-
 import static http.serialisation.TestDeserialisedObject.*;
 import static org.apache.commons.io.IOUtils.toInputStream;
 
 /**
  * @author Karl Bennett
  */
-public class XmlBodyDeserialiserTest extends AbstractBodyDeserialiserTester<XmlContentType, TestDeserialisedObject> {
+public class XmlBodyDeserialiserTest extends AbstractBodyDeserialiserTester<TestDeserialisedObject> {
 
     private static final String SERIALISED_VALUE = "<test>" +
                 "<id>" + ID + "</id>" +
@@ -21,6 +19,6 @@ public class XmlBodyDeserialiserTest extends AbstractBodyDeserialiserTester<XmlC
             "</test>";
 
     public XmlBodyDeserialiserTest() {
-        super(new XmlBodyDeserialiser(), toInputStream(SERIALISED_VALUE), TEST_DESERIALISED_OBJECT);
+        super(new XmlDeserialiser(), toInputStream(SERIALISED_VALUE), TEST_DESERIALISED_OBJECT);
     }
 }
