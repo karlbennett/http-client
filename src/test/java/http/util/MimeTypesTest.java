@@ -4,9 +4,10 @@ import org.junit.Test;
 
 import javax.activation.MimeType;
 import javax.activation.MimeTypeParseException;
+import java.util.*;
 
 import static http.util.MimeTypes.*;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * @author Karl Bennett
@@ -32,10 +33,10 @@ public class MimeTypesTest {
 
         try {
 
-            applicationXWwwFormUrlEncoded = new MimeType(APPLICATION, X_WWW_FORM_URL_ENCODED);
-            applicationJson = new MimeType(APPLICATION, JSON);
-            multipartFormData = new MimeType(MULTIPART, FORM_DATA);
-            applicationXml = new MimeType(APPLICATION, XML);
+            applicationXWwwFormUrlEncoded = new ComparableMimeType(APPLICATION, X_WWW_FORM_URL_ENCODED);
+            applicationJson = new ComparableMimeType(APPLICATION, JSON);
+            multipartFormData = new ComparableMimeType(MULTIPART, FORM_DATA);
+            applicationXml = new ComparableMimeType(APPLICATION, XML);
 
         } catch (MimeTypeParseException e) {
 
@@ -51,32 +52,102 @@ public class MimeTypesTest {
     @Test
     public void testQuietMimeTypeWithRawData() throws Exception {
 
-        assertTrue("application/x-www-form-urlencoded mimetype should be created correctly.",
-                APPLICATION_X_WWW_FORM_URL_ENCODED.match(quietMimeType(APPLICATION_X_WWW_FORM_URL_ENCODED_STRING)));
+        assertEquals("application/x-www-form-urlencoded mime type should be created correctly.",
+                APPLICATION_X_WWW_FORM_URL_ENCODED, quietMimeType(APPLICATION_X_WWW_FORM_URL_ENCODED_STRING));
 
-        assertTrue("application/json mimetype should be created correctly.",
-                APPLICATION_JSON.match(quietMimeType(APPLICATION_JSON_STRING)));
+        assertEquals("application/json mime type should be created correctly.",
+                APPLICATION_JSON, quietMimeType(APPLICATION_JSON_STRING));
 
-        assertTrue("multipart/form-data mimetype should be created correctly.",
-                MULTIPART_FORM_DATA.match(quietMimeType(MULTIPART_FORM_DATA_STRING)));
+        assertEquals("multipart/form-data mime type should be created correctly.",
+                MULTIPART_FORM_DATA, quietMimeType(MULTIPART_FORM_DATA_STRING));
 
-        assertTrue("application/xml mimetype should be created correctly.",
-                APPLICATION_XML.match(quietMimeType(APPLICATION_XML_STRING)));
+        assertEquals("application/xml mime type should be created correctly.",
+                APPLICATION_XML, quietMimeType(APPLICATION_XML_STRING));
     }
 
     @Test
     public void testQuietMimeTypeWithPrimaryAndSub() throws Exception {
 
-        assertTrue("application/x-www-form-urlencoded mimetype should be created correctly.",
-                APPLICATION_X_WWW_FORM_URL_ENCODED.match(quietMimeType(APPLICATION, X_WWW_FORM_URL_ENCODED)));
+        assertEquals("application/x-www-form-urlencoded mime type should be created correctly.",
+                APPLICATION_X_WWW_FORM_URL_ENCODED, quietMimeType(APPLICATION, X_WWW_FORM_URL_ENCODED));
 
-        assertTrue("application/json mimetype should be created correctly.",
-                APPLICATION_JSON.match(quietMimeType(APPLICATION, JSON)));
+        assertEquals("application/json mime type should be created correctly.",
+                APPLICATION_JSON, quietMimeType(APPLICATION, JSON));
 
-        assertTrue("multipart/form-data mimetype should be created correctly.",
-                MULTIPART_FORM_DATA.match(quietMimeType(MULTIPART, FORM_DATA)));
+        assertEquals("multipart/form-data mime type should be created correctly.",
+                MULTIPART_FORM_DATA, quietMimeType(MULTIPART, FORM_DATA));
 
-        assertTrue("application/xml mimetype should be created correctly.",
-                APPLICATION_XML.match(quietMimeType(APPLICATION, XML)));
+        assertEquals("application/xml mime type should be created correctly.",
+                APPLICATION_XML, quietMimeType(APPLICATION, XML));
+    }
+
+    @Test
+    public void testComparableMimeTypeInSet() throws Exception {
+
+        Set<MimeType> mimeTypes = new HashSet<MimeType>(Arrays.asList(
+                APPLICATION_X_WWW_FORM_URL_ENCODED,
+                APPLICATION_JSON,
+                MULTIPART_FORM_DATA,
+                APPLICATION_XML
+        ));
+
+        assertEquals("the mime type set contains the correct number of objects", 4, mimeTypes.size());
+
+        assertTrue("the mime type set contains the application/x-www-form-urlencoded mime type",
+                mimeTypes.contains(APPLICATION_X_WWW_FORM_URL_ENCODED));
+
+        assertTrue("the mime type set contains the application/json mime type",
+                mimeTypes.contains(APPLICATION_JSON));
+
+        assertTrue("the mime type set contains the multipart/form-data mime type",
+                mimeTypes.contains(MULTIPART_FORM_DATA));
+
+        assertTrue("the mime type set contains the application/xml mime type",
+                mimeTypes.contains(APPLICATION_XML));
+    }
+
+    @Test
+    public void testComparableMimeTypeInMap() throws Exception {
+
+        Map<MimeType, Integer> mimeTypes = new HashMap<MimeType, Integer>();
+        mimeTypes.put(APPLICATION_X_WWW_FORM_URL_ENCODED, 0);
+        mimeTypes.put(APPLICATION_JSON, 1);
+        mimeTypes.put(MULTIPART_FORM_DATA, 2);
+        mimeTypes.put(APPLICATION_XML, 3);
+
+        assertEquals("the mime type map contains the correct number of objects", 4, mimeTypes.size());
+
+        assertEquals("the mime type map has the correct value for the application/x-www-form-urlencoded mime type",
+                new Integer(0), mimeTypes.get(APPLICATION_X_WWW_FORM_URL_ENCODED));
+
+        assertEquals("the mime type map has the correct value for the application/json mime type", new Integer(1),
+                mimeTypes.get(APPLICATION_JSON));
+
+        assertEquals("the mime type map has the correct value for the multipart/form-data mime type", new Integer(2),
+                mimeTypes.get(MULTIPART_FORM_DATA));
+
+        assertEquals("the mime type map has the correct value for the application/xml mime type", new Integer(3),
+                mimeTypes.get(APPLICATION_XML));
+    }
+
+    @Test
+    public void testComparableMimeTypeOrdering() throws Exception {
+
+        final MimeType[] MIME_TYPES = {
+                APPLICATION_JSON,
+                APPLICATION_X_WWW_FORM_URL_ENCODED,
+                APPLICATION_XML,
+                MULTIPART_FORM_DATA
+        };
+
+        Set<MimeType> mimeTypes = new TreeSet<MimeType>(Arrays.asList(
+                APPLICATION_X_WWW_FORM_URL_ENCODED,
+                APPLICATION_JSON,
+                MULTIPART_FORM_DATA,
+                APPLICATION_XML
+        ));
+
+        assertArrayEquals("the mime type ordering is correct", MIME_TYPES,
+                mimeTypes.toArray(new MimeType[mimeTypes.size()]));
     }
 }

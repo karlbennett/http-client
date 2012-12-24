@@ -11,6 +11,49 @@ import javax.activation.MimeTypeParseException;
 public final class MimeTypes {
 
     /**
+     * A comparable {@link MimeType} that can also be used within a {@link java.util.Map} or {@link java.util.Set}.
+     */
+    public static class ComparableMimeType extends MimeType implements Comparable<MimeType> {
+
+        public ComparableMimeType(String rawdata) throws MimeTypeParseException {
+            super(rawdata);
+        }
+
+        public ComparableMimeType(String primary, String sub) throws MimeTypeParseException {
+            super(primary, sub);
+        }
+
+        @Override
+        public int compareTo(MimeType that) {
+
+            // First compare the primary type.
+            int primaryCompare = getPrimaryType().compareTo(that.getPrimaryType());
+
+            // If the primary types are the same then we need to rely on the sub-type comparison.
+            if (0 == primaryCompare) return getSubType().compareTo(that.getSubType());
+
+            // Otherwise the primary comparison is good enough.
+            return primaryCompare;
+        }
+
+        @Override
+        public boolean equals(Object object) {
+            if (this == object) return true;
+            if (object == null || getClass() != object.getClass()) return false;
+
+            ComparableMimeType that = (ComparableMimeType) object;
+
+            return 0 == this.compareTo(that);
+        }
+
+        @Override
+        public int hashCode() {
+
+            return getPrimaryType().hashCode() + getSubType().hashCode();
+        }
+    }
+
+    /**
      * Common primary mime types.
      */
     public static final String APPLICATION = "application";
@@ -34,14 +77,14 @@ public final class MimeTypes {
      * {@link MimeTypeParseException}.
      *
      * @param rawdata the MIME type string.
-     * @return the new {@code MimeType} object if it can be created.
-     * @throws IllegalStateException if the {@code MimeType} object creatione fails.
+     * @return the new {@code ComparableMimeType} object if it can be created.
+     * @throws IllegalStateException if the {@code MimeType} object creation fails.
      */
     public static MimeType quietMimeType(String rawdata) {
 
         try {
 
-            return new MimeType(rawdata);
+            return new ComparableMimeType(rawdata);
 
         } catch (MimeTypeParseException e) {
 
@@ -55,14 +98,14 @@ public final class MimeTypes {
      *
      * @param primary the primary MIME type.
      * @param sub     the MIME sub-type.
-     * @return the new {@code MimeType} object if it can be created.
-     * @throws IllegalStateException if the {@code MimeType} object creatione fails.
+     * @return the new {@code ComparableMimeType} object if it can be created.
+     * @throws IllegalStateException if the {@code MimeType} object creation fails.
      */
     public static MimeType quietMimeType(String primary, String sub) {
 
         try {
 
-            return new MimeType(primary, sub);
+            return new ComparableMimeType(primary, sub);
 
         } catch (MimeTypeParseException e) {
 
