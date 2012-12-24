@@ -6,7 +6,7 @@ import static org.apache.commons.io.IOUtils.toInputStream;
 /**
  * @author Karl Bennett
  */
-public class JsonBodyDeserialiserTest extends AbstractBodyDeserialiserTester<TestDeserialisedObject> {
+public class JsonDeserialiserTest extends AbstractDeserialiserTester<TestDeserialisedObject> {
 
     private static final String SERIALISED_VALUE = "{" +
                 "\"id\":" + ID + "," +
@@ -19,7 +19,7 @@ public class JsonBodyDeserialiserTest extends AbstractBodyDeserialiserTester<Tes
             "}";
 
 
-    public JsonBodyDeserialiserTest() {
+    public JsonDeserialiserTest() {
         super(new JsonDeserialiser(), toInputStream(SERIALISED_VALUE), TEST_DESERIALISED_OBJECT);
     }
 }

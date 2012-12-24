@@ -6,7 +6,7 @@ import static org.apache.commons.io.IOUtils.toInputStream;
 /**
  * @author Karl Bennett
  */
-public class XmlBodyDeserialiserTest extends AbstractBodyDeserialiserTester<TestDeserialisedObject> {
+public class XmlDeserialiserTest extends AbstractDeserialiserTester<TestDeserialisedObject> {
 
     private static final String SERIALISED_VALUE = "<test>" +
                 "<id>" + ID + "</id>" +
@@ -18,7 +18,7 @@ public class XmlBodyDeserialiserTest extends AbstractBodyDeserialiserTester<Test
                 "</friends>" +
             "</test>";
 
-    public XmlBodyDeserialiserTest() {
+    public XmlDeserialiserTest() {
         super(new XmlDeserialiser(), toInputStream(SERIALISED_VALUE), TEST_DESERIALISED_OBJECT);
     }
 }

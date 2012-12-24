@@ -6,7 +6,7 @@ import org.junit.Test;
 import java.io.IOException;
 import java.io.InputStream;
 
-import static http.serialisation.MultipartFormDataBodyDeserialiserTest.FormDataTestObject;
+import static http.serialisation.MultipartFormDataDeserialiserTest.FormDataTestObject;
 import static http.serialisation.TestDeserialisedObject.NAME;
 import static org.apache.commons.io.IOUtils.toInputStream;
 import static org.junit.Assert.assertArrayEquals;
@@ -15,7 +15,7 @@ import static org.junit.Assert.assertEquals;
 /**
  * @author Karl Bennett
  */
-public class MultipartFormDataBodyDeserialiserTest extends AbstractBodyDeserialiserTester<FormDataTestObject> {
+public class MultipartFormDataDeserialiserTest extends AbstractDeserialiserTester<FormDataTestObject> {
 
     /**
      * This class represents a serialised {@code multipart/form-data} message. I contains two {@link String} attributes
@@ -128,7 +128,7 @@ public class MultipartFormDataBodyDeserialiserTest extends AbstractBodyDeseriali
     private static final MultipartFormDataDeserialiser FORM_DATA_BODY_DESERIALISER = new MultipartFormDataDeserialiser();
 
 
-    public MultipartFormDataBodyDeserialiserTest() {
+    public MultipartFormDataDeserialiserTest() {
         super(FORM_DATA_BODY_DESERIALISER, toInputStream(SERIALISED_VALUE), DESERIALISED_OBJECT);
     }
 
