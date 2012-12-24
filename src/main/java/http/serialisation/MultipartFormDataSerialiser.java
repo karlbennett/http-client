@@ -1,8 +1,8 @@
 package http.serialisation;
 
-import http.header.MultipartFormDataContentType;
-
 import java.io.InputStream;
+
+import static http.util.MimeTypes.*;
 
 /**
  * A serialiser for multipart form data. It can be used to serialise an object or {@link java.util.Map} into a multipart
@@ -11,10 +11,10 @@ import java.io.InputStream;
  *
  * @author Karl Bennett
  */
-public class MultipartFormDataBodySerialiser extends InputStreamBodySerialiser<MultipartFormDataContentType> {
+public class MultipartFormDataSerialiser extends InputStreamSerialiser {
 
-    protected MultipartFormDataBodySerialiser() {
-        super(MultipartFormDataContentType.class);
+    protected MultipartFormDataSerialiser() {
+        super(quietMimeType(MULTIPART, FORM_DATA));
     }
 
     /**

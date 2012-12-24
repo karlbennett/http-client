@@ -1,18 +1,18 @@
 package http.serialisation;
 
-import http.header.XmlContentType;
-
 import java.io.InputStream;
+
+import static http.util.MimeTypes.*;
 
 /**
  * A serialiser for {@code XML}. It can be used to serialise an object or {@link java.util.Map} into {@code XML}.
  *
  * @author Karl Bennett
  */
-public class XmlBodySerialiser extends InputStreamBodySerialiser<XmlContentType> {
+public class XmlSerialiser extends InputStreamSerialiser {
 
-    protected XmlBodySerialiser() {
-        super(XmlContentType.class);
+    protected XmlSerialiser() {
+        super(quietMimeType(APPLICATION, XML));
     }
 
     /**

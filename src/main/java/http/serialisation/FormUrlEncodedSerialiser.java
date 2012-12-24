@@ -1,8 +1,8 @@
 package http.serialisation;
 
-import http.header.FormUrlEncodedContentType;
-
 import java.io.InputStream;
+
+import static http.util.MimeTypes.*;
 
 /**
  * A serialiser for {@code URL} encoded form data. It can be used to serialise an object or map into a URL encoded form
@@ -11,10 +11,10 @@ import java.io.InputStream;
  *
  * @author Karl Bennett
  */
-public class FormUrlEncodedBodySerialiser extends InputStreamBodySerialiser<FormUrlEncodedContentType> {
+public class FormUrlEncodedSerialiser extends InputStreamSerialiser {
 
-    protected FormUrlEncodedBodySerialiser() {
-        super(FormUrlEncodedContentType.class);
+    protected FormUrlEncodedSerialiser() {
+        super(quietMimeType(APPLICATION, X_WWW_FORM_URL_ENCODED));
     }
 
     /**

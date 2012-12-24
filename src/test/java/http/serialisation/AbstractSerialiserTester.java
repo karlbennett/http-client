@@ -1,6 +1,5 @@
 package http.serialisation;
 
-import http.header.ContentType;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 
@@ -14,25 +13,25 @@ import static org.junit.Assert.assertEquals;
  *
  * @author Karl Bennett
  */
-public abstract class AbstractBodySerialiserTester<C extends ContentType, T> {
+public abstract class AbstractSerialiserTester<T> {
 
 
-    private BodySerialiser<InputStream, C> bodySerialiser;
+    private Serialiser<InputStream> serialiser;
     private InputStream serialisedValue;
     private T object;
 
 
     /**
-     * Create a new {@code AbstractBodySerialiserTester} with a serialiser and a deserialised and serialised value.
+     * Create a new {@code AbstractSerialiserTester} with a serialiser and a deserialised and serialised value.
      *
-     * @param bodySerialiser  the serialiser that will be tested.
+     * @param serialiser  the serialiser that will be tested.
      * @param object          the object that will be serialized.
      * @param serialisedValue the serialised value that should be produced.
      */
-    protected AbstractBodySerialiserTester(BodySerialiser<InputStream, C> bodySerialiser,
-                                           T object, InputStream serialisedValue) {
+    protected AbstractSerialiserTester(Serialiser<InputStream> serialiser,
+                                       T object, InputStream serialisedValue) {
 
-        this.bodySerialiser = bodySerialiser;
+        this.serialiser = serialiser;
         this.serialisedValue = serialisedValue;
         this.object = object;
     }
@@ -42,13 +41,13 @@ public abstract class AbstractBodySerialiserTester<C extends ContentType, T> {
     public void testSerialiseValue() throws Exception {
 
         assertEquals("the object should be correctly serialised.", IOUtils.toString(serialisedValue),
-                IOUtils.toString(bodySerialiser.serialise(object)));
+                IOUtils.toString(serialiser.serialise(object)));
     }
 
     @Test
     public void testSerialiseNullValue() throws Exception {
 
         assertEquals("a null value should be serialised to an empty string.", "",
-                IOUtils.toString(bodySerialiser.serialise(null)));
+                IOUtils.toString(serialiser.serialise(null)));
     }
 }

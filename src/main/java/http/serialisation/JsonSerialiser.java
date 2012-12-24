@@ -1,18 +1,18 @@
 package http.serialisation;
 
-import http.header.JsonContentType;
-
 import java.io.InputStream;
+
+import static http.util.MimeTypes.*;
 
 /**
  * A serialiser for {@code JSON}. It can be used to serialise an object or {@link java.util.Map} into JSON.
  *
  * @author Karl Bennett
  */
-public class JsonBodySerialiser extends InputStreamBodySerialiser<JsonContentType> {
+public class JsonSerialiser extends InputStreamSerialiser {
 
-    protected JsonBodySerialiser() {
-        super(JsonContentType.class);
+    protected JsonSerialiser() {
+        super(quietMimeType(APPLICATION, JSON));
     }
 
     /**
