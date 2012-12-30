@@ -1,18 +1,17 @@
 package http.serialisation;
 
-import static http.serialisation.TestDeserialisedObject.*;
 import static org.apache.commons.io.IOUtils.toInputStream;
+import static http.serialisation.Serialisations.TestDeserialisedObject;
+import static http.serialisation.Serialisations.FORM_URL_ENCODED_SERIALISED_VALUE;
+import static http.serialisation.Serialisations.TEST_DESERIALISED_OBJECT;
 
 /**
  * @author Karl Bennett
  */
 public class FormUrlEncodedDeserialiserTest extends AbstractDeserialiserTester<TestDeserialisedObject> {
 
-    private static final String SERIALISED_VALUE = "id=" + ID + "&name=" + NAME + "&friend=" + FRIEND_ONE + "&friend="
-            + FRIEND_TWO + "&friend=" + FRIEND_THREE;
-
-
     public FormUrlEncodedDeserialiserTest() {
-        super(new FormUrlEncodedDeserialiser(), toInputStream(SERIALISED_VALUE), TEST_DESERIALISED_OBJECT);
+        super(new FormUrlEncodedDeserialiser(), toInputStream(FORM_URL_ENCODED_SERIALISED_VALUE),
+                TEST_DESERIALISED_OBJECT);
     }
 }
