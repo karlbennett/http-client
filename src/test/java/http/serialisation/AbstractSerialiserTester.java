@@ -25,11 +25,11 @@ public abstract class AbstractSerialiserTester<T> {
      * Create a new {@code AbstractSerialiserTester} with a serialiser and a deserialised and serialised value.
      *
      * @param serialiser      the serialiser that will be tested.
+     * @param serialisedValue the expected serialised value.
      * @param object          the object that will be serialized.
-     * @param serialisedValue the serialised value that should be produced.
      */
     protected AbstractSerialiserTester(Serialiser<InputStream> serialiser,
-                                       T object, InputStream serialisedValue) {
+                                       InputStream serialisedValue, T object) {
 
         this.serialiser = serialiser;
         this.serialisedValue = serialisedValue;

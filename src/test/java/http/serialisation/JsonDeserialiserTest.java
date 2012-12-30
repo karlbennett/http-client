@@ -11,6 +11,6 @@ import static http.serialisation.Serialisations.TEST_DESERIALISED_OBJECT;
 public class JsonDeserialiserTest extends AbstractDeserialiserTester<TestDeserialisedObject> {
 
     public JsonDeserialiserTest() {
-        super(new JsonDeserialiser(), toInputStream(JSON_SERIALISED_VALUE), TEST_DESERIALISED_OBJECT);
+        super(new JsonDeserialiser(), TEST_DESERIALISED_OBJECT, toInputStream(JSON_SERIALISED_VALUE));
     }
 }

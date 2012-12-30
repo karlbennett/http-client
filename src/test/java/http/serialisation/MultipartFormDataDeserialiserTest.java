@@ -21,8 +21,8 @@ public class MultipartFormDataDeserialiserTest extends AbstractDeserialiserTeste
 
 
     public MultipartFormDataDeserialiserTest() {
-        super(FORM_DATA_BODY_DESERIALISER, toInputStream(MULTIPART_FORM_DATA_SERIALISED_VALUE),
-                MULTIPART_FORM_DATA_DESERIALISED_OBJECT);
+        super(FORM_DATA_BODY_DESERIALISER, MULTIPART_FORM_DATA_DESERIALISED_OBJECT, toInputStream(MULTIPART_FORM_DATA_SERIALISED_VALUE)
+        );
     }
 
 

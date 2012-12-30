@@ -25,12 +25,11 @@ public abstract class AbstractDeserialiserTester<T> {
      * Create a new {@code AbstractDeserialiserTester} with a deserialiser and serialised and deserialsed value.
      *
      * @param deserialiser       the deserialiser that will be tested.
-     * @param serialisedValue    the serialised value that will be deserialised.
      * @param deserialisedObject the expected deserialised value.
+     * @param serialisedValue    the serialised value that will be deserialised.
      */
     protected AbstractDeserialiserTester(Deserialiser<InputStream> deserialiser,
-                                         InputStream serialisedValue,
-                                         T deserialisedObject) {
+                                         T deserialisedObject, InputStream serialisedValue) {
 
         this.deserialiser = deserialiser;
         this.serialisedValue = serialisedValue;

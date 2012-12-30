@@ -11,7 +11,7 @@ import static http.serialisation.Serialisations.TEST_DESERIALISED_OBJECT;
 public class FormUrlEncodedDeserialiserTest extends AbstractDeserialiserTester<TestDeserialisedObject> {
 
     public FormUrlEncodedDeserialiserTest() {
-        super(new FormUrlEncodedDeserialiser(), toInputStream(FORM_URL_ENCODED_SERIALISED_VALUE),
-                TEST_DESERIALISED_OBJECT);
+        super(new FormUrlEncodedDeserialiser(), TEST_DESERIALISED_OBJECT, toInputStream(FORM_URL_ENCODED_SERIALISED_VALUE)
+        );
     }
 }
