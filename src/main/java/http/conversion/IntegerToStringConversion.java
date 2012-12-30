@@ -22,6 +22,9 @@ public class IntegerToStringConversion extends Conversion<Integer, String> {
      */
     @Override
     public String convert(Integer input) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+
+        if (null == input) return "";
+
+        return input.toString();
     }
 }
