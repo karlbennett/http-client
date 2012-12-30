@@ -9,7 +9,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 /**
- * This is an abstract class that is implemented to test the generic deserialistion behaviour of the different body
+ * This is an abstract class that is implemented to test the generic deserialistion behaviour of the different
  * deserialisers.
  *
  * @author Karl Bennett
