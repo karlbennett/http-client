@@ -18,10 +18,14 @@ public class LongToStringConversion extends Conversion<Long, String> {
      * Convert a {@code Long} into a {@code String}.
      *
      * @param input the {@code Long} that will be converted.
-     * @return the {@code String} representation of the {@code Long}.
+     * @return the {@code String} representation of the {@code Long} or an empty {@code String} if the input is
+     *         {@code null}.
      */
     @Override
     public String convert(Long input) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+
+        if (null == input) return "";
+
+        return input.toString();
     }
 }
