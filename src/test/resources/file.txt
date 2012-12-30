@@ -1,0 +1,3 @@
+This is the contents of the test file.
+We should have a few lines in this really.
+Otherwise it would be far too easy.
