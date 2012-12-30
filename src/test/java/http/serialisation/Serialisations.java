@@ -2,12 +2,15 @@ package http.serialisation;
 
 import org.apache.commons.io.IOUtils;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Collection;
 
 import static org.apache.commons.io.IOUtils.toInputStream;
+import static org.apache.commons.io.FileUtils.toFile;
+import static org.apache.commons.io.FileUtils.readFileToString;
 
 /**
  * This is a utility class that holds the common types and constants for the serialisation tests.
@@ -192,31 +195,71 @@ public final class Serialisations {
     /**
      * Multiple constant values used to build different serialised {@code multipart/form-data} combinations.
      */
-    public static final String BOUNDERY = "CA90AE";
+    public static final String BOUNDARY = "CA90AE";
 
-    public static final String MULTIPART_HEADER = "Content-Type: multipart/form-data; boundary=" + BOUNDERY + "\n\n";
-    public static final String MULTIPART_FOOTER = "--" + BOUNDERY + "--";
+    public static final String MULTIPART_HEADER_PREFIX = "Content-Type: multipart/form-data; boundary=";
+    public static final String MULTIPARTY_HEADER_SUFFIX = "\n\n";
+    public static final String MULTIPART_FOOTER_PREFIX = "--";
+    public static final String MULTIPART_FOOTER_SUFFIX = "--";
 
-    public static final String FILE_NAME = "Test User";
-    public static final String FILE_CONTENT = "This is the contents of the test file.\n" +
-            "We should have a few lines in this really.\n" +
-            "Otherwise it would be far too easy.";
+    public static final File FILE = toFile(Thread.currentThread().getContextClassLoader().getResource("file.txt"));
+    public static final String FILE_NAME = FILE.getName();
+    public static final String FILE_CONTENT;
 
-    public static final String NAME_PART = "--" + BOUNDERY + "\n" +
-            "Content-Disposition: form-data; name=\"name\"\n" +
+    static {
+
+        String fileContent;
+
+        try {
+
+            fileContent = readFileToString(FILE);
+
+        } catch (IOException e) {
+
+            throw new RuntimeException(e);
+        }
+
+        FILE_CONTENT = fileContent;
+    }
+
+    public static final String NAME_PART = "Content-Disposition: form-data; name=\"name\"\n" +
             "Content-Type: text/plain\n" +
             "\n" +
             NAME + "\n";
 
-    public static final String FILE_PART = "--" + BOUNDERY + "\n" +
-            "Content-Disposition: form-data; name=\"file\"; filename=\"" + FILE_NAME + "\"\n" +
+    public static final String FILE_PART = "Content-Disposition: form-data; name=\"file\"; filename=\"" + FILE_NAME + "\"\n" +
             "Content-Type: text/plain\n" +
             "\n" +
             FILE_CONTENT + "\n";
 
-    public static final String MULTIPART_FORM_DATA_SERIALISED_VALUE = MULTIPART_HEADER + NAME_PART + FILE_PART +
-            MULTIPART_FOOTER;
-    public static final String MULTIPART_FORM_DATA_SERIALISED_FILE = MULTIPART_HEADER + FILE_PART + MULTIPART_FOOTER;
+    /**
+     * Build a {@code multipart/form-data} serialised {@link Serialisations#MULTIPART_FORM_DATA_DESERIALISED_OBJECT}
+     * that uses the supplied boundary.
+     *
+     * @param boundary the boundary that will be used to delimit the different values within the object.
+     * @return the {@code multipart/form-data} serialised version of the the
+     *         {@link Serialisations#MULTIPART_FORM_DATA_DESERIALISED_OBJECT}.
+     */
+    public static String buildMultiPartFormDataSerialisedObject(String boundary) {
+
+        return MULTIPART_HEADER_PREFIX + boundary + MULTIPARTY_HEADER_SUFFIX +
+                boundary + NAME_PART +
+                boundary + FILE_PART +
+                MULTIPART_FOOTER_PREFIX + boundary + MULTIPART_FOOTER_SUFFIX;
+    }
+
+    /**
+     * Build a {@code multipart/form-data} serialised {@link Serialisations#FILE} that uses the supplied boundary.
+     *
+     * @param boundary the boundary that will be used to delimit the different values within the object.
+     * @return the {@code multipart/form-data} serialised version of the the {@link Serialisations#FILE}.
+     */
+    public static String buildMultiPartFormDataSerialisedFile(String boundary) {
+
+        return MULTIPART_HEADER_PREFIX + boundary + MULTIPARTY_HEADER_SUFFIX +
+                boundary + FILE_PART +
+                MULTIPART_FOOTER_PREFIX + boundary + MULTIPART_FOOTER_SUFFIX;
+    }
 
     public static final FormDataTestObject MULTIPART_FORM_DATA_DESERIALISED_OBJECT = new FormDataTestObject(NAME,
             FILE_NAME, toInputStream(FILE_CONTENT));
@@ -225,12 +268,12 @@ public final class Serialisations {
      * A {@link TestDeserialisedObject} serialised as {@code application/xml}.
      */
     public static final String XML_SERIALISED_VALUE = "<test>" +
-                "<id>" + ID + "</id>" +
-                "<name>" + NAME + "</name>" +
-                "<friends>" +
-                    "<friend>" + FRIEND_ONE + "</friend>" +
-                    "<friend>" + FRIEND_TWO + "</friend>" +
-                    "<friend>" + FRIEND_THREE + "</friend>" +
-                "</friends>" +
+            "<id>" + ID + "</id>" +
+            "<name>" + NAME + "</name>" +
+            "<friends>" +
+            "<friend>" + FRIEND_ONE + "</friend>" +
+            "<friend>" + FRIEND_TWO + "</friend>" +
+            "<friend>" + FRIEND_THREE + "</friend>" +
+            "</friends>" +
             "</test>";
 }
