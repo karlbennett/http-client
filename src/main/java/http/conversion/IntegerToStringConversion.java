@@ -18,7 +18,8 @@ public class IntegerToStringConversion extends Conversion<Integer, String> {
      * Convert a {@code Integer} into a {@code String}.
      *
      * @param input the {@code Integer} that will be converted.
-     * @return the {@code String} representation of the {@code Integer}.
+     * @return the {@code String} representation of the {@code Integer} or an empty {@code String} if the input is
+     *         {@code null}.
      */
     @Override
     public String convert(Integer input) {
