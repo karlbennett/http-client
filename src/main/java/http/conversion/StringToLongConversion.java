@@ -1,11 +1,16 @@
 package http.conversion;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * Conversion that can be used to convert a {@link String} into a {@link Long}.
  *
  * @author Karl Bennett
  */
 public class StringToLongConversion extends Conversion<String, Long> {
+
+    private static final Pattern LONG_PATTERN = Pattern.compile("(\\d+)(?:L|l)");
 
     /**
      * Create a new {@code StringToLongConversion}.
@@ -23,6 +28,11 @@ public class StringToLongConversion extends Conversion<String, Long> {
      */
     @Override
     public Long convert(String input) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+
+        Matcher matcher = LONG_PATTERN.matcher(input);
+
+        if (matcher.matches()) return new Long(matcher.group(1));
+
+        return new Long(input);
     }
 }
