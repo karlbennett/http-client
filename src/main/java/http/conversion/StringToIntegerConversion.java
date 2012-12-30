@@ -23,6 +23,7 @@ public class StringToIntegerConversion extends Conversion<String, Integer> {
      */
     @Override
     public Integer convert(String input) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+
+        return new Integer(input);
     }
 }
