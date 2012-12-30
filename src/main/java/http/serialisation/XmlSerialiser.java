@@ -16,7 +16,11 @@ public class XmlSerialiser extends InputStreamSerialiser {
     }
 
     /**
-     * @inheritDoc
+     * Serialise the supplied object into an {@link InputStream} contain {@code application/xml} data.
+     *
+     * @param object the object to be serialised.
+     * @param <T>    the generic type of the object to be serialised.
+     * @return an {@code InputStream} containing the serialised object.
      */
     @Override
     public <T> InputStream serialise(T object) {
