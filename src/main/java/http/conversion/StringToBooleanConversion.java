@@ -23,6 +23,7 @@ public class StringToBooleanConversion extends Conversion<String, Boolean> {
      */
     @Override
     public Boolean convert(String input) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+
+        return "1".equals(input) || Boolean.valueOf(input);
     }
 }
