@@ -27,6 +27,10 @@ public abstract class AbstractConversionToStringTest<I> extends AbstractConversi
      */
     protected AbstractConversionToStringTest(Conversion<I, String> conversion, String output, I input) {
         super(conversion, output, input);
+
+        this.conversion = conversion;
+        this.output = output;
+        this.input = input;
     }
 
     @Test
