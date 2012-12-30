@@ -22,6 +22,9 @@ public class BooleanToStringConversion extends Conversion<Boolean, String> {
      */
     @Override
     public String convert(Boolean input) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+
+        if (null == input) return "";
+
+        return input.toString();
     }
 }
