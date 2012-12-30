@@ -11,8 +11,6 @@ import org.junit.Test;
 public abstract class AbstractConversionToNumberTest<I, O extends Number> extends AbstractConversionTest<I, O> {
 
     private Conversion<I, O> conversion;
-    private I input;
-    private O output;
 
 
     /**
@@ -25,6 +23,8 @@ public abstract class AbstractConversionToNumberTest<I, O extends Number> extend
      */
     protected AbstractConversionToNumberTest(Conversion<I, O> conversion, O output, I input) {
         super(conversion, output, input);
+
+        this.conversion = conversion;
     }
 
 
