@@ -24,7 +24,7 @@ public abstract class AbstractDeserialiserTester<T> {
     /**
      * Create a new {@code AbstractDeserialiserTester} with a deserialiser and serialised and deserialsed value.
      *
-     * @param deserialiser   the deserialiser that will be tested.
+     * @param deserialiser       the deserialiser that will be tested.
      * @param serialisedValue    the serialised value that will be deserialised.
      * @param deserialisedObject the expected deserialised value.
      */
