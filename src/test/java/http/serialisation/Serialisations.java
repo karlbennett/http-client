@@ -204,6 +204,7 @@ public final class Serialisations {
 
     public static final String NAME_PART = "--" + BOUNDERY + "\n" +
             "Content-Disposition: form-data; name=\"name\"\n" +
+            "Content-Type: text/plain\n" +
             "\n" +
             NAME + "\n";
 
