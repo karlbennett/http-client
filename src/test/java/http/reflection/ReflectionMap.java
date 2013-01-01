@@ -2,8 +2,11 @@ package http.reflection;
 
 import java.lang.reflect.Member;
 import java.util.AbstractMap;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+
+import static http.util.Assert.assertNotNull;
 
 /**
  * A map that will contain all the requested reflective members from a supplied {@link Class} mapped to their respective
@@ -89,6 +92,66 @@ import java.util.Set;
  * @author Karl Bennett
  */
 public abstract class ReflectionMap<K, M extends Member> extends AbstractMap<K, M> {
+
+    /**
+     * This class can be used as the type for {@link java.lang.reflect.Method}s and {@link java.lang.reflect.Constructor}s
+     * in the {@link ReflectionMap}.
+     */
+    public static class Key {
+
+        private final String name;
+        private final Class[] parameterTypes;
+
+
+        /**
+         * Create a new {@code Key} with the supplied name and parameters.
+         *
+         * @param name the name of the {@code ReflectionMap} value.
+         * @param parameterTypes the {@code parameterTypes} for the {@code ReflectionMap} value.
+         */
+        public Key(String name, Class... parameterTypes) {
+
+            assertNotNull("name", name);
+            assertNotNull("parameterTypes", parameterTypes);
+
+            this.name = name;
+            this.parameterTypes = parameterTypes;
+        }
+
+
+        public String getName() {
+
+            return name;
+        }
+
+        public Class[] getParameterTypes() {
+            // Try and keep the internal array immutable.
+            return Arrays.copyOf(parameterTypes, parameterTypes.length);
+        }
+
+        @Override
+        public boolean equals(Object o) {
+
+            if (this == o) return true;
+
+            if (o == null || getClass() != o.getClass()) return false;
+
+            Key that = (Key) o;
+
+            return name.equals(that.name) && Arrays.equals(parameterTypes, that.parameterTypes);
+
+        }
+
+        @Override
+        public int hashCode() {
+
+            int result = name.hashCode();
+
+            result = 31 * result + Arrays.hashCode(parameterTypes);
+
+            return result;
+        }
+    }
 
     /**
      * Check if the supplied type has any super classes. This will fail if the types super class is either
