@@ -119,8 +119,8 @@ public abstract class ReflectionMap<K, M extends Member> extends AbstractMap<K, 
     }
 
 
-    private PropertiesInvoker<M> invoker;
-    private Set<Entry<K, M>> entries;
+    private final PropertiesInvoker<M> invoker;
+    private final Set<Entry<K, M>> entries;
 
 
     /**
