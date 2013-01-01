@@ -159,51 +159,11 @@ public class ReflectionMap<R extends Member> extends AbstractMap<String, R> {
 
         for (final R reflectiveObject : invoker.invoke(type)) {
 
-            entries.add(new Entry<String, R>() {
-
-                private String key = Modifier.isStatic(reflectiveObject.getModifiers()) ?
-                        reflectiveObject.getDeclaringClass().getName() + "." + reflectiveObject.getName() :
-                        reflectiveObject.getName();
-                private R value = reflectiveObject;
-
-                @Override
-                public String getKey() {
-
-                    return key;
-                }
-
-                @Override
-                public R getValue() {
-
-                    return value;
-                }
-
-                @Override
-                public R setValue(R r) {
-
-                    return value = r;
-                }
-
-                @Override
-                public boolean equals(Object o) {
-
-                    if (this == o) return true;
-
-                    if (o == null || getClass() != o.getClass()) return false;
-
-                    Entry myEntry = (Entry) o;
-
-                    if (!key.equals(myEntry.getKey())) return false;
-
-                    return true;
-                }
-
-                @Override
-                public int hashCode() {
-
-                    return key.hashCode();
-                }
-            });
+            entries.add(new SimpleEntry<String, R>(
+                    Modifier.isStatic(reflectiveObject.getModifiers()) ?
+                            reflectiveObject.getDeclaringClass().getName() + "." + reflectiveObject.getName() :
+                            reflectiveObject.getName(),
+                    reflectiveObject));
         }
 
         return entries;
