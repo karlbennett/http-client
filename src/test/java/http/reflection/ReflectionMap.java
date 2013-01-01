@@ -88,7 +88,7 @@ import java.util.Set;
  *
  * @author Karl Bennett
  */
-public class ReflectionMap<R extends Member> extends AbstractMap<String, R> {
+public class ReflectionMap<M extends Member> extends AbstractMap<String, M> {
 
     /**
      * Check if the supplied type has any super classes. This will fail if the types super class is either
@@ -119,8 +119,8 @@ public class ReflectionMap<R extends Member> extends AbstractMap<String, R> {
     }
 
 
-    private PropertiesInvoker<R> invoker;
-    private Set<Entry<String, R>> entries;
+    private PropertiesInvoker<M> invoker;
+    private Set<Entry<String, M>> entries;
 
 
     /**
@@ -130,7 +130,7 @@ public class ReflectionMap<R extends Member> extends AbstractMap<String, R> {
      *                {@link Class#getDeclaredFields()}, {@link Class#getMethods()}...
      * @param type    the class type that will have it's reflective members extracted.
      */
-    public ReflectionMap(PropertiesInvoker<R> invoker, Class type) {
+    public ReflectionMap(PropertiesInvoker<M> invoker, Class type) {
 
         this.invoker = invoker;
 
@@ -138,7 +138,7 @@ public class ReflectionMap<R extends Member> extends AbstractMap<String, R> {
     }
 
     @Override
-    public Set<Entry<String, R>> entrySet() {
+    public Set<Entry<String, M>> entrySet() {
 
         return entries;
     }
@@ -151,13 +151,13 @@ public class ReflectionMap<R extends Member> extends AbstractMap<String, R> {
      * @param type the class type that will have it's reflective members extracted.
      * @return a {@code Set} contain reflective member {@code Entry}s.
      */
-    private Set<Entry<String, R>> extractReflectiveObjects(Class type) {
+    private Set<Entry<String, M>> extractReflectiveObjects(Class type) {
 
-        Set<Entry<String, R>> entries = new HashSet<Entry<String, R>>();
+        Set<Entry<String, M>> entries = new HashSet<Entry<String, M>>();
 
-        for (final R reflectiveObject : invoker.invoke(type)) {
+        for (final M reflectiveObject : invoker.invoke(type)) {
 
-            entries.add(new SimpleEntry<String, R>(
+            entries.add(new SimpleEntry<String, M>(
                     Modifier.isStatic(reflectiveObject.getModifiers()) ?
                             reflectiveObject.getDeclaringClass().getName() + "." + reflectiveObject.getName() :
                             reflectiveObject.getName(),
@@ -174,9 +174,9 @@ public class ReflectionMap<R extends Member> extends AbstractMap<String, R> {
      * @param type
      * @return
      */
-    private Set<Entry<String, R>> extractClassReflectiveObjects(Class type) {
+    private Set<Entry<String, M>> extractClassReflectiveObjects(Class type) {
 
-        Set<Entry<String, R>> entries = new HashSet<Entry<String, R>>();
+        Set<Entry<String, M>> entries = new HashSet<Entry<String, M>>();
 
         for (Class interfaceType : type.getInterfaces()) {
 
