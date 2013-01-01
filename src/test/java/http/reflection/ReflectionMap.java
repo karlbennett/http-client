@@ -120,7 +120,6 @@ public class ReflectionMap<R extends Member> extends AbstractMap<String, R> {
 
 
     private PropertiesInvoker<R> invoker;
-    private Class type;
     private Set<Entry<String, R>> entries;
 
 
@@ -134,7 +133,6 @@ public class ReflectionMap<R extends Member> extends AbstractMap<String, R> {
     public ReflectionMap(PropertiesInvoker<R> invoker, Class type) {
 
         this.invoker = invoker;
-        this.type = type;
 
         entries = extractClassReflectiveObjects(type);
     }
