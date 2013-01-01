@@ -1,7 +1,6 @@
 package http.reflection;
 
 import java.lang.reflect.Member;
-import java.lang.reflect.Modifier;
 import java.util.AbstractMap;
 import java.util.HashSet;
 import java.util.Set;
@@ -15,11 +14,6 @@ import java.util.Set;
  * {@link PropertiesInvoker}.
  * <p/>
  * When there is an instance member name clash the member at the lowest inheritance level will take precedence.
- * <p/>
- * The key type for the {@code ReflectionMap} is assumed to be {@link String} and still needs to be generically set to
- * it. This has been done to allow the modification of the key type by subclasses by overriding the
- * {@link ReflectionMap#buildEntry(Member)} method. The default {@code String} behaviour is fine for mapping
- * {@link java.lang.reflect.Field}s and and {@link java.lang.reflect.Constructor}s.
  * <p/>
  * Example:
  * <code>
@@ -64,10 +58,23 @@ import java.util.Set;
  *      }
  * <p/>
  *      Map<String, Field> fieldMap = new ReflectionMap<String, Field>(new ReflectionMap.PropertiesInvoker<Field>() {
- *           @Override public Field[] invoke(Class type) {
+ *
+ *           @Override
+ *           public Field[] invoke(Class type) {
  *                return type.getDeclaredFields();
  *           }
- *      }, TestTwo.class);
+ *
+ *      }, TestTwo.class) {
+ *
+ *          @Override
+ *           protected Entry<String, Field> buildEntry(Field member) {
+ *                return new SimpleEntry<String, Field>(
+ *                     Modifier.isStatic(member.getModifiers()) ?
+ *                          member.getDeclaringClass().getName() + "." + member.getName() :
+ *                          member.getName(),
+ *                     member);
+ *           }
+ *      };
  * <p/>
  *      // fieldMap {
  *      //     "test.TestInterface.TEST" => Field(test.TestInterface.TEST),
@@ -78,22 +85,10 @@ import java.util.Set;
  *      //     "test.TestTwo.TWO" => Field(test.TestTwo.TWO),
  *      //     "test" => Field(test.TestTwo.test)
  *      // }
- * <p/>
- *      Map<String, Method> methodMap = new ReflectionMap<Method>(new ReflectionMap.PropertiesInvoker<Method>() {
- *           @Override
- *           public Method[] invoke(Class type) {
- *                return type.getDeclaredMethods();
- *           }
- *      }, TestTwo.class);
- * <p/>
- *      // methodMap {
- *      //     "getTest" => Field(test.TestTwo.getTest())
- *      // }
- * </code>
  *
  * @author Karl Bennett
  */
-public class ReflectionMap<K, M extends Member> extends AbstractMap<K, M> {
+public abstract class ReflectionMap<K, M extends Member> extends AbstractMap<K, M> {
 
     /**
      * Check if the supplied type has any super classes. This will fail if the types super class is either
@@ -150,19 +145,12 @@ public class ReflectionMap<K, M extends Member> extends AbstractMap<K, M> {
 
     /**
      * The map entity for each reflective member is built with this method, it can be overridden to customise the key
-     * type the map, by default it is assumed to be a string.
+     * type the map.
      *
      * @param member the reflective member that will be added to the map as an entity.
      * @return the new map entity.
      */
-    protected Entry<K, M> buildEntry(M member) {
-
-        return (Entry<K, M>) new SimpleEntry<String, M>(
-                Modifier.isStatic(member.getModifiers()) ?
-                        member.getDeclaringClass().getName() + "." + member.getName() :
-                        member.getName(),
-                member);
-    }
+    protected abstract Entry<K, M> buildEntry(M member);
 
     /**
      * Extract all the reflective members from the supplied class using the invoker and then add them to a {@link Set}
