@@ -16,6 +16,11 @@ import java.util.Set;
  * <p/>
  * When there is an instance member name clash the member at the lowest inheritance level will take precedence.
  * <p/>
+ * The key type for the {@code ReflectionMap} is assumed to be {@link String} and still needs to be generically set to
+ * it. This has been done to allow the modification of the key type by subclasses by overriding the
+ * {@link ReflectionMap#buildEntry(Member)} method. The default {@code String} behaviour is fine for mapping
+ * {@link java.lang.reflect.Field}s and and {@link java.lang.reflect.Constructor}s.
+ * <p/>
  * Example:
  * <code>
  *      interface TestInterface {
@@ -58,7 +63,7 @@ import java.util.Set;
  *           }
  *      }
  * <p/>
- *      Map<String, Field> fieldMap = new ReflectionMap<Field>(new ReflectionMap.PropertiesInvoker<Field>() {
+ *      Map<String, Field> fieldMap = new ReflectionMap<String, Field>(new ReflectionMap.PropertiesInvoker<Field>() {
  *           @Override public Field[] invoke(Class type) {
  *                return type.getDeclaredFields();
  *           }
@@ -88,7 +93,7 @@ import java.util.Set;
  *
  * @author Karl Bennett
  */
-public class ReflectionMap<M extends Member> extends AbstractMap<String, M> {
+public class ReflectionMap<K, M extends Member> extends AbstractMap<K, M> {
 
     /**
      * Check if the supplied type has any super classes. This will fail if the types super class is either
@@ -120,7 +125,7 @@ public class ReflectionMap<M extends Member> extends AbstractMap<String, M> {
 
 
     private PropertiesInvoker<M> invoker;
-    private Set<Entry<String, M>> entries;
+    private Set<Entry<K, M>> entries;
 
 
     /**
@@ -138,9 +143,25 @@ public class ReflectionMap<M extends Member> extends AbstractMap<String, M> {
     }
 
     @Override
-    public Set<Entry<String, M>> entrySet() {
+    public Set<Entry<K, M>> entrySet() {
 
         return entries;
+    }
+
+    /**
+     * The map entity for each reflective member is built with this method, it can be overridden to customise the key
+     * type the map, by default it is assumed to be a string.
+     *
+     * @param member the reflective member that will be added to the map as an entity.
+     * @return the new map entity.
+     */
+    protected Entry<K, M> buildEntry(M member) {
+
+        return (Entry<K, M>) new SimpleEntry<String, M>(
+                Modifier.isStatic(member.getModifiers()) ?
+                        member.getDeclaringClass().getName() + "." + member.getName() :
+                        member.getName(),
+                member);
     }
 
     /**
@@ -151,17 +172,13 @@ public class ReflectionMap<M extends Member> extends AbstractMap<String, M> {
      * @param type the class type that will have it's reflective members extracted.
      * @return a {@code Set} contain reflective member {@code Entry}s.
      */
-    private Set<Entry<String, M>> extractReflectiveObjects(Class type) {
+    private Set<Entry<K, M>> extractReflectiveObjects(Class type) {
 
-        Set<Entry<String, M>> entries = new HashSet<Entry<String, M>>();
+        Set<Entry<K, M>> entries = new HashSet<Entry<K, M>>();
 
-        for (final M reflectiveObject : invoker.invoke(type)) {
+        for (final M member : invoker.invoke(type)) {
 
-            entries.add(new SimpleEntry<String, M>(
-                    Modifier.isStatic(reflectiveObject.getModifiers()) ?
-                            reflectiveObject.getDeclaringClass().getName() + "." + reflectiveObject.getName() :
-                            reflectiveObject.getName(),
-                    reflectiveObject));
+            entries.add(buildEntry(member));
         }
 
         return entries;
@@ -174,9 +191,9 @@ public class ReflectionMap<M extends Member> extends AbstractMap<String, M> {
      * @param type
      * @return
      */
-    private Set<Entry<String, M>> extractClassReflectiveObjects(Class type) {
+    private Set<Entry<K, M>> extractClassReflectiveObjects(Class type) {
 
-        Set<Entry<String, M>> entries = new HashSet<Entry<String, M>>();
+        Set<Entry<K, M>> entries = new HashSet<Entry<K, M>>();
 
         for (Class interfaceType : type.getInterfaces()) {
 
