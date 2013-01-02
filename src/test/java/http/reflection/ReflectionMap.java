@@ -151,6 +151,31 @@ public abstract class ReflectionMap<K, M extends Member> extends AbstractMap<K, 
 
             return result;
         }
+
+        @Override
+        public String toString() {
+
+            String parameterTypeNames;
+
+            if (0 == parameterTypes.length) {
+
+                parameterTypeNames = "";
+
+            } else {
+
+                StringBuilder stringBuilder = new StringBuilder();
+
+                int lengthMinusOne = parameterTypes.length - 1;
+                for (int i = 0; i < lengthMinusOne; i++) {
+
+                    stringBuilder.append(parameterTypes[i].getName()).append(',');
+                }
+
+                parameterTypeNames = stringBuilder.append(parameterTypes[lengthMinusOne].getName()).toString();
+            }
+
+            return name + '(' + parameterTypeNames + ')';
+        }
     }
 
     /**
