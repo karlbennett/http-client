@@ -80,13 +80,13 @@ import static http.util.Assert.assertNotNull;
  *      };
  * <p/>
  *      // fieldMap {
- *      //     "test.TestInterface.TEST" => Field(test.TestInterface.TEST),
- *      //     "test.TestOne.TEST" => Field(test.TestOne.TEST),
- *      //     "test.TestTwo.TEST" => Field(test.TestTwo.TEST),
- *      //     "test.TestInterface.ZERO" => Field(test.TestInterface.ZERO),
- *      //     "test.TestOne.ONE" => Field(test.TestOne.ONE),
- *      //     "test.TestTwo.TWO" => Field(test.TestTwo.TWO),
- *      //     "test" => Field(test.TestTwo.test)
+ *      //     "test.TestInterface.TEST" -> Field(test.TestInterface.TEST),
+ *      //     "test.TestOne.TEST" -> Field(test.TestOne.TEST),
+ *      //     "test.TestTwo.TEST" -> Field(test.TestTwo.TEST),
+ *      //     "test.TestInterface.ZERO" -> Field(test.TestInterface.ZERO),
+ *      //     "test.TestOne.ONE" -> Field(test.TestOne.ONE),
+ *      //     "test.TestTwo.TWO" -> Field(test.TestTwo.TWO),
+ *      //     "test" -> Field(test.TestTwo.test)
  *      // }
  *
  * @author Karl Bennett
