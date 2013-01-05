@@ -196,7 +196,7 @@ public abstract class ReflectionMap<T, K, M extends Member> extends AbstractMap<
      * ({@link Class#getFields()}, {@link Class#getDeclaredFields()}, {@link Class#getMethods()}...) from any
      * surrounding logic.
      */
-    protected abstract class PropertiesInvoker {
+    protected static abstract class PropertiesInvoker<M> {
 
         public M[] invokeQuietly(Class<?> type) {
 
@@ -218,7 +218,7 @@ public abstract class ReflectionMap<T, K, M extends Member> extends AbstractMap<
 
     }
 
-    protected interface EntryBuilder<K, M> {
+    protected static interface EntryBuilder<K, M> {
 
         /**
          * The map entity for each reflective member is built with this method, it can be overridden to customise the key
@@ -231,8 +231,8 @@ public abstract class ReflectionMap<T, K, M extends Member> extends AbstractMap<
     }
 
 
-    private final PropertiesInvoker invoker;
-    private final EntryBuilder entryBuilder;
+    private final PropertiesInvoker<M> invoker;
+    private final EntryBuilder<K, M> entryBuilder;
     private final Class<T> type;
     private final Set<Entry<K, M>> entries;
 
@@ -245,7 +245,7 @@ public abstract class ReflectionMap<T, K, M extends Member> extends AbstractMap<
      * @param entryBuilder the builder that will be used to create the entries from the requested reflection members.
      * @param type    the class type that will have it's reflective members extracted.
      */
-    public ReflectionMap(PropertiesInvoker invoker, EntryBuilder<K, M> entryBuilder, Class<T> type) {
+    public ReflectionMap(PropertiesInvoker<M> invoker, EntryBuilder<K, M> entryBuilder, Class<T> type) {
 
         this.invoker = invoker;
 
