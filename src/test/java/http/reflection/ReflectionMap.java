@@ -91,11 +91,11 @@ import static http.util.Assert.assertNotNull;
  *
  * @author Karl Bennett
  */
-public abstract class ReflectionMap<K, M extends Member> extends AbstractMap<K, M> {
+public abstract class ReflectionMap<T, K, M extends Member> extends AbstractMap<K, M> {
 
     /**
-     * This class can be used as the type for {@link java.lang.reflect.Method}s and {@link java.lang.reflect.Constructor}s
-     * in the {@link ReflectionMap}.
+     * This class can be used as the type for {@link java.lang.reflect.Method}s and
+     * {@link java.lang.reflect.Constructor}s in the {@link ReflectionMap}.
      */
     public static class Key {
 
@@ -195,19 +195,45 @@ public abstract class ReflectionMap<K, M extends Member> extends AbstractMap<K, 
      * An invoker interface that is used decouple the call to reflection methods
      * ({@link Class#getFields()}, {@link Class#getDeclaredFields()}, {@link Class#getMethods()}...) from any
      * surrounding logic.
-     *
-     * @param <R> the type of reflective property class that will be produced by the invoker e.g.
-     *            ({@link java.lang.reflect.Field}, {@link java.lang.reflect.Method},
-     *            {@link java.lang.reflect.Constructor}...)
      */
-    public static interface PropertiesInvoker<R extends Member> {
+    protected abstract class PropertiesInvoker {
 
-        public R[] invoke(Class type);
+        public M[] invokeQuietly(Class<?> type) {
+
+            try {
+
+                return invoke(type);
+
+            } catch (NoSuchFieldException e) {
+
+                throw new IllegalStateException(e);
+
+            } catch (NoSuchMethodException e) {
+
+                throw new IllegalStateException(e);
+            }
+        }
+
+        public abstract M[] invoke(Class<?> type) throws NoSuchFieldException, NoSuchMethodException;
 
     }
 
+    protected interface EntryBuilder<K, M> {
 
-    private final PropertiesInvoker<M> invoker;
+        /**
+         * The map entity for each reflective member is built with this method, it can be overridden to customise the key
+         * type the map.
+         *
+         * @param member the reflective member that will be added to the map as an entity.
+         * @return the new map entity.
+         */
+        public Entry<K, M> buildEntry(M member);
+    }
+
+
+    private final PropertiesInvoker invoker;
+    private final EntryBuilder entryBuilder;
+    private final Class<T> type;
     private final Set<Entry<K, M>> entries;
 
 
@@ -216,11 +242,16 @@ public abstract class ReflectionMap<K, M extends Member> extends AbstractMap<K, 
      *
      * @param invoker the invoker that will carry out the reflective member request e.g. {@link Class#getFields()},
      *                {@link Class#getDeclaredFields()}, {@link Class#getMethods()}...
+     * @param entryBuilder the builder that will be used to create the entries from the requested reflection members.
      * @param type    the class type that will have it's reflective members extracted.
      */
-    public ReflectionMap(PropertiesInvoker<M> invoker, Class type) {
+    public ReflectionMap(PropertiesInvoker invoker, EntryBuilder<K, M> entryBuilder, Class<T> type) {
 
         this.invoker = invoker;
+
+        this.entryBuilder = entryBuilder;
+
+        this.type = type;
 
         entries = extractClassReflectiveObjects(type);
     }
@@ -232,42 +263,43 @@ public abstract class ReflectionMap<K, M extends Member> extends AbstractMap<K, 
     }
 
     /**
-     * The map entity for each reflective member is built with this method, it can be overridden to customise the key
-     * type the map.
+     * Get the class type that this {@code ReflectionMap} was created from.
      *
-     * @param member the reflective member that will be added to the map as an entity.
-     * @return the new map entity.
+     * @return the class related to this {@code ReflectionMap}.
      */
-    protected abstract Entry<K, M> buildEntry(M member);
+    public Class<T> getType() {
+
+        return type;
+    }
 
     /**
      * Extract all the reflective members from the supplied class using the invoker and then add them to a {@link Set}
-     * as {@link Entry}s containing with the member name as the key and the member as the value. If the member is static
-     * the members declaring {@link Class#getName()} will be prefixed and delimited with a dot ('.').
+     * as {@link Entry}s that have there keys set to the required generic key type and the extracted reflection member
+     * as their value.
      *
      * @param type the class type that will have it's reflective members extracted.
      * @return a {@code Set} contain reflective member {@code Entry}s.
      */
-    private Set<Entry<K, M>> extractReflectiveObjects(Class type) {
+    private Set<Entry<K, M>> extractReflectiveObjects(Class<?> type) {
 
         Set<Entry<K, M>> entries = new HashSet<Entry<K, M>>();
 
-        for (final M member : invoker.invoke(type)) {
+        for (final M member : invoker.invokeQuietly(type)) {
 
-            entries.add(buildEntry(member));
+            entries.add(entryBuilder.buildEntry(member));
         }
 
         return entries;
     }
 
     /**
-     * Extract all the reflected members using the {@link ReflectionMap}'s invoker from the supplied type. This method
-     * will extract private and public members from the type and all it's parent classes.
+     * Extract all the reflected members using the {@link ReflectionMap}'s invoker. This method will extract private and
+     * public members from the type and all it's parent classes and interfaces.
      *
-     * @param type
-     * @return
+     * @param type the class type that will have it's reflective members extracted.
+     * @return an entry set containing all the requested reflective members.
      */
-    private Set<Entry<K, M>> extractClassReflectiveObjects(Class type) {
+    private Set<Entry<K, M>> extractClassReflectiveObjects(Class<?> type) {
 
         Set<Entry<K, M>> entries = new HashSet<Entry<K, M>>();
 
