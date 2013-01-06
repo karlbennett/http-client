@@ -233,6 +233,23 @@ public class ReflectionMap<T, K, M> extends AbstractMap<K, M> {
         return null == type.getSuperclass() || Object.class.equals(type.getSuperclass());
     }
 
+    /**
+     * Put all the entries in {@code source} into {@code target} as long as the {@code source} entry's key doesn't
+     * already exist in {@code target}.
+     *
+     * @param target the map to be populated.
+     * @param source the map to populate from.
+     * @param <K> the type of keys in the two maps.
+     * @param <M> the type of values in the two maps.
+     */
+    public static <K, M> void softPutAll(Map<K, M> target, Map<K, M> source) {
+
+        for (Entry<K, M> entry : source.entrySet()) {
+
+            if (!target.containsKey(entry.getKey())) target.put(entry.getKey(), entry.getValue());
+        }
+    }
+
 
     private final PropertiesInvoker<M> invoker;
     private final EntryBuilder<K, M> entryBuilder;
@@ -305,18 +322,16 @@ public class ReflectionMap<T, K, M> extends AbstractMap<K, M> {
      */
     private Map<K, M> extractAllReflectiveObjects(Class<?> type) {
 
-        Map<K, M> map = new HashMap<K, M>();
+        Map<K, M> map = extractReflectiveObjects(type);
 
         for (Class interfaceType : type.getInterfaces()) {
 
-            map.putAll(extractReflectiveObjects(interfaceType));
+            softPutAll(map, extractReflectiveObjects(interfaceType));
         }
-
-        map.putAll(extractReflectiveObjects(type));
 
         if (hasNoSuperClass(type)) return map;
 
-        map.putAll(extractAllReflectiveObjects(type.getSuperclass()));
+        softPutAll(map, extractAllReflectiveObjects(type.getSuperclass()));
 
         return map;
     }
