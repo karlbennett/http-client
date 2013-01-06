@@ -91,7 +91,7 @@ import static http.util.Assert.assertNotNull;
  *
  * @author Karl Bennett
  */
-public class ReflectionMap<T, K, M extends Member> extends AbstractMap<K, M> {
+public class ReflectionMap<T, K, M> extends AbstractMap<K, M> {
 
     /**
      * This class can be used as the type for {@link java.lang.reflect.Method}s and
