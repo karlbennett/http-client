@@ -1,10 +1,6 @@
 package http.reflection;
 
-import java.lang.reflect.Member;
-import java.util.AbstractMap;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 import static http.util.Assert.assertNotNull;
 
@@ -179,19 +175,6 @@ public class ReflectionMap<T, K, M> extends AbstractMap<K, M> {
     }
 
     /**
-     * Check if the supplied type has any super classes. This will fail if the types super class is either
-     * {@link Object} or {@code null}.
-     *
-     * @param type the class type to check.
-     * @return {@code true} if the class has a super class other than {@code Object} or {@code null}, otherwise
-     *         {@code false}.
-     */
-    public static boolean hasNoSuperClass(Class type) {
-
-        return null == type.getSuperclass() || Object.class.equals(type.getSuperclass());
-    }
-
-    /**
      * An invoker interface that is used decouple the call to reflection methods
      * ({@link Class#getFields()}, {@link Class#getDeclaredFields()}, {@link Class#getMethods()}...) from any
      * surrounding logic.
@@ -218,6 +201,12 @@ public class ReflectionMap<T, K, M> extends AbstractMap<K, M> {
 
     }
 
+    /**
+     * A builder that will be used to create the map {@link Entry}'s for each reflection member.
+     *
+     * @param <K> the type of the {@code Entry}'s key.
+     * @param <M> the type of the {@code Entry}'s value.
+     */
     protected static interface EntryBuilder<K, M> {
 
         /**
@@ -231,10 +220,24 @@ public class ReflectionMap<T, K, M> extends AbstractMap<K, M> {
     }
 
 
+    /**
+     * Check if the supplied type has any super classes. This will fail if the types super class is either
+     * {@link Object} or {@code null}.
+     *
+     * @param type the class type to check.
+     * @return {@code true} if the class has a super class other than {@code Object} or {@code null}, otherwise
+     *         {@code false}.
+     */
+    public static boolean hasNoSuperClass(Class type) {
+
+        return null == type.getSuperclass() || Object.class.equals(type.getSuperclass());
+    }
+
+
     private final PropertiesInvoker<M> invoker;
     private final EntryBuilder<K, M> entryBuilder;
     private final Class<T> type;
-    private final Set<Entry<K, M>> entries;
+    private final Map<K, M> map;
 
 
     /**
@@ -242,7 +245,7 @@ public class ReflectionMap<T, K, M> extends AbstractMap<K, M> {
      *
      * @param invoker the invoker that will carry out the reflective member request e.g. {@link Class#getFields()},
      *                {@link Class#getDeclaredFields()}, {@link Class#getMethods()}...
-     * @param entryBuilder the builder that will be used to create the entries from the requested reflection members.
+     * @param entryBuilder the builder that will be used to create the map from the requested reflection members.
      * @param type    the class type that will have it's reflective members extracted.
      */
     public ReflectionMap(PropertiesInvoker<M> invoker, EntryBuilder<K, M> entryBuilder, Class<T> type) {
@@ -253,13 +256,13 @@ public class ReflectionMap<T, K, M> extends AbstractMap<K, M> {
 
         this.type = type;
 
-        entries = extractClassReflectiveObjects(type);
+        map = extractAllReflectiveObjects(type);
     }
 
     @Override
     public Set<Entry<K, M>> entrySet() {
 
-        return entries;
+        return map.entrySet();
     }
 
     /**
@@ -273,23 +276,24 @@ public class ReflectionMap<T, K, M> extends AbstractMap<K, M> {
     }
 
     /**
-     * Extract all the reflective members from the supplied class using the invoker and then add them to a {@link Set}
-     * as {@link Entry}s that have there keys set to the required generic key type and the extracted reflection member
-     * as their value.
+     * Extract all the reflective members from the supplied class using the invoker and then add them to a {@link Map}
+     * that with keys of the {@code ReflectionMap}s key type and the member type as it's value type.
      *
      * @param type the class type that will have it's reflective members extracted.
      * @return a {@code Set} contain reflective member {@code Entry}s.
      */
-    private Set<Entry<K, M>> extractReflectiveObjects(Class<?> type) {
+    private Map<K, M> extractReflectiveObjects(Class<?> type) {
 
-        Set<Entry<K, M>> entries = new HashSet<Entry<K, M>>();
+        Map<K, M> map = new HashMap<K, M>();
 
+        Entry<K, M> entry;
         for (final M member : invoker.invokeQuietly(type)) {
 
-            entries.add(entryBuilder.buildEntry(member));
+            entry = entryBuilder.buildEntry(member);
+            map.put(entry.getKey(), entry.getValue());
         }
 
-        return entries;
+        return map;
     }
 
     /**
@@ -299,21 +303,21 @@ public class ReflectionMap<T, K, M> extends AbstractMap<K, M> {
      * @param type the class type that will have it's reflective members extracted.
      * @return an entry set containing all the requested reflective members.
      */
-    private Set<Entry<K, M>> extractClassReflectiveObjects(Class<?> type) {
+    private Map<K, M> extractAllReflectiveObjects(Class<?> type) {
 
-        Set<Entry<K, M>> entries = new HashSet<Entry<K, M>>();
+        Map<K, M> map = new HashMap<K, M>();
 
         for (Class interfaceType : type.getInterfaces()) {
 
-            entries.addAll(extractReflectiveObjects(interfaceType));
+            map.putAll(extractReflectiveObjects(interfaceType));
         }
 
-        entries.addAll(extractReflectiveObjects(type));
+        map.putAll(extractReflectiveObjects(type));
 
-        if (hasNoSuperClass(type)) return entries;
+        if (hasNoSuperClass(type)) return map;
 
-        entries.addAll(extractClassReflectiveObjects(type.getSuperclass()));
+        map.putAll(extractAllReflectiveObjects(type.getSuperclass()));
 
-        return entries;
+        return map;
     }
 }
