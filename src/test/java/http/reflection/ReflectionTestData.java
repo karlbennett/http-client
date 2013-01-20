@@ -10,7 +10,7 @@ import static java.util.AbstractMap.SimpleEntry;
 /**
  * @author Karl Bennett
  */
-public class ReflectionMapTest {
+public class ReflectionTestData {
 
     public static interface TestInterface {
 

@@ -5,7 +5,7 @@ import org.junit.Test;
 import java.util.Map;
 import java.util.Set;
 
-import static http.reflection.ReflectionMapTest.*;
+import static http.reflection.ReflectionTestData.*;
 import static java.util.Map.Entry;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
