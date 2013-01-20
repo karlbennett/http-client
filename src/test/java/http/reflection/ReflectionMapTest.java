@@ -1,23 +1,18 @@
 package http.reflection;
 
-import org.junit.Test;
-
-import java.lang.reflect.*;
-import java.util.Map;
-import java.util.Set;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 
 import static java.util.AbstractMap.SimpleEntry;
-import static java.util.Map.Entry;
-import static http.reflection.ReflectionMap.Key;
-
-import static org.junit.Assert.*;
 
 /**
  * @author Karl Bennett
  */
 public class ReflectionMapTest {
 
-    private static interface TestInterface {
+    public static interface TestInterface {
 
         public static final String TEST = "Test";
         public static final int ZERO = 0;
@@ -28,7 +23,7 @@ public class ReflectionMapTest {
         String getTest();
     }
 
-    private static class TestOne implements TestInterface {
+    public static class TestOne implements TestInterface {
 
         public static final String TEST = "Test One";
         public static final int ONE = 1;
@@ -55,7 +50,7 @@ public class ReflectionMapTest {
         }
     }
 
-    private static class TestTwo extends TestOne {
+    public static class TestTwo extends TestOne {
 
         public static final String TEST = "Test Two";
         public static final int TWO = 2;
@@ -84,213 +79,41 @@ public class ReflectionMapTest {
     }
 
 
-    private static final SimpleEntry<String, Field> TEST_INTERFACE_TEST = new FieldEntity(
+    public static final SimpleEntry<String, Field> TEST_INTERFACE_TEST = new FieldEntry(
             TestInterface.class, "TEST");
-    private static final SimpleEntry<String, Field> TEST_INTERFACE_ZERO = new FieldEntity(
+    public static final SimpleEntry<String, Field> TEST_INTERFACE_ZERO = new FieldEntry(
             TestInterface.class, "ZERO");
-    private static final SimpleEntry<String, Class> TEST_INTERFACE_INNER_TEST_CLASS = new ClassEntity(
+    public static final SimpleEntry<String, Class> TEST_INTERFACE_INNER_TEST_CLASS = new ClassEntry(
             TestInterface.class, 0);
-    private static final SimpleEntry<Key, Method> TEST_INTERFACE_GET_TEST = new MethodEntity(
+    public static final SimpleEntry<Object[], Method> TEST_INTERFACE_GET_TEST = new MethodEntry(
             TestInterface.class, "getTest");
 
-    private static final SimpleEntry<String, Field> TEST_ONE_TEST = new FieldEntity(TestOne.class, "TEST");
-    private static final SimpleEntry<String, Field> TEST_ONE_ONE = new FieldEntity(TestOne.class, "ONE");
-    private static final SimpleEntry<String, Class> TEST_ONE_INNER_TEST_CLASS = new ClassEntity(TestOne.class, 0);
-    private static final SimpleEntry<String, Class> INNER_TEST_CLASS_ONE = new ClassEntity(TestOne.class, 1);
-    private static final SimpleEntry<String, Field> TEST_ONE_INSTANCE_TEST = new FieldEntity(TestOne.class, "test");
-    private static final SimpleEntry<Key, Constructor<TestOne>> TEST_ONE_DEFAULT_CONSTRUCTOR =
-            new ConstructorEntity<TestOne>(TestOne.class);
-    private static final SimpleEntry<Key, Constructor<TestOne>> TEST_ONE_CONSTRUCTOR = new ConstructorEntity<TestOne>(
+    public static final SimpleEntry<String, Field> TEST_ONE_TEST = new FieldEntry(TestOne.class, "TEST");
+    public static final SimpleEntry<String, Field> TEST_ONE_ONE = new FieldEntry(TestOne.class, "ONE");
+    public static final SimpleEntry<String, Class> TEST_ONE_INNER_TEST_CLASS = new ClassEntry(TestOne.class, 0);
+    public static final SimpleEntry<String, Class> INNER_TEST_CLASS_ONE = new ClassEntry(TestOne.class, 1);
+    public static final SimpleEntry<String, Field> TEST_ONE_INSTANCE_TEST = new FieldEntry(TestOne.class, "test");
+    public static final SimpleEntry<Object[], Constructor<TestOne>> TEST_ONE_DEFAULT_CONSTRUCTOR =
+            new ConstructorEntry<TestOne>(TestOne.class);
+    public static final SimpleEntry<Object[], Constructor<TestOne>> TEST_ONE_CONSTRUCTOR = new ConstructorEntry<TestOne>(
             TestOne.class, String.class);
-    private static final SimpleEntry<Key, Method> TEST_ONE_GET_TEST = new MethodEntity(
+    public static final SimpleEntry<Object[], Method> TEST_ONE_GET_TEST = new MethodEntry(
             TestOne.class, "getTest");
 
-    private static final SimpleEntry<String, Field> TEST_TWO_TEST = new FieldEntity(TestTwo.class, "TEST");
-    private static final SimpleEntry<String, Field> TEST_TWO_TWO = new FieldEntity(TestTwo.class, "TWO");
-    private static final SimpleEntry<String, Class> TEST_TWO_INNER_TEST_CLASS = new ClassEntity(TestTwo.class, 0);
-    private static final SimpleEntry<String, Class> INNER_TEST_CLASS_TWO = new ClassEntity(TestTwo.class, 1);
-    private static final SimpleEntry<String, Field> TEST_TWO_INSTANCE_TEST = new FieldEntity(TestTwo.class, "test");
-    private static final SimpleEntry<Key, Constructor<TestTwo>> TEST_TWO_CONSTRUCTOR = new ConstructorEntity<TestTwo>(
+    public static final SimpleEntry<String, Field> TEST_TWO_TEST = new FieldEntry(TestTwo.class, "TEST");
+    public static final SimpleEntry<String, Field> TEST_TWO_TWO = new FieldEntry(TestTwo.class, "TWO");
+    public static final SimpleEntry<String, Class> TEST_TWO_INNER_TEST_CLASS = new ClassEntry(TestTwo.class, 0);
+    public static final SimpleEntry<String, Class> INNER_TEST_CLASS_TWO = new ClassEntry(TestTwo.class, 1);
+    public static final SimpleEntry<String, Field> TEST_TWO_INSTANCE_TEST = new FieldEntry(TestTwo.class, "test");
+    public static final SimpleEntry<Object[], Constructor<TestTwo>> TEST_TWO_CONSTRUCTOR = new ConstructorEntry<TestTwo>(
             TestTwo.class, String.class);
-    private static final SimpleEntry<Key, Method> TEST_TWO_GET_TEST = new MethodEntity(
+    public static final SimpleEntry<Object[], Method> TEST_TWO_GET_TEST = new MethodEntry(
             TestTwo.class, "getTest");
-    private static final SimpleEntry<Key, Method> TEST_TWO_SET_TEST = new MethodEntity(
+    public static final SimpleEntry<Object[], Method> TEST_TWO_SET_TEST = new MethodEntry(
             TestTwo.class, "setTest", String.class);
 
 
-    @Test
-    public void testClassReflectionMapWithTestInterface() throws Exception {
-
-        Map<String, Class> classMap = new ClassRelfectionMap<TestInterface>(TestInterface.class);
-
-        Set<Entry<String, Class>> entries = classMap.entrySet();
-
-        assertEquals("classMap should only contain one entry.", 1, classMap.size());
-        assertTrue("classMap should contain the TestInterface InnerTestClass class.",
-                entries.contains(TEST_INTERFACE_INNER_TEST_CLASS));
-    }
-
-    @Test
-    public void testFieldReflectionMapWithTestInterface() throws Exception {
-
-        Map<String, Field> fieldMap = new FieldRelfectionMap<TestInterface>(TestInterface.class);
-
-        Set<Entry<String, Field>> entries = fieldMap.entrySet();
-
-        assertEquals("fieldMap should only contain two entries.", 2, fieldMap.size());
-        assertTrue("fieldMap should contain the TestInterface TEST constant.", entries.contains(TEST_INTERFACE_TEST));
-        assertTrue("fieldMap should contain the TestInterface ZERO constant.", entries.contains(TEST_INTERFACE_ZERO));
-    }
-
-    @Test
-    public void testConstructorReflectionMapWithTestInterface() throws Exception {
-
-        Map<Key, Constructor<TestInterface>> constructorMap = new ConstructorRelfectionMap<TestInterface>(
-                TestInterface.class);
-
-        assertEquals("constructorMap should contain no entries.", 0, constructorMap.size());
-    }
-
-    @Test
-    public void testMethodReflectionMapWithTestInterface() throws Exception {
-
-        Map<Key, Method> methodMap = new MethodRelfectionMap<TestInterface>(TestInterface.class);
-
-        Set<Entry<Key, Method>> entries = methodMap.entrySet();
-
-        assertEquals("methodMap should only contain one entry.", 1, methodMap.size());
-        assertTrue("methodMap should contain the TestInterface getTest method.",
-                entries.contains(TEST_INTERFACE_GET_TEST));
-    }
-
-    @Test
-    public void testClassReflectionMapWithTestOne() throws Exception {
-
-        Map<String, Class> classMap = new ClassRelfectionMap<TestOne>(TestOne.class);
-
-        Set<Entry<String, Class>> entries = classMap.entrySet();
-
-        assertEquals("classMap should only contain two entries.", 3, classMap.size());
-        assertTrue("classMap should contain the TestInterface InnerTestClass class.",
-                entries.contains(TEST_INTERFACE_INNER_TEST_CLASS));
-        assertTrue("classMap should contain the TestOne InnerTestClass class.",
-                entries.contains(TEST_ONE_INNER_TEST_CLASS));
-        assertTrue("classMap should contain the TestOne InnerTestOneClass class.",
-                entries.contains(INNER_TEST_CLASS_ONE));
-    }
-
-    @Test
-    public void testFieldReflectionMapWithTestOne() throws Exception {
-
-        Map<String, Field> fieldMap = new FieldRelfectionMap<TestOne>(TestOne.class);
-
-        Set<Entry<String, Field>> entries = fieldMap.entrySet();
-
-        assertEquals("fieldMap should only contain two entries.", 5, fieldMap.size());
-        assertTrue("fieldMap should contain the TestInterface TEST constant.", entries.contains(TEST_INTERFACE_TEST));
-        assertTrue("fieldMap should contain the TestInterface ZERO constant.", entries.contains(TEST_INTERFACE_ZERO));
-        assertTrue("fieldMap should contain the TestOne TEST constant.", entries.contains(TEST_ONE_TEST));
-        assertTrue("fieldMap should contain the TestOne ONE constant.", entries.contains(TEST_ONE_ONE));
-        assertTrue("fieldMap should contain the TestOne test instance field.", entries.contains(TEST_ONE_INSTANCE_TEST));
-    }
-
-    @Test
-    public void testConstructorReflectionMapWithTestOne() throws Exception {
-
-        Map<Key, Constructor<TestOne>> constructorMap = new ConstructorRelfectionMap<TestOne>(
-                TestOne.class);
-
-        Set<Entry<Key, Constructor<TestOne>>> entries = constructorMap.entrySet();
-
-        assertEquals("constructorMap should contain one entry.", 2, constructorMap.size());
-        assertTrue("constructorMap should contain the TestOne() constructor.",
-                entries.contains(TEST_ONE_DEFAULT_CONSTRUCTOR));
-        assertTrue("constructorMap should contain the TestOne(String) constructor.",
-                entries.contains(TEST_ONE_CONSTRUCTOR));
-    }
-
-    @Test
-    public void testMethodReflectionMapWithTestOne() throws Exception {
-
-        Map<Key, Method> methodMap = new MethodRelfectionMap<TestOne>(TestOne.class);
-
-        Set<Entry<Key, Method>> entries = methodMap.entrySet();
-
-        assertEquals("methodMap should only contain one entry.", 1, methodMap.size());
-        assertTrue("methodMap should contain the TestOne getTest method.",
-                entries.contains(TEST_ONE_GET_TEST));
-    }
-
-    @Test
-    public void testClassReflectionMapWithTestTwo() throws Exception {
-
-        Map<String, Class> classMap = new ClassRelfectionMap<TestTwo>(TestTwo.class);
-
-        Set<Entry<String, Class>> entries = classMap.entrySet();
-
-        assertEquals("classMap should only contain two entries.", 5, classMap.size());
-        assertTrue("classMap should contain the TestInterface InnerTestClass class.",
-                entries.contains(TEST_INTERFACE_INNER_TEST_CLASS));
-        assertTrue("classMap should contain the TestOne InnerTestClass class.",
-                entries.contains(TEST_ONE_INNER_TEST_CLASS));
-        assertTrue("classMap should contain the TestOne InnerTestOneClass class.",
-                entries.contains(INNER_TEST_CLASS_ONE));
-        assertTrue("classMap should contain the TestTwo InnerTestClass class.",
-                entries.contains(TEST_TWO_INNER_TEST_CLASS));
-        assertTrue("classMap should contain the TestTwo InnerTestTwoClass class.",
-                entries.contains(INNER_TEST_CLASS_TWO));
-    }
-
-    @Test
-    public void testFieldReflectionMapWithTestTwo() throws Exception {
-
-        Map<String, Field> fieldMap = new FieldRelfectionMap<TestTwo>(TestTwo.class);
-
-        Set<Entry<String, Field>> entries = fieldMap.entrySet();
-
-        assertEquals("fieldMap should only contain seven entries.", 7, fieldMap.size());
-        assertTrue("fieldMap should contain the TestInterface TEST constant.", entries.contains(TEST_INTERFACE_TEST));
-        assertTrue("fieldMap should contain the TestInterface ZERO constant.", entries.contains(TEST_INTERFACE_ZERO));
-        assertTrue("fieldMap should contain the TestOne TEST constant.", entries.contains(TEST_ONE_TEST));
-        assertTrue("fieldMap should contain the TestOne ONE constant.", entries.contains(TEST_ONE_ONE));
-        assertTrue("fieldMap should contain the TestTwo TEST constant.", entries.contains(TEST_TWO_TEST));
-        assertTrue("fieldMap should contain the TestTwo TWO constant.", entries.contains(TEST_TWO_TWO));
-        assertTrue("fieldMap should contain the TestTwo test instance field.", entries.contains(TEST_TWO_INSTANCE_TEST));
-    }
-
-    @Test
-    public void testConstructorReflectionMapWithTestTwo() throws Exception {
-
-        Map<Key, Constructor<TestTwo>> constructorMap = new ConstructorRelfectionMap<TestTwo>(
-                TestTwo.class);
-
-        Set<Entry<Key, Constructor<TestTwo>>> entries = constructorMap.entrySet();
-
-        assertEquals("constructorMap should contain one entry.", 3, constructorMap.size());
-        assertTrue("constructorMap should contain the TestOne() constructor.",
-                entries.contains(TEST_ONE_DEFAULT_CONSTRUCTOR));
-        assertTrue("constructorMap should contain the TestOne(String) constructor.",
-                entries.contains(TEST_ONE_CONSTRUCTOR));
-        assertTrue("constructorMap should contain the TestTwo(String) constructor.",
-                entries.contains(TEST_TWO_CONSTRUCTOR));
-    }
-
-    @Test
-    public void testMethodReflectionMapWithTestTwo() throws Exception {
-
-        Map<Key, Method> methodMap = new MethodRelfectionMap<TestTwo>(TestTwo.class);
-
-        Set<Entry<Key, Method>> entries = methodMap.entrySet();
-
-        assertEquals("methodMap should only contain one entry.", 2, methodMap.size());
-        assertTrue("methodMap should contain the TestTwo getTest method.",
-                entries.contains(TEST_TWO_GET_TEST));
-        assertTrue("methodMap should contain the TestTwo setTest method.",
-                entries.contains(TEST_TWO_SET_TEST));
-    }
-
-
-    private static abstract class TestEntity<K, M> extends SimpleEntry<K, M> {
+    private static abstract class TestEntry<K, M> extends SimpleEntry<K, M> {
 
         protected static abstract class Getter<K, M> {
 
@@ -316,14 +139,14 @@ public class ReflectionMapTest {
         }
 
 
-        public TestEntity(Getter<K, M> getter) {
+        public TestEntry(Getter<K, M> getter) {
             super(getter.getKey(), getter.getValueQuietly());
         }
     }
 
-    private static class ClassEntity extends TestEntity<String, Class> {
+    private static class ClassEntry extends TestEntry<String, Class> {
 
-        public ClassEntity(final Class type, final int i) {
+        public ClassEntry(final Class type, final int i) {
             super(new Getter<String, Class>() {
 
                 private Class innerClass;
@@ -345,7 +168,7 @@ public class ReflectionMapTest {
         }
     }
 
-    private static class FieldEntity extends TestEntity<String, Field> {
+    private static class FieldEntry extends TestEntry<String, Field> {
 
         public static String buildKey(Field field) {
 
@@ -354,7 +177,7 @@ public class ReflectionMapTest {
                     field.getName();
         }
 
-        public FieldEntity(final Class type, final String name) {
+        public FieldEntry(final Class type, final String name) {
             super(new Getter<String, Field>() {
 
                 private Field field;
@@ -376,15 +199,15 @@ public class ReflectionMapTest {
         }
     }
 
-    private static class ConstructorEntity<T> extends TestEntity<Key, Constructor<T>> {
+    private static class ConstructorEntry<T> extends TestEntry<Object[], Constructor<T>> {
 
-        public ConstructorEntity(final Class type, final Class... parameterTypes) {
-            super(new Getter<Key, Constructor<T>>() {
+        public ConstructorEntry(final Class type, final Class... parameterTypes) {
+            super(new Getter<Object[], Constructor<T>>() {
 
                 @Override
-                protected Key getKey() {
+                protected Object[] getKey() {
 
-                    return new Key(type.getName(), parameterTypes);
+                    return new Object[]{type.getName(), parameterTypes};
                 }
 
                 @Override
@@ -396,15 +219,15 @@ public class ReflectionMapTest {
         }
     }
 
-    private static class MethodEntity extends TestEntity<Key, Method> {
+    private static class MethodEntry extends TestEntry<Object[], Method> {
 
-        public MethodEntity(final Class type, final String name, final Class... parameterTypes) {
-            super(new Getter<Key, Method>() {
+        public MethodEntry(final Class type, final String name, final Class... parameterTypes) {
+            super(new Getter<Object[], Method>() {
 
                 @Override
-                protected Key getKey() {
+                protected Object[] getKey() {
 
-                    return new Key(name, parameterTypes);
+                    return new Object[]{name, parameterTypes};
                 }
 
                 @Override
@@ -413,116 +236,6 @@ public class ReflectionMapTest {
                     return type.getDeclaredMethod(name, parameterTypes);
                 }
             });
-        }
-    }
-
-    private static class ClassRelfectionMap<T> extends ReflectionMap<T, String, Class> {
-
-        public ClassRelfectionMap(Class<T> type) {
-            super(
-                    new PropertiesInvoker<Class>() {
-
-                        @Override
-                        public Class[] invoke(Class<?> type) throws NoSuchFieldException, NoSuchMethodException {
-
-                            return type.getDeclaredClasses();
-                        }
-                    },
-
-                    new EntryBuilder<String, Class>() {
-
-                        @Override
-                        public Entry<String, Class> buildEntry(Class member) {
-
-                            return new SimpleEntry<String, Class>(member.getName(), member);
-                        }
-                    },
-
-                    type
-            );
-        }
-    }
-
-    private static class FieldRelfectionMap<T> extends ReflectionMap<T, String, Field> {
-
-        public FieldRelfectionMap(Class<T> type) {
-            super(
-                    new PropertiesInvoker<Field>() {
-
-                        @Override
-                        public Field[] invoke(Class<?> type) throws NoSuchFieldException, NoSuchMethodException {
-
-                            return type.getDeclaredFields();
-                        }
-                    },
-
-                    new EntryBuilder<String, Field>() {
-
-                        @Override
-                        public Entry<String, Field> buildEntry(Field member) {
-
-                            return new SimpleEntry<String, Field>(FieldEntity.buildKey(member), member);
-                        }
-                    },
-
-                    type
-            );
-        }
-    }
-
-    private static class ConstructorRelfectionMap<T> extends ReflectionMap<T, Key, Constructor<T>> {
-
-        public ConstructorRelfectionMap(Class<T> type) {
-            super(
-                    new PropertiesInvoker<Constructor<T>>() {
-
-                        @Override
-                        public Constructor<T>[] invoke(Class<?> type) throws NoSuchFieldException, NoSuchMethodException {
-
-                            return (Constructor<T>[]) type.getDeclaredConstructors();
-                        }
-                    },
-
-                    new EntryBuilder<Key, Constructor<T>>() {
-
-                        @Override
-                        public Entry<Key, Constructor<T>> buildEntry(Constructor<T> member) {
-
-                            return new SimpleEntry<Key, Constructor<T>>(new Key(member.getDeclaringClass().getName(),
-                                    member.getParameterTypes()), member);
-                        }
-                    },
-
-                    type
-            );
-        }
-    }
-
-    private static class MethodRelfectionMap<T> extends ReflectionMap<T, Key, Method> {
-
-        public MethodRelfectionMap(final Class<T> type) {
-            super(
-                    new PropertiesInvoker<Method>() {
-
-                        @Override
-                        public Method[] invoke(Class<?> type) throws NoSuchFieldException, NoSuchMethodException {
-
-                            return type.getDeclaredMethods();
-                        }
-                    },
-
-                    new EntryBuilder<Key, Method>() {
-
-                        @Override
-                        public Entry<Key, Method> buildEntry(Method member) {
-
-                            return new SimpleEntry<Key, Method>(new Key(member.getName(),
-                                    member.getParameterTypes()), member);
-                        }
-                    },
-
-                    type
-            );
         }
     }
 }
