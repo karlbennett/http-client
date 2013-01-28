@@ -3,8 +3,8 @@ package http;
 import org.junit.Test;
 
 import java.util.Arrays;
-import java.util.Collection;
 
+import static http.Attributes.*;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -12,20 +12,10 @@ import static org.junit.Assert.assertEquals;
  */
 public class AttributeTest {
 
-    private static final String TEST_ATTRIBUTE_NAME = "test_attribute_name";
-    private static final String TEST_ATTRIBUTE_VALUE_ONE = "test_attribute_value_one";
-    private static final String TEST_ATTRIBUTE_VALUE_TWO = "test_attribute_value_two";
-    private static final String TEST_ATTRIBUTE_VALUE_THREE = "test_attribute_value_three";
-    private static final Collection<String> TEST_ATTRIBUTE_VALUES = Arrays.asList(
-            TEST_ATTRIBUTE_VALUE_ONE,
-            TEST_ATTRIBUTE_VALUE_TWO,
-            TEST_ATTRIBUTE_VALUE_THREE
-    );
-
     @Test
     public void testCreateAttribute() throws Exception {
 
-        new Attribute<Object>(TEST_ATTRIBUTE_NAME, new Object());
+        new Attribute<Object>(TEST_ATTRIBUTE_NAME_ONE, new Object());
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -43,7 +33,7 @@ public class AttributeTest {
     @Test(expected = IllegalArgumentException.class)
     public void testCreateAttributeWithNullValue() throws Exception {
 
-        new Attribute<Object>(TEST_ATTRIBUTE_NAME, null);
+        new Attribute<Object>(TEST_ATTRIBUTE_NAME_ONE, null);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -56,14 +46,14 @@ public class AttributeTest {
     public void testGetName() throws Exception {
 
         assertEquals("the attribute name should be correct.",
-                TEST_ATTRIBUTE_NAME, new Attribute<Object>(TEST_ATTRIBUTE_NAME, new Object()).getName());
+                TEST_ATTRIBUTE_NAME_ONE, new Attribute<Object>(TEST_ATTRIBUTE_NAME_ONE, new Object()).getName());
     }
 
     @Test
     public void testGetValues() throws Exception {
 
         assertEquals("the attribute values should be correct.", TEST_ATTRIBUTE_VALUES,
-                new Attribute<String>(TEST_ATTRIBUTE_NAME,
+                new Attribute<String>(TEST_ATTRIBUTE_NAME_ONE,
                         Arrays.asList(
                                 TEST_ATTRIBUTE_VALUE_ONE,
                                 TEST_ATTRIBUTE_VALUE_TWO,
@@ -77,6 +67,6 @@ public class AttributeTest {
     public void testGetValue() throws Exception {
 
         assertEquals("the attribute value should be correct.", TEST_ATTRIBUTE_VALUE_ONE,
-                new Attribute<String>(TEST_ATTRIBUTE_NAME, TEST_ATTRIBUTE_VALUE_ONE).getValue());
+                new Attribute<String>(TEST_ATTRIBUTE_NAME_ONE, TEST_ATTRIBUTE_VALUE_ONE).getValue());
     }
 }
