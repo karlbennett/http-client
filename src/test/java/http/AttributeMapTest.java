@@ -3,6 +3,7 @@ package http;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.HashSet;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -238,7 +239,7 @@ public class AttributeMapTest {
     @Test
     public void testValues() throws Exception {
 
-        assertEquals("the attribute map values should be correct.", TEST_ATTRIBUTES, attributes.values());
+        assertEquals("the attribute map values should be correct.", TEST_ATTRIBUTES, new HashSet<>(attributes.values()));
     }
 
     @Test

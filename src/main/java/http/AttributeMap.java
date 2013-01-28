@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import static http.util.Assert.assertNotNull;
+
 /**
  * This is a map that can contain {@link Attribute}'s and it's sub classes. It provides convenience constructors and
  * methods for adding {@code Attribute} instances.
@@ -12,6 +14,9 @@ import java.util.Set;
  * @author Karl Bennett
  */
 public class AttributeMap<A extends Attribute> implements Map<String, A> {
+
+    private final Map<String, A> backingMap;
+
 
     /**
      * Create a new {@code AttributeMap} using the supplied backing map. This will be the map that is used internally to
@@ -21,6 +26,9 @@ public class AttributeMap<A extends Attribute> implements Map<String, A> {
      */
     public AttributeMap(Map<String, A> backingMap) {
 
+        assertNotNull("backingMap", backingMap);
+
+        this.backingMap = backingMap;
     }
 
     /**
@@ -39,6 +47,9 @@ public class AttributeMap<A extends Attribute> implements Map<String, A> {
      */
     public AttributeMap(Map<String, A> backingMap, AttributeMap<A> attributes) {
 
+        this(backingMap);
+
+        this.backingMap.putAll(attributes);
     }
 
     /**
@@ -59,6 +70,9 @@ public class AttributeMap<A extends Attribute> implements Map<String, A> {
      */
     public AttributeMap(Map<String, A> backingMap, Collection<A> attributes) {
 
+        this(backingMap);
+
+        for (A attribute : attributes) add(attribute);
     }
 
     /**
@@ -79,7 +93,7 @@ public class AttributeMap<A extends Attribute> implements Map<String, A> {
     @Override
     public int size() {
 
-        return -1;
+        return backingMap.size();
     }
 
     /**
@@ -88,7 +102,7 @@ public class AttributeMap<A extends Attribute> implements Map<String, A> {
     @Override
     public boolean isEmpty() {
 
-        return false;
+        return backingMap.isEmpty();
     }
 
     /**
@@ -97,7 +111,7 @@ public class AttributeMap<A extends Attribute> implements Map<String, A> {
     @Override
     public boolean containsKey(Object key) {
 
-        return false;
+        return backingMap.containsKey(key);
     }
 
     /**
@@ -106,7 +120,7 @@ public class AttributeMap<A extends Attribute> implements Map<String, A> {
     @Override
     public boolean containsValue(Object value) {
 
-        return false;
+        return backingMap.containsValue(value);
     }
 
     /**
@@ -115,7 +129,7 @@ public class AttributeMap<A extends Attribute> implements Map<String, A> {
     @Override
     public A get(Object key) {
 
-        return null;
+        return backingMap.get(key);
     }
 
     /**
@@ -124,7 +138,7 @@ public class AttributeMap<A extends Attribute> implements Map<String, A> {
     @Override
     public A put(String key, A value) {
 
-        return null;
+        return backingMap.put(key, value);
     }
 
     /**
@@ -135,7 +149,7 @@ public class AttributeMap<A extends Attribute> implements Map<String, A> {
      */
     public A add(A value) {
 
-        return null;
+        return put(value.getName(), value);
     }
 
     /**
@@ -144,7 +158,7 @@ public class AttributeMap<A extends Attribute> implements Map<String, A> {
     @Override
     public A remove(Object key) {
 
-        return null;
+        return backingMap.remove(key);
     }
 
     /**
@@ -153,6 +167,7 @@ public class AttributeMap<A extends Attribute> implements Map<String, A> {
     @Override
     public void putAll(Map<? extends String, ? extends A> map) {
 
+        backingMap.putAll(map);
     }
 
     /**
@@ -161,6 +176,7 @@ public class AttributeMap<A extends Attribute> implements Map<String, A> {
     @Override
     public void clear() {
 
+        backingMap.clear();
     }
 
     /**
@@ -169,7 +185,7 @@ public class AttributeMap<A extends Attribute> implements Map<String, A> {
     @Override
     public Set<String> keySet() {
 
-        return null;
+        return backingMap.keySet();
     }
 
     /**
@@ -178,7 +194,7 @@ public class AttributeMap<A extends Attribute> implements Map<String, A> {
     @Override
     public Collection<A> values() {
 
-        return null;
+        return backingMap.values();
     }
 
     /**
@@ -187,6 +203,6 @@ public class AttributeMap<A extends Attribute> implements Map<String, A> {
     @Override
     public Set<Entry<String, A>> entrySet() {
 
-        return null;
+        return backingMap.entrySet();
     }
 }
