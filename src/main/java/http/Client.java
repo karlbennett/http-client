@@ -55,11 +55,6 @@ import java.net.URL;
  * &nbsp;&nbsp;&nbsp;&nbsp;javax.net.ssl.keyStorePassword<br/>
  * </code>
  * <p/>
- * If multiple client configuration profiles are required a new instance of the {@code Client} class can be created for
- * each and configured individually using the instance {@link Client#getConfiguration} and
- * {@link Client#setConfiguration} methods. The instance HTTP request methods would then be used
- * ({@link Client#get(String)}, {@link Client#post(String)}, {@link Client#put(String)}...).
- * <p/>
  * Usage:<br/>
  * <code>
  * &nbsp;&nbsp;&nbsp;&nbsp;System.out.println(new Client().get("http://yoursite.com"))}
