@@ -5,7 +5,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 
-import static http.Parameters.*;
+import static http.parameter.Parameters.*;
 
 /**
  * A utility class containing constant URL values that can be used within tests.

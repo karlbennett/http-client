@@ -1,10 +1,12 @@
 package http;
 
+import http.header.Header;
+import http.parameter.Parameter;
+
 import java.io.InputStream;
 import java.net.URL;
 import java.util.Collection;
 
-import static http.Client.Response;
 
 /**
  * The handler interface that must be implemented to provide a working {@link Client} backend.

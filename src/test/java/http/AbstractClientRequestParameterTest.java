@@ -1,6 +1,7 @@
 package http;
 
-import static http.Client.Request;
+import http.parameter.Parameter;
+
 
 /**
  * @author Karl Bennett

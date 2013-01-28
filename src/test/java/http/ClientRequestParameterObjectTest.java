@@ -1,8 +1,9 @@
 package http;
 
+import http.parameter.Parameter;
+
 import java.util.Collection;
 
-import static http.Client.Request;
 import static http.Urls.TEST_URL;
 
 /**

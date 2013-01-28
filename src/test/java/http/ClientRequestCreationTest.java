@@ -1,13 +1,13 @@
 package http;
 
+import http.parameter.Parameter;
 import org.junit.Test;
 
 import java.net.URI;
 import java.net.URL;
 import java.util.Collection;
 
-import static http.Client.Request;
-import static http.Parameters.PARAMETERS;
+import static http.parameter.Parameters.PARAMETERS;
 import static http.Urls.*;
 import static org.junit.Assert.assertEquals;
 

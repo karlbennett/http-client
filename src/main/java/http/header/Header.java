@@ -1,4 +1,6 @@
-package http;
+package http.header;
+
+import http.Attribute;
 
 import java.util.List;
 

@@ -1,5 +1,7 @@
 package http;
 
+import http.header.Header;
+import http.parameter.Parameter;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 
@@ -10,11 +12,10 @@ import java.net.URL;
 import java.util.Collection;
 
 import static http.Bodies.*;
-import static http.Client.Request;
-import static http.Client.Response;
+
 import static http.Cookies.COOKIES;
-import static http.Headers.HEADERS;
-import static http.Parameters.PARAMETERS;
+import static http.header.Headers.HEADERS;
+import static http.parameter.Parameters.PARAMETERS;
 import static http.Urls.*;
 import static org.junit.Assert.*;
 
@@ -42,7 +43,7 @@ public abstract class AbstractClientRequestMethodTest implements RequestHandler 
      * code reuse within the HTTP request methods tests which are all very similar.
      *
      * @param <T> the type of input that will be used for the request method, this will usually be the {@link String},
-     * {@link java.net.URL}, or {@link http.Client.Request} type.
+     * {@link java.net.URL}, or {@link http.Request} type.
      *
      * @author Karl Bennett
      */

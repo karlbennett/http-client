@@ -1,5 +1,7 @@
 package http;
 
+import http.header.Header;
+
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;

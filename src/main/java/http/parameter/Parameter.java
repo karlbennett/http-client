@@ -1,4 +1,6 @@
-package http;
+package http.parameter;
+
+import http.Attribute;
 
 import java.util.List;
 

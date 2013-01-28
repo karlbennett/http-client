@@ -1,4 +1,4 @@
-package http;
+package http.parameter;
 
 import java.util.Arrays;
 import java.util.Collection;

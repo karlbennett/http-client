@@ -1,5 +1,7 @@
 package http;
 
+import http.header.Header;
+
 import java.util.Collection;
 
 /**

@@ -9,8 +9,8 @@ import static org.junit.Assert.*;
 
 /**
  * This is an abstract class that is used to test the common behaviour between the different type of property methods on
- * a {@link Message} object e.g. {@link Message#addHeader(Header)}, {@link Message#addHeader(String, Object)}, and
- * {@link Message#addCookie(Cookie)}.
+ * a {@link Message} object e.g. {@link Message#addHeader(http.header.Header)},
+ * {@link Message#addHeader(String, Object)}, and {@link Message#addCookie(Cookie)}.
  *
  * @author Karl Bennett
  */

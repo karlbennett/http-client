@@ -1,5 +1,6 @@
 package http;
 
+import http.header.Header;
 import org.junit.Test;
 
 import java.util.Arrays;

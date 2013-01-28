@@ -1,5 +1,7 @@
 package http;
 
+import http.header.Header;
+
 /**
  * @author Karl Bennett
  */

@@ -2,7 +2,6 @@ package http;
 
 import java.util.Collection;
 
-import static http.Client.Request;
 import static http.Cookies.COOKIE;
 import static http.Urls.TEST_URL;
 

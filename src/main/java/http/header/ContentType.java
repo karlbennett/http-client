@@ -1,7 +1,5 @@
 package http.header;
 
-import http.Header;
-
 import javax.activation.MimeType;
 
 /**
