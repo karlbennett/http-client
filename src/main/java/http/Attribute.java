@@ -3,6 +3,7 @@ package http;
 import java.util.Collections;
 import java.util.List;
 
+import static http.util.Assert.assertNotEmpty;
 import static http.util.Assert.assertNotNull;
 
 /**
@@ -25,7 +26,7 @@ public class Attribute<T> {
      */
     public Attribute(String name, List<T> values) {
 
-        assertNotNull("name", name);
+        assertNotEmpty("name", name);
         assertNotNull("values", values);
 
         this.name = name;
@@ -40,11 +41,7 @@ public class Attribute<T> {
      */
     public Attribute(String name, T value) {
 
-        assertNotNull("name", name);
-        assertNotNull("value", value);
-
-        this.name = name;
-        this.values = Collections.singletonList(value);
+        this(name, Collections.singletonList(value));
     }
 
 
