@@ -83,6 +83,12 @@ public class AttributeMapTest {
                 TEST_ATTRIBUTE_THREE, attributes.get(TEST_ATTRIBUTE_NAME_THREE));
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void testCreateAttributeMapWithNullBackingMap() throws Exception {
+
+        new AttributeMap<>((Map<String, Attribute>) null);
+    }
+
     @Test
     public void testSize() throws Exception {
 
