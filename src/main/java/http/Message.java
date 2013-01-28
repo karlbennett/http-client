@@ -3,6 +3,7 @@ package http;
 import http.header.Header;
 
 import java.util.Collection;
+import java.util.Map;
 
 /**
  * Represents a generic HTTP message and supplies accessor methods for retrieving and populating the common HTTP message
@@ -12,6 +13,24 @@ import java.util.Collection;
  */
 public class Message<T> {
 
+    private AttributeMap<Header> headers;
+
+
+    public Message(AttributeMap<Header> headers) {
+
+        this.headers = headers;
+    }
+
+    public Message(Map<String, Header> headers) {
+
+        this(new AttributeMap<>(headers));
+    }
+
+    public Message() {
+
+        this.headers = new AttributeMap<>();
+    }
+
     /**
      * Get all the headers set for the current {@code Message}.
      *
@@ -19,7 +38,7 @@ public class Message<T> {
      */
     public Collection<Header> getHeaders() {
 
-        return null;
+        return headers.values();
     }
 
     /**
@@ -40,7 +59,7 @@ public class Message<T> {
      */
     public <T> Header<T> getHeader(String name) {
 
-        return null;
+        return headers.get(name);
     }
 
     /**
@@ -50,6 +69,7 @@ public class Message<T> {
      */
     public void setHeaders(Collection<Header> headers) {
 
+        this.headers = new AttributeMap<>(headers);
     }
 
     /**
@@ -61,7 +81,7 @@ public class Message<T> {
      */
     public void addHeader(String name, Object value) {
 
-        addHeader(new Header<Object>(name, value));
+        addHeader(new Header<>(name, value));
     }
 
     /**
@@ -72,6 +92,7 @@ public class Message<T> {
      */
     public void addHeader(Header header) {
 
+        headers.add(header);
     }
 
     /**
