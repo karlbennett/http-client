@@ -175,30 +175,12 @@ public abstract class AbstractClientRequestMethodTest implements RequestHandler 
     }
 
     @Test
-    public void testRequestWithStringBody() throws Exception {
-
-        Request<String> request = new Request<String>(TEST_URL);
-        request.setBody(TEST_STRING_BODY);
-
-        requestWithBodyTest(TEST_URL, TEST_STRING_BODY, requestExecutor.<InputStream>execute(request));
-    }
-
-    @Test
-    public void testRequestWithInputStreamBody() throws Exception {
+    public void testRequestBody() throws Exception {
 
         Request<InputStream> request = new Request<InputStream>(TEST_URL);
         request.setBody(TEST_INPUT_STREAM_BODY);
 
         requestWithBodyTest(TEST_URL, TEST_INPUT_STREAM_BODY, requestExecutor.<InputStream>execute(request));
-    }
-
-    @Test
-    public void testRequestWithObjectBody() throws Exception {
-
-        Request<Object> request = new Request<Object>(TEST_URL);
-        request.setBody(TEST_OBJECT_BODY);
-
-        requestWithBodyTest(TEST_URL, TEST_OBJECT_BODY, requestExecutor.<InputStream>execute(request));
     }
 
 
@@ -281,7 +263,7 @@ public abstract class AbstractClientRequestMethodTest implements RequestHandler 
                 " method.", body);
     }
 
-    private void requestWithBodyTest(URL url, Object body, Response<InputStream> testResponse) throws Exception {
+    private void requestWithBodyTest(URL url, InputStream body, Response<InputStream> testResponse) throws Exception {
 
         assertEquals("the correct response should be returned from the " + testMethodType + " " + testMethod + " method.",
                 TEST_RESPONSE, testResponse);
@@ -299,19 +281,7 @@ public abstract class AbstractClientRequestMethodTest implements RequestHandler 
         assertNotNull("some body content should have been produced from the " + testMethodType + " " + testMethod +
                 " method.", body);
 
-        if (body instanceof String) {
-
-            assertEquals("the correct body content should have been produced from the " + testMethodType + " " +
-                    testMethod + " method.", body, IOUtils.toString(this.body));
-
-        } else if (body instanceof InputStream) {
-
-            assertEquals("the correct body content should have been produced from the " + testMethodType + " " +
-                    testMethod + " method.", IOUtils.toString((InputStream) body), IOUtils.toString(this.body));
-        } else {
-
-            assertEquals("the correct body content should have been produced from the " + testMethodType + " " +
-                    testMethod + " method.", body.toString(), IOUtils.toString(this.body));
-        }
+        assertEquals("the correct body content should have been produced from the " + testMethodType + " " +
+                    testMethod + " method.", IOUtils.toString(body), IOUtils.toString(this.body));
     }
 }
