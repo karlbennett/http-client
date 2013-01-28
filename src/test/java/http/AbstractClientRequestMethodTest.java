@@ -94,16 +94,14 @@ public abstract class AbstractClientRequestMethodTest implements RequestHandler 
     private InputStream body;
 
     @Override
-    public Response<InputStream> handleRequest(String method, URL url, Collection<Header> headers,
-                                               Collection<Cookie> cookies, Collection<Parameter> parameters,
-                                               InputStream body) {
+    public Response<InputStream> handleRequest(String method, Request<InputStream> request) {
 
-        this.url = url;
+        this.url = request.getUrl();
         this.method = method;
-        this.headers = headers;
-        this.parameters = parameters;
-        this.cookies = cookies;
-        this.body = body;
+        this.headers = request.getHeaders();
+        this.parameters = request.getParameters();
+        this.cookies = request.getCookies();
+        this.body = request.getBody();
 
         return TEST_RESPONSE;
     }
