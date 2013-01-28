@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Map;
+import java.util.TreeMap;
 
 import static http.Attributes.*;
 import static org.junit.Assert.*;
@@ -40,28 +41,31 @@ public class AttributeMapTest {
         Map<String, Attribute<String>> attributes = new AttributeMap<>(this.attributes);
 
         assertEquals(TEST_ATTRIBUTE_ONE + " should be in the copied attribute map.",
-                TEST_ATTRIBUTE_ONE, emptyAttributes.get(TEST_ATTRIBUTE_NAME_ONE));
+                TEST_ATTRIBUTE_ONE, attributes.get(TEST_ATTRIBUTE_NAME_ONE));
 
         assertEquals(TEST_ATTRIBUTE_TWO + " should be in the copied attribute map.",
-                TEST_ATTRIBUTE_TWO, emptyAttributes.get(TEST_ATTRIBUTE_NAME_TWO));
+                TEST_ATTRIBUTE_TWO, attributes.get(TEST_ATTRIBUTE_NAME_TWO));
 
         assertEquals(TEST_ATTRIBUTE_THREE + " should be in the copied attribute map.",
-                TEST_ATTRIBUTE_THREE, emptyAttributes.get(TEST_ATTRIBUTE_NAME_THREE));
+                TEST_ATTRIBUTE_THREE, attributes.get(TEST_ATTRIBUTE_NAME_THREE));
     }
 
     @Test
-    public void testCreateAttributeMapFromMap() throws Exception {
+    public void testCreateAttributeMapWithBackingMap() throws Exception {
 
-        Map<String, Attribute<String>> attributes = new AttributeMap<>(TEST_ATTRIBUTES_MAP);
+        Map<String, Attribute<String>> backingMap = new TreeMap<>();
+
+        Map<String, Attribute<String>> attributes = new AttributeMap<>(backingMap);
+        attributes.putAll(TEST_ATTRIBUTES_MAP);
 
         assertEquals(TEST_ATTRIBUTE_ONE + " should be in the attribute map that was created from a map.",
-                TEST_ATTRIBUTE_ONE, emptyAttributes.get(TEST_ATTRIBUTE_NAME_ONE));
+                TEST_ATTRIBUTE_ONE, backingMap.get(TEST_ATTRIBUTE_NAME_ONE));
 
         assertEquals(TEST_ATTRIBUTE_TWO + " should be in the attribute map that was created from a map.",
-                TEST_ATTRIBUTE_TWO, emptyAttributes.get(TEST_ATTRIBUTE_NAME_TWO));
+                TEST_ATTRIBUTE_TWO, backingMap.get(TEST_ATTRIBUTE_NAME_TWO));
 
         assertEquals(TEST_ATTRIBUTE_THREE + " should be in the attribute map that was created from a map.",
-                TEST_ATTRIBUTE_THREE, emptyAttributes.get(TEST_ATTRIBUTE_NAME_THREE));
+                TEST_ATTRIBUTE_THREE, backingMap.get(TEST_ATTRIBUTE_NAME_THREE));
     }
 
     @Test
@@ -70,13 +74,13 @@ public class AttributeMapTest {
         Map<String, Attribute<String>> attributes = new AttributeMap<>(TEST_ATTRIBUTES);
 
         assertEquals(TEST_ATTRIBUTE_ONE + " should be in the attribute map that was created from a collection.",
-                TEST_ATTRIBUTE_ONE, emptyAttributes.get(TEST_ATTRIBUTE_NAME_ONE));
+                TEST_ATTRIBUTE_ONE, attributes.get(TEST_ATTRIBUTE_NAME_ONE));
 
         assertEquals(TEST_ATTRIBUTE_TWO + " should be in the attribute map that was created from a collection.",
-                TEST_ATTRIBUTE_TWO, emptyAttributes.get(TEST_ATTRIBUTE_NAME_TWO));
+                TEST_ATTRIBUTE_TWO, attributes.get(TEST_ATTRIBUTE_NAME_TWO));
 
         assertEquals(TEST_ATTRIBUTE_THREE + " should be in the attribute map that was created from a collection.",
-                TEST_ATTRIBUTE_THREE, emptyAttributes.get(TEST_ATTRIBUTE_NAME_THREE));
+                TEST_ATTRIBUTE_THREE, attributes.get(TEST_ATTRIBUTE_NAME_THREE));
     }
 
     @Test

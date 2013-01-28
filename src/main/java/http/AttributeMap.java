@@ -1,6 +1,7 @@
 package http;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -13,37 +14,62 @@ import java.util.Set;
 public class AttributeMap<A extends Attribute> implements Map<String, A> {
 
     /**
-     * Create an empty {@code AttributeMap}.
+     * Create a new {@code AttributeMap} using the supplied backing map. This will be the map that is used internally to
+     * supply all the {@link Map} support.
+     *
+     * @param backingMap the backing map for the new {@code AttributeMap}.
      */
-    public AttributeMap() {
+    public AttributeMap(Map<String, A> backingMap) {
+
     }
 
     /**
-     * Copy the supplied {@code AttributeMap}.
+     * Create an empty {@code AttributeMap} that uses a {@link java.util.HashMap} for it's backing map.
+     */
+    public AttributeMap() {
+
+        this(new HashMap<String, A>());
+    }
+
+    /**
+     * Copy the supplied {@code AttributeMap} and use the supplied backing map.
+     *
+     * @param backingMap the backing map for the new {@code AttributeMap}.
+     * @param attributes the {@code AttributeMap} to copy.
+     */
+    public AttributeMap(Map<String, A> backingMap, AttributeMap<A> attributes) {
+
+    }
+
+    /**
+     * Copy the supplied {@code AttributeMap} and use a {@link java.util.HashMap} for it's backing map.
      *
      * @param attributes the {@code AttributeMap} to copy.
      */
     public AttributeMap(AttributeMap<A> attributes) {
 
+        this(new HashMap<String, A>(), attributes);
     }
 
     /**
-     * Populate the new {@code AttributeMap} from the supplied map.
+     * Populate the new {@code AttributeMap} from the supplied collection of {@link Attribute}'s and use the supplied
+     * backing map. The attributes names will be used as the maps keys.
      *
-     * @param attributes the map of attributes to use to populate the new {@code AttributeMap}.
+     * @param attributes the collection of {@code Attribute}'s to use to populate the new {@code AttributeMap}.
      */
-    public AttributeMap(Map<String, A> attributes) {
+    public AttributeMap(Map<String, A> backingMap, Collection<A> attributes) {
 
     }
 
     /**
-     * Populate the new {@code AttributeMap} from the supplied collection of {@link Attribute}'s. The attributes names
-     * will be used as the maps keys.
+     * Populate the new {@code AttributeMap} from the supplied collection of {@link Attribute}'s and use a
+     * {@link java.util.HashMap} for it's backing map. The attributes names will be used as the maps keys.
      *
      * @param attributes the collection of {@code Attribute}'s to use to populate the new {@code AttributeMap}.
      */
     public AttributeMap(Collection<A> attributes) {
 
+        this(new HashMap<String, A>(), attributes);
     }
 
 
