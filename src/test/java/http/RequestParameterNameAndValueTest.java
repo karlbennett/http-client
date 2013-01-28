@@ -9,9 +9,9 @@ import static http.Urls.TEST_URL;
 /**
  * @author Karl Bennett
  */
-public class ClientRequestParameterNameAndValueTest extends AbstractClientRequestParameterTest {
+public class RequestParameterNameAndValueTest extends AbstractClientRequestParameterTest {
 
-    public ClientRequestParameterNameAndValueTest() {
+    public RequestParameterNameAndValueTest() {
         super(new MessageExecutor<Request<Object>, Parameter>() {
 
             @Override

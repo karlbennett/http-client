@@ -14,7 +14,7 @@ import static org.junit.Assert.assertEquals;
 /**
  * @author Karl Bennett
  */
-public class ClientRequestCreationTest {
+public class RequestCreationTest {
 
     @Test
     public void testCreateRequestWithUrlString() throws Exception {

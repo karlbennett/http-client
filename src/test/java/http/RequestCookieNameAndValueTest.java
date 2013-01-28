@@ -8,10 +8,10 @@ import static http.Urls.TEST_URL;
 /**
  * @author Karl Bennett
  */
-public class ClientRequestCookieNameAndValueTest extends AbstractMessageCookieTest<Request<Object>> {
+public class RequestCookieNameAndValueTest extends AbstractMessageCookieTest<Request<Object>> {
 
 
-    public ClientRequestCookieNameAndValueTest() {
+    public RequestCookieNameAndValueTest() {
         super(new MessageExecutor<Request<Object>, Cookie>() {
 
             @Override

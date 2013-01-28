@@ -8,10 +8,10 @@ import static java.net.HttpURLConnection.HTTP_OK;
 /**
  * @author Karl Bennett
  */
-public class ClientResponseCookieNameAndValueTest extends AbstractMessageCookieTest<Response<Object>> {
+public class ResponseCookieNameAndValueTest extends AbstractMessageCookieTest<Response<Object>> {
 
 
-    public ClientResponseCookieNameAndValueTest() {
+    public ResponseCookieNameAndValueTest() {
         super(new MessageExecutor<Response<Object>, Cookie>() {
 
             @Override
