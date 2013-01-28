@@ -67,4 +67,33 @@ public class Attribute<T> {
     public T getValue() {
         return values.get(0);
     }
+
+
+    @Override
+    public boolean equals(Object o) {
+
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Attribute attribute = (Attribute) o;
+
+        return name.equals(attribute.name) && values.equals(attribute.values);
+    }
+
+    @Override
+    public int hashCode() {
+
+        int result = name.hashCode();
+
+        result = 31 * result + values.hashCode();
+
+        return result;
+    }
+
+    @Override
+    public String toString() {
+
+        return name + ": " + values;
+    }
 }
