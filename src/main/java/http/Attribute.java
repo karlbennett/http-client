@@ -23,6 +23,7 @@ public class Attribute<T> {
      *
      * @param name the name of the attribute.
      * @param values the values for the attribute.
+     * @throws IllegalArgumentException if the {@code Attribute}'s name is empty or the values are null.
      */
     public Attribute(String name, List<T> values) {
 
@@ -38,6 +39,7 @@ public class Attribute<T> {
      *
      * @param name the name of the attribute.
      * @param value the single value for the attribute.
+     * @throws IllegalArgumentException if the {@code Attribute}'s name is empty or the value is null.
      */
     public Attribute(String name, T value) {
 
