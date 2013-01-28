@@ -35,4 +35,23 @@ public final class Assert {
             throw new IllegalArgumentException("The (" + name + ") variable should not be null.");
         }
     }
+
+    /**
+     * Assert that the supplied {@link String} value is not empty ({@code null} or the empty string {@code ""}) and
+     * throw an {@link IllegalArgumentException} if it is. This should be used to check the arguments of constructors
+     * and methods.
+     *
+     * @param name the name of the variable that is being checked. It will be used in the exception message.
+     * @param value the value of the variable that is being checked to see if it empty.
+     * @throws IllegalArgumentException if the value is null.
+     */
+    public static void assertNotEmpty(String name, String value) {
+
+        assertNotNull(name, value);
+
+        if ("".equals(value)) {
+
+            throw new IllegalArgumentException("The (" + name + ") variable should not be empty.");
+        }
+    }
 }
