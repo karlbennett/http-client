@@ -33,10 +33,6 @@ import java.net.URL;
  * &nbsp;&nbsp;&nbsp;&nbsp;POST(request);
  * </code>
  * <p/>
- * The singleton client can be configured with the {@link Configuration} instance returned or set by the
- * {@link #GET_CONFIGURATION} or {@link #SET_CONFIGURATION} methods respectively. It also automatically imports and uses
- * the JVM SSL and proxy properties.
- * <p/>
  * Proxy:<br/>
  * <code>
  * &nbsp;&nbsp;&nbsp;&nbsp;http.proxyHost<br/>
@@ -102,8 +98,7 @@ public class Client {
 
 
     /**
-     * Static method that behaves exactly the same as the {@link #options(String)} method except that it is configure
-     * with the application global {@link #GET_CONFIGURATION} method.
+     * Static method that behaves exactly the same as the {@link #options(String)} method.
      *
      * @param url a {@code java.lang.String} containing the {@code URL} for the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
@@ -114,8 +109,7 @@ public class Client {
     }
 
     /**
-     * Static method that behaves exactly the same as the {@link #options(java.net.URL)} method except that it is
-     * configure with the application global {@link #GET_CONFIGURATION} method.
+     * Static method that behaves exactly the same as the {@link #options(java.net.URL)} method.
      *
      * @param url the {@code URL} for the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
@@ -126,8 +120,7 @@ public class Client {
     }
 
     /**
-     * Static method that behaves exactly the same as the {@link #options(http.Request)} method except that it is
-     * configure with the application global {@link #GET_CONFIGURATION} method.
+     * Static method that behaves exactly the same as the {@link #options(http.Request)} method.
      *
      * @param request the {@code Request} that will be sent to the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
@@ -140,8 +133,7 @@ public class Client {
     }
 
     /**
-     * Static method that behaves exactly the same as the {@link #get(String)} method except that it is configure
-     * with the application global {@link #GET_CONFIGURATION} method.
+     * Static method that behaves exactly the same as the {@link #get(String)} method.
      *
      * @param url a {@code java.lang.String} containing the {@code URL} for the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
@@ -152,8 +144,7 @@ public class Client {
     }
 
     /**
-     * Static method that behaves exactly the same as the {@link #get(java.net.URL)} method except that it is
-     * configure with the application global {@link #GET_CONFIGURATION} method.
+     * Static method that behaves exactly the same as the {@link #get(java.net.URL)} method.
      *
      * @param url the {@code URL} for the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
@@ -164,8 +155,7 @@ public class Client {
     }
 
     /**
-     * Static method that behaves exactly the same as the {@link #get(http.Request)} method except that it is
-     * configure with the application global {@link #GET_CONFIGURATION} method.
+     * Static method that behaves exactly the same as the {@link #get(http.Request)} method.
      *
      * @param request the {@code Request} that will be sent to the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
@@ -178,8 +168,7 @@ public class Client {
     }
 
     /**
-     * Static method that behaves exactly the same as the {@link #head(String)} method except that it is configure
-     * with the application global {@link #GET_CONFIGURATION} method.
+     * Static method that behaves exactly the same as the {@link #head(String)} method.
      *
      * @param url a {@code java.lang.String} containing the {@code URL} for the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
@@ -190,8 +179,7 @@ public class Client {
     }
 
     /**
-     * Static method that behaves exactly the same as the {@link #head(java.net.URL)} method except that it is
-     * configure with the application global {@link #GET_CONFIGURATION} method.
+     * Static method that behaves exactly the same as the {@link #head(java.net.URL)} method.
      *
      * @param url the {@code URL} for the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
@@ -202,8 +190,7 @@ public class Client {
     }
 
     /**
-     * Static method that behaves exactly the same as the {@link #head(http.Request)} method except that it is
-     * configure with the application global {@link #GET_CONFIGURATION} method.
+     * Static method that behaves exactly the same as the {@link #head(http.Request)} method.
      *
      * @param request the {@code Request} that will be sent to the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
@@ -216,8 +203,7 @@ public class Client {
     }
 
     /**
-     * Static method that behaves exactly the same as the {@link #post(String)}  method except that it is configure
-     * with the application global {@link #GET_CONFIGURATION} method.
+     * Static method that behaves exactly the same as the {@link #post(String)} method.
      *
      * @param url a {@code java.lang.String} containing the {@code URL} for the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
@@ -228,8 +214,7 @@ public class Client {
     }
 
     /**
-     * Static method that behaves exactly the same as the {@link #post(java.net.URL)} method except that it is
-     * configure with the application global {@link #GET_CONFIGURATION} method.
+     * Static method that behaves exactly the same as the {@link #post(java.net.URL)} method.
      *
      * @param url the {@code URL} for the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
@@ -240,8 +225,7 @@ public class Client {
     }
 
     /**
-     * Static method that behaves exactly the same as the {@link #post(http.Request)} method except that it is
-     * configure with the application global {@link #GET_CONFIGURATION} method.
+     * Static method that behaves exactly the same as the {@link #post(http.Request)} method.
      *
      * @param request the {@code Request} that will be sent to the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
@@ -254,8 +238,7 @@ public class Client {
     }
 
     /**
-     * Static method that behaves exactly the same as the {@link #put(String)}  method except that it is configure
-     * with the application global {@link #GET_CONFIGURATION} method.
+     * Static method that behaves exactly the same as the {@link #put(String)} method.
      *
      * @param url a {@code java.lang.String} containing the {@code URL} for the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
@@ -266,8 +249,7 @@ public class Client {
     }
 
     /**
-     * Static method that behaves exactly the same as the {@link #put(java.net.URL)} method except that it is
-     * configure with the application global {@link #GET_CONFIGURATION} method.
+     * Static method that behaves exactly the same as the {@link #put(java.net.URL)} method.
      *
      * @param url the {@code URL} for the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
@@ -278,8 +260,7 @@ public class Client {
     }
 
     /**
-     * Static method that behaves exactly the same as the {@link #put(http.Request)} method except that it is
-     * configure with the application global {@link #GET_CONFIGURATION} method.
+     * Static method that behaves exactly the same as the {@link #put(http.Request)} method.
      *
      * @param request the {@code Request} that will be sent to the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
@@ -292,8 +273,7 @@ public class Client {
     }
 
     /**
-     * Static method that behaves exactly the same as the {@link #delete(String)}  method except that it is configure
-     * with the application global {@link #GET_CONFIGURATION} method.
+     * Static method that behaves exactly the same as the {@link #delete(String)} method.
      *
      * @param url a {@code java.lang.String} containing the {@code URL} for the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
@@ -304,8 +284,7 @@ public class Client {
     }
 
     /**
-     * Static method that behaves exactly the same as the {@link #delete(java.net.URL)} method except that it is
-     * configure with the application global {@link #GET_CONFIGURATION} method.
+     * Static method that behaves exactly the same as the {@link #delete(java.net.URL)} method.
      *
      * @param url the {@code URL} for the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
@@ -316,8 +295,7 @@ public class Client {
     }
 
     /**
-     * Static method that behaves exactly the same as the {@link #delete(http.Request)} method except that it is
-     * configure with the application global {@link #GET_CONFIGURATION} method.
+     * Static method that behaves exactly the same as the {@link #delete(http.Request)} method.
      *
      * @param request the {@code Request} that will be sent to the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
@@ -330,8 +308,7 @@ public class Client {
     }
 
     /**
-     * Static method that behaves exactly the same as the {@link #trace(String)}  method except that it is configure
-     * with the application global {@link #GET_CONFIGURATION} method.
+     * Static method that behaves exactly the same as the {@link #trace(String)} method.
      *
      * @param url a {@code java.lang.String} containing the {@code URL} for the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
@@ -342,8 +319,7 @@ public class Client {
     }
 
     /**
-     * Static method that behaves exactly the same as the {@link #trace(java.net.URL)} method except that it is
-     * configure with the application global {@link #GET_CONFIGURATION} method.
+     * Static method that behaves exactly the same as the {@link #trace(java.net.URL)} method.
      *
      * @param url the {@code URL} for the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
@@ -354,8 +330,7 @@ public class Client {
     }
 
     /**
-     * Static method that behaves exactly the same as the {@link #trace(http.Request)} method except that it is
-     * configure with the application global {@link #GET_CONFIGURATION} method.
+     * Static method that behaves exactly the same as the {@link #trace(http.Request)} method.
      *
      * @param request the {@code Request} that will be sent to the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
@@ -368,8 +343,7 @@ public class Client {
     }
 
     /**
-     * Static method that behaves exactly the same as the {@link #connect(String)}  method except that it is configure
-     * with the application global {@link #GET_CONFIGURATION} method.
+     * Static method that behaves exactly the same as the {@link #connect(String)} method.
      *
      * @param url a {@code java.lang.String} containing the {@code URL} for the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
@@ -380,8 +354,7 @@ public class Client {
     }
 
     /**
-     * Static method that behaves exactly the same as the {@link #connect(java.net.URL)} method except that it is
-     * configure with the application global {@link #GET_CONFIGURATION} method.
+     * Static method that behaves exactly the same as the {@link #connect(java.net.URL)} method.
      *
      * @param url the {@code URL} for the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
@@ -392,8 +365,7 @@ public class Client {
     }
 
     /**
-     * Static method that behaves exactly the same as the {@link #connect(http.Request)} method except that it is
-     * configure with the application global {@link #GET_CONFIGURATION} method.
+     * Static method that behaves exactly the same as the {@link #connect(http.Request)} method.
      *
      * @param request the {@code Request} that will be sent to the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
@@ -406,33 +378,9 @@ public class Client {
     }
 
 
-    /**
-     * Static method that behaves the same as the {@link #getConfiguration} method except that it returns a
-     * {@link Configuration} instance that can be used to apply configuration for the application global static request
-     * methods e.g. {@link #GET(java.net.URL) GET}, {@link #GET(java.net.URL) POST}, {@link #GET(java.net.URL) PUT}...
-     *
-     * @return the current static global {@code Configuration} instance.
-     */
-    public static Configuration GET_CONFIGURATION() {
-
-        return getInstance().getConfiguration();
-    }
-
-    /**
-     * Static method that behaves the same as the {@link #getConfiguration} method except that it returns a
-     * {@link Configuration} instance that can be used to apply configuration for the application global static request
-     * methods e.g. {@link #GET(java.net.URL) GET}, {@link #GET(java.net.URL) POST}, {@link #GET(java.net.URL) PUT}...
-     *
-     * @param configuration a new {@code Configuration} instance.
-     */
-    public static void SET_CONFIGURATION(Configuration configuration) {
-
-        getInstance().setConfiguration(configuration);
-    }
-
-
     public Client() {
     }
+
 
     /**
      * Sends an {@code OPTIONS} request to the {@code HTTP} server at the provided {@code URL}.
@@ -459,7 +407,8 @@ public class Client {
     /**
      * Sends an {@code OPTIONS} request to the {@code HTTP} server defined within the provided {@link Request}.
      * <p/>
-     * Any {@link http.header.Header}'s, {@link http.parameter.Parameter}'s, and body that have been populated in the request will be sent.
+     * Any {@link http.header.Header}'s, {@link http.parameter.Parameter}'s, and body that have been populated in the
+     * request will be sent.
      *
      * @param request the {@code Request} that will be sent to the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
@@ -496,7 +445,8 @@ public class Client {
     /**
      * Sends an {@code GET} request to the {@code HTTP} server defined within the provided {@link Request}.
      * <p/>
-     * Any {@link http.header.Header}'s, {@link http.parameter.Parameter}'s, and body that have been populated in the request will be sent.
+     * Any {@link http.header.Header}'s, {@link http.parameter.Parameter}'s, and body that have been populated in the
+     * request will be sent.
      *
      * @param request the {@code Request} that will be sent to the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
@@ -533,7 +483,8 @@ public class Client {
     /**
      * Sends an {@code HEAD} request to the {@code HTTP} server defined within the provided {@link Request}.
      * <p/>
-     * Any {@link http.header.Header}'s, {@link http.parameter.Parameter}'s, and body that have been populated in the request will be sent.
+     * Any {@link http.header.Header}'s, {@link http.parameter.Parameter}'s, and body that have been populated in the
+     * request will be sent.
      *
      * @param request the {@code Request} that will be sent to the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
@@ -570,7 +521,8 @@ public class Client {
     /**
      * Sends an {@code POST} request to the {@code HTTP} server defined within the provided {@link Request}.
      * <p/>
-     * Any {@link http.header.Header}'s, {@link http.parameter.Parameter}'s, and body that have been populated in the request will be sent.
+     * Any {@link http.header.Header}'s, {@link http.parameter.Parameter}'s, and body that have been populated in the
+     * request will be sent.
      *
      * @param request the {@code Request} that will be sent to the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
@@ -607,7 +559,8 @@ public class Client {
     /**
      * Sends an {@code PUT} request to the {@code HTTP} server defined within the provided {@link Request}.
      * <p/>
-     * Any {@link http.header.Header}'s, {@link http.parameter.Parameter}'s, and body that have been populated in the request will be sent.
+     * Any {@link http.header.Header}'s, {@link http.parameter.Parameter}'s, and body that have been populated in the
+     * request will be sent.
      *
      * @param request the {@code Request} that will be sent to the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
@@ -644,7 +597,8 @@ public class Client {
     /**
      * Sends an {@code DELETE} request to the {@code HTTP} server defined within the provided {@link Request}.
      * <p/>
-     * Any {@link http.header.Header}'s, {@link http.parameter.Parameter}'s, and body that have been populated in the request will be sent.
+     * Any {@link http.header.Header}'s, {@link http.parameter.Parameter}'s, and body that have been populated in the
+     * request will be sent.
      *
      * @param request the {@code Request} that will be sent to the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
@@ -681,7 +635,8 @@ public class Client {
     /**
      * Sends an {@code TRACE} request to the {@code HTTP} server defined within the provided {@link Request}.
      * <p/>
-     * Any {@link http.header.Header}'s, {@link http.parameter.Parameter}'s, and body that have been populated in the request will be sent.
+     * Any {@link http.header.Header}'s, {@link http.parameter.Parameter}'s, and body that have been populated in the
+     * request will be sent.
      *
      * @param request the {@code Request} that will be sent to the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
@@ -718,7 +673,8 @@ public class Client {
     /**
      * Sends an {@code CONNECT} request to the {@code HTTP} server defined within the provided {@link Request}.
      * <p/>
-     * Any {@link http.header.Header}'s, {@link http.parameter.Parameter}'s, and body that have been populated in the request will be sent.
+     * Any {@link http.header.Header}'s, {@link http.parameter.Parameter}'s, and body that have been populated in the
+     * request will be sent.
      *
      * @param request the {@code Request} that will be sent to the {@code HTTP} server.
      * @return the {@link Response} sent back by the {@code HTTP} server.
@@ -728,26 +684,5 @@ public class Client {
     public Response<InputStream> connect(Request request) {
 
         return null;
-    }
-
-
-    /**
-     * Returns the current {@link Configuration} instance for this {@link Client}.
-     * This can be used to configure all the different aspects of the client.
-     *
-     * @return the current {@code Configuration} instance.
-     */
-    public Configuration getConfiguration() {
-
-        return null;
-    }
-
-    /**
-     * Overrides the clients {@link Configuration} object. This will override all the previous client configuration.
-     *
-     * @param configuration a new {@code Configuration} instance.
-     */
-    public void setConfiguration(Configuration configuration) {
-
     }
 }
