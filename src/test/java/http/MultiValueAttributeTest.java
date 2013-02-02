@@ -7,9 +7,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static http.Attributes.*;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 /**
  * @author Karl Bennett
@@ -86,5 +84,19 @@ public class MultiValueAttributeTest {
                         )
                 ).getValues()
         );
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void testGetValuesIsUnmodifiable() throws Exception {
+
+        List<String> values = new MultiValueAttribute<>(TEST_ATTRIBUTE_NAME_ONE,
+                Arrays.asList(
+                        TEST_ATTRIBUTE_VALUE_ONE,
+                        TEST_ATTRIBUTE_VALUE_TWO,
+                        TEST_ATTRIBUTE_VALUE_THREE
+                )
+        ).getValues();
+
+        values.add("this should break.");
     }
 }

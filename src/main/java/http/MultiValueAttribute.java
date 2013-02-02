@@ -59,6 +59,7 @@ public class MultiValueAttribute<T> extends Attribute<T> {
      * @return the attributes values.
      */
     public List<T> getValues() {
-        return values;
+
+        return Collections.unmodifiableList(values);
     }
 }
