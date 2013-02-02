@@ -3,7 +3,6 @@ package http;
 import http.header.Header;
 
 import java.util.Collection;
-import java.util.Map;
 
 /**
  * Represents a generic HTTP message and supplies accessor methods for retrieving and populating the common HTTP message
@@ -16,16 +15,19 @@ public class Message<T> {
     private AttributeMap<Header> headers;
 
 
+    /**
+     * Create a new Message with an {@link AttributeMap} of headers.
+     *
+     * @param headers the headers that will be contained in this message.
+     */
     public Message(AttributeMap<Header> headers) {
 
         this.headers = headers;
     }
 
-    public Message(Map<String, Header> headers) {
-
-        this(new AttributeMap<>(headers));
-    }
-
+    /**
+     * Create a new {@code Message} that doesn't contain any {@link Header}s.
+     */
     public Message() {
 
         this.headers = new AttributeMap<>();
