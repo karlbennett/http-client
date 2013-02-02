@@ -3,6 +3,7 @@ package http;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.TreeMap;
@@ -85,9 +86,21 @@ public class AttributeMapTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
+    public void testCreateAttributeMapWithNullAttributeMap() throws Exception {
+
+        new AttributeMap<>((AttributeMap<Attribute>) null);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
     public void testCreateAttributeMapWithNullBackingMap() throws Exception {
 
         new AttributeMap<>((Map<String, Attribute>) null);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testCreateAttributeMapWithNullCollection() throws Exception {
+
+        new AttributeMap<>((Collection<Attribute>) null);
     }
 
     @Test

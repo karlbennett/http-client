@@ -23,6 +23,7 @@ public class AttributeMap<A extends Attribute> implements Map<String, A> {
      * supply all the {@link Map} support.
      *
      * @param backingMap the backing map for the new {@code AttributeMap}.
+     * @throws IllegalArgumentException if the {@code backingMap} is {@code null}.
      */
     public AttributeMap(Map<String, A> backingMap) {
 
@@ -44,10 +45,14 @@ public class AttributeMap<A extends Attribute> implements Map<String, A> {
      *
      * @param backingMap the backing map for the new {@code AttributeMap}.
      * @param attributes the {@code AttributeMap} to copy.
+     * @throws IllegalArgumentException if the {@code backingMap} is {@code null}.
+     * @throws IllegalArgumentException if the {@code attributes} argument is {@code null}.
      */
     public AttributeMap(Map<String, A> backingMap, AttributeMap<A> attributes) {
 
         this(backingMap);
+
+        assertNotNull("attributes", attributes);
 
         this.backingMap.putAll(attributes);
     }
@@ -56,6 +61,7 @@ public class AttributeMap<A extends Attribute> implements Map<String, A> {
      * Copy the supplied {@code AttributeMap} and use a {@link java.util.HashMap} for it's backing map.
      *
      * @param attributes the {@code AttributeMap} to copy.
+     * @throws IllegalArgumentException if the {@code attributes} argument is {@code null}.
      */
     public AttributeMap(AttributeMap<A> attributes) {
 
@@ -67,10 +73,14 @@ public class AttributeMap<A extends Attribute> implements Map<String, A> {
      * backing map. The attributes names will be used as the maps keys.
      *
      * @param attributes the collection of {@code Attribute}'s to use to populate the new {@code AttributeMap}.
+     * @throws IllegalArgumentException if the {@code backingMap} is {@code null}.
+     * @throws IllegalArgumentException if the {@code attributes} argument is {@code null}.
      */
     public AttributeMap(Map<String, A> backingMap, Collection<A> attributes) {
 
         this(backingMap);
+
+        assertNotNull("attributes", attributes);
 
         for (A attribute : attributes) add(attribute);
     }
@@ -80,6 +90,7 @@ public class AttributeMap<A extends Attribute> implements Map<String, A> {
      * {@link java.util.HashMap} for it's backing map. The attributes names will be used as the maps keys.
      *
      * @param attributes the collection of {@code Attribute}'s to use to populate the new {@code AttributeMap}.
+     * @throws IllegalArgumentException if the {@code attributes} argument is {@code null}.
      */
     public AttributeMap(Collection<A> attributes) {
 
