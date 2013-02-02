@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 import static http.util.Assert.assertNotNull;
+import static http.util.Checks.isNull;
 
 /**
  * This is a map that can contain {@link Attribute}'s and it's sub classes. It provides convenience constructors and
@@ -155,12 +156,14 @@ public class AttributeMap<A extends Attribute> implements Map<String, A> {
     /**
      * Add the supplied {@link Attribute} to this {@code AttributeMap}. The attributes name will be used as the key.
      *
-     * @param value the {@code Attribute} to add to this {@code AttributeMap}.
+     * @param attribute the {@code Attribute} to add to this {@code AttributeMap}.
      * @return the newly added {@code Attribute}.
      */
-    public A add(A value) {
+    public A add(A attribute) {
 
-        return put(value.getName(), value);
+        if (isNull(attribute)) return null;
+
+        return put(attribute.getName(), attribute);
     }
 
     /**
