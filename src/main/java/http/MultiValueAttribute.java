@@ -4,7 +4,8 @@ package http;
 import java.util.Collections;
 import java.util.List;
 
-import static http.util.Assert.assertNotEmpty;
+import static http.util.Checks.isEmpty;
+import static http.util.Checks.isNull;
 
 /**
  *
@@ -17,9 +18,7 @@ public class MultiValueAttribute<T> extends Attribute<T> {
 
     private static <T> T getFirst(List<T> values) {
 
-        assertNotEmpty("values", values);
-
-        return values.get(0);
+        return isEmpty(values) ? null : values.get(0);
     }
 
     private final List<T> values;
@@ -49,7 +48,7 @@ public class MultiValueAttribute<T> extends Attribute<T> {
     public MultiValueAttribute(String name, T value) {
         super(name, value);
 
-        this.values = Collections.singletonList(value);
+        this.values = isNull(value) ? null : Collections.singletonList(value);
     }
 
 

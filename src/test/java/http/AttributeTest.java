@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import static http.Attributes.*;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 /**
  * @author Karl Bennett
@@ -28,10 +29,12 @@ public class AttributeTest {
         new Attribute<>("", new Object());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testCreateAttributeWithNullValue() throws Exception {
 
-        new Attribute<>(TEST_ATTRIBUTE_NAME_ONE, null);
+        Attribute attribute = new Attribute<>(TEST_ATTRIBUTE_NAME_ONE, null);
+
+        assertNull("attribute value should be null.", attribute.getValue());
     }
 
     @Test(expected = IllegalArgumentException.class)

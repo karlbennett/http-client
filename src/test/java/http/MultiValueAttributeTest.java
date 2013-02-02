@@ -8,6 +8,7 @@ import java.util.List;
 
 import static http.Attributes.*;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 /**
  * @author Karl Bennett
@@ -45,16 +46,22 @@ public class MultiValueAttributeTest {
         new MultiValueAttribute<>("", Collections.singletonList(new Object()));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testCreateAttributeWithNullValue() throws Exception {
 
-        new MultiValueAttribute<>(TEST_ATTRIBUTE_NAME_ONE, (Object) null);
+        MultiValueAttribute attribute = new MultiValueAttribute<>(TEST_ATTRIBUTE_NAME_ONE, (Object) null);
+
+        assertNull("attribute value should be null.", attribute.getValue());
+        assertNull("attribute values should be null.", attribute.getValues());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testCreateAttributeWithNullValues() throws Exception {
 
-        new MultiValueAttribute<>(TEST_ATTRIBUTE_NAME_ONE, (List<Object>) null);
+        MultiValueAttribute attribute = new MultiValueAttribute<>(TEST_ATTRIBUTE_NAME_ONE, (List<Object>) null);;
+
+        assertNull("attribute value should be null.", attribute.getValue());
+        assertNull("attribute values should be null.", attribute.getValues());
     }
 
     @Test(expected = IllegalArgumentException.class)

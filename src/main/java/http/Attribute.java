@@ -24,7 +24,6 @@ public class Attribute<T> {
     public Attribute(String name, T value) {
 
         assertNotEmpty("name", name);
-        assertNotNull("value", value);
 
         this.name = name;
         this.value = value;
