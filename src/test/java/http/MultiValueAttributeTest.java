@@ -99,4 +99,94 @@ public class MultiValueAttributeTest {
 
         values.add("this should break.");
     }
+
+    @Test
+    public void testAddValue() throws Exception {
+
+        MultiValueAttribute<String> attribute = new MultiValueAttribute<>(TEST_ATTRIBUTE_NAME_ONE,
+                TEST_ATTRIBUTE_VALUE_ONE);
+
+        assertNotNull("the attribute should contain a value.", attribute.getValue());
+        assertEquals("the attributes first value should be correct.", TEST_ATTRIBUTE_VALUE_ONE, attribute.getValue());
+        assertEquals("the attributes values should be correct.", Arrays.asList(TEST_ATTRIBUTE_VALUE_ONE),
+                attribute.getValues());
+
+        attribute.addValue(TEST_ATTRIBUTE_VALUE_TWO);
+
+        assertNotNull("the attribute should still contain a value.", attribute.getValue());
+        assertEquals("the attributes first value should still be correct.", TEST_ATTRIBUTE_VALUE_ONE,
+                attribute.getValue());
+        assertEquals("the attributes values should be correct.",
+                Arrays.asList(
+                        TEST_ATTRIBUTE_VALUE_ONE,
+                        TEST_ATTRIBUTE_VALUE_TWO
+                ),
+                attribute.getValues());
+
+        attribute.addValue(null);
+
+        assertNotNull("the attribute should still contain a value.", attribute.getValue());
+        assertEquals("the attributes first value should still be correct.", TEST_ATTRIBUTE_VALUE_ONE,
+                attribute.getValue());
+        assertEquals("the attributes values should be correct.",
+                Arrays.asList(
+                        TEST_ATTRIBUTE_VALUE_ONE,
+                        TEST_ATTRIBUTE_VALUE_TWO,
+                        null
+                ),
+                attribute.getValues());
+
+        attribute.addValue(TEST_ATTRIBUTE_VALUE_THREE);
+
+        assertNotNull("the attribute should still contain a value.", attribute.getValue());
+        assertEquals("the attributes first value should still be correct.", TEST_ATTRIBUTE_VALUE_ONE,
+                attribute.getValue());
+        assertEquals("the attributes values should be correct.",
+                Arrays.asList(
+                        TEST_ATTRIBUTE_VALUE_ONE,
+                        TEST_ATTRIBUTE_VALUE_TWO,
+                        null,
+                        TEST_ATTRIBUTE_VALUE_THREE
+                ),
+                attribute.getValues());
+    }
+
+    @Test
+    public void testAddAllValues() throws Exception {
+
+        MultiValueAttribute<String> attribute = new MultiValueAttribute<>(TEST_ATTRIBUTE_NAME_ONE,
+                TEST_ATTRIBUTE_VALUE_ONE);
+
+        assertNotNull("the attribute should contain a value.", attribute.getValue());
+        assertEquals("the attributes first value should be correct.", TEST_ATTRIBUTE_VALUE_ONE, attribute.getValue());
+        assertEquals("the attributes values should be correct.", Arrays.asList(TEST_ATTRIBUTE_VALUE_ONE),
+                attribute.getValues());
+
+        attribute.addAllValues(Arrays.asList(TEST_ATTRIBUTE_VALUE_TWO, null));
+
+        assertNotNull("the attribute should still contain a value.", attribute.getValue());
+        assertEquals("the attributes first value should still be correct.", TEST_ATTRIBUTE_VALUE_ONE,
+                attribute.getValue());
+        assertEquals("the attributes values should be correct.",
+                Arrays.asList(
+                        TEST_ATTRIBUTE_VALUE_ONE,
+                        TEST_ATTRIBUTE_VALUE_TWO,
+                        null
+                ),
+                attribute.getValues());
+
+        attribute.addAllValues(Collections.singletonList(TEST_ATTRIBUTE_VALUE_THREE));
+
+        assertNotNull("the attribute should still contain a value.", attribute.getValue());
+        assertEquals("the attributes first value should still be correct.", TEST_ATTRIBUTE_VALUE_ONE,
+                attribute.getValue());
+        assertEquals("the attributes values should be correct.",
+                Arrays.asList(
+                        TEST_ATTRIBUTE_VALUE_ONE,
+                        TEST_ATTRIBUTE_VALUE_TWO,
+                        null,
+                        TEST_ATTRIBUTE_VALUE_THREE
+                ),
+                attribute.getValues());
+    }
 }

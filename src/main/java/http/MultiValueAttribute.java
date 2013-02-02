@@ -2,6 +2,8 @@ package http;
 
 
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -51,7 +53,8 @@ public class MultiValueAttribute<T> extends Attribute<T> {
     public MultiValueAttribute(String name, T value) {
         super(name, value);
 
-        this.values = Collections.singletonList(value);
+        this.values = new ArrayList<>();
+        this.values.add(value);
     }
 
 
@@ -61,5 +64,31 @@ public class MultiValueAttribute<T> extends Attribute<T> {
     public List<T> getValues() {
 
         return Collections.unmodifiableList(values);
+    }
+
+    /**
+     * Add an value to the {@code MultiValueAttribute}.
+     *
+     * @param value the to add.
+     * @return the value that was added.
+     */
+    public T addValue(T value) {
+
+        values.add(value);
+
+        return value;
+    }
+
+    /**
+     * Add a list of values to the {@code MultiValueAttribute}.
+     *
+     * @param values the to add.
+     * @return the values that were added.
+     */
+    public List<T> addAllValues(List<T> values) {
+
+        this.values.addAll(values);
+
+        return values;
     }
 }
