@@ -33,6 +33,7 @@ public class Attribute<T> {
      * @return the attributes name.
      */
     public String getName() {
+
         return name;
     }
 
@@ -40,6 +41,7 @@ public class Attribute<T> {
      * @return the attributes value.
      */
     public T getValue() {
+
         return value;
     }
 
@@ -53,7 +55,8 @@ public class Attribute<T> {
 
         Attribute attribute = (Attribute) o;
 
-        return name.equals(attribute.name) && value.equals(attribute.value);
+        return name.equals(attribute.name) &&
+                !(value != null ? !value.equals(attribute.value) : attribute.value != null);
     }
 
     @Override
@@ -61,7 +64,7 @@ public class Attribute<T> {
 
         int result = name.hashCode();
 
-        result = 31 * result + value.hashCode();
+        result = 31 * result + (value != null ? value.hashCode() : 0);
 
         return result;
     }
