@@ -1,6 +1,6 @@
 package http.header;
 
-import http.Attribute;
+import http.MultiValueAttribute;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ import java.util.List;
  *
  * @author Karl Bennett
  */
-public class Header<T> extends Attribute<T> {
+public class Header<T> extends MultiValueAttribute<T> {
 
     /**
      * Create an {@code Header} with a name and multiple values.

@@ -1,49 +1,33 @@
 package http;
 
-import java.util.Collections;
-import java.util.List;
-
 import static http.util.Assert.assertNotEmpty;
 import static http.util.Assert.assertNotNull;
 
 /**
- * Represents a generic HTTP attribute with a name and a single or multiple values. The type of the value can be defined
- * on instantiation.
+ * Represents a generic attribute with a name and a value. The type of the value can be defined on instantiation.
  *
  * @author Karl Bennett
  */
 public class Attribute<T> {
 
     private final String name;
-    private final List<T> values;
+    private final T value;
 
 
     /**
-     * Create an {@code Attribute} with a name and multiple values.
+     * Create an {@code Attribute} with a name and value.
      *
      * @param name the name of the attribute.
-     * @param values the values for the attribute.
+     * @param value the value for the attribute.
      * @throws IllegalArgumentException if the {@code Attribute}'s name is empty or the values are null.
-     */
-    public Attribute(String name, List<T> values) {
-
-        assertNotEmpty("name", name);
-        assertNotNull("values", values);
-
-        this.name = name;
-        this.values = values;
-    }
-
-    /**
-     * Create an {@code Attribute} with a name and a single value.
-     *
-     * @param name the name of the attribute.
-     * @param value the single value for the attribute.
-     * @throws IllegalArgumentException if the {@code Attribute}'s name is empty or the value is null.
      */
     public Attribute(String name, T value) {
 
-        this(name, Collections.singletonList(value));
+        assertNotEmpty("name", name);
+        assertNotNull("value", value);
+
+        this.name = name;
+        this.value = value;
     }
 
 
@@ -55,17 +39,10 @@ public class Attribute<T> {
     }
 
     /**
-     * @return the attributes values.
-     */
-    public List<T> getValues() {
-        return values;
-    }
-
-    /**
-     * @return the attributes single value or if the attribute has multiple values return the first one.
+     * @return the attributes value.
      */
     public T getValue() {
-        return values.get(0);
+        return value;
     }
 
 
@@ -78,7 +55,7 @@ public class Attribute<T> {
 
         Attribute attribute = (Attribute) o;
 
-        return name.equals(attribute.name) && values.equals(attribute.values);
+        return name.equals(attribute.name) && value.equals(attribute.value);
     }
 
     @Override
@@ -86,7 +63,7 @@ public class Attribute<T> {
 
         int result = name.hashCode();
 
-        result = 31 * result + values.hashCode();
+        result = 31 * result + value.hashCode();
 
         return result;
     }
@@ -94,6 +71,6 @@ public class Attribute<T> {
     @Override
     public String toString() {
 
-        return name + ": " + values;
+        return name + ": " + value;
     }
 }

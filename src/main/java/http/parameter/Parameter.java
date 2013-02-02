@@ -1,6 +1,6 @@
 package http.parameter;
 
-import http.Attribute;
+import http.MultiValueAttribute;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ import java.util.List;
  *
  * @author Karl Bennett
  */
-public class Parameter<T> extends Attribute<T> {
+public class Parameter<T> extends MultiValueAttribute<T> {
 
     /**
      * Create an {@code Parameter} with a name and multiple values.

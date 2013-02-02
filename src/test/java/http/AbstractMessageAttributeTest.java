@@ -9,7 +9,7 @@ import static org.junit.Assert.assertEquals;
 /**
  * @author Karl Bennett
  */
-public abstract class AbstractMessageAttributeTest<M, A extends Attribute> extends AbstractMessagePropertyTest<M, A> {
+public abstract class AbstractMessageAttributeTest<M, A extends MultiValueAttribute> extends AbstractMessagePropertyTest<M, A> {
 
     private PropertyExecutor<A> propertyExecutor;
     private MessageExecutor<M, A> messageExecutor;

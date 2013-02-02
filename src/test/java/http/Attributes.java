@@ -29,11 +29,11 @@ public final class Attributes {
     public static final String TEST_ATTRIBUTE_VALUE_TWO = "test_attribute_value_two";
     public static final String TEST_ATTRIBUTE_VALUE_THREE = "test_attribute_value_three";
 
-    public static final Collection<String> TEST_ATTRIBUTE_VALUES = new HashSet<>(Arrays.asList(
+    public static final List<String> TEST_ATTRIBUTE_VALUES = Arrays.asList(
             TEST_ATTRIBUTE_VALUE_ONE,
             TEST_ATTRIBUTE_VALUE_TWO,
             TEST_ATTRIBUTE_VALUE_THREE
-    ));
+    );
 
     public static final Attribute<String> TEST_ATTRIBUTE_ONE = new Attribute<>(TEST_ATTRIBUTE_NAME_ONE, TEST_ATTRIBUTE_VALUE_ONE);
     public static final Attribute<String> TEST_ATTRIBUTE_TWO = new Attribute<>(TEST_ATTRIBUTE_NAME_TWO, TEST_ATTRIBUTE_VALUE_TWO);
