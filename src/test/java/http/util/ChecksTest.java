@@ -91,4 +91,46 @@ public class ChecksTest {
         assertTrue("a non empty Map should return true.", isNotEmpty(Collections.singletonMap(new Object(), new Object())));
         assertTrue("a Map containing only null values should return true.", isNotEmpty(Collections.singletonMap(null, null)));
     }
+
+    @Test
+    public void testIsEmptyObject() throws Exception {
+
+        assertTrue("a null Object should return true.", isEmpty((Object) null));
+        assertTrue("an empty String should return true.", isEmpty((Object) ""));
+        assertTrue("an empty Map should return true.", isEmpty((Object) Collections.emptyMap()));
+        assertTrue("a null Collection should return true.", isEmpty((Collection) null));
+        assertTrue("an empty Set should return true.", isEmpty((Object) Collections.emptySet()));
+        assertTrue("an empty List should return true.", isEmpty((Object) Collections.emptyList()));
+        assertFalse("a non empty String should return false.", isEmpty((Object) "not empty"));
+        assertFalse("a String containing only white space should return false.", isEmpty((Object) " "));
+        assertFalse("a non empty Set should return false.", isEmpty((Object) Collections.singleton(new Object())));
+        assertFalse("a non empty List should return false.", isEmpty((Object) Collections.singletonList(new Object())));
+        assertFalse("a Collection containing only null values should return false.",
+                isEmpty((Object) Collections.singletonList(null)));
+        assertFalse("a non empty Map should return false.",
+                isEmpty((Object) Collections.singletonMap(new Object(), new Object())));
+        assertFalse("a Map containing only null values should return false.",
+                isEmpty((Object) Collections.singletonMap(null, null)));
+    }
+
+    @Test
+    public void testIsNotEmptyObject() throws Exception {
+
+        assertFalse("a null Object should return false.", isNotEmpty((Object) null));
+        assertFalse("an empty String should return false.", isNotEmpty((Object) ""));
+        assertFalse("a null Collection should return false.", isNotEmpty((Collection) null));
+        assertFalse("an empty Set should return false.", isNotEmpty(Collections.emptySet()));
+        assertFalse("an empty List should return false.", isNotEmpty(Collections.emptyList()));
+        assertFalse("an empty Map should return false.", isNotEmpty((Object) Collections.emptyMap()));
+        assertTrue("a non empty String should return true.", isNotEmpty((Object) "not empty"));
+        assertTrue("a String containing only white space should return true.", isNotEmpty((Object) " "));
+        assertTrue("a non empty Set should return true.", isNotEmpty((Object) Collections.singleton(new Object())));
+        assertTrue("a non empty List should return true.", isNotEmpty((Object) Collections.singletonList(new Object())));
+        assertTrue("a Collection containing only null values should return true.",
+                isNotEmpty((Object) Collections.singletonList(null)));
+        assertTrue("a non empty Map should return true.",
+                isNotEmpty((Object) Collections.singletonMap(new Object(), new Object())));
+        assertTrue("a Map containing only null values should return true.",
+                isNotEmpty((Object) Collections.singletonMap(null, null)));
+    }
 }

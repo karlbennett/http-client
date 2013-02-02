@@ -113,4 +113,36 @@ public final class Checks {
 
         return !isEmpty(value);
     }
+
+    /**
+     * Check if the supplied value is empty. This method will call the appropriate {@link #isEmpty} for the type of
+     * object that is supplied. It is for use when the object type isn't known at compile time.
+     *
+     * @param value the value to check.
+     *
+     * @return {@code true} if the value is empty, otherwise {@code false}.
+     */
+    public static boolean isEmpty(Object value) {
+
+        if (value instanceof String) return isEmpty((String) value);
+
+        if (value instanceof Collection) return isEmpty((Collection) value);
+
+        if (value instanceof Map) return isEmpty((Map) value);
+
+        return isNull(value);
+    }
+
+    /**
+     * Check if the supplied value is not empty. This method will call the appropriate {@link #isNotEmpty} for the type
+     * of object that is supplied. It is for use when the object type isn't known at compile time.
+     *
+     * @param value the value to check.
+     *
+     * @return {@code true} if the value is not empty, otherwise {@code false}.
+     */
+    public static boolean isNotEmpty(Object value) {
+
+        return !isEmpty(value);
+    }
 }
