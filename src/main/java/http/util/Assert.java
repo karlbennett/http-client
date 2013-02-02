@@ -1,5 +1,8 @@
 package http.util;
 
+import java.util.Collection;
+import java.util.Map;
+
 /**
  * Assertion methods that help with verifying class and method arguments.
  *
@@ -50,6 +53,42 @@ public final class Assert {
         assertNotNull(name, value);
 
         if ("".equals(value)) {
+
+            throw new IllegalArgumentException("The (" + name + ") variable should not be empty.");
+        }
+    }
+
+    /**
+     * Assert that the supplied {@link Collection} is not {@code null} or empty and throw an
+     * {@link IllegalArgumentException} if it is. This should be used to check the arguments of constructors and methods.
+     *
+     * @param name the name of the variable that is being checked. It will be used in the exception message.
+     * @param values the value of the variable that is being checked to see if it empty.
+     * @throws IllegalArgumentException if the value is null.
+     */
+    public static void assertNotEmpty(String name, Collection values) {
+
+        assertNotNull(name, values);
+
+        if (0 >= values.size()) {
+
+            throw new IllegalArgumentException("The (" + name + ") variable should not be empty.");
+        }
+    }
+
+    /**
+     * Assert that the supplied {@link Map} is not {@code null} or empty and throw an {@link IllegalArgumentException}
+     * if it is. This should be used to check the arguments of constructors and methods.
+     *
+     * @param name the name of the variable that is being checked. It will be used in the exception message.
+     * @param values the value of the variable that is being checked to see if it empty.
+     * @throws IllegalArgumentException if the value is null.
+     */
+    public static void assertNotEmpty(String name, Map values) {
+
+        assertNotNull(name, values);
+
+        if (0 >= values.size()) {
 
             throw new IllegalArgumentException("The (" + name + ") variable should not be empty.");
         }
