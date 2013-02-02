@@ -39,7 +39,9 @@ public class MultiValueAttribute<T> extends Attribute<T> {
     public MultiValueAttribute(String name, List<T> values) {
         super(name, getFirst(values));
 
-        this.values = values;
+        // Cast the supplied list to an ArrayList so that it is definitely mutable.
+        // We do this so that the addValue(T) and addAllValues(List<T>) methods definitely work.
+        this.values = new ArrayList<>(values);
     }
 
 
