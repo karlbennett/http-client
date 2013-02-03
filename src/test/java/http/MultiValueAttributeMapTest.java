@@ -24,7 +24,7 @@ public class MultiValueAttributeMapTest {
         assertNotNull("the header should have been added to the map.", map.get(TEST_ATTRIBUTE_NAME_ONE));
         assertNull("the header should not contain a value.", map.get(TEST_ATTRIBUTE_NAME_ONE).getValue());
         assertEquals("the header should contain the correct values.",
-                Collections.singletonList(null), map.get(TEST_ATTRIBUTE_NAME_ONE).getValues());
+                Collections.emptyList(), map.get(TEST_ATTRIBUTE_NAME_ONE).getValues());
 
         map.add(new Header<>(TEST_ATTRIBUTE_NAME_ONE, TEST_ATTRIBUTE_VALUE_ONE));
 
