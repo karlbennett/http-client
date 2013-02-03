@@ -74,7 +74,15 @@ public class Message<T> {
      */
     public void setHeaders(Collection<Header> headers) {
 
-        this.headers = isNull(headers) ? new MultiValueAttributeMap<Header>() : new MultiValueAttributeMap<>(headers);
+        if (isNull(headers)) {
+
+            this.headers.clear();
+
+        } else {
+
+            this.headers.clear();
+            this.headers.addAll(headers);
+        }
     }
 
     /**
