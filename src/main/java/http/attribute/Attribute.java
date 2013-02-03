@@ -56,7 +56,7 @@ public class Attribute<T> {
         Attribute attribute = (Attribute) o;
 
         return name.equals(attribute.name) &&
-                !(value != null ? !value.equals(attribute.value) : attribute.value != null);
+                (value == null ? attribute.value == null : value.equals(attribute.value));
     }
 
     @Override
