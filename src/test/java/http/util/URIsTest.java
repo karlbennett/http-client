@@ -1,6 +1,5 @@
 package http.util;
 
-import http.URIException;
 import org.junit.Test;
 
 import java.net.URI;

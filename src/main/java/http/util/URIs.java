@@ -1,7 +1,5 @@
 package http.util;
 
-import http.URIException;
-
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -26,7 +24,7 @@ public final class URIs {
      *
      * @param uri the uri string to use to create the new {@code java.net.URI} instance.
      * @return a new {@code java.net.URI} instance.
-     * @throws http.URIException if an invalid uri string is given.
+     * @throws URIException if an invalid uri string is given.
      */
     public static URI quietUri(String uri) {
 
@@ -48,7 +46,7 @@ public final class URIs {
      *
      * @param url the url string to use to create the new {@code java.net.URL} instance.
      * @return a new {@code java.net.URL} instance.
-     * @throws http.URIException if an invalid url string is given.
+     * @throws URIException if an invalid url string is given.
      */
     public static URL quietUrl(String url) {
 

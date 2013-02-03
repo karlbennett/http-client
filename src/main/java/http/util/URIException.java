@@ -1,9 +1,9 @@
-package http;
+package http.util;
 
 /**
  * An exception that is thrown when a malformed URI is encountered. This is thrown instead of the
- * {@link java.net.MalformedURLException} and {@link java.net.URISyntaxException} so that the {@link java.net.URI} can
- * be instantiated without the need for checked exceptions.
+ * {@link java.net.MalformedURLException} and {@link java.net.URISyntaxException} so that the {@link URIs} methods can
+ * instantiate {@link java.net.URI}s and {@link java.net.URL}s without the need for checked exceptions.
  *
  * @author Karl Bennett
  */
