@@ -55,16 +55,16 @@ public class Attribute<T> {
 
         Attribute attribute = (Attribute) o;
 
-        return name.equals(attribute.name) &&
-                (value == null ? attribute.value == null : value.equals(attribute.value));
+        return getName().equals(attribute.getName()) &&
+                (getValue() == null ? attribute.getValue() == null : getValue().equals(attribute.getValue()));
     }
 
     @Override
     public int hashCode() {
 
-        int result = name.hashCode();
+        int result = getName().hashCode();
 
-        result = 31 * result + (value != null ? value.hashCode() : 0);
+        result = 31 * result + (getValue() != null ? getValue().hashCode() : 0);
 
         return result;
     }
@@ -72,6 +72,6 @@ public class Attribute<T> {
     @Override
     public String toString() {
 
-        return name + ": " + value;
+        return getName() + ": " + getValue();
     }
 }
