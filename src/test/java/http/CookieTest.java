@@ -276,8 +276,7 @@ public class CookieTest {
         assertNotNull("a collection of cookies should be produced.", parsedCookies);
         assertEquals("two cookies should be parsed.", 2, parsedCookies.size());
 
-        Iterator<Cookie> iterator = parsedCookies.iterator();
-        assertEquals("the parsed cookieOne should contain the correct values.", cookieOne, iterator.next());
-        assertEquals("the parsed cookieTwo should contain the correct values.", cookieTwo, iterator.next());
+        assertTrue("the cookies collection should contain cookie one.", parsedCookies.contains(cookieOne));
+        assertTrue("the cookies collection should contain cookie two.", parsedCookies.contains(cookieTwo));
     }
 }
