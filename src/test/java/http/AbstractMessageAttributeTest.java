@@ -3,6 +3,7 @@ package http;
 import org.junit.Test;
 
 import java.util.Collection;
+import java.util.Collections;
 
 import static org.junit.Assert.assertEquals;
 
@@ -77,12 +78,12 @@ public abstract class AbstractMessageAttributeTest<M, A extends MultiValueAttrib
 
         messageExecutor.addProperty(message, attribute);
 
-        assertEquals("attribute one should have one value", 1,
-                messageExecutor.getProperty(message, attributeOne.getName()).getValues().size());
+        assertEquals("attribute one should have no values", Collections.emptyList(),
+                messageExecutor.getProperty(message, attributeOne.getName()).getValues());
 
         messageExecutor.addProperty(message, attribute);
 
-        assertEquals("attribute one should still only have have one value", 1,
-                messageExecutor.getProperty(message, attributeOne.getName()).getValues().size());
+        assertEquals("attribute one should still have no values", Collections.emptyList(),
+                messageExecutor.getProperty(message, attributeOne.getName()).getValues());
     }
 }
