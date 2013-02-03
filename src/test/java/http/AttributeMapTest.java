@@ -185,6 +185,18 @@ public class AttributeMapTest {
     }
 
     @Test
+    public void testAddAll() throws Exception {
+
+        emptyAttributes.addAll((Collection) TEST_ATTRIBUTES);
+        assertEquals(TEST_ATTRIBUTE_ONE + " should have been added into the attribute map.",
+                TEST_ATTRIBUTE_ONE, emptyAttributes.get(TEST_ATTRIBUTE_NAME_ONE));
+        assertEquals(TEST_ATTRIBUTE_TWO + " should have been added into the attribute map.",
+                TEST_ATTRIBUTE_TWO, emptyAttributes.get(TEST_ATTRIBUTE_NAME_TWO));
+        assertEquals(TEST_ATTRIBUTE_THREE + " should have been added into the attribute map.",
+                TEST_ATTRIBUTE_THREE, emptyAttributes.get(TEST_ATTRIBUTE_NAME_THREE));
+    }
+
+    @Test
     public void testRemove() throws Exception {
 
         assertEquals("attribute " + TEST_ATTRIBUTE_ONE + " should be removed.", TEST_ATTRIBUTE_ONE,

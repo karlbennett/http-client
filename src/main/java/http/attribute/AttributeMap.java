@@ -167,6 +167,19 @@ public class AttributeMap<A extends Attribute> implements Map<String, A> {
     }
 
     /**
+     * Add the supplied {@link Attribute}s to this {@code AttributeMap}. The attribute names will be used as the keys.
+     *
+     * @param attributes the {@code Attribute}s to add to this {@code AttributeMap}.
+     * @return the newly added {@code Attribute}s.
+     */
+    public Collection<A> addAll(Collection<A> attributes) {
+
+        for (A attribute : attributes) add(attribute);
+
+        return attributes;
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
