@@ -86,6 +86,8 @@ public abstract class AbstractMessagePropertyTest<M, P> extends AbstractProperty
 
         M message = messageExecutor.newMessage();
 
+        messageExecutor.addProperty(message, propertyExecutor.newProperty("someName", "someValue"));
+
         messageExecutor.setProperties(message, properties);
 
         Collection<P> properties = messageExecutor.getProperties(message);
