@@ -3,12 +3,11 @@ package http;
 import http.header.Header;
 import http.parameter.Parameter;
 
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Collection;
 import java.util.Collections;
+
+import static http.util.URIs.quietUrl;
 
 /**
  * Represents an {@code HTTP} request and can be populated with all the standard request components.
@@ -16,31 +15,6 @@ import java.util.Collections;
  * @author Karl Bennett
  */
 public class Request<T> extends Message<T> {
-
-    /**
-     * Generate a new {@code java.net.URL} instance from a {@code java.lang.String} without throwing a checked
-     * exception.
-     *
-     * @param url the url string to use to create the new {@code java.net.URL} instance.
-     * @return a new {@code java.net.URL} instance.
-     * @throws URIException if an invalid url string is given.
-     */
-    private static URL quietUrl(String url) {
-
-        try {
-
-            return new URI(url).toURL();
-
-        } catch (MalformedURLException e) {
-
-            throw new URIException(e);
-
-        } catch (URISyntaxException e) {
-
-            throw new URIException(e);
-        }
-    }
-
 
     /**
      * Create a new {@code Request} that will be sent to the {@code HTTP} server at the supplied {@link URL}.
