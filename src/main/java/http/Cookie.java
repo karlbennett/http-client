@@ -300,10 +300,10 @@ public class Cookie extends Attribute<String> {
         Cookie cookie = (Cookie) o;
 
         return maxAge == cookie.maxAge && secure == cookie.secure && version == cookie.version &&
-                !(comment != null ? !comment.equals(cookie.comment) : cookie.comment != null) &&
-                !(domain != null ? !domain.equals(cookie.domain) : cookie.domain != null) &&
-                !(expires != null ? !expires.equals(cookie.expires) : cookie.expires != null) &&
-                !(path != null ? !path.equals(cookie.path) : cookie.path != null);
+                (comment == null ? cookie.comment == null : comment.equals(cookie.comment)) &&
+                (domain == null ? cookie.domain == null : domain.equals(cookie.domain)) &&
+                (expires == null ? cookie.expires == null : expires.equals(cookie.expires)) &&
+                (path == null ? cookie.path == null : path.equals(cookie.path));
 
     }
 
