@@ -4,8 +4,8 @@ import org.junit.Test;
 
 import java.util.*;
 
-import static http.util.Assert.assertNotNull;
-import static http.util.Assert.assertNotEmpty;
+import static http.util.Asserts.assertNotNull;
+import static http.util.Asserts.assertNotEmpty;
 
 /**
  * @author Karl Bennett

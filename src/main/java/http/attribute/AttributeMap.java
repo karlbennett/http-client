@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import static http.util.Assert.assertNotNull;
+import static http.util.Asserts.assertNotNull;
 import static http.util.Checks.isNull;
 
 /**

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static http.util.Assert.assertNotNull;
+import static http.util.Asserts.assertNotNull;
 import static http.util.Checks.isEmpty;
 import static http.util.Checks.isNotEmpty;
 

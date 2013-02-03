@@ -1,6 +1,6 @@
 package http.attribute;
 
-import static http.util.Assert.assertNotEmpty;
+import static http.util.Asserts.assertNotEmpty;
 
 /**
  * Represents a generic attribute with a name and a value. The type of the value can be defined on instantiation.

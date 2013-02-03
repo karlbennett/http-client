@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import static http.util.Assert.*;
+import static http.util.Asserts.*;
 
 /**
  * IO convenience methods.

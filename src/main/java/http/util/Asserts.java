@@ -8,13 +8,13 @@ import java.util.Map;
  *
  * @author Karl Bennett
  */
-public final class Assert {
+public final class Asserts {
 
     /**
-     * The {@code Assert} constructor is private because it is a utility class so does not contain any state and should
+     * The {@code Asserts} constructor is private because it is a utility class so does not contain any state and should
      * never be instantiated.
      */
-    private Assert() {
+    private Asserts() {
     }
 
     /**
@@ -29,7 +29,7 @@ public final class Assert {
 
         if (null == name) {
 
-            throw new IllegalArgumentException(Assert.class.getName() +
+            throw new IllegalArgumentException(Asserts.class.getName() +
                     ".assertNotNull(String,String) cannot have a null name argument.");
         }
 
