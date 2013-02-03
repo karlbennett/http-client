@@ -44,7 +44,7 @@ public abstract class AbstractMessageAttributeTest<M, A extends MultiValueAttrib
         messageExecutor.setProperties(message, attributes);
 
         messageExecutor.addProperty(message, propertyExecutor.newProperty(attributeOne.getName(),
-                attributeOne.getValue()));
+                attributeTwo.getValue()));
 
         assertEquals("three attributes should exist when a value has been added to attribute one", 3,
                 messageExecutor.getProperties(message).size());

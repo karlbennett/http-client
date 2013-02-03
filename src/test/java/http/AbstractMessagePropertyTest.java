@@ -180,34 +180,28 @@ public abstract class AbstractMessagePropertyTest<M, P> extends AbstractProperty
         addPropertyWithBlankValueTest(null);
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void testAddPropertyWithEmptyName() throws Exception {
 
-        addPropertyWithBlankNameAndValueTest(propertyExecutor.newProperty("", propertyExecutor.getValue(propertyOne)));
+        propertyExecutor.newProperty("", propertyExecutor.getValue(propertyOne));
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void testAddPropertyWithNullName() throws Exception {
 
-        addPropertyWithBlankNameAndValueTest(propertyExecutor.newProperty(null, propertyExecutor.getValue(propertyOne)));
+        propertyExecutor.newProperty(null, propertyExecutor.getValue(propertyOne));
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void testAddPropertyWithEmptyValues() throws Exception {
 
-        addPropertyWithBlankNameAndValueTest(propertyExecutor.newProperty("", ""));
+        propertyExecutor.newProperty("", "");
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void testAddPropertyWithNullValues() throws Exception {
 
-        addPropertyWithBlankNameAndValueTest(propertyExecutor.newProperty(null, null));
-    }
-
-    @Test
-    public void testAddPropertyWithNullProperty() throws Exception {
-
-        addPropertyWithBlankNameAndValueTest(null);
+        propertyExecutor.newProperty(null, null);
     }
 
 
@@ -241,16 +235,5 @@ public abstract class AbstractMessagePropertyTest<M, P> extends AbstractProperty
         assertEquals("one property should exist", 1, messageExecutor.getProperties(message).size());
         assertEquals("property one should have an empty value", property,
                 messageExecutor.getProperty(message, propertyExecutor.getName(property)));
-    }
-
-    private void addPropertyWithBlankNameAndValueTest(P property) {
-
-        M message = messageExecutor.newMessage();
-
-        assertEquals("no properties should exist", 0, messageExecutor.getProperties(message).size());
-
-        messageExecutor.addProperty(message, property);
-
-        assertEquals("no properties should have been added.", 0, messageExecutor.getProperties(message).size());
     }
 }

@@ -4,6 +4,8 @@ import http.header.Header;
 
 import java.util.Collection;
 
+import static http.util.Checks.isNull;
+
 /**
  * Represents a generic HTTP message and supplies accessor methods for retrieving and populating the common HTTP message
  * components.
@@ -12,7 +14,7 @@ import java.util.Collection;
  */
 public class Message<T> {
 
-    private AttributeMap<Header> headers;
+    private MultiValueAttributeMap<Header> headers;
 
 
     /**
@@ -20,7 +22,7 @@ public class Message<T> {
      *
      * @param headers the headers that will be contained in this message.
      */
-    public Message(AttributeMap<Header> headers) {
+    public Message(MultiValueAttributeMap<Header> headers) {
 
         this.headers = headers;
     }
@@ -30,7 +32,7 @@ public class Message<T> {
      */
     public Message() {
 
-        this.headers = new AttributeMap<>();
+        this.headers = new MultiValueAttributeMap<>();
     }
 
     /**
@@ -71,7 +73,7 @@ public class Message<T> {
      */
     public void setHeaders(Collection<Header> headers) {
 
-        this.headers = new AttributeMap<>(headers);
+        this.headers = isNull(headers) ? new MultiValueAttributeMap<Header>() : new MultiValueAttributeMap<>(headers);
     }
 
     /**

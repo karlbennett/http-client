@@ -1,8 +1,11 @@
 package http;
 
 import http.header.Header;
+import org.junit.Test;
 
 import java.util.Collection;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Karl Bennett
@@ -44,5 +47,17 @@ public class MessageHeaderObjectTest extends AbstractMessageHeaderTest<Message<O
             }
         }
         );
+    }
+
+    @Test
+    public void testAddHeaderWithNull() throws Exception {
+
+        Message message = new Message();
+
+        assertEquals("no properties should exist", 0, message.getHeaders().size());
+
+        message.addHeader(null);
+
+        assertEquals("no properties should have been added.", 0, message.getHeaders().size());
     }
 }
