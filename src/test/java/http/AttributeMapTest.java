@@ -1,5 +1,7 @@
 package http;
 
+import http.attribute.Attribute;
+import http.attribute.AttributeMap;
 import org.junit.Before;
 import org.junit.Test;
 

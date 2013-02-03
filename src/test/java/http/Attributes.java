@@ -1,5 +1,7 @@
 package http;
 
+import http.attribute.Attribute;
+
 import java.util.*;
 
 import static java.util.Map.Entry;

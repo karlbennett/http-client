@@ -1,5 +1,6 @@
 package http;
 
+import http.attribute.MultiValueAttributeMap;
 import http.header.Header;
 
 import java.util.Collection;
@@ -18,7 +19,7 @@ public class Message<T> {
 
 
     /**
-     * Create a new Message with an {@link AttributeMap} of headers.
+     * Create a new Message with an {@link http.attribute.AttributeMap} of headers.
      *
      * @param headers the headers that will be contained in this message.
      */

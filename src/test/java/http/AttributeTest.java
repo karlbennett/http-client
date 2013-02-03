@@ -1,5 +1,6 @@
 package http;
 
+import http.attribute.Attribute;
 import org.junit.Test;
 
 import static http.Attributes.*;

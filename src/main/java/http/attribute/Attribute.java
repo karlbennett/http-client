@@ -1,4 +1,4 @@
-package http;
+package http.attribute;
 
 import static http.util.Assert.assertNotEmpty;
 

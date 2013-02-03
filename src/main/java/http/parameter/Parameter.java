@@ -1,6 +1,6 @@
 package http.parameter;
 
-import http.MultiValueAttribute;
+import http.attribute.MultiValueAttribute;
 
 import java.util.List;
 
