@@ -131,8 +131,7 @@ public class MultiValueAttributeTest {
         assertEquals("the attributes values should be correct.",
                 Arrays.asList(
                         TEST_ATTRIBUTE_VALUE_ONE,
-                        TEST_ATTRIBUTE_VALUE_TWO,
-                        null
+                        TEST_ATTRIBUTE_VALUE_TWO
                 ),
                 attribute.getValues());
 
@@ -145,9 +144,65 @@ public class MultiValueAttributeTest {
                 Arrays.asList(
                         TEST_ATTRIBUTE_VALUE_ONE,
                         TEST_ATTRIBUTE_VALUE_TWO,
-                        null,
                         TEST_ATTRIBUTE_VALUE_THREE
                 ),
+                attribute.getValues());
+
+        attribute.addValue("");
+
+        assertNotNull("the attribute should still contain a value.", attribute.getValue());
+        assertEquals("the attributes first value should still be correct.", TEST_ATTRIBUTE_VALUE_ONE,
+                attribute.getValue());
+        assertEquals("the attributes values should be correct.",
+                Arrays.asList(
+                        TEST_ATTRIBUTE_VALUE_ONE,
+                        TEST_ATTRIBUTE_VALUE_TWO,
+                        TEST_ATTRIBUTE_VALUE_THREE
+                ),
+                attribute.getValues());
+    }
+
+    @Test
+    public void testAddValueWhenConstructedWithEmptyValue() throws Exception {
+
+        MultiValueAttribute<String> attribute = new MultiValueAttribute<>(TEST_ATTRIBUTE_NAME_ONE, "");
+
+        assertNull("the attribute should not contain a value.", attribute.getValue());
+        assertEquals("the attributes values should be empty.", Collections.emptyList(), attribute.getValues());
+
+        attribute.addValue("");
+
+        assertNull("the attribute should not contain a value.", attribute.getValue());
+        assertEquals("the attributes values should be empty.", Collections.emptyList(), attribute.getValues());
+
+        attribute.addValue(TEST_ATTRIBUTE_VALUE_ONE);
+
+        assertNotNull("the attribute should still contain a value.", attribute.getValue());
+        assertEquals("the attributes first value should still be correct.", TEST_ATTRIBUTE_VALUE_ONE,
+                attribute.getValue());
+        assertEquals("the attributes values should be correct.", Arrays.asList(TEST_ATTRIBUTE_VALUE_ONE),
+                attribute.getValues());
+    }
+
+    @Test
+    public void testAddValueWhenConstructedWithNullValue() throws Exception {
+
+        MultiValueAttribute<String> attribute = new MultiValueAttribute<>(TEST_ATTRIBUTE_NAME_ONE, (String) null);
+
+        assertNull("the attribute should not contain a value.", attribute.getValue());
+        assertEquals("the attributes values should be empty.", Collections.emptyList(), attribute.getValues());
+
+        attribute.addValue(null);
+
+        assertNull("the attribute should not contain a value.", attribute.getValue());
+        assertEquals("the attributes values should be empty.", Collections.emptyList(), attribute.getValues());
+
+        attribute.addValue(TEST_ATTRIBUTE_VALUE_ONE);
+
+        assertNotNull("the attribute should still contain a value.", attribute.getValue());
+        assertEquals("the attributes first value should still be correct.", TEST_ATTRIBUTE_VALUE_ONE,
+                attribute.getValue());
+        assertEquals("the attributes values should be correct.", Arrays.asList(TEST_ATTRIBUTE_VALUE_ONE),
                 attribute.getValues());
     }
 
@@ -170,8 +225,7 @@ public class MultiValueAttributeTest {
         assertEquals("the attributes values should be correct.",
                 Arrays.asList(
                         TEST_ATTRIBUTE_VALUE_ONE,
-                        TEST_ATTRIBUTE_VALUE_TWO,
-                        null
+                        TEST_ATTRIBUTE_VALUE_TWO
                 ),
                 attribute.getValues());
 
@@ -184,14 +238,65 @@ public class MultiValueAttributeTest {
                 Arrays.asList(
                         TEST_ATTRIBUTE_VALUE_ONE,
                         TEST_ATTRIBUTE_VALUE_TWO,
-                        null,
                         TEST_ATTRIBUTE_VALUE_THREE
                 ),
                 attribute.getValues());
     }
 
     @Test
-    public void testAddValueWithWhenConstructedWithUnmodifiableList() throws Exception {
+    public void testAddAllValuesWhenConstructedWithEmptyValue() throws Exception {
+
+        MultiValueAttribute<String> attribute = new MultiValueAttribute<>(TEST_ATTRIBUTE_NAME_ONE, "");
+
+        assertNull("the attribute should not contain a value.", attribute.getValue());
+        assertEquals("the attributes values should be empty.", Collections.emptyList(), attribute.getValues());
+
+        attribute.addAllValues(Arrays.asList("", ""));
+
+        assertNull("the attribute should not contain a value.", attribute.getValue());
+        assertEquals("the attributes values should be empty.", Collections.emptyList(), attribute.getValues());
+
+        attribute.addAllValues(Arrays.asList(TEST_ATTRIBUTE_VALUE_ONE, TEST_ATTRIBUTE_VALUE_TWO));
+
+        assertNotNull("the attribute should still contain a value.", attribute.getValue());
+        assertEquals("the attributes first value should still be correct.", TEST_ATTRIBUTE_VALUE_ONE,
+                attribute.getValue());
+        assertEquals("the attributes values should be correct.",
+                Arrays.asList(
+                        TEST_ATTRIBUTE_VALUE_ONE,
+                        TEST_ATTRIBUTE_VALUE_TWO
+                ),
+                attribute.getValues());
+    }
+
+    @Test
+    public void testAddAllValuesWhenConstructedWithNullValue() throws Exception {
+
+        MultiValueAttribute<String> attribute = new MultiValueAttribute<>(TEST_ATTRIBUTE_NAME_ONE, (String) null);
+
+        assertNull("the attribute should not contain a value.", attribute.getValue());
+        assertEquals("the attributes values should be empty.", Collections.emptyList(), attribute.getValues());
+
+        attribute.addAllValues(Arrays.asList((String) null, null));
+
+        assertNull("the attribute should not contain a value.", attribute.getValue());
+        assertEquals("the attributes values should be empty.", Collections.emptyList(), attribute.getValues());
+
+        attribute.addAllValues(Arrays.asList(TEST_ATTRIBUTE_VALUE_ONE, TEST_ATTRIBUTE_VALUE_TWO));
+
+        assertNotNull("the attribute should still contain a value.", attribute.getValue());
+        assertEquals("the attributes first value should still be correct.", TEST_ATTRIBUTE_VALUE_ONE,
+                attribute.getValue());
+        assertEquals("the attributes values should be correct.",
+                Arrays.asList(
+                        TEST_ATTRIBUTE_VALUE_ONE,
+                        TEST_ATTRIBUTE_VALUE_TWO
+                ),
+                attribute.getValues());
+    }
+
+    @Test
+    public void testAddValueWhenConstructedWithUnmodifiableList() throws Exception {
 
         MultiValueAttribute<String> attribute = new MultiValueAttribute<>(TEST_ATTRIBUTE_NAME_ONE,
                 Collections.unmodifiableList(Arrays.asList(TEST_ATTRIBUTE_VALUE_ONE)));
@@ -233,8 +338,7 @@ public class MultiValueAttributeTest {
         assertEquals("the attributes values should be correct.",
                 Arrays.asList(
                         TEST_ATTRIBUTE_VALUE_ONE,
-                        TEST_ATTRIBUTE_VALUE_TWO,
-                        null
+                        TEST_ATTRIBUTE_VALUE_TWO
                 ),
                 attribute.getValues());
     }
