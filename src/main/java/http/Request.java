@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.Collections;
 
 import static http.util.URIs.quietUrl;
+import static http.Cookie.COOKIE;
 
 /**
  * Represents an {@code HTTP} request and can be populated with all the standard request components.
@@ -111,6 +112,7 @@ public class Request<T> extends Message<T> {
      * @param parameters any parameters that should be sent in the HTTP request.
      */
     public Request(URL url, Collection<Header> headers, Collection<Cookie> cookies, Collection<Parameter> parameters) {
+        super(COOKIE);
     }
 
 

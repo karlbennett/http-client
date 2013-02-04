@@ -4,6 +4,8 @@ import http.header.Header;
 
 import java.util.Collection;
 
+import static http.Cookie.COOKIE;
+
 /**
  * @author Karl Bennett
  */
@@ -16,7 +18,7 @@ public class MessageHeaderNameAndValueTest extends AbstractMessageHeaderTest<Mes
             @Override
             public Message<Object> newMessage() {
 
-                return new Message<Object>();
+                return new Message<Object>(COOKIE);
             }
 
             @Override

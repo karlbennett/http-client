@@ -15,6 +15,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static http.util.Asserts.assertNotNull;
+import static http.util.Checks.isNotEmpty;
 import static http.util.Checks.isNotNull;
 import static http.util.Checks.isNull;
 import static http.util.URIs.quietUri;
@@ -38,6 +39,9 @@ public class Cookie extends Attribute<String> {
             return new SimpleDateFormat("E',' dd MMM yyyy HH':'mm':'ss z");
         }
     };
+
+    public static final String SET_COOKIE = "Set-Cookie";
+    public static final String COOKIE = "Cookie";
 
     public static final String COMMENT = "Comment";
     public static final String DOMAIN = "Domain";
@@ -100,7 +104,13 @@ public class Cookie extends Attribute<String> {
 
             cookie = new Cookie(matcher.group(1), matcher.group(2));
 
-            for (int i = 3; i < matcher.groupCount(); i++) cookie.setFieldByFragment(matcher.group(i));
+            String group;
+            for (int i = 3; i < matcher.groupCount(); i++) {
+
+                group = matcher.group(i);
+
+                if (null != group) cookie.setFieldByFragment(group);
+            }
 
             cookies.add(cookie);
         }
@@ -125,8 +135,6 @@ public class Cookie extends Attribute<String> {
      */
     public Cookie(String name, String value) {
         super(name, value);
-
-        assertNotNull("value", value);
 
         this.maxAge = -1; // Initialise maxAge to -1 because 0 indicates an expired value.
     }
@@ -331,7 +339,9 @@ public class Cookie extends Attribute<String> {
     @Override
     public String toString() {
 
-        StringBuilder toStringBuilder = new StringBuilder(getName()).append('=').append(getValue());
+        StringBuilder toStringBuilder = new StringBuilder(getName());
+
+        if (isNotEmpty(getValue())) toStringBuilder.append('=').append(getValue());
 
         if (isNotNull(comment)) toStringBuilder.append("; ").append(COMMENT).append("=").append(comment);
 
@@ -363,6 +373,8 @@ public class Cookie extends Attribute<String> {
      * @param fragment the fragment of the cookie string that is going to be used to set a field.
      */
     private void setFieldByFragment(String fragment) {
+
+        assertNotNull("fragment", fragment);
 
         // Special case for the "Secure" cookie attribute.
         if (SECURE.equals(fragment)) {

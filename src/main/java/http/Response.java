@@ -4,6 +4,8 @@ import http.header.Header;
 
 import java.util.Collection;
 
+import static http.Cookie.SET_COOKIE;
+
 /**
  * Represents an {@code HTTP} response and provides access to all the standard response components.
  *
@@ -17,6 +19,7 @@ public class Response<T> extends Message<T> {
      * @param status the status code for the response.
      */
     public Response(int status) {
+        super(SET_COOKIE);
     }
 
     /**
@@ -26,6 +29,7 @@ public class Response<T> extends Message<T> {
      * @param body   the body of te response.
      */
     public Response(int status, T body) {
+        super(SET_COOKIE);
     }
 
     /**
@@ -36,6 +40,7 @@ public class Response<T> extends Message<T> {
      * @param body    the body of te response.
      */
     public Response(int status, Collection<Header> headers, T body) {
+        super(SET_COOKIE);
     }
 
     /**
@@ -47,6 +52,7 @@ public class Response<T> extends Message<T> {
      * @param body    the body of te response.
      */
     public Response(int status, Collection<Header> headers, Collection<Cookie> cookies, T body) {
+        super(SET_COOKIE);
     }
 
     /**

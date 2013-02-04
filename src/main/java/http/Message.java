@@ -1,10 +1,13 @@
 package http;
 
+import http.attribute.Attribute;
+import http.attribute.AttributeMap;
 import http.attribute.MultiValueAttributeMap;
 import http.header.Header;
 
 import java.util.Collection;
 
+import static http.util.Checks.isNotNull;
 import static http.util.Checks.isNull;
 
 /**
@@ -15,7 +18,37 @@ import static http.util.Checks.isNull;
  */
 public class Message<T> {
 
-    private MultiValueAttributeMap<Header> headers;
+    private static abstract class Adder<T> {
+
+        public abstract void add(T attribute);
+
+        public T executeAdd(T attribute) {
+
+            add(attribute);
+
+            return attribute;
+        }
+    }
+
+    private static <T extends Attribute> void setAll(AttributeMap<T> destination, Collection<T> origin, Adder<T> adder) {
+
+        if (isNull(origin)) {
+
+            destination.clear();
+
+        } else {
+
+            destination.clear();
+
+            for (T attribute : origin) destination.add(adder.executeAdd(attribute));
+        }
+    }
+
+
+    private final String cookieHeaderName;
+    private final MultiValueAttributeMap<Header> headers;
+    private final AttributeMap<Cookie> cookies;
+    private T body;
 
 
     /**
@@ -23,17 +56,22 @@ public class Message<T> {
      *
      * @param headers the headers that will be contained in this message.
      */
-    public Message(MultiValueAttributeMap<Header> headers) {
+    public Message(String cookieHeaderName, MultiValueAttributeMap<Header> headers, AttributeMap<Cookie> cookies, T body) {
 
+        this.cookieHeaderName = cookieHeaderName;
         this.headers = headers;
+        this.cookies = cookies;
+        this.body = body;
     }
 
     /**
      * Create a new {@code Message} that doesn't contain any {@link Header}s.
      */
-    public Message() {
+    public Message(String cookieHeaderName) {
 
+        this.cookieHeaderName = cookieHeaderName;
         this.headers = new MultiValueAttributeMap<>();
+        this.cookies = new AttributeMap<>();
     }
 
     /**
@@ -74,15 +112,17 @@ public class Message<T> {
      */
     public void setHeaders(Collection<Header> headers) {
 
-        if (isNull(headers)) {
+        setAll(this.headers, headers, new Adder<Header>() {
 
-            this.headers.clear();
+            @Override
+            public void add(Header header) {
 
-        } else {
+                if (cookieHeaderName.equals(header.getName())) {
 
-            this.headers.clear();
-            this.headers.addAll(headers);
-        }
+                    cookies.addAll(Cookie.parse(header.getValue().toString()));
+                }
+            }
+        });
     }
 
     /**
@@ -115,7 +155,7 @@ public class Message<T> {
      */
     public Collection<Cookie> getCookies() {
 
-        return null;
+        return cookies.values();
     }
 
     /**
@@ -126,7 +166,7 @@ public class Message<T> {
      */
     public Cookie getCookie(String name) {
 
-        return null;
+        return cookies.get(name);
     }
 
     /**
@@ -136,6 +176,14 @@ public class Message<T> {
      */
     public void setCookies(Collection<Cookie> cookies) {
 
+        setAll(this.cookies, cookies, new Adder<Cookie>() {
+
+            @Override
+            public void add(Cookie cookie) {
+
+                addCookieHeader(cookie);
+            }
+        });
     }
 
     /**
@@ -158,6 +206,9 @@ public class Message<T> {
      */
     public void addCookie(Cookie cookie) {
 
+        this.cookies.add(cookie);
+
+        addCookieHeader(cookie);
     }
 
     /**
@@ -165,7 +216,7 @@ public class Message<T> {
      */
     public T getBody() {
 
-        return null;
+        return body;
     }
 
     /**
@@ -175,5 +226,12 @@ public class Message<T> {
      */
     public void setBody(T body) {
 
+        this.body = body;
+    }
+
+
+    private void addCookieHeader(Cookie cookie) {
+
+        if (isNotNull(cookie)) headers.add(new Header<>(cookieHeaderName, cookie.toString()));
     }
 }

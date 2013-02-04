@@ -101,10 +101,12 @@ public class CookieTest {
         new Cookie("", VALUE);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testCreateCookieWithNullValue() throws Exception {
 
-        new Cookie(NAME_ONE, null);
+        Cookie cookie = new Cookie(NAME_ONE, null);
+
+        assertEquals("cookie should only have a name.", NAME_ONE, cookie.toString());
     }
 
     @Test(expected = IllegalArgumentException.class)

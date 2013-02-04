@@ -1,9 +1,12 @@
 package http;
 
+import org.junit.Test;
+
 import java.util.Collection;
 
 import static http.Cookies.*;
 import static http.Urls.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Karl Bennett
@@ -45,5 +48,18 @@ public class RequestCookieObjectTest extends AbstractMessageCookieTest<Request<O
             }
 
         }, COOKIE);
+    }
+
+
+    @Test
+    public void testAddNullCookie() throws Exception {
+
+        Request request = new Request(TEST_URL);
+
+        assertEquals("no headers should exist", 0, request.getHeaders().size());
+
+        request.addCookie(null);
+
+        assertEquals("no headers should have been added.", 0, request.getHeaders().size());
     }
 }
