@@ -1,15 +1,18 @@
 package http;
 
-import http.parameter.Parameter;
 import org.junit.Test;
 
 import java.net.URI;
 import java.net.URL;
-import java.util.Collection;
+import java.util.HashSet;
 
 import static http.parameter.Parameters.PARAMETERS;
 import static http.Urls.*;
+import static http.parameter.Parameters.PARAMETER_ONE;
+import static http.parameter.Parameters.PARAMETER_TWO;
+import static http.parameter.Parameters.PARAMETER_THREE;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author Karl Bennett
@@ -31,7 +34,7 @@ public class RequestCreationTest {
     @Test
     public void testCreateRequestWithUrlStringAndQueryString() throws Exception {
 
-        createRequestWithQuery(new Request<Object>(TEST_URL_STRING + TEST_QUERY_STRING));
+        createRequestWithQuery(new Request<Object>(TEST_URL_STRING_WITH_QUERY_STRING));
     }
 
     @Test
@@ -50,10 +53,16 @@ public class RequestCreationTest {
 
         URL url = new URI(TEST_URL_STRING_WITH_QUERY_STRING).toURL();
 
-        assertEquals("the request URL should be correct.", url, request.getUrl());
+        assertEquals("the request URL length should be correct.", url.toString().length(),
+                request.getUrl().toString().length());
+        assertTrue("the request url query string should contain parameter one.",
+                request.getUrl().toString().contains(PARAMETER_ONE.toString()));
+        assertTrue("the request url query string should contain parameter two.",
+                request.getUrl().toString().contains(PARAMETER_TWO.toString()));
+        assertTrue("the request url query string should contain parameter three.",
+                request.getUrl().toString().contains(PARAMETER_THREE.toString()));
 
-        Collection<Parameter> parameters = request.getParameters();
-
-        assertEquals("the correct parameters are included in the request.", PARAMETERS, parameters);
+        assertEquals("the correct parameters are included in the request.", new HashSet<>(PARAMETERS),
+                request.getParameters());
     }
 }

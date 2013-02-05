@@ -1,14 +1,19 @@
 package http;
 
+import http.attribute.AttributeMap;
+import http.attribute.MultiValueAttributeMap;
 import http.header.Header;
 import http.parameter.Parameter;
 
 import java.net.URL;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 
-import static http.util.URIs.quietUrl;
 import static http.Cookie.COOKIE;
+import static http.util.Asserts.assertNotNull;
+import static http.util.Checks.isNotEmpty;
+import static http.util.URIs.quietUrl;
 
 /**
  * Represents an {@code HTTP} request and can be populated with all the standard request components.
@@ -16,6 +21,17 @@ import static http.Cookie.COOKIE;
  * @author Karl Bennett
  */
 public class Request<T> extends Message<T> {
+
+    private static URL urlMinusQuery(String url) {
+
+        String[] parts = url.split("\\?");
+
+        return quietUrl(parts[0]);
+    }
+
+
+    private final URL url;
+    private MultiValueAttributeMap<Parameter> parameters;
 
     /**
      * Create a new {@code Request} that will be sent to the {@code HTTP} server at the supplied {@link URL}.
@@ -112,7 +128,14 @@ public class Request<T> extends Message<T> {
      * @param parameters any parameters that should be sent in the HTTP request.
      */
     public Request(URL url, Collection<Header> headers, Collection<Cookie> cookies, Collection<Parameter> parameters) {
-        super(COOKIE);
+        super(COOKIE, new MultiValueAttributeMap<>(headers), new AttributeMap<>(cookies), null);
+
+        assertNotNull("parameters", parameters);
+
+        this.url = urlMinusQuery(url.toString());
+
+        this.parameters = new MultiValueAttributeMap<>(parameters);
+        this.parameters.addAll(Parameter.parse(url.getQuery()));
     }
 
 
@@ -121,7 +144,12 @@ public class Request<T> extends Message<T> {
      */
     public URL getUrl() {
 
-        return null;
+        if (isNotEmpty(parameters)) {
+
+            return quietUrl(url.toString() + '?' + Parameter.toString(parameters.values()));
+        }
+
+        return url;
     }
 
     /**
@@ -131,7 +159,7 @@ public class Request<T> extends Message<T> {
      */
     public Collection<Parameter> getParameters() {
 
-        return null;
+        return new HashSet<>(parameters.values());
     }
 
     /**
@@ -152,7 +180,7 @@ public class Request<T> extends Message<T> {
      */
     public <T> Parameter<T> getParameter(String name) {
 
-        return null;
+        return parameters.get(name);
     }
 
     /**
@@ -162,6 +190,12 @@ public class Request<T> extends Message<T> {
      */
     public void setParameters(Collection<Parameter> parameters) {
 
+        setAll(this.parameters, parameters, new Adder<Parameter>() {
+
+            @Override
+            public void add(Parameter attribute) {
+            }
+        });
     }
 
     /**
@@ -186,5 +220,6 @@ public class Request<T> extends Message<T> {
      */
     public <T> void addParameter(Parameter<T> parameter) {
 
+        this.parameters.add(parameter);
     }
 }

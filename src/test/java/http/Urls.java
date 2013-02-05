@@ -52,7 +52,7 @@ public final class Urls {
 
         try {
 
-            url = new URI(TEST_URL_STRING + TEST_QUERY_STRING).toURL();
+            url = new URI(TEST_URL_STRING + '?' + TEST_QUERY_STRING).toURL();
 
         } catch (MalformedURLException e) {
 
