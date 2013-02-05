@@ -18,7 +18,7 @@ import static http.util.Checks.isNull;
  */
 public class Message<T> {
 
-    private static abstract class Adder<T> {
+    protected static abstract class Adder<T> {
 
         public abstract void add(T attribute);
 
@@ -30,7 +30,7 @@ public class Message<T> {
         }
     }
 
-    private static <T extends Attribute> void setAll(AttributeMap<T> destination, Collection<T> origin, Adder<T> adder) {
+    protected static <T extends Attribute> void setAll(AttributeMap<T> destination, Collection<T> origin, Adder<T> adder) {
 
         if (isNull(origin)) {
 
