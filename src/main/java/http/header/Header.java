@@ -31,4 +31,11 @@ public class Header<T> extends MultiValueAttribute<T> {
     public Header(String name, T value) {
         super(name, value);
     }
+
+
+    @Override
+    public String toString() {
+
+        return super.toString(": ", "\n");
+    }
 }
