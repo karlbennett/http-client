@@ -21,6 +21,9 @@ public final class Parameters {
     public static final String PARAMETER_NAME_THREE = "parameter_name_three";
     public static final String PARAMETER_VALUE_THREE = "parameter_value_three";
 
+    public static final String PARAMETER_STRING = PARAMETER_NAME_ONE + '=' + PARAMETER_VALUE_ONE + '&' +
+            PARAMETER_NAME_TWO + '=' + PARAMETER_VALUE_TWO + '&' + PARAMETER_NAME_THREE + '=' + PARAMETER_VALUE_THREE;
+
     public static final Parameter<String> PARAMETER_ONE = new Parameter<String>(PARAMETER_NAME_ONE,
             PARAMETER_VALUE_ONE);
     public static final Parameter<String> PARAMETER_TWO = new Parameter<String>(PARAMETER_NAME_TWO,
