@@ -122,4 +122,47 @@ public class MultiValueAttribute<T> extends Attribute<T> {
 
         return values;
     }
+
+
+    /**
+     * This is a helper method that can be used to produce a {@link String} representation of the
+     * {@code MultiValueAttribute}. The string is made up of the {@code MultiValueAttribute} {@code name} paired with
+     * each individual {@code value}. The supplied {@code operator} is placed in between the {@code name} and
+     * {@code value} and the {@code delimiter} is placed between each {@code name}/{@code value} pair.
+     *
+     * Example:
+     * <code>
+     *     MultiValueAttribute<String> attribute = new MultiValueAttribute<String>("name",
+     *         Arrays.asList("one", "two", "three"));
+     *     attribute.toString("=", "\n");
+     *     // name=one
+     *     // name=two
+     *     // name=three
+     * </code>
+     *
+     * @param operator
+     * @param delimiter
+     * @return
+     */
+    protected String toString(String operator, String delimiter) {
+
+        StringBuilder toStringHolder = new StringBuilder();
+
+        int i = 0;
+        for (; i < (values.size() - 1); i++) {
+
+            toStringHolder.append(getName()).append(operator).append(values.get(i)).append(delimiter);
+        }
+
+        toStringHolder.append(getName()).append(operator).append(values.get(i));
+
+        return toStringHolder.toString();
+    }
+
+
+    @Override
+    public String toString() {
+
+        return toString("=", "\n");
+    }
 }
