@@ -8,7 +8,7 @@ import java.util.Collections;
 import java.util.HashSet;
 
 import static http.parameter.Parameters.*;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Karl Bennett

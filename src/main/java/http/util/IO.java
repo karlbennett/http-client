@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import static http.util.Asserts.*;
+import static http.util.Asserts.assertNotNull;
 
 /**
  * IO convenience methods.
@@ -22,7 +22,7 @@ public final class IO {
      *
      * @param input the stream to read.
      * @return the entire contents of the stream as a {@code String}.
-     * @throws IOException if there was a problem reading from the input.
+     * @throws IOException              if there was a problem reading from the input.
      * @throws IllegalArgumentException if the input is null.
      */
     public static String readAll(InputStream input) throws IOException {

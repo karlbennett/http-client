@@ -34,7 +34,7 @@ public class Header<T> extends MultiValueAttribute<T> {
     /**
      * Create an {@code Header} with a name and multiple values.
      *
-     * @param name the name of the attribute.
+     * @param name   the name of the attribute.
      * @param values the values for the attribute.
      */
     public Header(String name, List<T> values) {
@@ -44,7 +44,7 @@ public class Header<T> extends MultiValueAttribute<T> {
     /**
      * Create an {@code Header} with a name and a single value.
      *
-     * @param name the name of the attribute.
+     * @param name  the name of the attribute.
      * @param value the single value for the attribute.
      */
     public Header(String name, T value) {

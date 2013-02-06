@@ -4,8 +4,8 @@ import org.junit.Test;
 
 import java.util.Collection;
 
-import static http.Cookies.*;
-import static http.Urls.*;
+import static http.Cookies.COOKIE;
+import static http.Urls.TEST_URL;
 import static org.junit.Assert.assertEquals;
 
 /**

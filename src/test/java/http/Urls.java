@@ -20,6 +20,7 @@ public final class Urls {
     public static final String TEST_URL_STRING = "http://test.com";
 
     public static final URL TEST_URL;
+
     static {
 
         URL url;
@@ -46,6 +47,7 @@ public final class Urls {
     public static final String TEST_URL_STRING_WITH_QUERY_STRING = TEST_URL_STRING + "?" + TEST_QUERY_STRING;
 
     public static final URL TEST_URL_WITH_QUERY;
+
     static {
 
         URL url;

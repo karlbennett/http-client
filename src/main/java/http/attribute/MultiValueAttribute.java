@@ -1,7 +1,6 @@
 package http.attribute;
 
 
-
 import java.util.*;
 
 import static http.util.Asserts.assertNotNull;
@@ -9,7 +8,6 @@ import static http.util.Checks.isEmpty;
 import static http.util.Checks.isNotEmpty;
 
 /**
- *
  * Represents a generic attribute with a name and a single or multiple values. The type of the value can be defined on
  * instantiation.
  *
@@ -22,7 +20,7 @@ public class MultiValueAttribute<T> extends Attribute<T> {
      * will be delimited by the supplied {@code delimiter} {@link String}.
      *
      * @param attributes the attributes that will have their string representations concatenated.
-     * @param delimiter the delimiter that will be placed between each attribute string value.
+     * @param delimiter  the delimiter that will be placed between each attribute string value.
      * @return the concatenated parameter string.
      */
     public static <T, A extends MultiValueAttribute<T>> String toString(Collection<A> attributes, String delimiter) {
@@ -51,27 +49,27 @@ public class MultiValueAttribute<T> extends Attribute<T> {
      * Parse a {@link String} containing any number of name/value pairs into a collection of
      * {@link MultiValueAttribute}s. The names and values must be delimited by the supplied {@code operator}
      * {@link String} and each name/value pair must be delimited by the supplied {@code delimiter} {@code String}.
-     *
+     * <p/>
      * Any name value pairs that share the same name will be stored in the same {@code MultiValueAttribute} instance.
-     *
+     * <p/>
      * A {@link Creator} must also be implemented with a means of creating the {@code MultiValueAttribute} or a
      * subclass.
-     *
+     * <p/>
      * Example:
      * <code>
-     *     List<MultiValueAttribute<String>> parameters = new ArrayList(
-     *         MultiValueAttribute.parse("nameOne=valueOne&nameOne=valueTwo&nameThree=valueThree", "=", "&",
-     *             new Creator<MultiValueAttribute<String>>() {
-     *
-     *                 public MultiValueAttribute<String> create(String name, String value) {
-     *
-     *                     return new MultiValueAttribute<String>(name, value);
-     *                 }
-     *             })
-     *     );
-     *     parameters.size(); // 2
-     *     parameters.get(0).getValues(); // ["valueOne", "valueTwo"]
-     *     parameters.get(1).getValues(); // ["valueThree"]
+     * List<MultiValueAttribute<String>> parameters = new ArrayList(
+     * MultiValueAttribute.parse("nameOne=valueOne&nameOne=valueTwo&nameThree=valueThree", "=", "&",
+     * new Creator<MultiValueAttribute<String>>() {
+     * <p/>
+     * public MultiValueAttribute<String> create(String name, String value) {
+     * <p/>
+     * return new MultiValueAttribute<String>(name, value);
+     * }
+     * })
+     * );
+     * parameters.size(); // 2
+     * parameters.get(0).getValues(); // ["valueOne", "valueTwo"]
+     * parameters.get(1).getValues(); // ["valueThree"]
      * </code>
      *
      * @param attributeString the string to parse.
@@ -117,7 +115,7 @@ public class MultiValueAttribute<T> extends Attribute<T> {
      * Filter any empty values out of the supplied {@link List}.
      *
      * @param list the {@code List} to filter.
-     * @param <T> the type of elements that the {@code List} holds.
+     * @param <T>  the type of elements that the {@code List} holds.
      * @return the filtered list.
      */
     private static <T> List<T> filterEmptyElements(List<T> list) {
@@ -139,7 +137,7 @@ public class MultiValueAttribute<T> extends Attribute<T> {
     /**
      * Create a {@code MultiValueAttribute} with a name and multiple values.
      *
-     * @param name  the name of the attribute.
+     * @param name   the name of the attribute.
      * @param values the values for the attribute.
      * @throws IllegalArgumentException if the {@code Attribute}'s name is empty or the values are null.
      */
@@ -158,7 +156,7 @@ public class MultiValueAttribute<T> extends Attribute<T> {
      * Create a {@code MultiValueAttribute} with a name and a single value. If the supplied value is {@code null} or
      * empty the {@code MultiValueAttribute} will be constructed without a value.
      *
-     * @param name the name of the attribute.
+     * @param name  the name of the attribute.
      * @param value the single value for the attribute.
      * @throws IllegalArgumentException if the {@code MultiValueAttribute}'s name is empty or the value is null.
      */
@@ -223,15 +221,15 @@ public class MultiValueAttribute<T> extends Attribute<T> {
      * {@code MultiValueAttribute}. The string is made up of the {@code MultiValueAttribute} {@code name} paired with
      * each individual {@code value}. The supplied {@code operator} is placed in between the {@code name} and
      * {@code value} and the {@code delimiter} is placed between each {@code name}/{@code value} pair.
-     *
+     * <p/>
      * Example:
      * <code>
-     *     MultiValueAttribute<String> attribute = new MultiValueAttribute<String>("name",
-     *         Arrays.asList("one", "two", "three"));
-     *     attribute.toString("=", "\n");
-     *     // name=one
-     *     // name=two
-     *     // name=three
+     * MultiValueAttribute<String> attribute = new MultiValueAttribute<String>("name",
+     * Arrays.asList("one", "two", "three"));
+     * attribute.toString("=", "\n");
+     * // name=one
+     * // name=two
+     * // name=three
      * </code>
      *
      * @param operator

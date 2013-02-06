@@ -38,8 +38,8 @@ public class URIException extends IllegalArgumentException {
     /**
      * Create a {@code URIException} with the supplied cause.
      *
-     * @param cause   the cause of the exception, this should be either a {@link java.net.MalformedURLException} or
-     *                {@link java.net.URISyntaxException}.
+     * @param cause the cause of the exception, this should be either a {@link java.net.MalformedURLException} or
+     *              {@link java.net.URISyntaxException}.
      */
     public URIException(Throwable cause) {
         super(cause);

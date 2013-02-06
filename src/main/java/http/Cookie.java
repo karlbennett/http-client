@@ -15,9 +15,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static http.util.Asserts.assertNotNull;
-import static http.util.Checks.isNotEmpty;
-import static http.util.Checks.isNotNull;
-import static http.util.Checks.isNull;
+import static http.util.Checks.*;
 import static http.util.URIs.quietUri;
 
 /**
@@ -362,12 +360,12 @@ public class Cookie extends Attribute<String> {
 
     /**
      * A private helper method for setting the field of this cookie from the fragment of a cookie string.
-     *
+     * <p/>
      * Example:
      * <code>
-     *      Cookie cookie = new Cookie("name", "value");
-     *      cookie.setFieldByFragment("Comment=This is a comment;");
-     *      "This is a comment".equals(cookie.getComment()); // true
+     * Cookie cookie = new Cookie("name", "value");
+     * cookie.setFieldByFragment("Comment=This is a comment;");
+     * "This is a comment".equals(cookie.getComment()); // true
      * </code>
      *
      * @param fragment the fragment of the cookie string that is going to be used to set a field.

@@ -6,11 +6,8 @@ import java.net.URI;
 import java.net.URL;
 import java.util.HashSet;
 
-import static http.parameter.Parameters.PARAMETERS;
 import static http.Urls.*;
-import static http.parameter.Parameters.PARAMETER_ONE;
-import static http.parameter.Parameters.PARAMETER_TWO;
-import static http.parameter.Parameters.PARAMETER_THREE;
+import static http.parameter.Parameters.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 

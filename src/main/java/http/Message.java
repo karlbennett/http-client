@@ -96,18 +96,18 @@ public class Message<T> {
 
     /**
      * Get the {@link Header} with the supplied name. If the header does not exist this method will return null.
-     *
+     * <p/>
      * Care must be taken with this method because it will implicitly cast the generic type of the {@code Header} so can
      * produce ClassCastExceptions exceptions at runtime.
-     *
+     * <p/>
      * <code>
-     *     request.addHeader(new Header&lt;String&gt;("number", "one"));
-     *     Header&lt;Integer&gt; header = request.getHeader("number"); // This will not produce an unchecked warning.
-     *     int number = header.getValue(); // This will compile and fail at runtime with a ClassCastException.
+     * request.addHeader(new Header&lt;String&gt;("number", "one"));
+     * Header&lt;Integer&gt; header = request.getHeader("number"); // This will not produce an unchecked warning.
+     * int number = header.getValue(); // This will compile and fail at runtime with a ClassCastException.
      * </code>
      *
      * @param name the name of the header to retrieve.
-     * @param <T> the type of the headers value.
+     * @param <T>  the type of the headers value.
      * @return the requested header if it exists otherwise null.
      */
     public <T> Header<T> getHeader(String name) {
@@ -139,7 +139,7 @@ public class Message<T> {
      * Add a header to the {@code Message} made up of the supplied name and value. If a header with the supplied name
      * already exists then the supplied value will be added to the existing headers values.
      *
-     * @param name the name of the new header.
+     * @param name  the name of the new header.
      * @param value the value for the new header.
      */
     public void addHeader(String name, Object value) {
@@ -200,7 +200,7 @@ public class Message<T> {
      * Add a cookie to the {@code Message} made up of the supplied name and value. If a cookie with the supplied
      * name already exists then it will be replaced with the new cookie.
      *
-     * @param name the name of the new cookie.
+     * @param name  the name of the new cookie.
      * @param value the value for the new cookie.
      */
     public void addCookie(String name, String value) {

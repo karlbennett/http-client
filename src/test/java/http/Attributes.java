@@ -4,8 +4,8 @@ import http.attribute.Attribute;
 
 import java.util.*;
 
-import static java.util.Map.Entry;
 import static java.util.AbstractMap.SimpleEntry;
+import static java.util.Map.Entry;
 
 /**
  * A utility class containing constant attribute values that can be used within tests.
@@ -48,6 +48,7 @@ public final class Attributes {
     ));
 
     public static final Map<String, Attribute<String>> TEST_ATTRIBUTES_MAP;
+
     static {
 
         Map<String, Attribute<String>> testAttributesMap = new HashMap<>();
@@ -60,8 +61,8 @@ public final class Attributes {
     }
 
     public static final Set<Entry<String, Attribute<String>>> TEST_ATTRIBUTE_ENTRY_SET = new HashSet<Entry<String, Attribute<String>>>(Arrays.asList(
-        new SimpleEntry<>(TEST_ATTRIBUTE_NAME_ONE, TEST_ATTRIBUTE_ONE),
-        new SimpleEntry<>(TEST_ATTRIBUTE_NAME_TWO, TEST_ATTRIBUTE_TWO),
-        new SimpleEntry<>(TEST_ATTRIBUTE_NAME_THREE, TEST_ATTRIBUTE_THREE)
+            new SimpleEntry<>(TEST_ATTRIBUTE_NAME_ONE, TEST_ATTRIBUTE_ONE),
+            new SimpleEntry<>(TEST_ATTRIBUTE_NAME_TWO, TEST_ATTRIBUTE_TWO),
+            new SimpleEntry<>(TEST_ATTRIBUTE_NAME_THREE, TEST_ATTRIBUTE_THREE)
     ));
 }

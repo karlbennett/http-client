@@ -11,12 +11,11 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Collection;
 
-import static http.Bodies.*;
-
+import static http.Bodies.TEST_INPUT_STREAM_BODY;
 import static http.Cookies.COOKIES;
+import static http.Urls.*;
 import static http.header.Headers.HEADERS;
 import static http.parameter.Parameters.PARAMETERS;
-import static http.Urls.*;
 import static org.junit.Assert.*;
 
 /**
@@ -43,8 +42,7 @@ public abstract class AbstractClientRequestMethodTest implements RequestHandler 
      * code reuse within the HTTP request methods tests which are all very similar.
      *
      * @param <T> the type of input that will be used for the request method, this will usually be the {@link String},
-     * {@link java.net.URL}, or {@link http.Request} type.
-     *
+     *            {@link java.net.URL}, or {@link http.Request} type.
      * @author Karl Bennett
      */
     public interface RequestExecutor<T> {
@@ -280,6 +278,6 @@ public abstract class AbstractClientRequestMethodTest implements RequestHandler 
                 " method.", body);
 
         assertEquals("the correct body content should have been produced from the " + testMethodType + " " +
-                    testMethod + " method.", IOUtils.toString(body), IOUtils.toString(this.body));
+                testMethod + " method.", IOUtils.toString(body), IOUtils.toString(this.body));
     }
 }

@@ -22,7 +22,6 @@ public final class Checks {
      * Check if the supplied value is {@code null}.
      *
      * @param value the value to check.
-     *
      * @return {@code true} if the value is {@code null}, otherwise {@code false}.
      */
     public static boolean isNull(Object value) {
@@ -34,7 +33,6 @@ public final class Checks {
      * Check if the supplied value is not {@code null}.
      *
      * @param value the value to check.
-     *
      * @return {@code true} if the value is not {@code null}, otherwise {@code false}.
      */
     public static boolean isNotNull(Object value) {
@@ -46,7 +44,6 @@ public final class Checks {
      * Check if the supplied {@link String} is empty (is {@code null} or has a length of {@code 0}).
      *
      * @param value the {@code String} to check.
-     *
      * @return {@code true} if the {@code String} is empty, otherwise {@code false}.
      */
     public static boolean isEmpty(String value) {
@@ -58,7 +55,6 @@ public final class Checks {
      * Check if the supplied {@link String} is not empty (is not {@code null} and has a length greater {@code 0}).
      *
      * @param value the {@code String} to check.
-     *
      * @return {@code true} if the {@code String} is not empty, otherwise {@code false}.
      */
     public static boolean isNotEmpty(String value) {
@@ -70,7 +66,6 @@ public final class Checks {
      * Check if the supplied {@link Collection} is empty (is {@code null} or has a size of {@code 0}).
      *
      * @param value the {@code Collection} to check.
-     *
      * @return {@code true} if the {@code Collection} is empty, otherwise {@code false}.
      */
     public static boolean isEmpty(Collection value) {
@@ -82,7 +77,6 @@ public final class Checks {
      * Check if the supplied {@link Collection} is not empty (is not {@code null} and has a size greater {@code 0}).
      *
      * @param value the {@code Collection} to check.
-     *
      * @return {@code true} if the {@code Collection} is not empty, otherwise {@code false}.
      */
     public static boolean isNotEmpty(Collection value) {
@@ -94,7 +88,6 @@ public final class Checks {
      * Check if the supplied {@link Map} is empty (is {@code null} or has a size of {@code 0}).
      *
      * @param value the {@code Map} to check.
-     *
      * @return {@code true} if the {@code Map} is empty, otherwise {@code false}.
      */
     public static boolean isEmpty(Map value) {
@@ -106,7 +99,6 @@ public final class Checks {
      * Check if the supplied {@link Map} is not empty (is not {@code null} and has a size greater {@code 0}).
      *
      * @param value the {@code Map} to check.
-     *
      * @return {@code true} if the {@code Map} is not empty, otherwise {@code false}.
      */
     public static boolean isNotEmpty(Map value) {
@@ -119,7 +111,6 @@ public final class Checks {
      * object that is supplied. It is for use when the object type isn't known at compile time.
      *
      * @param value the value to check.
-     *
      * @return {@code true} if the value is empty, otherwise {@code false}.
      */
     public static boolean isEmpty(Object value) {
@@ -138,7 +129,6 @@ public final class Checks {
      * of object that is supplied. It is for use when the object type isn't known at compile time.
      *
      * @param value the value to check.
-     *
      * @return {@code true} if the value is not empty, otherwise {@code false}.
      */
     public static boolean isNotEmpty(Object value) {

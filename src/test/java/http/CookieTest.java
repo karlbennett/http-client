@@ -9,7 +9,6 @@ import org.junit.Test;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -38,6 +37,7 @@ public class CookieTest {
     public static final int MAX_AGE = (int) ((DateTime.now().plusDays(1).getMillis() - DateTime.now().getMillis()) / 1000);
     public static final Pattern PATH_REGEX = Pattern.compile(";\\s+Path=((?:https?://)?[\\w/\\._-]+)");
     public static final URI PATH;
+
     static {
 
         URI path = null;
@@ -53,6 +53,7 @@ public class CookieTest {
 
         PATH = path;
     }
+
     public static final Pattern SECURE_REGEX = Pattern.compile("Secure=(\\w+);");
     public static final boolean SECURE = true;
     public static final Pattern VERSION_REGEX = Pattern.compile("Version=(\\d+);");

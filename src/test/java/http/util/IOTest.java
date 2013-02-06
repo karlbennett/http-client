@@ -2,12 +2,11 @@ package http.util;
 
 import org.junit.Test;
 
-import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
-import static http.util.IO.*;
-import static org.apache.commons.io.IOUtils.*;
-import static org.junit.Assert.*;
+import static http.util.IO.readAll;
+import static org.apache.commons.io.IOUtils.toInputStream;
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Karl Bennett

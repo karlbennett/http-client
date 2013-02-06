@@ -7,7 +7,8 @@ import java.util.Collections;
 import java.util.Map;
 
 import static http.util.Checks.*;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author Karl Bennett

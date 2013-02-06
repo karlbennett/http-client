@@ -5,10 +5,11 @@ import org.junit.Test;
 import java.net.URI;
 import java.net.URL;
 
-import static http.util.URIs.*;
-
-import static http.Urls.*;
-import static org.junit.Assert.*;
+import static http.Urls.TEST_URL_STRING;
+import static http.util.URIs.quietUri;
+import static http.util.URIs.quietUrl;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * @author Karl Bennett

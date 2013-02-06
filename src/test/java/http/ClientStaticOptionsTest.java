@@ -2,8 +2,8 @@ package http;
 
 import java.net.URL;
 
-import static http.Client.*;
 import static http.AbstractClientRequestMethodTest.METHOD_TYPE.STATIC;
+import static http.Client.OPTIONS;
 
 /**
  * @author Karl Bennett

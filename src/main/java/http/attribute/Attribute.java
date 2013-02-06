@@ -16,7 +16,7 @@ public class Attribute<T> {
     /**
      * Create an {@code Attribute} with a name and value.
      *
-     * @param name the name of the attribute.
+     * @param name  the name of the attribute.
      * @param value the value for the attribute.
      * @throws IllegalArgumentException if the {@code Attribute}'s name is empty or the values are null.
      */

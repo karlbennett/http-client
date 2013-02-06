@@ -2,7 +2,7 @@ package http;
 
 import java.io.InputStream;
 
-import static org.apache.commons.io.IOUtils.*;
+import static org.apache.commons.io.IOUtils.toInputStream;
 
 /**
  * A utility class containing constant body content values that can be used within tests.

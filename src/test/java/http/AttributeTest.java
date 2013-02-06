@@ -3,7 +3,8 @@ package http;
 import http.attribute.Attribute;
 import org.junit.Test;
 
-import static http.Attributes.*;
+import static http.Attributes.TEST_ATTRIBUTE_NAME_ONE;
+import static http.Attributes.TEST_ATTRIBUTE_VALUE_ONE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
