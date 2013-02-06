@@ -26,14 +26,14 @@ public class ParameterTest {
     public void testStaticToStringWithEmptyCollection() throws Exception {
 
         assertEquals("toString(Collection<Parameter>) should produce an empty string.", "",
-                Parameter.toString(Collections.<Parameter>emptySet()));
+                Parameter.toString(Collections.<Parameter<String>>emptySet()));
     }
 
     @Test
     public void testStaticToStringWithNull() throws Exception {
 
         assertEquals("toString(Collection<Parameter>) should produce an empty string.", "",
-                Parameter.toString(Collections.<Parameter>emptySet()));
+                Parameter.toString(Collections.<Parameter<String>>emptySet()));
     }
 
     @Test
@@ -42,7 +42,7 @@ public class ParameterTest {
         assertEquals("Parameter.parse(String) should produce the correct parameters.", new HashSet<>(PARAMETERS),
                 Parameter.parse(PARAMETER_STRING));
 
-        Collection<Parameter> parameters = new HashSet<>(PARAMETERS);
+        Collection<Parameter<String>> parameters = new HashSet<>(PARAMETERS);
         parameters.remove(PARAMETER_ONE);
         parameters.remove(PARAMETER_TWO);
         parameters.add(new Parameter<>(PARAMETER_NAME_ONE, Arrays.asList(PARAMETER_VALUE_ONE, PARAMETER_VALUE_TWO)));

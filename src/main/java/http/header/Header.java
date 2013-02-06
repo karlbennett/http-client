@@ -2,6 +2,7 @@ package http.header;
 
 import http.attribute.MultiValueAttribute;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -11,6 +12,24 @@ import java.util.List;
  * @author Karl Bennett
  */
 public class Header<T> extends MultiValueAttribute<T> {
+
+    public static <T> String toString(Collection<Header<T>> headers) {
+
+        return toString(headers, "\n");
+    }
+
+    public static Collection<Header<String>> parse(String headers) {
+
+        return parse(headers, ": ", "\n", new Creator<Header<String>>() {
+
+            @Override
+            public Header<String> create(String name, String value) {
+
+                return new Header<String>(name, value);
+            }
+        });
+    }
+
 
     /**
      * Create an {@code Header} with a name and multiple values.

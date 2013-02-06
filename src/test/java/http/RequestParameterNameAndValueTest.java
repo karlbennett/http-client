@@ -12,7 +12,7 @@ import static http.Urls.TEST_URL;
 public class RequestParameterNameAndValueTest extends AbstractClientRequestParameterTest {
 
     public RequestParameterNameAndValueTest() {
-        super(new MessageExecutor<Request<Object>, Parameter>() {
+        super(new MessageExecutor<Request<Object>, Parameter<String>>() {
 
             @Override
             public Request<Object> newMessage() {
@@ -21,25 +21,25 @@ public class RequestParameterNameAndValueTest extends AbstractClientRequestParam
             }
 
             @Override
-            public Parameter getProperty(Request<Object> message, String name) {
+            public Parameter<String> getProperty(Request<Object> message, String name) {
 
                 return message.getParameter(name);
             }
 
             @Override
-            public void addProperty(Request<Object> message, Parameter property) {
+            public void addProperty(Request<Object> message, Parameter<String> property) {
 
                 message.addParameter(property.getName(), property.getValue());
             }
 
             @Override
-            public Collection<Parameter> getProperties(Request<Object> message) {
+            public Collection<Parameter<String>> getProperties(Request<Object> message) {
 
                 return message.getParameters();
             }
 
             @Override
-            public void setProperties(Request<Object> message, Collection<Parameter> properties) {
+            public void setProperties(Request<Object> message, Collection<Parameter<String>> properties) {
 
                 message.setParameters(properties);
             }

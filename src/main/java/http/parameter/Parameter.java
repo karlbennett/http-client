@@ -4,8 +4,6 @@ import http.attribute.MultiValueAttribute;
 
 import java.util.*;
 
-import static http.util.Checks.isEmpty;
-
 /**
  * Represents an HTTP parameter which can have a name and a single or multiple values. The type of the value can be
  * defined on instantiation.
@@ -21,20 +19,9 @@ public class Parameter<T> extends MultiValueAttribute<T> {
      * @param parameters the parameters that will have their string representations concatenated.
      * @return the concatenated parameter string.
      */
-    public static String toString(Collection<Parameter> parameters) {
+    public static <T> String toString(Collection<Parameter<T>> parameters) {
 
-        if (isEmpty(parameters)) return "";
-
-        StringBuilder toStringHolder = new StringBuilder();
-
-        for (Parameter parameter : parameters) {
-
-            toStringHolder.append(parameter).append('&');
-        }
-
-        toStringHolder.replace(toStringHolder.length() - 1, toStringHolder.length(), "");
-
-        return toStringHolder.toString();
+        return toString(parameters, "&");
     }
 
     /**
@@ -62,39 +49,16 @@ public class Parameter<T> extends MultiValueAttribute<T> {
      * @param query the string to parse.
      * @return the
      */
-    public static Collection<Parameter> parse(String query) {
+    public static Collection<Parameter<String>> parse(String query) {
 
-        if (isEmpty(query)) return Collections.emptySet();
+        return parse(query, "=", "&", new Creator<Parameter<String>>() {
 
-        Map<String, Parameter> parameters = new HashMap<>();
+            @Override
+            public Parameter<String> create(String name, String value) {
 
-        String[] parameterParts;
-        String name, value;
-        for (String parameter : query.split("&")) {
-
-            parameterParts = parameter.split("=");
-
-            if (2 == parameterParts.length) {
-
-                name = parameterParts[0];
-                value = parameterParts[1];
-
-                if (parameters.containsKey(name)) {
-
-                    parameters.get(name).addValue(value);
-
-                } else {
-
-                    parameters.put(name, new Parameter(name, value));
-                }
-
-            } else {
-
-                throw new IllegalArgumentException("Invalid parameter format (" + parameter + ")");
+                return new Parameter<String>(name, value);
             }
-        }
-
-        return new HashSet<>(parameters.values());
+        });
     }
 
     /**

@@ -31,6 +31,6 @@ public final class Parameters {
     public static final Parameter<String> PARAMETER_THREE = new Parameter<String>(PARAMETER_NAME_THREE,
             PARAMETER_VALUE_THREE);
 
-    public static final Collection<Parameter> PARAMETERS = Collections.unmodifiableCollection(
-            Arrays.<Parameter>asList((Parameter) PARAMETER_ONE, (Parameter) PARAMETER_TWO, (Parameter) PARAMETER_THREE));
+    public static final Collection<Parameter<String>> PARAMETERS = Collections.unmodifiableCollection(
+            Arrays.asList(PARAMETER_ONE, PARAMETER_TWO, PARAMETER_THREE));
 }

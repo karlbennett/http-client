@@ -2,9 +2,7 @@ package http.attribute;
 
 
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import static http.util.Asserts.assertNotNull;
 import static http.util.Checks.isEmpty;
@@ -18,6 +16,102 @@ import static http.util.Checks.isNotEmpty;
  * @author Karl Bennett
  */
 public class MultiValueAttribute<T> extends Attribute<T> {
+
+    /**
+     * Concatenate the {@link #toString()} values of a {@link Collection} of {@code MultiValueAttribute}. Each value
+     * will be delimited by the supplied {@code delimiter} {@link String}.
+     *
+     * @param attributes the attributes that will have their string representations concatenated.
+     * @param delimiter the delimiter that will be placed between each attribute string value.
+     * @return the concatenated parameter string.
+     */
+    public static <T, A extends MultiValueAttribute<T>> String toString(Collection<A> attributes, String delimiter) {
+
+        if (isEmpty(attributes)) return "";
+
+        StringBuilder toStringHolder = new StringBuilder();
+
+        for (A attribute : attributes) {
+
+            toStringHolder.append(attribute).append(delimiter);
+        }
+
+        // Remove delimiter that would have been appended to the end of the string.
+        toStringHolder.replace(toStringHolder.length() - delimiter.length(), toStringHolder.length(), "");
+
+        return toStringHolder.toString();
+    }
+
+    public static interface Creator<A extends MultiValueAttribute<String>> {
+
+        public A create(String name, String value);
+    }
+
+    /**
+     * Parse a {@link String} containing any number of name/value pairs into a collection of
+     * {@link MultiValueAttribute}s. The names and values must be delimited by the supplied {@code operator}
+     * {@link String} and each name/value pair must be delimited by the supplied {@code delimiter} {@code String}.
+     *
+     * Any name value pairs that share the same name will be stored in the same {@code MultiValueAttribute} instance.
+     *
+     * A {@link Creator} must also be implemented with a means of creating the {@code MultiValueAttribute} or a
+     * subclass.
+     *
+     * Example:
+     * <code>
+     *     List<MultiValueAttribute<String>> parameters = new ArrayList(
+     *         MultiValueAttribute.parse("nameOne=valueOne&nameOne=valueTwo&nameThree=valueThree", "=", "&",
+     *             new Creator<MultiValueAttribute<String>>() {
+     *
+     *                 public MultiValueAttribute<String> create(String name, String value) {
+     *
+     *                     return new MultiValueAttribute<String>(name, value);
+     *                 }
+     *             })
+     *     );
+     *     parameters.size(); // 2
+     *     parameters.get(0).getValues(); // ["valueOne", "valueTwo"]
+     *     parameters.get(1).getValues(); // ["valueThree"]
+     * </code>
+     *
+     * @param attributeString the string to parse.
+     * @return the
+     */
+    public static <A extends MultiValueAttribute<String>> Collection<A> parse(String attributeString, String operator,
+                                                                              String delimiter, Creator<A> creator) {
+
+        if (isEmpty(attributeString)) return Collections.emptySet();
+
+        Map<String, A> attributes = new HashMap<>();
+
+        String[] attributeParts;
+        String name, value;
+        for (String attribute : attributeString.split(delimiter)) {
+
+            attributeParts = attribute.split(operator);
+
+            if (2 == attributeParts.length) {
+
+                name = attributeParts[0];
+                value = attributeParts[1];
+
+                if (attributes.containsKey(name)) {
+
+                    attributes.get(name).addValue(value);
+
+                } else {
+
+                    attributes.put(name, creator.create(name, value));
+                }
+
+            } else {
+
+                throw new IllegalArgumentException("Invalid attribute format (" + attribute + ")");
+            }
+        }
+
+        return new HashSet<>(attributes.values());
+    }
 
     /**
      * Filter any empty values out of the supplied {@link List}.

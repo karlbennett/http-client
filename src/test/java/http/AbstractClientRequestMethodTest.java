@@ -89,7 +89,7 @@ public abstract class AbstractClientRequestMethodTest implements RequestHandler 
     private String method;
     private URL url;
     private Collection<Header> headers;
-    private Collection<Parameter> parameters;
+    private Collection<Parameter<String>> parameters;
     private Collection<Cookie> cookies;
     private InputStream body;
 
@@ -241,7 +241,7 @@ public abstract class AbstractClientRequestMethodTest implements RequestHandler 
                 " method.", body);
     }
 
-    private void requestWithParametersTest(URL url, Collection<Parameter> parameters,
+    private void requestWithParametersTest(URL url, Collection<Parameter<String>> parameters,
                                            Response<InputStream> testResponse) throws Exception {
 
         assertEquals("the correct response should be returned from the " + testMethodType + " " + testMethod +

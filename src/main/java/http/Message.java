@@ -44,6 +44,16 @@ public class Message<T> {
         }
     }
 
+    protected static <T extends Attribute> void setAll(AttributeMap<T> destination, Collection<T> origin) {
+
+        setAll(destination, origin, new Adder<T>() {
+
+            @Override
+            public void add(T attribute) {
+            }
+        });
+    }
+
 
     private final String cookieHeaderName;
     private final MultiValueAttributeMap<Header> headers;

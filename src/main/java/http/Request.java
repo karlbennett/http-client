@@ -31,7 +31,7 @@ public class Request<T> extends Message<T> {
 
 
     private final URL url;
-    private MultiValueAttributeMap<Parameter> parameters;
+    private MultiValueAttributeMap<Parameter<String>> parameters;
 
     /**
      * Create a new {@code Request} that will be sent to the {@code HTTP} server at the supplied {@link URL}.
@@ -50,7 +50,7 @@ public class Request<T> extends Message<T> {
      * @param url        a {@code java.lang.String} containing the {@code URL} for the {@code HTTP} server.
      * @param parameters any parameters that should be sent in the HTTP request.
      */
-    public Request(String url, Collection<Parameter> parameters) {
+    public Request(String url, Collection<Parameter<String>> parameters) {
 
         this(quietUrl(url), parameters);
     }
@@ -63,7 +63,7 @@ public class Request<T> extends Message<T> {
      * @param headers    any headers that should be sent in the HTTP request.
      * @param parameters any parameters that should be sent in the HTTP request.
      */
-    public Request(String url, Collection<Header> headers, Collection<Parameter> parameters) {
+    public Request(String url, Collection<Header> headers, Collection<Parameter<String>> parameters) {
 
         this(quietUrl(url), headers, parameters);
     }
@@ -77,7 +77,8 @@ public class Request<T> extends Message<T> {
      * @param cookies    any cookies that should be sent in the HTTP request.
      * @param parameters any parameters that should be sent in the HTTP request.
      */
-    public Request(String url, Collection<Header> headers, Collection<Cookie> cookies, Collection<Parameter> parameters) {
+    public Request(String url, Collection<Header> headers, Collection<Cookie> cookies,
+                   Collection<Parameter<String>> parameters) {
 
         this(quietUrl(url), headers, cookies, parameters);
     }
@@ -89,7 +90,7 @@ public class Request<T> extends Message<T> {
      */
     public Request(URL url) {
 
-        this(url, Collections.<Parameter>emptySet());
+        this(url, Collections.<Parameter<String>>emptySet());
     }
 
 
@@ -100,7 +101,7 @@ public class Request<T> extends Message<T> {
      * @param url        a {@code java.net.URL} representing the URL for the {@code HTTP} server.
      * @param parameters any parameters that should be sent in the HTTP request.
      */
-    public Request(URL url, Collection<Parameter> parameters) {
+    public Request(URL url, Collection<Parameter<String>> parameters) {
 
         this(url, Collections.<Header>emptySet(), parameters);
     }
@@ -113,7 +114,7 @@ public class Request<T> extends Message<T> {
      * @param headers    any headers that should be sent in the HTTP request.
      * @param parameters any parameters that should be sent in the HTTP request.
      */
-    public Request(URL url, Collection<Header> headers, Collection<Parameter> parameters) {
+    public Request(URL url, Collection<Header> headers, Collection<Parameter<String>> parameters) {
 
         this(url, headers, Collections.<Cookie>emptySet(), parameters);
     }
@@ -127,7 +128,8 @@ public class Request<T> extends Message<T> {
      * @param cookies    any cookies that should be sent in the HTTP request.
      * @param parameters any parameters that should be sent in the HTTP request.
      */
-    public Request(URL url, Collection<Header> headers, Collection<Cookie> cookies, Collection<Parameter> parameters) {
+    public Request(URL url, Collection<Header> headers, Collection<Cookie> cookies,
+                   Collection<Parameter<String>> parameters) {
         super(COOKIE, new MultiValueAttributeMap<>(headers), new AttributeMap<>(cookies), null);
 
         assertNotNull("parameters", parameters);
@@ -157,28 +159,18 @@ public class Request<T> extends Message<T> {
      *
      * @return the message parameters.
      */
-    public Collection<Parameter> getParameters() {
+    public Collection<Parameter<String>> getParameters() {
 
         return new HashSet<>(parameters.values());
     }
 
     /**
      * Get the {@link Parameter} with the supplied name. If the parameter does not exist this method will return null.
-     * <p/>
-     * Care must be taken with this method because it will implicitly cast the generic type of the {@code Parameter} so
-     * can produce {@link ClassCastException} exceptions at runtime.
-     * <p/>
-     * <code>
-     * request.addParameter(new Parameter&lt;String&gt;("number", "one"));
-     * Parameter&lt;Integer&gt; parameter = request.getParameter("number"); // This will not produce an unchecked warning.
-     * int number = parameter.getValue(); // This will compile and fail at runtime with a ClassCastException.
-     * </code>
      *
      * @param name the name of the parameter to retrieve.
-     * @param <T>  the type of the parameters value.
      * @return the requested parameter if it exists otherwise null.
      */
-    public <T> Parameter<T> getParameter(String name) {
+    public Parameter<String> getParameter(String name) {
 
         return parameters.get(name);
     }
@@ -188,14 +180,9 @@ public class Request<T> extends Message<T> {
      *
      * @param parameters the new parameters for the message.
      */
-    public void setParameters(Collection<Parameter> parameters) {
+    public void setParameters(Collection<Parameter<String>> parameters) {
 
-        setAll(this.parameters, parameters, new Adder<Parameter>() {
-
-            @Override
-            public void add(Parameter attribute) {
-            }
-        });
+        setAll(this.parameters, parameters);
     }
 
     /**
@@ -204,11 +191,10 @@ public class Request<T> extends Message<T> {
      *
      * @param name  the name of the new parameter.
      * @param value the value for the new parameter.
-     * @param <T>   the type of the parameters value.
      */
-    public <T> void addParameter(String name, T value) {
+    public void addParameter(String name, String value) {
 
-        addParameter(new Parameter<T>(name, value));
+        addParameter(new Parameter<String>(name, value));
     }
 
     /**
@@ -216,9 +202,8 @@ public class Request<T> extends Message<T> {
      * matching name already exists then the new parameters value will be added to the existing parameters values.
      *
      * @param parameter the new parameter to add to the message.
-     * @param <T>       the type of the parameters value.
      */
-    public <T> void addParameter(Parameter<T> parameter) {
+    public void addParameter(Parameter<String> parameter) {
 
         this.parameters.add(parameter);
     }
