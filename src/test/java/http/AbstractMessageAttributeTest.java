@@ -61,17 +61,49 @@ public abstract class AbstractMessageAttributeTest<M, A extends MultiValueAttrib
     @Test
     public void testAddEmptyValueToExistingAttribute() throws Exception {
 
-        addBlankAttributeValueTest("");
+        addBlankValueToExistingAttributeTest("");
     }
 
     @Test
-    public void testAddHeaderWithNameAndNullValue() throws Exception {
+    public void testAddNullValueToExistingAttribute() throws Exception {
 
-        addBlankAttributeValueTest(null);
+        addBlankValueToExistingAttributeTest(null);
+    }
+
+    @Test
+    public void testAddEmptyAttributeValueTwice() throws Exception {
+
+        addBlankAttributeValueTwiceTest("");
+    }
+
+    @Test
+    public void testAddNullAttributeValueTwice() throws Exception {
+
+        addBlankAttributeValueTwiceTest(null);
     }
 
 
-    private void addBlankAttributeValueTest(Object blank) {
+    private void addBlankValueToExistingAttributeTest(Object blank) {
+
+        M message = messageExecutor.newMessage();
+
+        A attribute = propertyExecutor.newProperty(attributeOne.getName(), attributeOne.getValue());
+
+        messageExecutor.addProperty(message,
+                propertyExecutor.newProperty(attributeOne.getName(), attributeOne.getValue()));
+
+        assertEquals("attribute one should have a value.", Collections.singletonList(attributeOne.getValue()),
+                messageExecutor.getProperty(message, attributeOne.getName()).getValues());
+
+        messageExecutor.addProperty(message,
+                propertyExecutor.newProperty(attributeOne.getName(), blank));
+
+        assertEquals("attribute one should still only have one value.",
+                Collections.singletonList(attributeOne.getValue()),
+                messageExecutor.getProperty(message, attributeOne.getName()).getValues());
+    }
+
+    private void addBlankAttributeValueTwiceTest(Object blank) {
 
         M message = messageExecutor.newMessage();
 
