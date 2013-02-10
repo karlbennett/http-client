@@ -18,7 +18,7 @@ public class Header<T> extends MultiValueAttribute<T> {
 
     public static Collection<Header<String>> parse(String headers) {
 
-        return parse(new MultiValueAttributePasrer<Header<String>>(headers, OPERATOR, DELIMITER) {
+        return parse(new MultiValueAttributeParser<Header<String>>(headers, OPERATOR, DELIMITER) {
 
             @Override
             protected Header<String> nextPair(String name, String value) {

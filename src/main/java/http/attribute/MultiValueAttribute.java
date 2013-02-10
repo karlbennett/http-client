@@ -18,12 +18,12 @@ import static http.util.Checks.isNull;
  */
 public class MultiValueAttribute<T> extends Attribute<T> {
 
-    protected static abstract class MultiValueAttributePasrer<A extends MultiValueAttribute> extends Parser {
+    protected static abstract class MultiValueAttributeParser<A extends MultiValueAttribute> extends Parser {
 
         private final String operator;
         private final Map<String, A> attributes;
 
-        public MultiValueAttributePasrer(String string, String operator, String delimiter) {
+        public MultiValueAttributeParser(String string, String operator, String delimiter) {
             super(string, delimiter);
 
             this.operator = operator;
@@ -102,7 +102,7 @@ public class MultiValueAttribute<T> extends Attribute<T> {
         return toStringHolder.toString();
     }
 
-    protected static <A extends MultiValueAttribute<String>> Collection<A> parse(MultiValueAttributePasrer<A> pasrer) {
+    protected static <A extends MultiValueAttribute<String>> Collection<A> parse(MultiValueAttributeParser<A> pasrer) {
 
         pasrer.parse();
 

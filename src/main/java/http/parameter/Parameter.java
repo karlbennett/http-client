@@ -43,7 +43,7 @@ public class Parameter<T> extends MultiValueAttribute<T> {
      */
     public static Collection<Parameter<String>> parse(String parameters) {
 
-        return parse(new MultiValueAttributePasrer<Parameter<String>>(parameters, OPERATOR, DELIMITER) {
+        return parse(new MultiValueAttributeParser<Parameter<String>>(parameters, OPERATOR, DELIMITER) {
 
             @Override
             protected Parameter<String> nextPair(String name, String value) {
