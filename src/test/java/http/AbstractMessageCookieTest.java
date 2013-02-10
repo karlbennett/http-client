@@ -90,14 +90,14 @@ public abstract class AbstractMessageCookieTest<M extends Message<Object>> exten
         M message = messageExecutor.newMessage();
         message.setCookies(new HashSet<Cookie>(cookies));
 
-        Collection<String> cookieHeaderValues = message.<String>getHeader(cookieHeaderName).getValues();
+        assertNull("No headers should have been added.", message.<String>getHeader(cookieHeaderName));
 
-        assertTrue("cookie one should be contained in the header value.",
-                cookieHeaderValues.contains(cookieOne.getName() + "=" + cookieOne.getValue()));
-        assertTrue("cookie two should be contained in the header value.",
-                cookieHeaderValues.contains(cookieTwo.getName() + "=" + cookieTwo.getValue()));
-        assertTrue("cookie three should be contained in the header value.",
-                cookieHeaderValues.contains(cookieThree.getName() + "=" + cookieThree.getValue()));
+        Collection<Cookie> cookies = message.getCookies();
+
+        assertEquals("three cookies should have been added.", 3, cookies.size());
+        assertTrue("cookie one should have been added.", cookies.contains(cookieOne));
+        assertTrue("cookie two should have been added.", cookies.contains(cookieTwo));
+        assertTrue("cookie three should have been added.", cookies.contains(cookieThree));
     }
 
     @Test
@@ -113,39 +113,30 @@ public abstract class AbstractMessageCookieTest<M extends Message<Object>> exten
     }
 
     @Test
+    public void testAddCookie() throws Exception {
+
+        new AddCookieTester() {
+
+            @Override
+            protected void add(M message, Cookie cookie) {
+
+                messageExecutor.addProperty(message, new Cookie(cookie.getName(), cookie.getValue()));
+            }
+        }.test();
+
+    }
+
+    @Test
     public void testAddCookieHeader() throws Exception {
 
-        M message = messageExecutor.newMessage();
+        new AddCookieTester() {
 
-        assertEquals("no headers should exist", 0, message.getHeaders().size());
+            @Override
+            protected void add(Message message, Cookie cookie) {
 
-        messageExecutor.addProperty(message, new Cookie(cookieOne.getName(), cookieOne.getValue()));
-
-        assertEquals("one header should exist", 1, message.getHeaders().size());
-
-        messageExecutor.addProperty(message, new Cookie(cookieTwo.getName(), cookieTwo.getValue()));
-
-        assertEquals("one header should exist", 1, message.getHeaders().size());
-
-        messageExecutor.addProperty(message, new Cookie(cookieThree.getName(), cookieThree.getValue()));
-
-        assertEquals("one header should exist", 1, message.getHeaders().size());
-
-        Collection<String> cookieHeaderValues = message.<String>getHeader(cookieHeaderName).getValues();
-
-        assertTrue("cookie one should be contained in the header value.",
-                cookieHeaderValues.contains(cookieOne.getName() + "=" + cookieOne.getValue()));
-        assertTrue("cookie two should be contained in the header value.",
-                cookieHeaderValues.contains(cookieTwo.getName() + "=" + cookieTwo.getValue()));
-        assertTrue("cookie three should be contained in the header value.",
-                cookieHeaderValues.contains(cookieThree.getName() + "=" + cookieThree.getValue()));
-
-        messageExecutor.addProperty(message, new Cookie(cookieOne.getName(), cookieTwo.getValue()));
-
-        assertEquals("three cookies should exist when a new value has been added to cookie one", 3,
-                message.getCookies().size());
-        assertEquals("cookie one should have value two.", cookieTwo.getValue(),
-                message.getCookie(cookieOne.getName()).getValue());
+                message.addHeader(new Header<String>(cookieHeaderName, cookie.getName() + '=' + cookie.getValue()));
+            }
+        }.test();
     }
 
     @Test
@@ -160,6 +151,51 @@ public abstract class AbstractMessageCookieTest<M extends Message<Object>> exten
         addCookieHeaderWithBlankValueTest(null);
     }
 
+
+    private abstract class AddCookieTester {
+
+        protected abstract void add(M message, Cookie cookie);
+
+        public void test() throws Exception {
+
+            M message = messageExecutor.newMessage();
+
+            assertEquals("no headers should exist.", 0, message.getHeaders().size());
+            assertEquals("no cookies should exist", 0, message.getCookies().size());
+
+            add(message, cookieOne);
+
+            assertEquals("no headers should exist.", 0, message.getHeaders().size());
+            assertEquals("one cookie should exist", 1, message.getCookies().size());
+
+            add(message, cookieTwo);
+
+            assertEquals("no headers should exist.", 0, message.getHeaders().size());
+            assertEquals("two cookies should exist", 2, message.getCookies().size());
+
+            add(message, cookieThree);
+
+            assertEquals("no headers should exist.", 0, message.getHeaders().size());
+            assertEquals("three cookies should exist", 3, message.getCookies().size());
+
+            Collection<Cookie> cookies = message.getCookies();
+
+            assertTrue("cookie one should be contained in the cookies collection.",
+                    cookies.contains(cookieOne));
+            assertTrue("cookie two should be contained in the cookies collection.",
+                    cookies.contains(cookieTwo));
+            assertTrue("cookie three should be contained in the cookies collection.",
+                    cookies.contains(cookieThree));
+
+            add(message, new Cookie(cookieOne.getName(), cookieTwo.getValue()));
+
+            assertEquals("no headers should exist.", 0, message.getHeaders().size());
+            assertEquals("three cookies should exist when a new value has been added to cookie one", 3,
+                    message.getCookies().size());
+            assertEquals("cookie one should have value two.", cookieTwo.getValue(),
+                    message.getCookie(cookieOne.getName()).getValue());
+        }
+    }
 
     private void addNoCookieHeadersTest(Collection<Cookie> empty) throws Exception {
 
@@ -182,14 +218,14 @@ public abstract class AbstractMessageCookieTest<M extends Message<Object>> exten
 
         messageExecutor.addProperty(message, cookie);
 
-        assertEquals("one header should exist", 1, message.getHeaders().size());
-        assertEquals("header should contain the cookie name with no value", cookieOne.getName(),
-                message.getHeader(cookieHeaderName).getValue());
+        assertEquals("no headers should exist", 0, message.getHeaders().size());
+        assertEquals("one cookie should be added.", 1, message.getCookies().size());
+        assertTrue("the correct cookie should be added.", message.getCookies().contains(cookie));
 
         messageExecutor.addProperty(message, cookie);
 
-        assertEquals("one header should exist", 1, message.getHeaders().size());
-        assertEquals("header should contain the cookie name with no value", cookieOne.getName(),
-                message.getHeader(cookieHeaderName).getValue());
+        assertEquals("no headers should exist", 0, message.getHeaders().size());
+        assertEquals("one cookie should be added.", 1, message.getCookies().size());
+        assertTrue("the correct cookie should be added.", message.getCookies().contains(cookie));
     }
 }

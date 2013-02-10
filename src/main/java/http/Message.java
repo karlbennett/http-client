@@ -8,7 +8,6 @@ import http.header.Header;
 import java.util.Collection;
 
 import static http.util.Checks.isNotNull;
-import static http.util.Checks.isNull;
 
 /**
  * Represents a generic HTTP message and supplies accessor methods for retrieving and populating the common HTTP message
@@ -18,40 +17,25 @@ import static http.util.Checks.isNull;
  */
 public class Message<T> {
 
-    protected static abstract class Adder<T> {
+    protected abstract class SetHelper<T extends Attribute> {
 
-        public abstract void add(T attribute);
+        private final Iterable<T> origin;
 
-        public T executeAdd(T attribute) {
 
-            add(attribute);
-
-            return attribute;
-        }
-    }
-
-    protected static <T extends Attribute> void setAll(AttributeMap<T> destination, Collection<T> origin, Adder<T> adder) {
-
-        if (isNull(origin)) {
+        public SetHelper(AttributeMap<T> destination, Iterable<T> origin) {
 
             destination.clear();
 
-        } else {
-
-            destination.clear();
-
-            for (T attribute : origin) destination.add(adder.executeAdd(attribute));
+            this.origin = origin;
         }
-    }
 
-    protected static <T extends Attribute> void setAll(AttributeMap<T> destination, Collection<T> origin) {
 
-        setAll(destination, origin, new Adder<T>() {
+        protected abstract void add(T attribute);
 
-            @Override
-            public void add(T attribute) {
-            }
-        });
+        public void set() {
+
+            if (isNotNull(origin)) for (T attribute : origin) add(attribute);
+        }
     }
 
 
@@ -122,17 +106,14 @@ public class Message<T> {
      */
     public void setHeaders(Collection<Header> headers) {
 
-        setAll(this.headers, headers, new Adder<Header>() {
+        new SetHelper<Header>(this.headers, headers) {
 
             @Override
-            public void add(Header header) {
+            protected void add(Header header) {
 
-                if (cookieHeaderName.equals(header.getName())) {
-
-                    cookies.addAll(Cookie.parse(header.getValue().toString()));
-                }
+                addHeader(header);
             }
-        });
+        }.set();
     }
 
     /**
@@ -150,12 +131,29 @@ public class Message<T> {
     /**
      * Add a {@link Header} to the {@code Message} appending it to any added previously. If a header with the a matching
      * name already exists then the new headers value will be added to the existing headers values.
+     * <p/>
+     * If the supplied {@code Header} is a cookie header, that is it's name matches the {@code Message}
+     * {@code cookieHeaderName} value then it will be parsed and added to the {@code Message}'s cookies not headers.
      *
      * @param header the new header to add to the message.
      */
     public void addHeader(Header header) {
 
-        headers.add(header);
+        if (isNotNull(header)) {
+
+            // If we've been given a cookie header then we should add it as a cookie.
+            if (cookieHeaderName.equals(header.getName())) {
+
+                Collection<Cookie> cookies = Cookie.parse(header.getValue().toString());
+
+                this.cookies.addAll(cookies);
+
+                // Otherwise this not being a cookie header just it normally.
+            } else {
+
+                headers.add(header);
+            }
+        }
     }
 
     /**
@@ -186,14 +184,14 @@ public class Message<T> {
      */
     public void setCookies(Collection<Cookie> cookies) {
 
-        setAll(this.cookies, cookies, new Adder<Cookie>() {
+        new SetHelper<Cookie>(this.cookies, cookies) {
 
             @Override
-            public void add(Cookie cookie) {
+            protected void add(Cookie cookie) {
 
-                addCookieHeader(cookie);
+                addCookie(cookie);
             }
-        });
+        }.set();
     }
 
     /**
@@ -216,9 +214,10 @@ public class Message<T> {
      */
     public void addCookie(Cookie cookie) {
 
-        this.cookies.add(cookie);
+        if (isNotNull(cookie)) {
 
-        addCookieHeader(cookie);
+            this.cookies.add(cookie);
+        }
     }
 
     /**
@@ -242,6 +241,6 @@ public class Message<T> {
 
     private void addCookieHeader(Cookie cookie) {
 
-        if (isNotNull(cookie)) headers.add(new Header<>(cookieHeaderName, cookie.toString()));
+
     }
 }

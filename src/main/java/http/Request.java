@@ -13,6 +13,7 @@ import java.util.HashSet;
 import static http.Cookie.COOKIE;
 import static http.util.Asserts.assertNotNull;
 import static http.util.Checks.isNotEmpty;
+import static http.util.Checks.isNotNull;
 import static http.util.URIs.quietUrl;
 
 /**
@@ -146,6 +147,7 @@ public class Request<T> extends Message<T> {
      */
     public URL getUrl() {
 
+        // If we have some paramters in the request we should add them to the query string of the URL.
         if (isNotEmpty(parameters)) {
 
             return quietUrl(url.toString() + '?' + Parameter.toString(parameters.values()));
@@ -182,7 +184,14 @@ public class Request<T> extends Message<T> {
      */
     public void setParameters(Collection<Parameter<String>> parameters) {
 
-        setAll(this.parameters, parameters);
+        new SetHelper<Parameter<String>>(this.parameters, parameters) {
+
+            @Override
+            protected void add(Parameter<String> parameter) {
+
+                addParameter(parameter);
+            }
+        }.set();
     }
 
     /**
@@ -205,6 +214,6 @@ public class Request<T> extends Message<T> {
      */
     public void addParameter(Parameter<String> parameter) {
 
-        this.parameters.add(parameter);
+        if (isNotNull(parameter)) this.parameters.add(parameter);
     }
 }
