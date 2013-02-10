@@ -17,18 +17,6 @@ public class Parameter<T> extends MultiValueAttribute<T> {
     public static final String DELIMITER = "&";
 
     /**
-     * Concatenate the {@link #toString()} values of a {@link Collection} of {@code Parameters}. Each value will be
-     * delimited by the '&' character.
-     *
-     * @param parameters the parameters that will have their string representations concatenated.
-     * @return the concatenated parameter string.
-     */
-    public static <T> String toString(Collection<Parameter<T>> parameters) {
-
-        return toString(parameters, "&");
-    }
-
-    /**
      * Parse a {@link String} containing any number of name/value pairs into a collection of {@link Parameter}s. The
      * names and values must be delimited by an '=' character and each name/value pair must be delimited by an '&'
      * character.
@@ -50,15 +38,15 @@ public class Parameter<T> extends MultiValueAttribute<T> {
      * parameters.get(1).getValues(); // ["valueThree"]
      * </code>
      *
-     * @param query the string to parse.
+     * @param parameters the string to parse.
      * @return the
      */
-    public static Collection<Parameter<String>> parse(String query) {
+    public static Collection<Parameter<String>> parse(String parameters) {
 
-        return parse(query, "=", "&", new Creator<Parameter<String>>() {
+        return parse(new MultiValueAttributePasrer<Parameter<String>>(parameters, OPERATOR, DELIMITER) {
 
             @Override
-            public Parameter<String> create(String name, String value) {
+            protected Parameter<String> nextPair(String name, String value) {
 
                 return new Parameter<String>(name, value);
             }

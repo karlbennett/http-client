@@ -16,17 +16,12 @@ public class Header<T> extends MultiValueAttribute<T> {
     public static final String OPERATOR = ": ";
     public static final String DELIMITER = "\n";
 
-    public static <T> String toString(Collection<Header<T>> headers) {
-
-        return toString(headers, "\n");
-    }
-
     public static Collection<Header<String>> parse(String headers) {
 
-        return parse(headers, ": ", "\n", new Creator<Header<String>>() {
+        return parse(new MultiValueAttributePasrer<Header<String>>(headers, OPERATOR, DELIMITER) {
 
             @Override
-            public Header<String> create(String name, String value) {
+            protected Header<String> nextPair(String name, String value) {
 
                 return new Header<String>(name, value);
             }

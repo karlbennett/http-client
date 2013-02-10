@@ -1,11 +1,14 @@
 package http.attribute;
 
 
+import http.util.Parser;
+
 import java.util.*;
 
 import static http.util.Asserts.assertNotNull;
 import static http.util.Checks.isEmpty;
 import static http.util.Checks.isNotEmpty;
+import static http.util.Checks.isNull;
 
 /**
  * Represents a generic attribute with a name and a single or multiple values. The type of the value can be defined on
@@ -15,100 +18,95 @@ import static http.util.Checks.isNotEmpty;
  */
 public class MultiValueAttribute<T> extends Attribute<T> {
 
+    protected static abstract class MultiValueAttributePasrer<A extends MultiValueAttribute> extends Parser {
+
+        private final String operator;
+        private final Map<String, A> attributes;
+
+        public MultiValueAttributePasrer(String string, String operator, String delimiter) {
+            super(string, delimiter);
+
+            this.operator = operator;
+
+            this.attributes = new HashMap<>();
+        }
+
+        protected abstract A nextPair(String name, String value);
+
+        @Override
+        protected void next(String part) {
+
+            String[] pair = part.split(operator);
+
+            A attribute;
+            if (2 == pair.length) {
+
+                attribute = attributes.get(pair[0]);
+
+                if (isNull(attribute)) {
+
+                    attributes.put(pair[0], nextPair(pair[0], pair[1]));
+
+                } else {
+
+                    attribute.addValue(pair[1]);
+                }
+
+                return;
+            }
+
+            throw new IllegalArgumentException("Part (" + part + ") is not in the correct format e.g. \"name" +
+                    operator + "value\"");
+        }
+
+        @Override
+        public void parse() {
+
+            attributes.clear();
+
+            super.parse();
+        }
+
+        public Collection<A> getAttributes() {
+
+            return attributes.values();
+        }
+    }
+
     /**
      * Concatenate the {@link #toString()} values of a {@link Collection} of {@code MultiValueAttribute}. Each value
      * will be delimited by the supplied {@code delimiter} {@link String}.
      *
      * @param attributes the attributes that will have their string representations concatenated.
-     * @param delimiter  the delimiter that will be placed between each attribute string value.
      * @return the concatenated parameter string.
      */
-    public static <T, A extends MultiValueAttribute<T>> String toString(Collection<A> attributes, String delimiter) {
+    public static <T, A extends MultiValueAttribute<T>> String toString(Collection<A> attributes) {
 
         if (isEmpty(attributes)) return "";
 
-        StringBuilder toStringHolder = new StringBuilder();
+        Iterator<A> iterator = attributes.iterator();
 
-        for (A attribute : attributes) {
+        // Add the first attribute to the string.
+        StringBuilder toStringHolder = new StringBuilder(iterator.next().toString());
 
-            toStringHolder.append(attribute).append(delimiter);
+        A attribute;
+        String delimiter;
+        while (iterator.hasNext()) {
+
+            attribute = iterator.next();
+            delimiter = attribute.getDelimiter();
+
+            toStringHolder.append(delimiter).append(attribute);
         }
-
-        // Remove delimiter that would have been appended to the end of the string.
-        toStringHolder.replace(toStringHolder.length() - delimiter.length(), toStringHolder.length(), "");
 
         return toStringHolder.toString();
     }
 
-    public static interface Creator<A extends MultiValueAttribute<String>> {
+    protected static <A extends MultiValueAttribute<String>> Collection<A> parse(MultiValueAttributePasrer<A> pasrer) {
 
-        public A create(String name, String value);
-    }
+        pasrer.parse();
 
-    /**
-     * Parse a {@link String} containing any number of name/value pairs into a collection of
-     * {@link MultiValueAttribute}s. The names and values must be delimited by the supplied {@code operator}
-     * {@link String} and each name/value pair must be delimited by the supplied {@code delimiter} {@code String}.
-     * <p/>
-     * Any name value pairs that share the same name will be stored in the same {@code MultiValueAttribute} instance.
-     * <p/>
-     * A {@link Creator} must also be implemented with a means of creating the {@code MultiValueAttribute} or a
-     * subclass.
-     * <p/>
-     * Example:
-     * <code>
-     * List<MultiValueAttribute<String>> parameters = new ArrayList(
-     * MultiValueAttribute.parse("nameOne=valueOne&nameOne=valueTwo&nameThree=valueThree", "=", "&",
-     * new Creator<MultiValueAttribute<String>>() {
-     * <p/>
-     * public MultiValueAttribute<String> create(String name, String value) {
-     * <p/>
-     * return new MultiValueAttribute<String>(name, value);
-     * }
-     * })
-     * );
-     * parameters.size(); // 2
-     * parameters.get(0).getValues(); // ["valueOne", "valueTwo"]
-     * parameters.get(1).getValues(); // ["valueThree"]
-     * </code>
-     *
-     * @param attributeString the string to parse.
-     * @return the
-     */
-    public static <A extends MultiValueAttribute<String>> Collection<A> parse(String attributeString, String operator,
-                                                                              String delimiter, Creator<A> creator) {
-
-        if (isEmpty(attributeString)) return Collections.emptySet();
-
-        Map<String, A> attributes = new HashMap<>();
-
-        String[] attributeParts;
-        String name, value;
-        for (String attribute : attributeString.split(delimiter)) {
-
-            attributeParts = attribute.split(operator);
-
-            if (2 == attributeParts.length) {
-
-                name = attributeParts[0];
-                value = attributeParts[1];
-
-                if (attributes.containsKey(name)) {
-
-                    attributes.get(name).addValue(value);
-
-                } else {
-
-                    attributes.put(name, creator.create(name, value));
-                }
-
-            } else {
-
-                throw new IllegalArgumentException("Invalid attribute format (" + attribute + ")");
-            }
-        }
-
-        return new HashSet<>(attributes.values());
+        return new HashSet<>(pasrer.getAttributes());
     }
 
     /**
@@ -226,6 +224,17 @@ public class MultiValueAttribute<T> extends Attribute<T> {
         this.values.addAll(filterEmptyElements(values));
 
         return values;
+    }
+
+
+    protected String getOperator() {
+
+        return operator;
+    }
+
+    protected String getDelimiter() {
+
+        return delimiter;
     }
 
 
