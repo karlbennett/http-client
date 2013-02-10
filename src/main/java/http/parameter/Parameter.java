@@ -13,6 +13,9 @@ import java.util.List;
  */
 public class Parameter<T> extends MultiValueAttribute<T> {
 
+    public static final String OPERATOR = "=";
+    public static final String DELIMITER = "&";
+
     /**
      * Concatenate the {@link #toString()} values of a {@link Collection} of {@code Parameters}. Each value will be
      * delimited by the '&' character.
@@ -69,7 +72,7 @@ public class Parameter<T> extends MultiValueAttribute<T> {
      * @param values the values for the attribute.
      */
     public Parameter(String name, List<T> values) {
-        super(name, values);
+        super(name, OPERATOR, DELIMITER, values);
     }
 
     /**
@@ -79,13 +82,6 @@ public class Parameter<T> extends MultiValueAttribute<T> {
      * @param value the single value for the attribute.
      */
     public Parameter(String name, T value) {
-        super(name, value);
-    }
-
-
-    @Override
-    public String toString() {
-
-        return super.toString("=", "&");
+        super(name, OPERATOR, DELIMITER, value);
     }
 }

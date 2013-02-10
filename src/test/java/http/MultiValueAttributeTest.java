@@ -15,41 +15,45 @@ import static org.junit.Assert.*;
  */
 public class MultiValueAttributeTest {
 
+    private static final String OPERATOR = "=";
+    private static final String DELIMITER = "\n";
+
     @Test
     public void testCreateAttribute() throws Exception {
 
-        new MultiValueAttribute<>(TEST_ATTRIBUTE_NAME_ONE, new Object());
-        new MultiValueAttribute<>(TEST_ATTRIBUTE_NAME_ONE, Collections.singletonList(new Object()));
+        new MultiValueAttribute<>(TEST_ATTRIBUTE_NAME_ONE, OPERATOR, DELIMITER, new Object());
+        new MultiValueAttribute<>(TEST_ATTRIBUTE_NAME_ONE, OPERATOR, DELIMITER, Collections.singletonList(new Object()));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testCreateAttributeWithNullNameAndSingleValue() throws Exception {
 
-        new MultiValueAttribute<>(null, new Object());
+        new MultiValueAttribute<>(null, OPERATOR, DELIMITER, new Object());
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testCreateAttributeWithNullNameAndValues() throws Exception {
 
-        new MultiValueAttribute<>(null, Collections.singletonList(new Object()));
+        new MultiValueAttribute<>(null, OPERATOR, DELIMITER, Collections.singletonList(new Object()));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testCreateAttributeWithEmptyNameAndSingleValue() throws Exception {
 
-        new MultiValueAttribute<>("", new Object());
+        new MultiValueAttribute<>("", OPERATOR, DELIMITER, new Object());
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testCreateAttributeWithEmptyNameAndValues() throws Exception {
 
-        new MultiValueAttribute<>("", Collections.singletonList(new Object()));
+        new MultiValueAttribute<>("", OPERATOR, DELIMITER, Collections.singletonList(new Object()));
     }
 
     @Test
     public void testCreateAttributeWithNullValue() throws Exception {
 
-        MultiValueAttribute attribute = new MultiValueAttribute<>(TEST_ATTRIBUTE_NAME_ONE, (Object) null);
+        MultiValueAttribute attribute = new MultiValueAttribute<>(TEST_ATTRIBUTE_NAME_ONE, OPERATOR, DELIMITER,
+                (Object) null);
 
         assertNull("attribute value should be null.", attribute.getValue());
         assertNotNull("attribute values should not be null.", attribute.getValues());
@@ -58,26 +62,26 @@ public class MultiValueAttributeTest {
     @Test(expected = IllegalArgumentException.class)
     public void testCreateAttributeWithNullValues() throws Exception {
 
-        new MultiValueAttribute<>(TEST_ATTRIBUTE_NAME_ONE, (List<Object>) null);
+        new MultiValueAttribute<>(TEST_ATTRIBUTE_NAME_ONE, OPERATOR, DELIMITER, (List<Object>) null);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testCreateAttributeWithNullNameAndNullValue() throws Exception {
 
-        new MultiValueAttribute<>(null, (Object) null);
+        new MultiValueAttribute<>(null, OPERATOR, DELIMITER, (Object) null);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testCreateAttributeWithNullNameAndNullValues() throws Exception {
 
-        new MultiValueAttribute<>(null, (List<Object>) null);
+        new MultiValueAttribute<>(null, OPERATOR, DELIMITER, (List<Object>) null);
     }
 
     @Test
     public void testGetValues() throws Exception {
 
         assertEquals("the attribute values should be correct.", TEST_ATTRIBUTE_VALUES,
-                new MultiValueAttribute<>(TEST_ATTRIBUTE_NAME_ONE,
+                new MultiValueAttribute<>(TEST_ATTRIBUTE_NAME_ONE, OPERATOR, DELIMITER,
                         Arrays.asList(
                                 TEST_ATTRIBUTE_VALUE_ONE,
                                 TEST_ATTRIBUTE_VALUE_TWO,
@@ -90,7 +94,7 @@ public class MultiValueAttributeTest {
     @Test(expected = UnsupportedOperationException.class)
     public void testGetValuesIsUnmodifiable() throws Exception {
 
-        List<String> values = new MultiValueAttribute<>(TEST_ATTRIBUTE_NAME_ONE,
+        List<String> values = new MultiValueAttribute<>(TEST_ATTRIBUTE_NAME_ONE, OPERATOR, DELIMITER,
                 Arrays.asList(
                         TEST_ATTRIBUTE_VALUE_ONE,
                         TEST_ATTRIBUTE_VALUE_TWO,
@@ -104,7 +108,7 @@ public class MultiValueAttributeTest {
     @Test
     public void testAddValue() throws Exception {
 
-        MultiValueAttribute<String> attribute = new MultiValueAttribute<>(TEST_ATTRIBUTE_NAME_ONE,
+        MultiValueAttribute<String> attribute = new MultiValueAttribute<>(TEST_ATTRIBUTE_NAME_ONE, OPERATOR, DELIMITER,
                 TEST_ATTRIBUTE_VALUE_ONE);
 
         assertNotNull("the attribute should contain a value.", attribute.getValue());
@@ -166,7 +170,8 @@ public class MultiValueAttributeTest {
     @Test
     public void testAddValueWhenConstructedWithEmptyValue() throws Exception {
 
-        MultiValueAttribute<String> attribute = new MultiValueAttribute<>(TEST_ATTRIBUTE_NAME_ONE, "");
+        MultiValueAttribute<String> attribute = new MultiValueAttribute<>(TEST_ATTRIBUTE_NAME_ONE, OPERATOR, DELIMITER,
+                "");
 
         assertNull("the attribute should not contain a value.", attribute.getValue());
         assertEquals("the attributes values should be empty.", Collections.emptyList(), attribute.getValues());
@@ -188,7 +193,8 @@ public class MultiValueAttributeTest {
     @Test
     public void testAddValueWhenConstructedWithNullValue() throws Exception {
 
-        MultiValueAttribute<String> attribute = new MultiValueAttribute<>(TEST_ATTRIBUTE_NAME_ONE, (String) null);
+        MultiValueAttribute<String> attribute = new MultiValueAttribute<>(TEST_ATTRIBUTE_NAME_ONE, OPERATOR, DELIMITER,
+                (String) null);
 
         assertNull("the attribute should not contain a value.", attribute.getValue());
         assertEquals("the attributes values should be empty.", Collections.emptyList(), attribute.getValues());
@@ -210,7 +216,7 @@ public class MultiValueAttributeTest {
     @Test
     public void testAddAllValues() throws Exception {
 
-        MultiValueAttribute<String> attribute = new MultiValueAttribute<>(TEST_ATTRIBUTE_NAME_ONE,
+        MultiValueAttribute<String> attribute = new MultiValueAttribute<>(TEST_ATTRIBUTE_NAME_ONE, OPERATOR, DELIMITER,
                 TEST_ATTRIBUTE_VALUE_ONE);
 
         assertNotNull("the attribute should contain a value.", attribute.getValue());
@@ -247,7 +253,8 @@ public class MultiValueAttributeTest {
     @Test
     public void testAddAllValuesWhenConstructedWithEmptyValue() throws Exception {
 
-        MultiValueAttribute<String> attribute = new MultiValueAttribute<>(TEST_ATTRIBUTE_NAME_ONE, "");
+        MultiValueAttribute<String> attribute = new MultiValueAttribute<>(TEST_ATTRIBUTE_NAME_ONE, OPERATOR, DELIMITER,
+                "");
 
         assertNull("the attribute should not contain a value.", attribute.getValue());
         assertEquals("the attributes values should be empty.", Collections.emptyList(), attribute.getValues());
@@ -273,7 +280,8 @@ public class MultiValueAttributeTest {
     @Test
     public void testAddAllValuesWhenConstructedWithNullValue() throws Exception {
 
-        MultiValueAttribute<String> attribute = new MultiValueAttribute<>(TEST_ATTRIBUTE_NAME_ONE, (String) null);
+        MultiValueAttribute<String> attribute = new MultiValueAttribute<>(TEST_ATTRIBUTE_NAME_ONE, OPERATOR, DELIMITER,
+                (String) null);
 
         assertNull("the attribute should not contain a value.", attribute.getValue());
         assertEquals("the attributes values should be empty.", Collections.emptyList(), attribute.getValues());
@@ -299,7 +307,7 @@ public class MultiValueAttributeTest {
     @Test
     public void testAddValueWhenConstructedWithUnmodifiableList() throws Exception {
 
-        MultiValueAttribute<String> attribute = new MultiValueAttribute<>(TEST_ATTRIBUTE_NAME_ONE,
+        MultiValueAttribute<String> attribute = new MultiValueAttribute<>(TEST_ATTRIBUTE_NAME_ONE, OPERATOR, DELIMITER,
                 Collections.unmodifiableList(Arrays.asList(TEST_ATTRIBUTE_VALUE_ONE)));
 
         assertNotNull("the attribute should contain a value.", attribute.getValue());
@@ -323,7 +331,7 @@ public class MultiValueAttributeTest {
     @Test
     public void testAddAllValuesWhenConstructedWithUnmodifiableList() throws Exception {
 
-        MultiValueAttribute<String> attribute = new MultiValueAttribute<>(TEST_ATTRIBUTE_NAME_ONE,
+        MultiValueAttribute<String> attribute = new MultiValueAttribute<>(TEST_ATTRIBUTE_NAME_ONE, OPERATOR, DELIMITER,
                 Collections.unmodifiableList(Arrays.asList(TEST_ATTRIBUTE_VALUE_ONE)));
 
         assertNotNull("the attribute should contain a value.", attribute.getValue());

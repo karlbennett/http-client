@@ -13,6 +13,9 @@ import java.util.List;
  */
 public class Header<T> extends MultiValueAttribute<T> {
 
+    public static final String OPERATOR = ": ";
+    public static final String DELIMITER = "\n";
+
     public static <T> String toString(Collection<Header<T>> headers) {
 
         return toString(headers, "\n");
@@ -38,7 +41,7 @@ public class Header<T> extends MultiValueAttribute<T> {
      * @param values the values for the attribute.
      */
     public Header(String name, List<T> values) {
-        super(name, values);
+        super(name, OPERATOR, DELIMITER, values);
     }
 
     /**
@@ -48,13 +51,6 @@ public class Header<T> extends MultiValueAttribute<T> {
      * @param value the single value for the attribute.
      */
     public Header(String name, T value) {
-        super(name, value);
-    }
-
-
-    @Override
-    public String toString() {
-
-        return super.toString(": ", "\n");
+        super(name, OPERATOR, DELIMITER, value);
     }
 }

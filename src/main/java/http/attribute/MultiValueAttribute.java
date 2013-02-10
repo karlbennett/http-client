@@ -131,6 +131,8 @@ public class MultiValueAttribute<T> extends Attribute<T> {
     }
 
 
+    private final String operator;
+    private final String delimiter;
     private final List<T> values;
 
 
@@ -141,13 +143,18 @@ public class MultiValueAttribute<T> extends Attribute<T> {
      * @param values the values for the attribute.
      * @throws IllegalArgumentException if the {@code Attribute}'s name is empty or the values are null.
      */
-    public MultiValueAttribute(String name, List<T> values) {
+    public MultiValueAttribute(String name, String operator, String delimiter, List<T> values) {
         super(name, null);
 
+        assertNotNull("operator", operator);
+        assertNotNull("delimiter", delimiter);
         assertNotNull("values", values);
 
+        this.operator = operator;
+        this.delimiter = delimiter;
+
         // Cast the supplied list to an ArrayList so that it is definitely mutable.
-        // We do this so that the addValue(T) and addAllValues(List<T>) methods definitely work.
+        // We do this so that the addValue(T) and addAllValues(List<T>) methods work.
         this.values = new ArrayList<>(values);
     }
 
@@ -160,8 +167,14 @@ public class MultiValueAttribute<T> extends Attribute<T> {
      * @param value the single value for the attribute.
      * @throws IllegalArgumentException if the {@code MultiValueAttribute}'s name is empty or the value is null.
      */
-    public MultiValueAttribute(String name, T value) {
+    public MultiValueAttribute(String name, String operator, String delimiter, T value) {
         super(name, null);
+
+        assertNotNull("operator", operator);
+        assertNotNull("delimiter", delimiter);
+
+        this.operator = operator;
+        this.delimiter = delimiter;
 
         this.values = new ArrayList<>();
         if (isNotEmpty(value)) this.values.add(value);
@@ -216,27 +229,8 @@ public class MultiValueAttribute<T> extends Attribute<T> {
     }
 
 
-    /**
-     * This is a helper method that can be used to produce a {@link String} representation of the
-     * {@code MultiValueAttribute}. The string is made up of the {@code MultiValueAttribute} {@code name} paired with
-     * each individual {@code value}. The supplied {@code operator} is placed in between the {@code name} and
-     * {@code value} and the {@code delimiter} is placed between each {@code name}/{@code value} pair.
-     * <p/>
-     * Example:
-     * <code>
-     * MultiValueAttribute<String> attribute = new MultiValueAttribute<String>("name",
-     * Arrays.asList("one", "two", "three"));
-     * attribute.toString("=", "\n");
-     * // name=one
-     * // name=two
-     * // name=three
-     * </code>
-     *
-     * @param operator
-     * @param delimiter
-     * @return
-     */
-    protected String toString(String operator, String delimiter) {
+    @Override
+    public String toString() {
 
         StringBuilder toStringHolder = new StringBuilder();
 
@@ -249,12 +243,5 @@ public class MultiValueAttribute<T> extends Attribute<T> {
         toStringHolder.append(getName()).append(operator).append(values.get(i));
 
         return toStringHolder.toString();
-    }
-
-
-    @Override
-    public String toString() {
-
-        return toString("=", "\n");
     }
 }
