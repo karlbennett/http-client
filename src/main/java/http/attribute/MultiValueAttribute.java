@@ -62,6 +62,7 @@ public class MultiValueAttribute<T> extends Attribute<T> {
         @Override
         public void parse() {
 
+            // Clear the attribute map so that subsequent calls to parse don't keep appending values.
             attributes.clear();
 
             super.parse();
