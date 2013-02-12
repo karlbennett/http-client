@@ -6,7 +6,7 @@ import http.parameter.Parameter;
 /**
  * @author Karl Bennett
  */
-public abstract class AbstractClientRequestParameterTest extends AbstractMessageAttributeTest<Request<Object>, Parameter<String>> {
+public abstract class AbstractClientRequestParameterTest extends AbstractMessageMultiValueAttributeTest<Request<Object>, Parameter<String>> {
 
 
     public AbstractClientRequestParameterTest(MessageExecutor<Request<Object>, Parameter<String>> messageExecutor) {

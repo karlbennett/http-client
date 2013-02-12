@@ -5,7 +5,7 @@ import http.header.Header;
 /**
  * @author Karl Bennett
  */
-public abstract class AbstractMessageHeaderTest<M> extends AbstractMessageAttributeTest<M, Header> {
+public abstract class AbstractMessageHeaderTest<M> extends AbstractMessageMultiValueAttributeTest<M, Header> {
 
     public AbstractMessageHeaderTest(MessageExecutor<M, Header> messageExecutor) {
 

@@ -11,7 +11,8 @@ import static org.junit.Assert.assertEquals;
 /**
  * @author Karl Bennett
  */
-public abstract class AbstractMessageAttributeTest<M, A extends MultiValueAttribute> extends AbstractMessagePropertyTest<M, A> {
+public abstract class AbstractMessageMultiValueAttributeTest<M, A extends MultiValueAttribute> extends
+        AbstractMessagePropertyTest<M, A> {
 
     private PropertyExecutor<A> propertyExecutor;
     private MessageExecutor<M, A> messageExecutor;
@@ -20,7 +21,7 @@ public abstract class AbstractMessageAttributeTest<M, A extends MultiValueAttrib
     private Collection<A> attributes;
 
 
-    protected AbstractMessageAttributeTest(PropertyExecutor<A> propertyExecutor, MessageExecutor<M, A> messageExecutor) {
+    protected AbstractMessageMultiValueAttributeTest(PropertyExecutor<A> propertyExecutor, MessageExecutor<M, A> messageExecutor) {
         super(propertyExecutor, messageExecutor);
 
         this.propertyExecutor = propertyExecutor;
