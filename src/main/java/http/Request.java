@@ -4,6 +4,7 @@ import http.attribute.AttributeMap;
 import http.attribute.MultiValueAttributeMap;
 import http.header.Header;
 import http.parameter.Parameter;
+import http.util.NullSafeForEach;
 
 import java.net.URL;
 import java.util.Collection;
@@ -184,14 +185,16 @@ public class Request<T> extends Message<T> {
      */
     public void setParameters(Collection<Parameter<String>> parameters) {
 
-        new SetHelper<Parameter<String>>(this.parameters, parameters) {
+        this.parameters.clear();
+
+        new NullSafeForEach<Parameter<String>>(parameters) {
 
             @Override
-            protected void add(Parameter<String> parameter) {
+            protected void next(Parameter<String> parameter) {
 
                 addParameter(parameter);
             }
-        }.set();
+        };
     }
 
     /**

@@ -4,6 +4,7 @@ import http.attribute.Attribute;
 import http.attribute.AttributeMap;
 import http.attribute.MultiValueAttributeMap;
 import http.header.Header;
+import http.util.NullSafeForEach;
 
 import java.util.Collection;
 
@@ -16,28 +17,6 @@ import static http.util.Checks.isNotNull;
  * @author Karl Bennett
  */
 public class Message<T> {
-
-    protected abstract class SetHelper<T extends Attribute> {
-
-        private final Iterable<T> origin;
-
-
-        public SetHelper(AttributeMap<T> destination, Iterable<T> origin) {
-
-            destination.clear();
-
-            this.origin = origin;
-        }
-
-
-        protected abstract void add(T attribute);
-
-        public void set() {
-
-            if (isNotNull(origin)) for (T attribute : origin) add(attribute);
-        }
-    }
-
 
     private final String cookieHeaderName;
     private final MultiValueAttributeMap<Header> headers;
@@ -106,14 +85,16 @@ public class Message<T> {
      */
     public void setHeaders(Collection<Header> headers) {
 
-        new SetHelper<Header>(this.headers, headers) {
+        this.headers.clear();
+
+        new NullSafeForEach<Header>(headers) {
 
             @Override
-            protected void add(Header header) {
+            protected void next(Header header) {
 
                 addHeader(header);
             }
-        }.set();
+        };
     }
 
     /**
@@ -184,14 +165,16 @@ public class Message<T> {
      */
     public void setCookies(Collection<Cookie> cookies) {
 
-        new SetHelper<Cookie>(this.cookies, cookies) {
+        this.cookies.clear();
+
+        new NullSafeForEach<Cookie>(cookies) {
 
             @Override
-            protected void add(Cookie cookie) {
+            protected void next(Cookie cookie) {
 
                 addCookie(cookie);
             }
-        }.set();
+        };
     }
 
     /**
