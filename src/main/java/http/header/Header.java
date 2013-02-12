@@ -16,6 +16,34 @@ public class Header<T> extends MultiValueAttribute<T> {
     public static final String OPERATOR = ": ";
     public static final String DELIMITER = "\n";
 
+
+    /**
+     * Parse a {@link String} containing any number of "name: value" pairs into a collection of {@link Header}s. The
+     * names and values must be delimited by an ": " string and each name/value pair must be delimited by an '\n'
+     * character.
+     * <p/>
+     * Example:
+     * <code>
+     *  nameOne: valueOne
+     *  nameTwo: valueTwo
+     *  nameThree: valueThree
+     * </code>
+     * <p/>
+     * Name value pairs that share the same name will be stored in the same {@code Header} instance.
+     * <p/>
+     * Example:
+     * <code>
+     *  List<Header> headers = new ArrayList(
+     *      Header.parse("nameOne: valueOne\nnameOne: valueTwo\nnameThree: valueThree")
+     *  );
+     *  headers.size(); // 2
+     *  headers.get(0).getValues(); // ["valueOne", "valueTwo"]
+     *  headers.get(1).getValues(); // ["valueThree"]
+     * </code>
+     *
+     * @param headers the string to parse.
+     * @return the
+     */
     public static Collection<Header<String>> parse(String headers) {
 
         return parse(new MultiValueAttributeParser<Header<String>>(headers, OPERATOR, DELIMITER) {

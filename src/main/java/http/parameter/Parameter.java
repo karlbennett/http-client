@@ -17,25 +17,25 @@ public class Parameter<T> extends MultiValueAttribute<T> {
     public static final String DELIMITER = "&";
 
     /**
-     * Parse a {@link String} containing any number of name/value pairs into a collection of {@link Parameter}s. The
+     * Parse a {@link String} containing any number of "name=value" pairs into a collection of {@link Parameter}s. The
      * names and values must be delimited by an '=' character and each name/value pair must be delimited by an '&'
      * character.
      * <p/>
      * Example:
      * <code>
-     * nameOne=valueOne&nameTwo=valueTwo&nameThree=valueThree
+     *  nameOne=valueOne&nameTwo=valueTwo&nameThree=valueThree
      * </code>
      * <p/>
      * Name value pairs that share the same name will be stored in the same {@code Parameter} instance.
      * <p/>
      * Example:
      * <code>
-     * List<Parameter> parameters = new ArrayList(
-     * Parameter.parse("nameOne=valueOne&nameOne=valueTwo&nameThree=valueThree")
-     * );
-     * parameters.size(); // 2
-     * parameters.get(0).getValues(); // ["valueOne", "valueTwo"]
-     * parameters.get(1).getValues(); // ["valueThree"]
+     *  List<Parameter> parameters = new ArrayList(
+     *      Parameter.parse("nameOne=valueOne&nameOne=valueTwo&nameThree=valueThree")
+     *  );
+     *  parameters.size(); // 2
+     *  parameters.get(0).getValues(); // ["valueOne", "valueTwo"]
+     *  parameters.get(1).getValues(); // ["valueThree"]
      * </code>
      *
      * @param parameters the string to parse.
