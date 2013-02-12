@@ -1,8 +1,11 @@
 package http;
 
+import http.attribute.AttributeMap;
+import http.attribute.MultiValueAttributeMap;
 import http.header.Header;
 
 import java.util.Collection;
+import java.util.Collections;
 
 import static http.Cookie.SET_COOKIE;
 
@@ -13,13 +16,16 @@ import static http.Cookie.SET_COOKIE;
  */
 public class Response<T> extends Message<T> {
 
+    private int status;
+
     /**
      * Create a {@code Response} with the supplied HTTP status code.
      *
      * @param status the status code for the response.
      */
     public Response(int status) {
-        super(SET_COOKIE);
+
+        this(status, null);
     }
 
     /**
@@ -29,7 +35,8 @@ public class Response<T> extends Message<T> {
      * @param body   the body of te response.
      */
     public Response(int status, T body) {
-        super(SET_COOKIE);
+
+        this(status, Collections.<Header>emptySet(), body);
     }
 
     /**
@@ -40,7 +47,8 @@ public class Response<T> extends Message<T> {
      * @param body    the body of te response.
      */
     public Response(int status, Collection<Header> headers, T body) {
-        super(SET_COOKIE);
+
+        this(status, headers, Collections.<Cookie>emptySet(), body);
     }
 
     /**
@@ -52,7 +60,9 @@ public class Response<T> extends Message<T> {
      * @param body    the body of te response.
      */
     public Response(int status, Collection<Header> headers, Collection<Cookie> cookies, T body) {
-        super(SET_COOKIE);
+        super(SET_COOKIE, new MultiValueAttributeMap<Header>(headers), new AttributeMap<Cookie>(cookies), body);
+
+        this.status = status;
     }
 
     /**
@@ -60,7 +70,7 @@ public class Response<T> extends Message<T> {
      */
     public int getStatus() {
 
-        return 0;
+        return status;
     }
 
     /**
@@ -70,5 +80,6 @@ public class Response<T> extends Message<T> {
      */
     public void setStatus(int status) {
 
+        this.status = status;
     }
 }
