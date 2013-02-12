@@ -1,6 +1,5 @@
 package http;
 
-import http.attribute.Attribute;
 import http.attribute.AttributeMap;
 import http.attribute.MultiValueAttributeMap;
 import http.header.Header;
@@ -138,6 +137,23 @@ public class Message<T> {
     }
 
     /**
+     * Add the supplied headers to the current {@code Message}.
+     *
+     * @param headers the headers to add.
+     */
+    public void addHeaders(Collection<Header> headers) {
+
+        new NullSafeForEach<Header>(headers) {
+
+            @Override
+            protected void next(Header header) {
+
+                addHeader(header);
+            }
+        };
+    }
+
+    /**
      * Get all the cookies set for the current {@code Message}.
      *
      * @return the message cookies.
@@ -204,6 +220,23 @@ public class Message<T> {
     }
 
     /**
+     * Add the supplied cookies to the current {@code Message}.
+     *
+     * @param cookies the cookies to add.
+     */
+    public void addCookies(Collection<Cookie> cookies) {
+
+        new NullSafeForEach<Cookie>(cookies) {
+
+            @Override
+            protected void next(Cookie cookie) {
+
+                addCookie(cookie);
+            }
+        };
+    }
+
+    /**
      * @return the messages body.
      */
     public T getBody() {
@@ -219,11 +252,5 @@ public class Message<T> {
     public void setBody(T body) {
 
         this.body = body;
-    }
-
-
-    private void addCookieHeader(Cookie cookie) {
-
-
     }
 }

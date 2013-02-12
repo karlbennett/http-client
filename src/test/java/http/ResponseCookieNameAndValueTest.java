@@ -33,6 +33,12 @@ public class ResponseCookieNameAndValueTest extends AbstractMessageCookieTest<Re
             }
 
             @Override
+            public void addProperties(Response<Object> message, Collection<Cookie> properties) {
+
+                message.addCookies(properties);
+            }
+
+            @Override
             public Collection<Cookie> getProperties(Response<Object> message) {
 
                 return message.getCookies();

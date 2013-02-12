@@ -34,6 +34,12 @@ public class MessageHeaderNameAndValueTest extends AbstractMessageHeaderTest<Mes
             }
 
             @Override
+            public void addProperties(Message<Object> message, Collection<Header> properties) {
+
+                message.addHeaders(properties);
+            }
+
+            @Override
             public Collection<Header> getProperties(Message<Object> message) {
 
                 return message.getHeaders();

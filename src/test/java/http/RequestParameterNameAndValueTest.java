@@ -33,6 +33,12 @@ public class RequestParameterNameAndValueTest extends AbstractClientRequestParam
             }
 
             @Override
+            public void addProperties(Request<Object> message, Collection<Parameter<String>> properties) {
+
+                message.addParameters(properties);
+            }
+
+            @Override
             public Collection<Parameter<String>> getProperties(Request<Object> message) {
 
                 return message.getParameters();

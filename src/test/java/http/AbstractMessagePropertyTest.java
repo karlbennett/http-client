@@ -31,6 +31,8 @@ public abstract class AbstractMessagePropertyTest<M, P> extends AbstractProperty
 
         public abstract void addProperty(M message, P property);
 
+        public abstract void addProperties(M message, Collection<P> properties);
+
         public abstract Collection<P> getProperties(M message);
 
         public abstract void setProperties(M message, Collection<P> properties);
@@ -204,6 +206,24 @@ public abstract class AbstractMessagePropertyTest<M, P> extends AbstractProperty
     public void testAddPropertyWithNullValues() throws Exception {
 
         propertyExecutor.newProperty(null, null);
+    }
+
+    @Test
+    public void testAddProperties() throws Exception {
+
+        M message = messageExecutor.newMessage();
+
+        assertEquals("no properties should exist", 0, messageExecutor.getProperties(message).size());
+
+        messageExecutor.addProperties(message, properties);
+
+        assertEquals("three properties should exist", 3, messageExecutor.getProperties(message).size());
+        assertEquals("property one should have been added", propertyOne,
+                messageExecutor.getProperty(message, propertyExecutor.getName(propertyOne)));
+        assertEquals("property two should have been added", propertyTwo,
+                messageExecutor.getProperty(message, propertyExecutor.getName(propertyTwo)));
+        assertEquals("property three should have been added", propertyThree,
+                messageExecutor.getProperty(message, propertyExecutor.getName(propertyThree)));
     }
 
 

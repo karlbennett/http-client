@@ -219,4 +219,16 @@ public class Request<T> extends Message<T> {
 
         if (isNotNull(parameter)) this.parameters.add(parameter);
     }
+
+    public void addParameters(Collection<Parameter<String>> parameters) {
+
+        new NullSafeForEach<Parameter<String>>(parameters) {
+
+            @Override
+            protected void next(Parameter<String> parameter) {
+
+                addParameter(parameter);
+            }
+        };
+    }
 }
