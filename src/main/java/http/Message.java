@@ -6,8 +6,10 @@ import http.header.Header;
 import http.util.NullSafeForEach;
 
 import java.util.Collection;
+import java.util.HashSet;
 
 import static http.util.Checks.isNotNull;
+import static http.util.Checks.isNull;
 
 /**
  * Represents a generic HTTP message and supplies accessor methods for retrieving and populating the common HTTP message
@@ -154,6 +156,61 @@ public class Message<T> {
     }
 
     /**
+     * Remove the supplied value from the {@link Header} with the supplied name. This will remove all the value from the
+     * {@code Header} entry and then if no values are left it will remove the {@code Header} entry completely.
+     *
+     * @param name the name of the {@code Header} to remove the value from.
+     * @param value the value to remove.
+     * @return a {@code Header} containing the name and value that was removed if a value was removed, otherwise
+     *          {@code null}.
+     */
+    public Header removeHeader(String name, Object value) {
+
+        return removeHeader(new Header<Object>(name, value));
+    }
+
+    /**
+     * Remove the supplied {@link Header} from the request. This will remove all the values in the supplied
+     * {@code Header} and then if no values are left it will remove the {@code Header} entry completely.
+     *
+     * @param header the {@code Header} to remove.
+     * @return the {@code Header} that was removed if one was removed, otherwise {@code null}.
+     */
+    @SuppressWarnings("unchecked")
+    public Header removeHeader(Header header) {
+
+        Header removedHeader = headers.get(header.getName());
+
+        if (isNotNull(removedHeader) && removedHeader.getValues().removeAll(header.getValues())) {
+
+            // If no more values are left remove the header completely.
+            if (0 == removedHeader.getValues().size()) headers.remove(header.getName());
+
+            return header;
+        }
+
+        return null;
+    }
+
+    /**
+     * Remove the supplied {@link Header}s.
+     *
+     * @param headers the {@code Header}s to remove.
+     * @return the {@code Header}s that were removed.
+     */
+    public Collection<Header> removeHeaders(Collection<Header> headers) {
+
+        Collection<Header> removedheaders = new HashSet<Header>();
+
+        for (Header header : headers) {
+
+            if (isNotNull(removeHeader(header))) removedheaders.add(header);
+        }
+
+        return removedheaders;
+    }
+
+    /**
      * Get all the cookies set for the current {@code Message}.
      *
      * @return the message cookies.
@@ -234,6 +291,56 @@ public class Message<T> {
                 addCookie(cookie);
             }
         };
+    }
+
+    /**
+     * Remove the {@link Cookie} with the supplied name and value.
+     *
+     * @param name the name of the {@code Cookie} to remove.
+     * @param value the value of the {@code Cookie} to remove.
+     * @return the {@code Cookie} that was removed if one was removed, otherwise {@code null}.
+     */
+    public Cookie removeCookie(String name, String value) {
+
+        return removeCookie(new Cookie(name, value));
+    }
+
+    /**
+     * Remove the supplied {@link Cookie} from the request.
+     *
+     * @param cookie the {@code Cookie} to remove.
+     * @return the {@code Cookie} that was removed if one was removed, otherwise {@code null}.
+     */
+    public Cookie removeCookie(Cookie cookie) {
+
+        Cookie removedCookie = cookies.get(cookie.getName());
+
+        if (isNotNull(removedCookie) && removedCookie.equals(cookie)) {
+
+            cookies.remove(cookie.getName());
+
+            return cookie;
+        }
+
+        return null;
+    }
+
+    /**
+     * Remove the supplied {@link Cookie}s.
+     *
+     * @param cookies the {@code Cookie}s to remove.
+     * @return the {@code Cookie}s that were removed.
+     */
+    public Collection<Cookie> removeCookies(Collection<Cookie> cookies) {
+
+        Collection<Cookie> removedCookies = new HashSet<Cookie>();
+
+        for (Cookie cookie : cookies) {
+
+            if (isNotNull(removeCookie(cookie))) removedCookies.add(cookie);
+        }
+
+        return removedCookies;
     }
 
     /**

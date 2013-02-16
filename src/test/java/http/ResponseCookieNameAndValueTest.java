@@ -50,6 +50,18 @@ public class ResponseCookieNameAndValueTest extends AbstractMessageCookieTest<Re
                 message.setCookies(properties);
             }
 
+            @Override
+            public Cookie removeProperty(Response<Object> message, Cookie property) {
+
+                return message.removeCookie(property.getName(), property.getValue());
+            }
+
+            @Override
+            public Collection<Cookie> removeProperties(Response<Object> message, Collection<Cookie> properties) {
+
+                return message.removeCookies(properties);
+            }
+
         }, SET_COOKIE);
     }
 }

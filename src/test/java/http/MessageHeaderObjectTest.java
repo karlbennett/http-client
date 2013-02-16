@@ -52,6 +52,18 @@ public class MessageHeaderObjectTest extends AbstractMessageHeaderTest<Message<O
 
                 message.setHeaders(properties);
             }
+
+            @Override
+            public Header removeProperty(Message<Object> message, Header property) {
+
+                return message.removeHeader(property);
+            }
+
+            @Override
+            public Collection<Header> removeProperties(Message<Object> message, Collection<Header> properties) {
+
+                return message.removeHeaders(properties);
+            }
         }
         );
     }

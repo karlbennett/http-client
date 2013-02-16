@@ -53,6 +53,18 @@ public class RequestCookieObjectTest extends AbstractMessageCookieTest<Request<O
                 message.setCookies(properties);
             }
 
+            @Override
+            public Cookie removeProperty(Request<Object> message, Cookie property) {
+
+                return message.removeCookie(property);
+            }
+
+            @Override
+            public Collection<Cookie> removeProperties(Request<Object> message, Collection<Cookie> properties) {
+
+                return message.removeCookies(properties);
+            }
+
         }, COOKIE);
     }
 

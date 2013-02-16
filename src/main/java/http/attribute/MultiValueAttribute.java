@@ -197,7 +197,7 @@ public class MultiValueAttribute<T> extends Attribute<T> {
      */
     public List<T> getValues() {
 
-        return Collections.unmodifiableList(values);
+        return values;
     }
 
     /**
@@ -244,13 +244,16 @@ public class MultiValueAttribute<T> extends Attribute<T> {
 
         StringBuilder toStringHolder = new StringBuilder();
 
-        int i = 0;
-        for (; i < (values.size() - 1); i++) {
+        if (isNotEmpty(values)) {
 
-            toStringHolder.append(getName()).append(operator).append(values.get(i)).append(delimiter);
+            int i = 0;
+            for (; i < (values.size() - 1); i++) {
+
+                toStringHolder.append(getName()).append(operator).append(values.get(i)).append(delimiter);
+            }
+
+            toStringHolder.append(getName()).append(operator).append(values.get(i));
         }
-
-        toStringHolder.append(getName()).append(operator).append(values.get(i));
 
         return toStringHolder.toString();
     }

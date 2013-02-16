@@ -50,6 +50,18 @@ public class MessageHeaderNameAndValueTest extends AbstractMessageHeaderTest<Mes
 
                 message.setHeaders(properties);
             }
+
+            @Override
+            public Header removeProperty(Message<Object> message, Header property) {
+
+                return message.removeHeader(property.getName(), property.getValue());
+            }
+
+            @Override
+            public Collection<Header> removeProperties(Message<Object> message, Collection<Header> properties) {
+
+                return message.removeHeaders(properties);
+            }
         }
         );
     }

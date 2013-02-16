@@ -2,8 +2,10 @@ package http;
 
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 
 import static org.junit.Assert.*;
 
@@ -36,6 +38,10 @@ public abstract class AbstractMessagePropertyTest<M, P> extends AbstractProperty
         public abstract Collection<P> getProperties(M message);
 
         public abstract void setProperties(M message, Collection<P> properties);
+
+        public abstract P removeProperty(M message, P property);
+
+        public abstract Collection<P> removeProperties(M message, Collection<P> properties);
     }
 
 
@@ -103,13 +109,13 @@ public abstract class AbstractMessagePropertyTest<M, P> extends AbstractProperty
     @Test
     public void testSetEmptyProperties() throws Exception {
 
-        addNoPropertiesTest(Collections.<P>emptySet());
+        setNoPropertiesTest(Collections.<P>emptySet());
     }
 
     @Test
     public void testSetNullProperties() throws Exception {
 
-        addNoPropertiesTest(null);
+        setNoPropertiesTest(null);
     }
 
     @Test
@@ -226,8 +232,73 @@ public abstract class AbstractMessagePropertyTest<M, P> extends AbstractProperty
                 messageExecutor.getProperty(message, propertyExecutor.getName(propertyThree)));
     }
 
+    @Test
+    public void testRemoveProperty() throws Exception {
 
-    private void addNoPropertiesTest(Collection<P> empty) {
+        M message = messageExecutor.newMessage();
+
+        Collection<P> removeProperties = new HashSet<P>();
+
+        removeProperties.add(propertyExecutor.newProperty(
+                propertyExecutor.getName(propertyOne), propertyExecutor.getValue(propertyOne)));
+        removeProperties.add(propertyExecutor.newProperty(
+                propertyExecutor.getName(propertyTwo), propertyExecutor.getValue(propertyTwo)));
+        removeProperties.add(propertyExecutor.newProperty(
+                propertyExecutor.getName(propertyThree), propertyExecutor.getValue(propertyThree)));
+
+        messageExecutor.setProperties(message, removeProperties);
+
+        assertEquals("property one is removed correctly.", propertyOne,
+                messageExecutor.removeProperty(message, propertyOne));
+        assertFalse("property one is no longer in the message.",
+                messageExecutor.getProperties(message).contains(propertyOne));
+        assertNull("property one should not be able to be removed again.",
+                messageExecutor.removeProperty(message, propertyOne));
+
+        assertEquals("property two is removed correctly.", propertyTwo,
+                messageExecutor.removeProperty(message, propertyTwo));
+        assertFalse("property two is no longer in the message.",
+                messageExecutor.getProperties(message).contains(propertyTwo));
+        assertNull("property two should not be able to be removed again.",
+                messageExecutor.removeProperty(message, propertyTwo));
+
+        assertEquals("property three is removed correctly.", propertyThree,
+                messageExecutor.removeProperty(message, propertyThree));
+        assertFalse("property three is no longer in the message.",
+                messageExecutor.getProperties(message).contains(propertyThree));
+        assertNull("property three should not be able to be removed again.",
+                messageExecutor.removeProperty(message, propertyThree));
+    }
+
+    @Test
+    public void testRemoveProperties() throws Exception {
+
+        M message = messageExecutor.newMessage();
+        Collection<P> removeProperties = new HashSet<P>();
+
+        removeProperties.add(propertyExecutor.newProperty(
+                propertyExecutor.getName(propertyOne), propertyExecutor.getValue(propertyOne)));
+        removeProperties.add(propertyExecutor.newProperty(
+                propertyExecutor.getName(propertyTwo), propertyExecutor.getValue(propertyTwo)));
+        removeProperties.add(propertyExecutor.newProperty(
+                propertyExecutor.getName(propertyThree), propertyExecutor.getValue(propertyThree)));
+
+        messageExecutor.setProperties(message, removeProperties);
+
+        Collection<P> removedProperties = new HashSet<P>(Arrays.asList(propertyTwo, propertyThree));
+
+        assertEquals("properties removed correctly.", removedProperties,
+                messageExecutor.removeProperties(message, removedProperties));
+        assertFalse("properties no longer in the message.",
+                messageExecutor.getProperties(message).containsAll(removedProperties));
+        assertEquals("properties should not be able to be removed again.", Collections.emptySet(),
+                messageExecutor.removeProperties(message, removedProperties));
+        assertTrue("property one is still in the message.",
+                messageExecutor.getProperties(message).contains(propertyOne));
+    }
+
+
+    private void setNoPropertiesTest(Collection<P> empty) {
 
         M message = messageExecutor.newMessage();
         messageExecutor.setProperties(message, empty);

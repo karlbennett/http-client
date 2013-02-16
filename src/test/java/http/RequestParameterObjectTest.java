@@ -50,6 +50,18 @@ public class RequestParameterObjectTest extends AbstractClientRequestParameterTe
 
                 message.setParameters(properties);
             }
+
+            @Override
+            public Parameter<String> removeProperty(Request<Object> message, Parameter<String> property) {
+
+                return message.removeParameter(property);
+            }
+
+            @Override
+            public Collection<Parameter<String>> removeProperties(Request<Object> message, Collection<Parameter<String>> properties) {
+
+                return message.removeParamters(properties);
+            }
         });
     }
 }

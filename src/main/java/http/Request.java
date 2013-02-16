@@ -220,6 +220,11 @@ public class Request<T> extends Message<T> {
         if (isNotNull(parameter)) this.parameters.add(parameter);
     }
 
+    /**
+     * Add the supplied {@link Parameter}s to the request.
+     *
+     * @param parameters the {@link Parameter}s to add.
+     */
     public void addParameters(Collection<Parameter<String>> parameters) {
 
         new NullSafeForEach<Parameter<String>>(parameters) {
@@ -230,5 +235,59 @@ public class Request<T> extends Message<T> {
                 addParameter(parameter);
             }
         };
+    }
+
+    /**
+     * Remove the supplied value from the {@link Parameter} with the supplied name. This will remove all the value from
+     * the {@code Parameter} entry and then if no values are left it will remove the {@code Parameter} entry completely.
+     *
+     * @param name the name of the {@code Parameter} to remove the value from.
+     * @param value the value to remove.
+     * @return a {@code Parameter} containing the name and value that were removed if a value was removed, otherwise
+     *          {@code null}.
+     */
+    public Parameter<String> removeParameter(String name, String value) {
+
+        return removeParameter(new Parameter<String>(name, value));
+    }
+
+    /**
+     * Remove the supplied {@link Parameter} from the request. This will remove all the values in the supplied
+     * {@code Parameter} and then if no values are left it will remove the {@code Parameter} entry completely.
+     *
+     * @param parameter the {@code Parameter} to remove.
+     * @return the {@code Parameter} that was removed if one was removed, otherwise {@code null}.
+     */
+    public Parameter<String> removeParameter(Parameter<String> parameter) {
+
+        Parameter<String> removedParameter = parameters.get(parameter.getName());
+
+        if (isNotNull(removedParameter) && removedParameter.getValues().removeAll(parameter.getValues())) {
+
+            // If no more values are left remove the parameter completely.
+            if (0 == removedParameter.getValues().size()) parameters.remove(parameter.getName());
+
+            return parameter;
+        }
+
+        return null;
+    }
+
+    /**
+     * Remove the supplied {@link Parameter}s.
+     *
+     * @param parameters the {@code Parameter}s to remove.
+     * @return the {@code Parameter}s that were removed.
+     */
+    public Collection<Parameter<String>> removeParamters(Collection<Parameter<String>> parameters) {
+
+        Collection<Parameter<String>> removedParameters = new HashSet<Parameter<String>>();
+
+        for (Parameter<String> header : parameters) {
+
+            if (isNotNull(removeParameter(header))) removedParameters.add(header);
+        }
+
+        return removedParameters;
     }
 }

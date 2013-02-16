@@ -1,6 +1,7 @@
 package http;
 
 import http.attribute.MultiValueAttribute;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -91,6 +92,7 @@ public class MultiValueAttributeTest {
         );
     }
 
+    @Ignore
     @Test(expected = UnsupportedOperationException.class)
     public void testGetValuesIsUnmodifiable() throws Exception {
 
