@@ -1,11 +1,10 @@
 package http;
 
+import http.attribute.AttributeCollectionMap;
 import http.attribute.AttributeHashSetMap;
 import http.attribute.AttributeMap;
-import http.attribute.MultiAttributeMap;
 import http.header.Header;
 import http.parameter.Parameter;
-import http.util.NullSafeForEach;
 
 import java.net.URL;
 import java.util.Collection;
@@ -34,7 +33,7 @@ public class Request<T> extends Message<T> {
 
 
     private final URL url;
-    private MultiAttributeMap<Parameter<String>, Set<Parameter<String>>> parameters;
+    private AttributeCollectionMap<Parameter<String>, Set<Parameter<String>>> parameters;
 
     /**
      * Create a new {@code Request} that will be sent to the {@code HTTP} server at the supplied {@link URL}.

@@ -17,11 +17,11 @@ public class AttributeArrayListMap<A extends Attribute> extends AttributeListMap
     public AttributeArrayListMap() {
     }
 
-    public AttributeArrayListMap(Map<String, List<A>> backingMap, MultiAttributeMap<A, List<A>> attributes) {
+    public AttributeArrayListMap(Map<String, List<A>> backingMap, AttributeCollectionMap<A, List<A>> attributes) {
         super(backingMap, attributes);
     }
 
-    public AttributeArrayListMap(MultiAttributeMap<A, List<A>> attributes) {
+    public AttributeArrayListMap(AttributeCollectionMap<A, List<A>> attributes) {
         super(attributes);
     }
 

@@ -7,7 +7,7 @@ import java.util.Set;
 /**
  * @author Karl Bennett
  */
-public abstract class AttributeSetMap<A extends Attribute> extends MultiAttributeMap<A, Set<A>> {
+public abstract class AttributeSetMap<A extends Attribute> extends AttributeCollectionMap<A, Set<A>> {
 
     public AttributeSetMap(Map<String, Set<A>> backingMap) {
         super(backingMap);
@@ -16,11 +16,11 @@ public abstract class AttributeSetMap<A extends Attribute> extends MultiAttribut
     public AttributeSetMap() {
     }
 
-    public AttributeSetMap(Map<String, Set<A>> backingMap, MultiAttributeMap<A, Set<A>> attributes) {
+    public AttributeSetMap(Map<String, Set<A>> backingMap, AttributeCollectionMap<A, Set<A>> attributes) {
         super(backingMap, attributes);
     }
 
-    public AttributeSetMap(MultiAttributeMap<A, Set<A>> attributes) {
+    public AttributeSetMap(AttributeCollectionMap<A, Set<A>> attributes) {
         super(attributes);
     }
 

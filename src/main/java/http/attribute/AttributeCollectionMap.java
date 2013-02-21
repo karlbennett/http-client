@@ -16,33 +16,33 @@ import static http.util.Checks.isNull;
  *
  * @author Karl Bennett
  */
-public abstract class MultiAttributeMap<A extends Attribute, C extends Collection<A>> extends AbstractMap<String, C> {
+public abstract class AttributeCollectionMap<A extends Attribute, C extends Collection<A>> extends AbstractMap<String, C> {
 
     /**
-     * Create a new {@code MultiAttributeMap} with the supplied backing map.
+     * Create a new {@code AttributeCollectionMap} with the supplied backing map.
      *
      * @param backingMap the map to be used internally for all the default {@link Map} methods.
      */
-    public MultiAttributeMap(Map<String, C> backingMap) {
+    public AttributeCollectionMap(Map<String, C> backingMap) {
         super(backingMap);
     }
 
     /**
-     * Create a new {@code MultiAttributeMap} that uses a {@link HashMap} as it's backing map.
+     * Create a new {@code AttributeCollectionMap} that uses a {@link HashMap} as it's backing map.
      */
-    public MultiAttributeMap() {
+    public AttributeCollectionMap() {
 
         this(new HashMap<String, C>());
     }
 
     /**
-     * Create a new {@code MultiAttributeMap} with the supplied backing map and that is populated from the supplied
-     * {@code MultiAttributeMap}.
+     * Create a new {@code AttributeCollectionMap} with the supplied backing map and that is populated from the supplied
+     * {@code AttributeCollectionMap}.
      *
      * @param backingMap the map to be used internally for all the default {@link Map} methods.
      * @param attributes the map that will be copied to produce this map.
      */
-    public MultiAttributeMap(Map<String, C> backingMap, MultiAttributeMap<A, C> attributes) {
+    public AttributeCollectionMap(Map<String, C> backingMap, AttributeCollectionMap<A, C> attributes) {
 
         this(backingMap);
 
@@ -52,24 +52,24 @@ public abstract class MultiAttributeMap<A extends Attribute, C extends Collectio
     }
 
     /**
-     * Create a new {@code MultiAttributeMap} as a copy of the supplied {@code MultiAttributeMap}. This is not a deep
+     * Create a new {@code AttributeCollectionMap} as a copy of the supplied {@code AttributeCollectionMap}. This is not a deep
      * copy so will point to the same attribute instances that are contained in the supplied map.
      *
      * @param attributes the map that will be copied to produce this map.
      */
-    public MultiAttributeMap(MultiAttributeMap<A, C> attributes) {
+    public AttributeCollectionMap(AttributeCollectionMap<A, C> attributes) {
 
         this(new HashMap<String, C>(), attributes);
     }
 
     /**
-     * Create a new {@code MultiAttributeMap} with the supplied backing map and that is populated with the attributes
+     * Create a new {@code AttributeCollectionMap} with the supplied backing map and that is populated with the attributes
      * in the supplied {@link Collection}.
      *
      * @param backingMap the map to be used internally for all the default {@link Map} methods.
      * @param attributes the attributes that will be contained in the new map.
      */
-    public MultiAttributeMap(Map<String, C> backingMap, Collection<A> attributes) {
+    public AttributeCollectionMap(Map<String, C> backingMap, Collection<A> attributes) {
 
         this(backingMap);
 
@@ -77,12 +77,12 @@ public abstract class MultiAttributeMap<A extends Attribute, C extends Collectio
     }
 
     /**
-     * Create a new {@code MultiAttributeMap} that uses a {@link HashMap} as it's backing map and that is populated with
+     * Create a new {@code AttributeCollectionMap} that uses a {@link HashMap} as it's backing map and that is populated with
      * the attributes in the supplied {@link Collection}.
      *
      * @param attributes the attributes that will be contained in the new map.
      */
-    public MultiAttributeMap(Collection<A> attributes) {
+    public AttributeCollectionMap(Collection<A> attributes) {
 
         this(new HashMap<String, C>(), attributes);
     }

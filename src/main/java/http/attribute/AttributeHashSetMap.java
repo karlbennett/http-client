@@ -17,11 +17,11 @@ public class AttributeHashSetMap<A extends Attribute> extends AttributeSetMap<A>
     public AttributeHashSetMap() {
     }
 
-    public AttributeHashSetMap(Map<String, Set<A>> backingMap, MultiAttributeMap<A, Set<A>> attributes) {
+    public AttributeHashSetMap(Map<String, Set<A>> backingMap, AttributeCollectionMap<A, Set<A>> attributes) {
         super(backingMap, attributes);
     }
 
-    public AttributeHashSetMap(MultiAttributeMap<A, Set<A>> attributes) {
+    public AttributeHashSetMap(AttributeCollectionMap<A, Set<A>> attributes) {
         super(attributes);
     }
 

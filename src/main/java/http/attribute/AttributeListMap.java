@@ -7,7 +7,7 @@ import java.util.Map;
 /**
  * @author Karl Bennett
  */
-public abstract class AttributeListMap<A extends Attribute> extends MultiAttributeMap<A, List<A>> {
+public abstract class AttributeListMap<A extends Attribute> extends AttributeCollectionMap<A, List<A>> {
 
     public AttributeListMap(Map<String, List<A>> backingMap) {
         super(backingMap);
@@ -16,11 +16,11 @@ public abstract class AttributeListMap<A extends Attribute> extends MultiAttribu
     public AttributeListMap() {
     }
 
-    public AttributeListMap(Map<String, List<A>> backingMap, MultiAttributeMap<A, List<A>> attributes) {
+    public AttributeListMap(Map<String, List<A>> backingMap, AttributeCollectionMap<A, List<A>> attributes) {
         super(backingMap, attributes);
     }
 
-    public AttributeListMap(MultiAttributeMap<A, List<A>> attributes) {
+    public AttributeListMap(AttributeCollectionMap<A, List<A>> attributes) {
         super(attributes);
     }
 

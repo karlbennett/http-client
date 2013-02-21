@@ -17,11 +17,11 @@ public class AttributeTreeSetMap<A extends Attribute> extends AttributeSetMap<A>
     public AttributeTreeSetMap() {
     }
 
-    public AttributeTreeSetMap(Map<String, Set<A>> backingMap, MultiAttributeMap<A, Set<A>> attributes) {
+    public AttributeTreeSetMap(Map<String, Set<A>> backingMap, AttributeCollectionMap<A, Set<A>> attributes) {
         super(backingMap, attributes);
     }
 
-    public AttributeTreeSetMap(MultiAttributeMap<A, Set<A>> attributes) {
+    public AttributeTreeSetMap(AttributeCollectionMap<A, Set<A>> attributes) {
         super(attributes);
     }
 
