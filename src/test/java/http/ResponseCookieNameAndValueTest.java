@@ -1,5 +1,6 @@
 package http;
 
+import java.util.Arrays;
 import java.util.Collection;
 
 import static http.Cookies.SET_COOKIE;
@@ -21,9 +22,9 @@ public class ResponseCookieNameAndValueTest extends AbstractMessageCookieTest<Re
             }
 
             @Override
-            public Cookie getProperty(Response<Object> message, String name) {
+            public Collection<Cookie> getProperties(Response<Object> message, String name) {
 
-                return message.getCookie(name);
+                return Arrays.asList(message.getCookie(name));
             }
 
             @Override

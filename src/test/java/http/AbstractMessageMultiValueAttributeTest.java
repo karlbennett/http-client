@@ -1,17 +1,17 @@
 package http;
 
-import http.attribute.MultiValueAttribute;
+import http.attribute.Attribute;
 import org.junit.Test;
 
 import java.util.Collection;
-import java.util.Collections;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author Karl Bennett
  */
-public abstract class AbstractMessageMultiValueAttributeTest<M, A extends MultiValueAttribute> extends
+public abstract class AbstractMessageMultiValueAttributeTest<M, A extends Attribute> extends
         AbstractMessagePropertyTest<M, A> {
 
     private PropertyExecutor<A> propertyExecutor;
@@ -40,23 +40,25 @@ public abstract class AbstractMessageMultiValueAttributeTest<M, A extends MultiV
 
 
     @Test
-    public void testAddValueToExistingAttribute() throws Exception {
+    public void testAddAttributeWithSameNameButDifferentValue() throws Exception {
 
         M message = messageExecutor.newMessage();
 
         messageExecutor.setProperties(message, attributes);
 
-        messageExecutor.addProperty(message, propertyExecutor.newProperty(attributeOne.getName(),
-                attributeTwo.getValue()));
+        A addedOneAtribute = propertyExecutor.newProperty(attributeOne.getName(), attributeTwo.getValue());
 
-        assertEquals("three attributes should exist when a value has been added to attribute one", 3,
-                messageExecutor.getProperties(message).size());
-        assertEquals("two values should exist when a value has been added to attribute one", 2,
-                messageExecutor.getProperty(message, attributeOne.getName()).getValues().size());
-        assertEquals("attribute one should have value one.", attributeOne.getValue(),
-                messageExecutor.getProperty(message, attributeOne.getName()).getValue());
-        assertEquals("attribute one should have value two.", attributeTwo.getValue(),
-                messageExecutor.getProperty(message, attributeOne.getName()).getValues().get(1));
+        messageExecutor.addProperty(message, addedOneAtribute);
+
+        assertEquals("four attributes should exist when an attribute with the same name but different value is added.",
+                4, messageExecutor.getProperties(message).size());
+
+        Collection<A> oneAttributes = messageExecutor.getProperties(message, attributeOne.getName());
+
+        assertEquals("two attribute one attributes should exist", 2, oneAttributes.size());
+        assertTrue("attribute one should still be present.", oneAttributes.contains(attributeOne));
+        assertTrue("attribute one with the different value should be present.",
+                oneAttributes.contains(addedOneAtribute));
     }
 
     @Test
@@ -88,36 +90,51 @@ public abstract class AbstractMessageMultiValueAttributeTest<M, A extends MultiV
 
         M message = messageExecutor.newMessage();
 
-        A attribute = propertyExecutor.newProperty(attributeOne.getName(), attributeOne.getValue());
+        A blankAttribute = propertyExecutor.newProperty(attributeOne.getName(), blank);
+
+        messageExecutor.addProperty(message, blankAttribute);
+
+        Collection<A> addedAttributes = messageExecutor.getProperties(message, attributeOne.getName());
+
+        assertEquals("one attribute should have been added.", 1, addedAttributes.size());
+        assertTrue("the blank attribute should have been added.", addedAttributes.contains(blankAttribute));
 
         messageExecutor.addProperty(message,
                 propertyExecutor.newProperty(attributeOne.getName(), attributeOne.getValue()));
 
-        assertEquals("attribute one should have a value.", Collections.singletonList(attributeOne.getValue()),
-                messageExecutor.getProperty(message, attributeOne.getName()).getValues());
+        addedAttributes = messageExecutor.getProperties(message, attributeOne.getName());
 
-        messageExecutor.addProperty(message,
-                propertyExecutor.newProperty(attributeOne.getName(), blank));
+        assertEquals("two attributes should have been added.", 2, addedAttributes.size());
+        assertTrue("the blank attribute should still exist.", addedAttributes.contains(blankAttribute));
+        assertTrue("attribute one should have been added.", addedAttributes.contains(attributeOne));
 
-        assertEquals("attribute one should still only have one value.",
-                Collections.singletonList(attributeOne.getValue()),
-                messageExecutor.getProperty(message, attributeOne.getName()).getValues());
+        messageExecutor.addProperty(message, blankAttribute);
+
+        addedAttributes = messageExecutor.getProperties(message, attributeOne.getName());
+
+        assertEquals("two attributes should have been added.", 2, addedAttributes.size());
+        assertTrue("the blank attribute should only exist once.", addedAttributes.contains(blankAttribute));
+        assertTrue("attribute one should still exist.", addedAttributes.contains(attributeOne));
     }
 
     private void addBlankAttributeValueTwiceTest(Object blank) {
 
         M message = messageExecutor.newMessage();
 
-        A attribute = propertyExecutor.newProperty(attributeOne.getName(), blank);
+        A blankAttribute = propertyExecutor.newProperty(attributeOne.getName(), blank);
 
-        messageExecutor.addProperty(message, attribute);
+        messageExecutor.addProperty(message, blankAttribute);
 
-        assertEquals("attribute one should have no values", Collections.emptyList(),
-                messageExecutor.getProperty(message, attributeOne.getName()).getValues());
+        Collection<A> addedAttributes = messageExecutor.getProperties(message, attributeOne.getName());
 
-        messageExecutor.addProperty(message, attribute);
+        assertEquals("one attribute should have been added.", 1, addedAttributes.size());
+        assertTrue("the blank attribute should have been added.", addedAttributes.contains(blankAttribute));
 
-        assertEquals("attribute one should still have no values", Collections.emptyList(),
-                messageExecutor.getProperty(message, attributeOne.getName()).getValues());
+        messageExecutor.addProperty(message, blankAttribute);
+
+        addedAttributes = messageExecutor.getProperties(message, attributeOne.getName());
+
+        assertEquals("one attribute should have been added.", 1, addedAttributes.size());
+        assertTrue("the blank attribute should only exist once.", addedAttributes.contains(blankAttribute));
     }
 }

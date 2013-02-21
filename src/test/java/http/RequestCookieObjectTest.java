@@ -2,6 +2,7 @@ package http;
 
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.Collection;
 
 import static http.Cookies.COOKIE;
@@ -24,9 +25,9 @@ public class RequestCookieObjectTest extends AbstractMessageCookieTest<Request<O
             }
 
             @Override
-            public Cookie getProperty(Request<Object> message, String name) {
+            public Collection<Cookie> getProperties(Request<Object> message, String name) {
 
-                return message.getCookie(name);
+                return Arrays.asList(message.getCookie(name));
             }
 
             @Override

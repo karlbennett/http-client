@@ -17,6 +17,8 @@ public final class Attributes {
     private Attributes() {
     }
 
+    public static final String TEST_ATTRIBUTE_OPERATOR = ":";
+
     public static final String TEST_ATTRIBUTE_NAME_ONE = "test_attribute_name_one";
     public static final String TEST_ATTRIBUTE_NAME_TWO = "test_attribute_name_two";
     public static final String TEST_ATTRIBUTE_NAME_THREE = "test_attribute_name_three";
@@ -37,9 +39,12 @@ public final class Attributes {
             TEST_ATTRIBUTE_VALUE_THREE
     );
 
-    public static final Attribute<String> TEST_ATTRIBUTE_ONE = new Attribute<>(TEST_ATTRIBUTE_NAME_ONE, TEST_ATTRIBUTE_VALUE_ONE);
-    public static final Attribute<String> TEST_ATTRIBUTE_TWO = new Attribute<>(TEST_ATTRIBUTE_NAME_TWO, TEST_ATTRIBUTE_VALUE_TWO);
-    public static final Attribute<String> TEST_ATTRIBUTE_THREE = new Attribute<>(TEST_ATTRIBUTE_NAME_THREE, TEST_ATTRIBUTE_VALUE_THREE);
+    public static final Attribute<String> TEST_ATTRIBUTE_ONE = new Attribute<>(TEST_ATTRIBUTE_NAME_ONE,
+            TEST_ATTRIBUTE_VALUE_ONE, TEST_ATTRIBUTE_OPERATOR);
+    public static final Attribute<String> TEST_ATTRIBUTE_TWO = new Attribute<>(TEST_ATTRIBUTE_NAME_TWO,
+            TEST_ATTRIBUTE_VALUE_TWO, TEST_ATTRIBUTE_OPERATOR);
+    public static final Attribute<String> TEST_ATTRIBUTE_THREE = new Attribute<>(TEST_ATTRIBUTE_NAME_THREE,
+            TEST_ATTRIBUTE_VALUE_THREE, TEST_ATTRIBUTE_OPERATOR);
 
     public static final Collection<Attribute<String>> TEST_ATTRIBUTES = new HashSet<>(Arrays.asList(
             TEST_ATTRIBUTE_ONE,

@@ -1,15 +1,15 @@
 package http;
 
+import http.attribute.Attribute;
+import http.attribute.AttributeHashSetMap;
 import http.attribute.AttributeMap;
-import http.attribute.MultiValueAttributeMap;
+import http.attribute.MultiAttributeMap;
 import http.header.Header;
 import http.util.NullSafeForEach;
 
-import java.util.Collection;
-import java.util.HashSet;
+import java.util.*;
 
 import static http.util.Checks.isNotNull;
-import static http.util.Checks.isNull;
 
 /**
  * Represents a generic HTTP message and supplies accessor methods for retrieving and populating the common HTTP message
@@ -19,8 +19,40 @@ import static http.util.Checks.isNull;
  */
 public class Message<T> {
 
+    protected static <K, V> Set<V> getAllValues(Map<K, Set<V>> map) {
+
+        Set<V> allValues = new HashSet<V>();
+
+        for (Set<V> values : map.values()) allValues.addAll(values);
+
+        return allValues;
+    }
+
+    protected static <K, V> Set<V> getNotNullValue(Map<K, Set<V>> map, K key) {
+
+        Set<V> values = map.get(key);
+
+        return isNotNull(values) ? values : Collections.<V>emptySet();
+    }
+
+    protected static <V extends Attribute> V remove(MultiAttributeMap<V, Set<V>> map, V attribute) {
+
+        if (map.remove(attribute)) return attribute;
+
+        return null;
+    }
+
+    protected static <V extends Attribute, C extends Collection<V>> Collection<V> removeAll(
+            MultiAttributeMap<V, C> map, Collection<V> attributes) {
+
+        if (map.removeAll(attributes)) return attributes;
+
+        return Collections.emptySet();
+    }
+
+
     private final String cookieHeaderName;
-    private final MultiValueAttributeMap<Header> headers;
+    private final MultiAttributeMap<Header, Set<Header>> headers;
     private final AttributeMap<Cookie> cookies;
     private T body;
 
@@ -30,7 +62,8 @@ public class Message<T> {
      *
      * @param headers the headers that will be contained in this message.
      */
-    public Message(String cookieHeaderName, MultiValueAttributeMap<Header> headers, AttributeMap<Cookie> cookies, T body) {
+    public Message(String cookieHeaderName, MultiAttributeMap<Header, Set<Header>> headers,
+                   AttributeMap<Cookie> cookies, T body) {
 
         this.cookieHeaderName = cookieHeaderName;
         this.headers = headers;
@@ -44,8 +77,8 @@ public class Message<T> {
     public Message(String cookieHeaderName) {
 
         this.cookieHeaderName = cookieHeaderName;
-        this.headers = new MultiValueAttributeMap<>();
-        this.cookies = new AttributeMap<>();
+        this.headers = new AttributeHashSetMap<Header>();
+        this.cookies = new AttributeMap<Cookie>();
     }
 
     /**
@@ -53,30 +86,21 @@ public class Message<T> {
      *
      * @return the message headers.
      */
-    public Collection<Header> getHeaders() {
+    public Set<Header> getHeaders() {
 
-        return headers.values();
+        return getAllValues(headers);
     }
 
     /**
-     * Get the {@link Header} with the supplied name. If the header does not exist this method will return null.
-     * <p/>
-     * Care must be taken with this method because it will implicitly cast the generic type of the {@code Header} so can
-     * produce ClassCastExceptions exceptions at runtime.
-     * <p/>
-     * <code>
-     * request.addHeader(new Header&lt;String&gt;("number", "one"));
-     * Header&lt;Integer&gt; header = request.getHeader("number"); // This will not produce an unchecked warning.
-     * int number = header.getValue(); // This will compile and fail at runtime with a ClassCastException.
-     * </code>
+     * Get all instances of the {@link Header} with the supplied name. If no instances exist this method will return
+     * null.
      *
      * @param name the name of the header to retrieve.
-     * @param <T>  the type of the headers value.
-     * @return the requested header if it exists otherwise null.
+     * @return the instances of the requested header if any exists otherwise an empty {@code Set}.
      */
-    public <T> Header<T> getHeader(String name) {
+    public Set<Header> getHeaders(String name) {
 
-        return headers.get(name);
+        return getNotNullValue(headers, name);
     }
 
     /**
@@ -88,14 +112,7 @@ public class Message<T> {
 
         this.headers.clear();
 
-        new NullSafeForEach<Header>(headers) {
-
-            @Override
-            protected void next(Header header) {
-
-                addHeader(header);
-            }
-        };
+        this.headers.addAll(headers);
     }
 
     /**
@@ -123,18 +140,7 @@ public class Message<T> {
 
         if (isNotNull(header)) {
 
-            // If we've been given a cookie header then we should add it as a cookie.
-            if (cookieHeaderName.equals(header.getName())) {
-
-                Collection<Cookie> cookies = Cookie.parse(header.getValue().toString());
-
-                this.cookies.addAll(cookies);
-
-                // Otherwise this not being a cookie header just it normally.
-            } else {
-
-                headers.add(header);
-            }
+            headers.add(header);
         }
     }
 
@@ -145,14 +151,7 @@ public class Message<T> {
      */
     public void addHeaders(Collection<Header> headers) {
 
-        new NullSafeForEach<Header>(headers) {
-
-            @Override
-            protected void next(Header header) {
-
-                addHeader(header);
-            }
-        };
+        this.headers.addAll(headers);
     }
 
     /**
@@ -176,20 +175,9 @@ public class Message<T> {
      * @param header the {@code Header} to remove.
      * @return the {@code Header} that was removed if one was removed, otherwise {@code null}.
      */
-    @SuppressWarnings("unchecked")
     public Header removeHeader(Header header) {
 
-        Header removedHeader = headers.get(header.getName());
-
-        if (isNotNull(removedHeader) && removedHeader.getValues().removeAll(header.getValues())) {
-
-            // If no more values are left remove the header completely.
-            if (0 == removedHeader.getValues().size()) headers.remove(header.getName());
-
-            return header;
-        }
-
-        return null;
+        return remove(headers, header);
     }
 
     /**
@@ -200,14 +188,7 @@ public class Message<T> {
      */
     public Collection<Header> removeHeaders(Collection<Header> headers) {
 
-        Collection<Header> removedheaders = new HashSet<Header>();
-
-        for (Header header : headers) {
-
-            if (isNotNull(removeHeader(header))) removedheaders.add(header);
-        }
-
-        return removedheaders;
+        return removeAll(this.headers, headers);
     }
 
     /**

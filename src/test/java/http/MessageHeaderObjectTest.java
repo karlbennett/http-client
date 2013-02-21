@@ -24,9 +24,9 @@ public class MessageHeaderObjectTest extends AbstractMessageHeaderTest<Message<O
             }
 
             @Override
-            public Header getProperty(Message<Object> message, String name) {
+            public Collection<Header> getProperties(Message<Object> message, String name) {
 
-                return message.getHeader(name);
+                return message.getHeaders(name);
             }
 
             @Override

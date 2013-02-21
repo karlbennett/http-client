@@ -90,7 +90,7 @@ public abstract class AbstractMessageCookieTest<M extends Message<Object>> exten
         M message = messageExecutor.newMessage();
         message.setCookies(new HashSet<Cookie>(cookies));
 
-        assertNull("No headers should have been added.", message.<String>getHeader(cookieHeaderName));
+        assertNull("No headers should have been added.", message.<String>getHeaders(cookieHeaderName));
 
         Collection<Cookie> cookies = message.getCookies();
 

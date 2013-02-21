@@ -22,9 +22,9 @@ public class MessageHeaderNameAndValueTest extends AbstractMessageHeaderTest<Mes
             }
 
             @Override
-            public Header getProperty(Message<Object> message, String name) {
+            public Collection<Header> getProperties(Message<Object> message, String name) {
 
-                return message.getHeader(name);
+                return message.getHeaders(name);
             }
 
             @Override

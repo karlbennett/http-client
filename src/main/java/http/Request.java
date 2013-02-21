@@ -1,7 +1,8 @@
 package http;
 
+import http.attribute.AttributeHashSetMap;
 import http.attribute.AttributeMap;
-import http.attribute.MultiValueAttributeMap;
+import http.attribute.MultiAttributeMap;
 import http.header.Header;
 import http.parameter.Parameter;
 import http.util.NullSafeForEach;
@@ -9,7 +10,7 @@ import http.util.NullSafeForEach;
 import java.net.URL;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
+import java.util.Set;
 
 import static http.Cookie.COOKIE;
 import static http.util.Asserts.assertNotNull;
@@ -33,7 +34,7 @@ public class Request<T> extends Message<T> {
 
 
     private final URL url;
-    private MultiValueAttributeMap<Parameter<String>> parameters;
+    private MultiAttributeMap<Parameter<String>, Set<Parameter<String>>> parameters;
 
     /**
      * Create a new {@code Request} that will be sent to the {@code HTTP} server at the supplied {@link URL}.
@@ -132,13 +133,13 @@ public class Request<T> extends Message<T> {
      */
     public Request(URL url, Collection<Header> headers, Collection<Cookie> cookies,
                    Collection<Parameter<String>> parameters) {
-        super(COOKIE, new MultiValueAttributeMap<>(headers), new AttributeMap<>(cookies), null);
+        super(COOKIE, new AttributeHashSetMap<Header>(headers), new AttributeMap<Cookie>(cookies), null);
 
         assertNotNull("parameters", parameters);
 
         this.url = urlMinusQuery(url.toString());
 
-        this.parameters = new MultiValueAttributeMap<>(parameters);
+        this.parameters = new AttributeHashSetMap<Parameter<String>>(parameters);
         this.parameters.addAll(Parameter.parse(url.getQuery()));
     }
 
@@ -151,7 +152,7 @@ public class Request<T> extends Message<T> {
         // If we have some paramters in the request we should add them to the query string of the URL.
         if (isNotEmpty(parameters)) {
 
-            return quietUrl(url.toString() + '?' + Parameter.toString(parameters.values()));
+            return quietUrl(url.toString() + '?' + Parameter.toString(getParameters()));
         }
 
         return url;
@@ -162,9 +163,9 @@ public class Request<T> extends Message<T> {
      *
      * @return the message parameters.
      */
-    public Collection<Parameter<String>> getParameters() {
+    public Set<Parameter<String>> getParameters() {
 
-        return new HashSet<>(parameters.values());
+        return getAllValues(parameters);
     }
 
     /**
@@ -173,9 +174,9 @@ public class Request<T> extends Message<T> {
      * @param name the name of the parameter to retrieve.
      * @return the requested parameter if it exists otherwise null.
      */
-    public Parameter<String> getParameter(String name) {
+    public Set<Parameter<String>> getParameters(String name) {
 
-        return parameters.get(name);
+        return getNotNullValue(parameters, name);
     }
 
     /**
@@ -187,14 +188,7 @@ public class Request<T> extends Message<T> {
 
         this.parameters.clear();
 
-        new NullSafeForEach<Parameter<String>>(parameters) {
-
-            @Override
-            protected void next(Parameter<String> parameter) {
-
-                addParameter(parameter);
-            }
-        };
+        this.parameters.addAll(parameters);
     }
 
     /**
@@ -227,14 +221,7 @@ public class Request<T> extends Message<T> {
      */
     public void addParameters(Collection<Parameter<String>> parameters) {
 
-        new NullSafeForEach<Parameter<String>>(parameters) {
-
-            @Override
-            protected void next(Parameter<String> parameter) {
-
-                addParameter(parameter);
-            }
-        };
+        this.parameters.addAll(parameters);
     }
 
     /**
@@ -260,17 +247,7 @@ public class Request<T> extends Message<T> {
      */
     public Parameter<String> removeParameter(Parameter<String> parameter) {
 
-        Parameter<String> removedParameter = parameters.get(parameter.getName());
-
-        if (isNotNull(removedParameter) && removedParameter.getValues().removeAll(parameter.getValues())) {
-
-            // If no more values are left remove the parameter completely.
-            if (0 == removedParameter.getValues().size()) parameters.remove(parameter.getName());
-
-            return parameter;
-        }
-
-        return null;
+        return remove(parameters, parameter);
     }
 
     /**
@@ -279,15 +256,8 @@ public class Request<T> extends Message<T> {
      * @param parameters the {@code Parameter}s to remove.
      * @return the {@code Parameter}s that were removed.
      */
-    public Collection<Parameter<String>> removeParamters(Collection<Parameter<String>> parameters) {
+    public Collection<Parameter<String>> removeParameters(Collection<Parameter<String>> parameters) {
 
-        Collection<Parameter<String>> removedParameters = new HashSet<Parameter<String>>();
-
-        for (Parameter<String> header : parameters) {
-
-            if (isNotNull(removeParameter(header))) removedParameters.add(header);
-        }
-
-        return removedParameters;
+        return removeAll(this.parameters, parameters);
     }
 }

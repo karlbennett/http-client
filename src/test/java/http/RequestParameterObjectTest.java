@@ -21,9 +21,9 @@ public class RequestParameterObjectTest extends AbstractClientRequestParameterTe
             }
 
             @Override
-            public Parameter getProperty(Request<Object> message, String name) {
+            public Collection<Parameter<String>> getProperties(Request<Object> message, String name) {
 
-                return message.getParameter(name);
+                return message.getParameters(name);
             }
 
             @Override
@@ -60,7 +60,7 @@ public class RequestParameterObjectTest extends AbstractClientRequestParameterTe
             @Override
             public Collection<Parameter<String>> removeProperties(Request<Object> message, Collection<Parameter<String>> properties) {
 
-                return message.removeParamters(properties);
+                return message.removeParameters(properties);
             }
         });
     }

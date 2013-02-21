@@ -30,6 +30,8 @@ import static http.util.URIs.quietUri;
  */
 public class Cookie extends Attribute<String> {
 
+    public static final String OPERATOR = "=";
+
     private static final ThreadLocal<DateFormat> DATE_FORMAT_THREAD_LOCAL = new ThreadLocal<DateFormat>() {
 
         @Override
@@ -132,7 +134,7 @@ public class Cookie extends Attribute<String> {
      * @param value the value of the cookie.
      */
     public Cookie(String name, String value) {
-        super(name, value);
+        super(name, value, OPERATOR);
 
         this.maxAge = -1; // Initialise maxAge to -1 because 0 indicates an expired value.
     }

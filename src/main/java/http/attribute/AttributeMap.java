@@ -1,9 +1,10 @@
 package http.attribute;
 
+import http.util.AbstractMap;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 import static http.util.Asserts.assertNotNull;
 import static http.util.Checks.isNull;
@@ -14,10 +15,7 @@ import static http.util.Checks.isNull;
  *
  * @author Karl Bennett
  */
-public class AttributeMap<A extends Attribute> implements Map<String, A> {
-
-    private final Map<String, A> backingMap;
-
+public class AttributeMap<A extends Attribute> extends AbstractMap<String, A> {
 
     /**
      * Create a new {@code AttributeMap} using the supplied backing map. This will be the map that is used internally to
@@ -27,10 +25,7 @@ public class AttributeMap<A extends Attribute> implements Map<String, A> {
      * @throws IllegalArgumentException if the {@code backingMap} is {@code null}.
      */
     public AttributeMap(Map<String, A> backingMap) {
-
-        assertNotNull("backingMap", backingMap);
-
-        this.backingMap = backingMap;
+        super(backingMap);
     }
 
     /**
@@ -55,7 +50,7 @@ public class AttributeMap<A extends Attribute> implements Map<String, A> {
 
         assertNotNull("attributes", attributes);
 
-        this.backingMap.putAll(attributes);
+        putAll(attributes);
     }
 
     /**
@@ -83,7 +78,7 @@ public class AttributeMap<A extends Attribute> implements Map<String, A> {
 
         assertNotNull("attributes", attributes);
 
-        for (A attribute : attributes) add(attribute);
+        addAll(attributes);
     }
 
     /**
@@ -96,61 +91,6 @@ public class AttributeMap<A extends Attribute> implements Map<String, A> {
     public AttributeMap(Collection<A> attributes) {
 
         this(new HashMap<String, A>(), attributes);
-    }
-
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public int size() {
-
-        return backingMap.size();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean isEmpty() {
-
-        return backingMap.isEmpty();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean containsKey(Object key) {
-
-        return backingMap.containsKey(key);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean containsValue(Object value) {
-
-        return backingMap.containsValue(value);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public A get(Object key) {
-
-        return backingMap.get(key);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public A put(String key, A value) {
-
-        return backingMap.put(key, value);
     }
 
     /**
@@ -177,59 +117,5 @@ public class AttributeMap<A extends Attribute> implements Map<String, A> {
         for (A attribute : attributes) add(attribute);
 
         return attributes;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public A remove(Object key) {
-
-        return backingMap.remove(key);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void putAll(Map<? extends String, ? extends A> map) {
-
-        backingMap.putAll(map);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void clear() {
-
-        backingMap.clear();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Set<String> keySet() {
-
-        return backingMap.keySet();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Collection<A> values() {
-
-        return backingMap.values();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Set<Entry<String, A>> entrySet() {
-
-        return backingMap.entrySet();
     }
 }

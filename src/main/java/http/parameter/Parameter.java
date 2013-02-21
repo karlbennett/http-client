@@ -1,9 +1,8 @@
 package http.parameter;
 
-import http.attribute.MultiValueAttribute;
+import http.attribute.Attribute;
 
 import java.util.Collection;
-import java.util.List;
 
 /**
  * Represents an HTTP parameter which can have a name and a single or multiple values. The type of the value can be
@@ -11,7 +10,7 @@ import java.util.List;
  *
  * @author Karl Bennett
  */
-public class Parameter<T> extends MultiValueAttribute<T> {
+public class Parameter<T> extends Attribute<T> {
 
     public static final String OPERATOR = "=";
     public static final String DELIMITER = "&";
@@ -43,7 +42,7 @@ public class Parameter<T> extends MultiValueAttribute<T> {
      */
     public static Collection<Parameter<String>> parse(String parameters) {
 
-        return parse(new MultiValueAttributeParser<Parameter<String>>(parameters, OPERATOR, DELIMITER) {
+        return parse(new AttributeParser<Parameter<String>>(parameters, OPERATOR, DELIMITER) {
 
             @Override
             protected Parameter<String> nextPair(String name, String value) {
@@ -53,15 +52,11 @@ public class Parameter<T> extends MultiValueAttribute<T> {
         });
     }
 
-    /**
-     * Create an {@code Parameter} with a name and multiple values.
-     *
-     * @param name   the name of the attribute.
-     * @param values the values for the attribute.
-     */
-    public Parameter(String name, List<T> values) {
-        super(name, OPERATOR, DELIMITER, values);
+    public static <T> String toString(Collection<Parameter<T>> parameters) {
+
+        return toString(parameters, DELIMITER);
     }
+
 
     /**
      * Create an {@code Parameter} with a name and a single value.
@@ -70,6 +65,6 @@ public class Parameter<T> extends MultiValueAttribute<T> {
      * @param value the single value for the attribute.
      */
     public Parameter(String name, T value) {
-        super(name, OPERATOR, DELIMITER, value);
+        super(name, value, OPERATOR);
     }
 }

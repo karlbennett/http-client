@@ -2,7 +2,6 @@ package http.parameter;
 
 import org.junit.Test;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -43,9 +42,8 @@ public class ParameterTest {
                 Parameter.parse(PARAMETER_STRING));
 
         Collection<Parameter<String>> parameters = new HashSet<>(PARAMETERS);
-        parameters.remove(PARAMETER_ONE);
         parameters.remove(PARAMETER_TWO);
-        parameters.add(new Parameter<>(PARAMETER_NAME_ONE, Arrays.asList(PARAMETER_VALUE_ONE, PARAMETER_VALUE_TWO)));
+        parameters.add(new Parameter<>(PARAMETER_NAME_ONE, PARAMETER_VALUE_TWO));
 
         String parametersString = PARAMETER_NAME_ONE + '=' + PARAMETER_VALUE_ONE + '&' +
                 PARAMETER_NAME_ONE + '=' + PARAMETER_VALUE_TWO + '&' +
@@ -78,15 +76,9 @@ public class ParameterTest {
     @Test
     public void testToString() throws Exception {
 
-        Parameter<String> parameter = new Parameter<>(PARAMETER_NAME_ONE, Arrays.asList(
-                PARAMETER_VALUE_ONE,
-                PARAMETER_VALUE_TWO,
-                PARAMETER_VALUE_THREE
-        ));
+        String parameterString = PARAMETER_NAME_ONE + '=' + PARAMETER_VALUE_ONE;
 
-        String parameterString = PARAMETER_NAME_ONE + '=' + PARAMETER_VALUE_ONE + '&' +
-                PARAMETER_NAME_ONE + '=' + PARAMETER_VALUE_TWO + '&' + PARAMETER_NAME_ONE + '=' + PARAMETER_VALUE_THREE;
-
-        assertEquals("Parameter.toString() should produce the correct string.", parameterString, parameter.toString());
+        assertEquals("Parameter.toString() should produce the correct string.", parameterString,
+                PARAMETER_ONE.toString());
     }
 }
