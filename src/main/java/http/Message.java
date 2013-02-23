@@ -1,9 +1,9 @@
 package http;
 
+import http.attribute.AbstractAttributeCollectionMap;
 import http.attribute.Attribute;
 import http.attribute.AttributeHashSetMap;
 import http.attribute.AttributeMap;
-import http.attribute.AttributeCollectionMap;
 import http.header.Header;
 import http.util.NullSafeForEach;
 
@@ -35,7 +35,7 @@ public class Message<T> {
         return isNotNull(values) ? values : Collections.<V>emptySet();
     }
 
-    protected static <V extends Attribute> V remove(AttributeCollectionMap<V, Set<V>> map, V attribute) {
+    protected static <V extends Attribute> V remove(AbstractAttributeCollectionMap<V, Set<V>> map, V attribute) {
 
         if (map.remove(attribute)) return attribute;
 
@@ -43,7 +43,7 @@ public class Message<T> {
     }
 
     protected static <V extends Attribute, C extends Collection<V>> Collection<V> removeAll(
-            AttributeCollectionMap<V, C> map, Collection<V> attributes) {
+            AbstractAttributeCollectionMap<V, C> map, Collection<V> attributes) {
 
         if (map.removeAll(attributes)) return attributes;
 
@@ -52,7 +52,7 @@ public class Message<T> {
 
 
     private final String cookieHeaderName;
-    private final AttributeCollectionMap<Header, Set<Header>> headers;
+    private final AbstractAttributeCollectionMap<Header, Set<Header>> headers;
     private final AttributeMap<Cookie> cookies;
     private T body;
 
@@ -62,7 +62,7 @@ public class Message<T> {
      *
      * @param headers the headers that will be contained in this message.
      */
-    public Message(String cookieHeaderName, AttributeCollectionMap<Header, Set<Header>> headers,
+    public Message(String cookieHeaderName, AbstractAttributeCollectionMap<Header, Set<Header>> headers,
                    AttributeMap<Cookie> cookies, T body) {
 
         this.cookieHeaderName = cookieHeaderName;

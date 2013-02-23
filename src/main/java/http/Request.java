@@ -1,6 +1,6 @@
 package http;
 
-import http.attribute.AttributeCollectionMap;
+import http.attribute.AbstractAttributeCollectionMap;
 import http.attribute.AttributeHashSetMap;
 import http.attribute.AttributeMap;
 import http.header.Header;
@@ -33,7 +33,7 @@ public class Request<T> extends Message<T> {
 
 
     private final URL url;
-    private AttributeCollectionMap<Parameter<String>, Set<Parameter<String>>> parameters;
+    private AbstractAttributeCollectionMap<Parameter<String>, Set<Parameter<String>>> parameters;
 
     /**
      * Create a new {@code Request} that will be sent to the {@code HTTP} server at the supplied {@link URL}.

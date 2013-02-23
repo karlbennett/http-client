@@ -1,7 +1,7 @@
 package http;
 
+import http.attribute.AbstractAttributeCollectionMap;
 import http.attribute.Attribute;
-import http.attribute.AttributeCollectionMap;
 import org.junit.Test;
 
 import java.util.Collection;
@@ -15,33 +15,33 @@ import static org.junit.Assert.*;
 /**
  * @author Karl Bennett
  */
-public class MultiAttributeMapTest {
+public class AbstractAttributeMapTest {
 
-    private static class TestAttributeCollectionMap<T> extends AttributeCollectionMap<Attribute<T>,
-                    Collection<Attribute<T>>> {
+    private static class TestAbstractAttributeCollectionMap<T> extends AbstractAttributeCollectionMap<Attribute<T>,
+                        Collection<Attribute<T>>> {
 
-        public TestAttributeCollectionMap(Map<String, Collection<Attribute<T>>> backingMap) {
+        public TestAbstractAttributeCollectionMap(Map<String, Collection<Attribute<T>>> backingMap) {
             super(backingMap);
         }
 
-        public TestAttributeCollectionMap() {
+        public TestAbstractAttributeCollectionMap() {
         }
 
-        public TestAttributeCollectionMap(Map<String, Collection<Attribute<T>>> backingMap,
-                                          AttributeCollectionMap<Attribute<T>, Collection<Attribute<T>>> attributes) {
+        public TestAbstractAttributeCollectionMap(Map<String, Collection<Attribute<T>>> backingMap,
+                                                  AbstractAttributeCollectionMap<Attribute<T>, Collection<Attribute<T>>> attributes) {
             super(backingMap, attributes);
         }
 
-        public TestAttributeCollectionMap(AttributeCollectionMap<Attribute<T>, Collection<Attribute<T>>> attributes) {
+        public TestAbstractAttributeCollectionMap(AbstractAttributeCollectionMap<Attribute<T>, Collection<Attribute<T>>> attributes) {
             super(attributes);
         }
 
-        public TestAttributeCollectionMap(Map<String, Collection<Attribute<T>>> backingMap,
-                                          Collection<Attribute<T>> attributes) {
+        public TestAbstractAttributeCollectionMap(Map<String, Collection<Attribute<T>>> backingMap,
+                                                  Collection<Attribute<T>> attributes) {
             super(backingMap, attributes);
         }
 
-        public TestAttributeCollectionMap(Collection<Attribute<T>> attributes) {
+        public TestAbstractAttributeCollectionMap(Collection<Attribute<T>> attributes) {
             super(attributes);
         }
 
@@ -55,8 +55,8 @@ public class MultiAttributeMapTest {
     @Test
     public void testAdd() throws Exception {
 
-        AttributeCollectionMap<Attribute<String>, Collection<Attribute<String>>> map =
-                new TestAttributeCollectionMap<String>();
+        AbstractAttributeCollectionMap<Attribute<String>, Collection<Attribute<String>>> map =
+                new TestAbstractAttributeCollectionMap<String>();
 
         Attribute<String> blankAttribute = new Attribute<String>(TEST_ATTRIBUTE_NAME_ONE, null, TEST_ATTRIBUTE_OPERATOR);
 
@@ -107,8 +107,8 @@ public class MultiAttributeMapTest {
     @Test(expected = IllegalArgumentException.class)
     public void testAddWithNull() throws Exception {
 
-        AttributeCollectionMap<Attribute<String>, Collection<Attribute<String>>> map =
-                new TestAttributeCollectionMap<String>();
+        AbstractAttributeCollectionMap<Attribute<String>, Collection<Attribute<String>>> map =
+                new TestAbstractAttributeCollectionMap<String>();
 
         map.add(null);
     }
@@ -121,8 +121,8 @@ public class MultiAttributeMapTest {
         Collection<Attribute<String>> attributes = new HashSet<Attribute<String>>(TEST_ATTRIBUTES);
         attributes.add(blankAttribute);
 
-        AttributeCollectionMap<Attribute<String>, Collection<Attribute<String>>> map =
-                new TestAttributeCollectionMap<String>();
+        AbstractAttributeCollectionMap<Attribute<String>, Collection<Attribute<String>>> map =
+                new TestAbstractAttributeCollectionMap<String>();
 
         map.addAll(attributes);
 
@@ -151,8 +151,8 @@ public class MultiAttributeMapTest {
     @Test
     public void testAddAllWithEmptyCollection() throws Exception {
 
-        AttributeCollectionMap<Attribute<String>, Collection<Attribute<String>>> map =
-                new TestAttributeCollectionMap<String>();
+        AbstractAttributeCollectionMap<Attribute<String>, Collection<Attribute<String>>> map =
+                new TestAbstractAttributeCollectionMap<String>();
 
         map.addAll(TEST_ATTRIBUTES);
 
@@ -164,8 +164,8 @@ public class MultiAttributeMapTest {
     @Test(expected = IllegalArgumentException.class)
     public void testAddAllWithNull() throws Exception {
 
-        AttributeCollectionMap<Attribute<String>, Collection<Attribute<String>>> map =
-                new TestAttributeCollectionMap<String>();
+        AbstractAttributeCollectionMap<Attribute<String>, Collection<Attribute<String>>> map =
+                new TestAbstractAttributeCollectionMap<String>();
 
         map.addAll(null);
     }
@@ -173,8 +173,8 @@ public class MultiAttributeMapTest {
     @Test
     public void testRemove() throws Exception {
 
-        AttributeCollectionMap<Attribute<String>, Collection<Attribute<String>>> map =
-                new TestAttributeCollectionMap<String>();
+        AbstractAttributeCollectionMap<Attribute<String>, Collection<Attribute<String>>> map =
+                new TestAbstractAttributeCollectionMap<String>();
 
         map.addAll(TEST_ATTRIBUTES);
 
