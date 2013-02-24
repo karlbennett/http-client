@@ -67,6 +67,23 @@ public final class MimeTypes {
     public static final String FORM_DATA = "form-data";
     public static final String XML = "xml";
 
+    /**
+     * The {@link MimeType} object for {@code JSON} content.
+     */
+    public static final MimeType APPLICATION_JSON = quietMimeType(APPLICATION, JSON);
+    /**
+     * The {@link MimeType} object for {@code XML} content.
+     */
+    public static final MimeType APPLICATION_XML = quietMimeType(APPLICATION, XML);
+    /**
+     * The {@link MimeType} object for Form {@code URL} encoded content.
+     */
+    public static final MimeType APPLICATION_X_WWW_FORM_URL_ENCODED = quietMimeType(APPLICATION, X_WWW_FORM_URL_ENCODED);
+    /**
+     * The {@link javax.activation.MimeType} object for Form data encoded content.
+     */
+    public static final MimeType MULTIPART_FORM_DATA = quietMimeType(MULTIPART, FORM_DATA);
+
 
     private MimeTypes() {
     }
