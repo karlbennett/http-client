@@ -1,6 +1,6 @@
 package http.header;
 
-import static http.util.MimeTypes.*;
+import static http.util.MimeTypes.APPLICATION_X_WWW_FORM_URL_ENCODED;
 
 /**
  * Form {@code URL} encoded {@code Content-Type} header.

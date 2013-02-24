@@ -5,7 +5,7 @@ import org.junit.Test;
 import java.util.*;
 
 import static java.util.Map.Entry;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Karl Bennett

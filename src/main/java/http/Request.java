@@ -233,10 +233,10 @@ public class Request<T> extends Message<T> {
      * Remove the supplied value from the {@link Parameter} with the supplied name. This will remove all the value from
      * the {@code Parameter} entry and then if no values are left it will remove the {@code Parameter} entry completely.
      *
-     * @param name the name of the {@code Parameter} to remove the value from.
+     * @param name  the name of the {@code Parameter} to remove the value from.
      * @param value the value to remove.
      * @return a {@code Parameter} containing the name and value that were removed if a value was removed, otherwise
-     *          {@code null}.
+     *         {@code null}.
      */
     public Parameter<String> removeParameter(String name, String value) {
 

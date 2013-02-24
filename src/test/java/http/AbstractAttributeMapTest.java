@@ -18,7 +18,7 @@ import static org.junit.Assert.*;
 public class AbstractAttributeMapTest {
 
     private static class TestAbstractAttributeCollectionMap<T> extends AbstractAttributeCollectionMap<Attribute<T>,
-                        Collection<Attribute<T>>> {
+            Collection<Attribute<T>>> {
 
         public TestAbstractAttributeCollectionMap(Map<String, Collection<Attribute<T>>> backingMap) {
             super(backingMap);
@@ -50,7 +50,9 @@ public class AbstractAttributeMapTest {
 
             return new HashSet<Attribute<T>>();
         }
-    };
+    }
+
+    ;
 
     @Test
     public void testAdd() throws Exception {

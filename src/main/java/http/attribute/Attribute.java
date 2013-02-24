@@ -2,7 +2,9 @@ package http.attribute;
 
 import http.util.Parser;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
 
 import static http.util.Asserts.assertNotEmpty;
 import static http.util.Checks.isEmpty;
@@ -65,7 +67,7 @@ public class Attribute<T> {
      * delimited by the supplied {@code delimiter} {@link String}.
      *
      * @param attributes the attributes that will have their string representations concatenated.
-     * @param delimiter the delimiter that should be appended between the attributs.
+     * @param delimiter  the delimiter that should be appended between the attributs.
      * @return the concatenated parameter string.
      */
     public static <T, A extends Attribute<T>> String toString(Collection<A> attributes, String delimiter) {

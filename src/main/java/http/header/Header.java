@@ -23,21 +23,21 @@ public class Header<T> extends Attribute<T> {
      * <p/>
      * Example:
      * <code>
-     *  nameOne: valueOne
-     *  nameTwo: valueTwo
-     *  nameThree: valueThree
+     * nameOne: valueOne
+     * nameTwo: valueTwo
+     * nameThree: valueThree
      * </code>
      * <p/>
      * Name value pairs that share the same name will be stored in the same {@code Header} instance.
      * <p/>
      * Example:
      * <code>
-     *  List<Header> headers = new ArrayList(
-     *      Header.parse("nameOne: valueOne\nnameOne: valueTwo\nnameThree: valueThree")
-     *  );
-     *  headers.size(); // 2
-     *  headers.get(0).getValues(); // ["valueOne", "valueTwo"]
-     *  headers.get(1).getValues(); // ["valueThree"]
+     * List<Header> headers = new ArrayList(
+     * Header.parse("nameOne: valueOne\nnameOne: valueTwo\nnameThree: valueThree")
+     * );
+     * headers.size(); // 2
+     * headers.get(0).getValues(); // ["valueOne", "valueTwo"]
+     * headers.get(1).getValues(); // ["valueThree"]
      * </code>
      *
      * @param headers the string to parse.

@@ -18,7 +18,7 @@ public abstract class Parser {
      * Create a new {@code Parser} with the supplied {@code String} that will be split by the supplied
      * {@code delimiter}.
      *
-     * @param string the {@code String} to parse.
+     * @param string    the {@code String} to parse.
      * @param delimiter the delimiter to split the {@code String} by.
      */
     public Parser(String string, String delimiter) {

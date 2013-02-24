@@ -22,19 +22,19 @@ public class Parameter<T> extends Attribute<T> {
      * <p/>
      * Example:
      * <code>
-     *  nameOne=valueOne&nameTwo=valueTwo&nameThree=valueThree
+     * nameOne=valueOne&nameTwo=valueTwo&nameThree=valueThree
      * </code>
      * <p/>
      * Name value pairs that share the same name will be stored in the same {@code Parameter} instance.
      * <p/>
      * Example:
      * <code>
-     *  List<Parameter> parameters = new ArrayList(
-     *      Parameter.parse("nameOne=valueOne&nameOne=valueTwo&nameThree=valueThree")
-     *  );
-     *  parameters.size(); // 2
-     *  parameters.get(0).getValues(); // ["valueOne", "valueTwo"]
-     *  parameters.get(1).getValues(); // ["valueThree"]
+     * List<Parameter> parameters = new ArrayList(
+     * Parameter.parse("nameOne=valueOne&nameOne=valueTwo&nameThree=valueThree")
+     * );
+     * parameters.size(); // 2
+     * parameters.get(0).getValues(); // ["valueOne", "valueTwo"]
+     * parameters.get(1).getValues(); // ["valueThree"]
      * </code>
      *
      * @param parameters the string to parse.

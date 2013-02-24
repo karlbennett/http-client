@@ -1,6 +1,6 @@
 package http.header;
 
-import static http.util.MimeTypes.*;
+import static http.util.MimeTypes.APPLICATION_JSON;
 
 /**
  * {@code JSON} {@code Content-Type} header.

@@ -53,6 +53,7 @@ public class Message<T> {
 
             /**
              * Create a new {@code CookieHeaderCreator} that creates the supplied cookie header type.
+             *
              * @param cookieType the type of cookie header that will be created.
              */
             protected CookieHeaderCreator(Class<C> cookieType) {
@@ -73,7 +74,6 @@ public class Message<T> {
              * Create the cookie headers.
              *
              * @param value the value that will be used in creating the instances.
-             *
              * @return the new cookie header instances.
              */
             @Override
@@ -252,15 +252,15 @@ public class Message<T> {
     /**
      * Get all instances of the {@link Header} with the supplied name. If no instances exist this method will return
      * {@code null}.
-     *
+     * <p/>
      * This method will return headers that contain values of any type. It should also be noted that if a header has
      * been added with a value of one type it cannot be guaranteed to be retrieved through this method with the same
      * type.
-     *
+     * <p/>
      * This is because the common HTTP header types have their own object definitions and value types. Any header that
      * is added to the {@code Message} with the name of a common HTTP header will be converted into one of these object
      * types.
-     *
+     * <p/>
      * <code>
      * Message message = new Message();
      * message.addHeader(new Header("Accept", "application/json"));

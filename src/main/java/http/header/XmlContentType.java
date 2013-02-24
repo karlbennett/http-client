@@ -1,6 +1,6 @@
 package http.header;
 
-import static http.util.MimeTypes.*;
+import static http.util.MimeTypes.APPLICATION_XML;
 
 /**
  * {@code XML} {@code Content-Type} header.

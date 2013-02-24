@@ -1,6 +1,6 @@
 package http.header;
 
-import static http.util.MimeTypes.*;
+import static http.util.MimeTypes.MULTIPART_FORM_DATA;
 
 /**
  * Form data {@code Content-Type} header.
