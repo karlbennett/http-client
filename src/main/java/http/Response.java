@@ -60,7 +60,7 @@ public class Response<T> extends Message<T> {
      * @param body    the body of te response.
      */
     public Response(int status, Collection<Header> headers, Collection<Cookie> cookies, T body) {
-        super(SET_COOKIE, new AttributeHashSetMap<Header>(headers), new AttributeMap<Cookie>(cookies),
+        super(SET_COOKIE, headers, new AttributeMap<Cookie>(cookies),
                 body);
 
         this.status = status;

@@ -138,7 +138,7 @@ public class Request<T> extends Message<T> {
      */
     public Request(URL url, Collection<Header> headers, Collection<Cookie> cookies,
                    Collection<Parameter<String>> parameters) {
-        super(COOKIE, new AttributeHashSetMap<Header>(headers), new AttributeMap<Cookie>(cookies), null);
+        super(COOKIE, headers, new AttributeMap<Cookie>(cookies), null);
 
         assertNotNull("parameters", parameters);
 
