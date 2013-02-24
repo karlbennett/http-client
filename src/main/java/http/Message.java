@@ -1,9 +1,6 @@
 package http;
 
-import http.attribute.AbstractAttributeCollectionMap;
-import http.attribute.Attribute;
-import http.attribute.AttributeHashSetMap;
-import http.attribute.AttributeMap;
+import http.attribute.*;
 import http.header.Header;
 import http.util.NullSafeForEach;
 
@@ -19,6 +16,14 @@ import static http.util.Checks.isNotNull;
  */
 public class Message<T> {
 
+    /**
+     * Get all the values within the supplied multi value map by concatenating the value collections together.
+     *
+     * @param map the map that will have it's values concatenated.
+     * @param <K> the type of the maps keys.
+     * @param <V> the type of the maps values.
+     * @return all the values concatenated together into a single {@link Set}.
+     */
     protected static <K, V> Set<V> getAllValues(Map<K, Set<V>> map) {
 
         Set<V> allValues = new HashSet<V>();
@@ -28,31 +33,47 @@ public class Message<T> {
         return allValues;
     }
 
-    protected static <K, V> Set<V> getNotNullValue(Map<K, Set<V>> map, K key) {
-
-        Set<V> values = map.get(key);
-
-        return isNotNull(values) ? values : Collections.<V>emptySet();
-    }
-
-    protected static <V extends Attribute> V remove(AbstractAttributeCollectionMap<V, Set<V>> map, V attribute) {
-
+    /**
+     * Remove the supplied attribute from the map and return the attribute that was removed.
+     *
+     * @param map the map that will have it's attribute removed.
+     * @param attribute the attribute to remove.
+     * @param <A> the type of the attribute.
+     * @param <C> the type of the maps value collection.
+     * @return the attribute if it was removed from the map, otherwise {@code null}.
+     */
+    protected static <A extends Attribute, C extends Collection<A>> A remove(AttributeCollectionMap<A, C> map,
+                                                                             A attribute) {
         if (map.remove(attribute)) return attribute;
 
         return null;
     }
 
-    protected static <V extends Attribute, C extends Collection<V>> Collection<V> removeAll(
-            AbstractAttributeCollectionMap<V, C> map, Collection<V> attributes) {
+    /**
+     * Remove the supplied attributes from the map and return the attributes that were removed.
+     *
+     * @param map the map that will have it's attributes removed.
+     * @param attributes the attributes to remove.
+     * @param <A> the type of the attribute.
+     * @param <C> the type of the maps value collection.
+     * @return a collection containing only those attributes that were removed.
+     */
+    protected static <A extends Attribute, C extends Collection<A>> Collection<A> removeAll(
+            AttributeCollectionMap<A, C> map, Collection<A> attributes) {
 
-        if (map.removeAll(attributes)) return attributes;
+        Collection<A> removedAttributes = new HashSet<A>();
 
-        return Collections.emptySet();
+        for (A attribute : attributes) {
+
+            if(isNotNull(remove(map, attribute))) removedAttributes.add(attribute);
+        }
+
+        return removedAttributes;
     }
 
 
     private final String cookieHeaderName;
-    private final AbstractAttributeCollectionMap<Header, Set<Header>> headers;
+    private final AttributeSetMap<Header> headers;
     private final AttributeMap<Cookie> cookies;
     private T body;
 
@@ -62,8 +83,7 @@ public class Message<T> {
      *
      * @param headers the headers that will be contained in this message.
      */
-    public Message(String cookieHeaderName, AbstractAttributeCollectionMap<Header, Set<Header>> headers,
-                   AttributeMap<Cookie> cookies, T body) {
+    public Message(String cookieHeaderName, AttributeSetMap<Header> headers, AttributeMap<Cookie> cookies, T body) {
 
         this.cookieHeaderName = cookieHeaderName;
         this.headers = headers;
@@ -100,7 +120,7 @@ public class Message<T> {
      */
     public Set<Header> getHeaders(String name) {
 
-        return getNotNullValue(headers, name);
+        return headers.get(name);
     }
 
     /**
@@ -138,10 +158,7 @@ public class Message<T> {
      */
     public void addHeader(Header header) {
 
-        if (isNotNull(header)) {
-
-            headers.add(header);
-        }
+        if (isNotNull(header)) headers.add(header);
     }
 
     /**
