@@ -59,7 +59,7 @@ public class Parameter<T> extends Attribute<T> {
 
 
     /**
-     * Create an {@code Parameter} with a name and a single value.
+     * Create a {@code Parameter} with a name and value.
      *
      * @param name  the name of the attribute.
      * @param value the single value for the attribute.

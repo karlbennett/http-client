@@ -62,7 +62,7 @@ public class Header<T> extends Attribute<T> {
 
 
     /**
-     * Create an {@code Header} with a name and a single value.
+     * Create a {@code Header} with a name and value.
      *
      * @param name  the name of the attribute.
      * @param value the single value for the attribute.
