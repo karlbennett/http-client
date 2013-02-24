@@ -5,7 +5,7 @@ package http.header;
  *
  * @author Karl Bennett
  */
-public class Cookie extends Header<Cookie> {
+public class Cookie extends Header<http.Cookie> {
 
     public static final String COOKIE = "Cookie";
 
@@ -14,7 +14,7 @@ public class Cookie extends Header<Cookie> {
      *
      * @param cookie the cookie for this header.
      */
-    public Cookie(Cookie cookie) {
+    public Cookie(http.Cookie cookie) {
         super(COOKIE, cookie);
     }
 }
