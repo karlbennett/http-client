@@ -1,7 +1,5 @@
 package http.header;
 
-import javax.activation.MimeType;
-
 import static http.util.MimeTypes.*;
 
 /**
@@ -12,14 +10,9 @@ import static http.util.MimeTypes.*;
 public class JsonContentType extends ContentType {
 
     /**
-     * The {@link MimeType} object for {@code JSON} content.
-     */
-    public static final MimeType MIME_TYPE = quietMimeType(APPLICATION, JSON);
-
-    /**
      * Create a new {@code JsonContentType}
      */
     public JsonContentType() {
-        super(MIME_TYPE);
+        super(APPLICATION_JSON);
     }
 }
