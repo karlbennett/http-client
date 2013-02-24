@@ -24,6 +24,12 @@ import static http.util.URIs.quietUrl;
  */
 public class Request<T> extends Message<T> {
 
+    /**
+     * Return a new {@link URL} that consists of the supplied {@code URL} minus it's query string.
+     *
+     * @param url the {@code URL} to copy.
+     * @return a copy of the supplied {@code URL} minus it's query string.
+     */
     private static URL urlMinusQuery(String url) {
 
         String[] parts = url.split("\\?");
@@ -175,7 +181,7 @@ public class Request<T> extends Message<T> {
      */
     public Set<Parameter<String>> getParameters(String name) {
 
-        return getNotNullValue(parameters, name);
+        return parameters.get(name);
     }
 
     /**
