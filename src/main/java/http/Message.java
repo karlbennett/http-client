@@ -1,12 +1,14 @@
 package http;
 
 import http.attribute.*;
-import http.header.Header;
+import http.header.*;
 import http.util.NullSafeForEach;
 
+import javax.activation.MimeType;
 import java.util.*;
 
 import static http.util.Checks.isNotNull;
+import static http.util.MimeTypes.*;
 
 /**
  * Represents a generic HTTP message and supplies accessor methods for retrieving and populating the common HTTP message
@@ -15,6 +17,140 @@ import static http.util.Checks.isNotNull;
  * @author Karl Bennett
  */
 public class Message<T> {
+
+    /**
+     * An interface that allows the creation of a collection of classes through the use of a single value.
+     *
+     * @param <T> the type of the objects that will be returned in the collection.
+     * @param <A> the type of the value that will be passed to the {@link #create(Object)} method.
+     */
+    private static interface Creator<T, A> {
+
+        /**
+         * Create a collection of class instances.
+         *
+         * @param value the value that will be used in creating the instances.
+         * @return a collection containing an unknown number of new object instances.
+         */
+        Collection<T> create(A value);
+    }
+
+    /**
+     * A map containing {@link Creator}s that will be used to create specific HTTP header types.
+     */
+    private static final Map<String, Creator<Header, Header>> HEADER_CREATION_MAP;
+
+    static {
+
+        /**
+         * An implementation of the {@link Creator} interface that is used to create the cookie header objects
+         * {@link SetCookie} and {@link http.header.Cookie}.
+         */
+        abstract class CookieHeaderCreator<C extends Header> implements Creator<Header, Header> {
+
+            private final Class<C> cookieType;
+
+
+            /**
+             * Create a new {@code CookieHeaderCreator} that creates the supplied cookie header type.
+             * @param cookieType the type of cookie header that will be created.
+             */
+            protected CookieHeaderCreator(Class<C> cookieType) {
+
+                this.cookieType = cookieType;
+            }
+
+
+            /**
+             * This method is implemented to produce the new cookie header instances.
+             *
+             * @param cookie the {@link Cookie} that will be placed in the cookie header.
+             * @return the cookie header that was created.
+             */
+            protected abstract C createCookieHeader(Cookie cookie);
+
+            /**
+             * Create the cookie headers.
+             *
+             * @param value the value that will be used in creating the instances.
+             *
+             * @return the new cookie header instances.
+             */
+            @Override
+            public Collection<Header> create(Header value) {
+
+                if (cookieType.isAssignableFrom(value.getClass())) return Collections.singleton(value);
+
+                Collection<Header> setCookies = new HashSet<Header>();
+
+                for (Cookie cookie : Cookie.parse(value.getValue().toString())) {
+
+                    setCookies.add(createCookieHeader(cookie));
+                }
+
+                return setCookies;
+            }
+        }
+
+
+        Map<String, Creator<Header, Header>> headerCreationMap = new HashMap<String, Creator<Header, Header>>();
+
+        headerCreationMap.put(SetCookie.SET_COOKIE, new CookieHeaderCreator<SetCookie>(SetCookie.class) {
+
+            @Override
+            protected SetCookie createCookieHeader(Cookie cookie) {
+
+                return new SetCookie(cookie);
+            }
+        });
+
+        headerCreationMap.put(http.header.Cookie.COOKIE,
+                new CookieHeaderCreator<http.header.Cookie>(http.header.Cookie.class) {
+
+                    @Override
+                    protected http.header.Cookie createCookieHeader(Cookie cookie) {
+
+                        return new http.header.Cookie(cookie);
+                    }
+                });
+
+        headerCreationMap.put(ContentType.CONTENT_TYPE, new Creator<Header, Header>() {
+
+            @Override
+            public Collection<Header> create(Header value) {
+
+                MimeType mimeType = quietMimeType(value.toString());
+
+                Collection<Header> contentTypes;
+
+                if (APPLICATION_X_WWW_FORM_URL_ENCODED.equals(mimeType)) {
+
+                    contentTypes = Arrays.<Header>asList(new FormUrlEncodedContentType());
+
+                } else if (APPLICATION_JSON.equals(mimeType)) {
+
+                    contentTypes = Arrays.<Header>asList(new JsonContentType());
+
+                } else if (MULTIPART_FORM_DATA.equals(mimeType)) {
+
+                    contentTypes = Arrays.<Header>asList(new MultipartFormDataContentType());
+
+                } else if (APPLICATION_XML.equals(mimeType)) {
+
+                    contentTypes = Arrays.<Header>asList(new XmlContentType());
+
+                } else {
+
+                    contentTypes = Arrays.<Header>asList(new ContentType(mimeType));
+                }
+
+                return contentTypes;
+            }
+        });
+
+        HEADER_CREATION_MAP = headerCreationMap;
+    }
+
 
     /**
      * Get all the values within the supplied multi value map by concatenating the value collections together.
@@ -36,10 +172,10 @@ public class Message<T> {
     /**
      * Remove the supplied attribute from the map and return the attribute that was removed.
      *
-     * @param map the map that will have it's attribute removed.
+     * @param map       the map that will have it's attribute removed.
      * @param attribute the attribute to remove.
-     * @param <A> the type of the attribute.
-     * @param <C> the type of the maps value collection.
+     * @param <A>       the type of the attribute.
+     * @param <C>       the type of the maps value collection.
      * @return the attribute if it was removed from the map, otherwise {@code null}.
      */
     protected static <A extends Attribute, C extends Collection<A>> A remove(AttributeCollectionMap<A, C> map,
@@ -52,10 +188,10 @@ public class Message<T> {
     /**
      * Remove the supplied attributes from the map and return the attributes that were removed.
      *
-     * @param map the map that will have it's attributes removed.
+     * @param map        the map that will have it's attributes removed.
      * @param attributes the attributes to remove.
-     * @param <A> the type of the attribute.
-     * @param <C> the type of the maps value collection.
+     * @param <A>        the type of the attribute.
+     * @param <C>        the type of the maps value collection.
      * @return a collection containing only those attributes that were removed.
      */
     protected static <A extends Attribute, C extends Collection<A>> Collection<A> removeAll(
@@ -65,7 +201,7 @@ public class Message<T> {
 
         for (A attribute : attributes) {
 
-            if(isNotNull(remove(map, attribute))) removedAttributes.add(attribute);
+            if (isNotNull(remove(map, attribute))) removedAttributes.add(attribute);
         }
 
         return removedAttributes;
@@ -83,12 +219,14 @@ public class Message<T> {
      *
      * @param headers the headers that will be contained in this message.
      */
-    public Message(String cookieHeaderName, AttributeSetMap<Header> headers, AttributeMap<Cookie> cookies, T body) {
+    public Message(String cookieHeaderName, Collection<Header> headers, AttributeMap<Cookie> cookies, T body) {
 
         this.cookieHeaderName = cookieHeaderName;
-        this.headers = headers;
+        this.headers = new AttributeHashSetMap<Header>();
         this.cookies = cookies;
         this.body = body;
+
+        addHeaders(headers);
     }
 
     /**
@@ -113,7 +251,25 @@ public class Message<T> {
 
     /**
      * Get all instances of the {@link Header} with the supplied name. If no instances exist this method will return
-     * null.
+     * {@code null}.
+     *
+     * This method will return headers that contain values of any type. It should also be noted that if a header has
+     * been added with a value of one type it cannot be guaranteed to be retrieved through this method with the same
+     * type.
+     *
+     * This is because the common HTTP header types have their own object definitions and value types. Any header that
+     * is added to the {@code Message} with the name of a common HTTP header will be converted into one of these object
+     * types.
+     *
+     * <code>
+     * Message message = new Message();
+     * message.addHeader(new Header("Accept", "application/json"));
+     * Collection<Header> headers = message.getHeaders("Accept");
+     * Iterator<Header> iterator headers.iterator();
+     * Header header = iterator.next()
+     * header.getClass().getName() // http.header.JsonAccept
+     * header.getValue().getClass().getName() // javax.activation.MimeType
+     * </code>
      *
      * @param name the name of the header to retrieve.
      * @return the instances of the requested header if any exists otherwise an empty {@code Set}.
@@ -132,7 +288,7 @@ public class Message<T> {
 
         this.headers.clear();
 
-        this.headers.addAll(headers);
+        addHeaders(headers);
     }
 
     /**
@@ -148,17 +304,32 @@ public class Message<T> {
     }
 
     /**
-     * Add a {@link Header} to the {@code Message} appending it to any added previously. If a header with the a matching
+     * Add a {@link Header} to the {@code Message} appending it to any added previously. If a header with a matching
      * name already exists then the new headers value will be added to the existing headers values.
      * <p/>
-     * If the supplied {@code Header} is a cookie header, that is it's name matches the {@code Message}
-     * {@code cookieHeaderName} value then it will be parsed and added to the {@code Message}'s cookies not headers.
+     * If the supplied {@code Header} is a standard HTTP header ("Set-Cookie", "Content-Type", "Accept"...) it will be
+     * converted internally into an instance of it's corresponding header object ({@link SetCookie},
+     * {@link ContentType}, {@link Accept}...).
      *
      * @param header the new header to add to the message.
      */
     public void addHeader(Header header) {
 
-        if (isNotNull(header)) headers.add(header);
+        if (isNotNull(header)) {
+
+            // Check to see if there is a custom creator for the supplied header type and use it if there is.
+            Creator<Header, Header> creator = HEADER_CREATION_MAP.get(header.getName());
+
+            if (isNotNull(creator)) {
+
+                headers.addAll(creator.create(header));
+
+            } else {
+
+                headers.add(header);
+            }
+
+        }
     }
 
     /**
@@ -168,17 +339,24 @@ public class Message<T> {
      */
     public void addHeaders(Collection<Header> headers) {
 
-        this.headers.addAll(headers);
+        new NullSafeForEach<Header>(headers) {
+
+            @Override
+            protected void next(Header header) {
+
+                addHeader(header);
+            }
+        };
     }
 
     /**
      * Remove the supplied value from the {@link Header} with the supplied name. This will remove all the value from the
      * {@code Header} entry and then if no values are left it will remove the {@code Header} entry completely.
      *
-     * @param name the name of the {@code Header} to remove the value from.
+     * @param name  the name of the {@code Header} to remove the value from.
      * @param value the value to remove.
      * @return a {@code Header} containing the name and value that was removed if a value was removed, otherwise
-     *          {@code null}.
+     *         {@code null}.
      */
     public Header removeHeader(String name, Object value) {
 
@@ -294,7 +472,7 @@ public class Message<T> {
     /**
      * Remove the {@link Cookie} with the supplied name and value.
      *
-     * @param name the name of the {@code Cookie} to remove.
+     * @param name  the name of the {@code Cookie} to remove.
      * @param value the value of the {@code Cookie} to remove.
      * @return the {@code Cookie} that was removed if one was removed, otherwise {@code null}.
      */
