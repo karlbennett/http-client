@@ -5,7 +5,6 @@ import org.junit.Test;
 
 import java.util.Collection;
 
-import static http.Cookie.COOKIE;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -20,7 +19,7 @@ public class MessageHeaderObjectTest extends AbstractMessageHeaderTest<Message<O
             @Override
             public Message<Object> newMessage() {
 
-                return new Message<Object>(COOKIE);
+                return new Message<Object>();
             }
 
             @Override
@@ -71,7 +70,7 @@ public class MessageHeaderObjectTest extends AbstractMessageHeaderTest<Message<O
     @Test
     public void testAddHeaderWithNull() throws Exception {
 
-        Message message = new Message(COOKIE);
+        Message message = new Message();
 
         assertEquals("no properties should exist", 0, message.getHeaders().size());
 

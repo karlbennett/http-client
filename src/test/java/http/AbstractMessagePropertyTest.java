@@ -137,13 +137,13 @@ public abstract class AbstractMessagePropertyTest<M, P> extends AbstractProperty
 
         M message = messageExecutor.newMessage();
 
-        assertEquals("retrieving a properties when no properties exist should return an empty collection.", 0,
-                messageExecutor.getProperties(message, propertyExecutor.getName(propertyOne)).size());
+        assertNull("retrieving a properties when no properties exist should return an empty collection.",
+                messageExecutor.getProperties(message, propertyExecutor.getName(propertyOne)));
 
         messageExecutor.setProperties(message, properties);
 
-        assertEquals("retrieving a property that does not exist should return an empty collection.", 0,
-                messageExecutor.getProperties(message, "not here").size());
+        assertNull("retrieving a property that does not exist should return an empty collection.",
+                messageExecutor.getProperties(message, "not here"));
     }
 
     @Test

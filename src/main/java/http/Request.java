@@ -2,7 +2,6 @@ package http;
 
 import http.attribute.AbstractAttributeCollectionMap;
 import http.attribute.AttributeHashSetMap;
-import http.attribute.AttributeMap;
 import http.header.Header;
 import http.parameter.Parameter;
 
@@ -11,7 +10,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
 
-import static http.Cookie.COOKIE;
 import static http.util.Asserts.assertNotNull;
 import static http.util.Checks.isNotEmpty;
 import static http.util.Checks.isNotNull;
@@ -138,7 +136,7 @@ public class Request<T> extends Message<T> {
      */
     public Request(URL url, Collection<Header> headers, Collection<Cookie> cookies,
                    Collection<Parameter<String>> parameters) {
-        super(COOKIE, headers, new AttributeMap<Cookie>(cookies), null);
+        super(headers, null);
 
         assertNotNull("parameters", parameters);
 

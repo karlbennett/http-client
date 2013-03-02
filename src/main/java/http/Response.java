@@ -1,13 +1,9 @@
 package http;
 
-import http.attribute.AttributeHashSetMap;
-import http.attribute.AttributeMap;
 import http.header.Header;
 
 import java.util.Collection;
 import java.util.Collections;
-
-import static http.Cookie.SET_COOKIE;
 
 /**
  * Represents an {@code HTTP} response and provides access to all the standard response components.
@@ -60,7 +56,7 @@ public class Response<T> extends Message<T> {
      * @param body    the body of te response.
      */
     public Response(int status, Collection<Header> headers, Collection<Cookie> cookies, T body) {
-        super(SET_COOKIE, headers, new AttributeMap<Cookie>(cookies),
+        super(headers,
                 body);
 
         this.status = status;

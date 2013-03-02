@@ -13,6 +13,7 @@ import java.util.Collection;
 
 import static http.Bodies.TEST_INPUT_STREAM_BODY;
 import static http.Cookies.COOKIES;
+import static http.Cookies.COOKIE_HEADERS;
 import static http.Urls.*;
 import static http.header.Headers.HEADERS;
 import static http.parameter.Parameters.PARAMETERS;
@@ -88,7 +89,6 @@ public abstract class AbstractClientRequestMethodTest implements RequestHandler 
     private URL url;
     private Collection<Header> headers;
     private Collection<Parameter<String>> parameters;
-    private Collection<Cookie> cookies;
     private InputStream body;
 
     @Override
@@ -98,7 +98,6 @@ public abstract class AbstractClientRequestMethodTest implements RequestHandler 
         this.method = method;
         this.headers = request.getHeaders();
         this.parameters = request.getParameters();
-        this.cookies = request.getCookies();
         this.body = request.getBody();
 
         return TEST_RESPONSE;
@@ -146,7 +145,7 @@ public abstract class AbstractClientRequestMethodTest implements RequestHandler 
     @Test
     public void testRequestWithHeaders() throws Exception {
 
-        Request request = new Request(TEST_URL);
+        Request<Object> request = new Request<Object>(TEST_URL);
         request.setHeaders(HEADERS);
 
         requestWithHeadersTest(TEST_URL, HEADERS, requestExecutor.<InputStream>execute(request));
@@ -155,8 +154,8 @@ public abstract class AbstractClientRequestMethodTest implements RequestHandler 
     @Test
     public void testRequestWithCookies() throws Exception {
 
-        Request request = new Request(TEST_URL);
-        request.setCookies(COOKIES);
+        Request<Object> request = new Request<Object>(TEST_URL);
+        request.setHeaders(COOKIE_HEADERS);
 
         requestWithCookiesTest(TEST_URL, COOKIES, requestExecutor.<InputStream>execute(request));
     }
@@ -191,8 +190,6 @@ public abstract class AbstractClientRequestMethodTest implements RequestHandler 
                 testMethod + " method.", url, this.url);
         assertEquals("no headers should have been produced from the " + testMethodType + " " + testMethod + " method.",
                 0, headers.size());
-        assertEquals("no cookies should have been produced from the " + testMethodType + " " + testMethod + " method.",
-                0, cookies.size());
         assertEquals("no parameters should have been produced from the " + testMethodType + " " + testMethod +
                 " method.", 0, parameters.size());
         assertNull("no body content should have been produced from the " + testMethodType + " " + testMethod +
@@ -211,8 +208,6 @@ public abstract class AbstractClientRequestMethodTest implements RequestHandler 
                 testMethod + " method.", url, this.url);
         assertEquals("the correct headers should have been produced from the " + testMethodType + " " + testMethod +
                 " method.", headers, this.headers);
-        assertEquals("no cookies should have been produced from the " + testMethodType + " " + testMethod + " method.",
-                0, cookies.size());
         assertEquals("no parameters should have been produced from the " + testMethodType + " " + testMethod +
                 " method.", 0, parameters.size());
         assertNull("no body content should have been produced from the " + testMethodType + " " + testMethod +
@@ -231,8 +226,6 @@ public abstract class AbstractClientRequestMethodTest implements RequestHandler 
                 testMethod + " method.", url, this.url);
         assertEquals("no headers should have been produced from the " + testMethodType + " " + testMethod + " method.",
                 0, headers.size());
-        assertEquals("the correct cookies should have been produced from the " + testMethodType + " " + testMethod +
-                " method.", cookies, this.cookies);
         assertEquals("no parameters should have been produced from the " + testMethodType + " " + testMethod +
                 " method.", 0, parameters.size());
         assertNull("no body content should have been produced from the " + testMethodType + " " + testMethod +
@@ -251,8 +244,6 @@ public abstract class AbstractClientRequestMethodTest implements RequestHandler 
                 testMethod + " method.", url, this.url);
         assertEquals("no headers should have been produced from the " + testMethodType + " " + testMethod + " method.",
                 0, headers.size());
-        assertEquals("no cookies should have been produced from the " + testMethodType + " " + testMethod + " method.",
-                0, cookies.size());
         assertEquals("the correct parameters should have been produced from the " + testMethodType + " " + testMethod +
                 " method.", parameters, this.parameters);
         assertNull("no body content should have been produced from the " + testMethodType + " " + testMethod +
@@ -270,8 +261,6 @@ public abstract class AbstractClientRequestMethodTest implements RequestHandler 
                 testMethod + " method.", url, this.url);
         assertEquals("no headers should have been produced from the " + testMethodType + " " + testMethod + " method.",
                 0, headers.size());
-        assertEquals("no cookies should have been produced from the " + testMethodType + " " + testMethod + " method.",
-                0, cookies.size());
         assertEquals("no parameters should have been produced from the " + testMethodType + " " + testMethod +
                 " method.", 0, parameters.size());
         assertNotNull("some body content should have been produced from the " + testMethodType + " " + testMethod +
