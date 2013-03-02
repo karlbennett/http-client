@@ -1,8 +1,11 @@
 package http;
 
-import http.attribute.*;
-import http.header.*;
-import http.util.NullSafeForEach;
+import http.attribute.Attribute;
+import http.attribute.AttributeCollectionMap;
+import http.attribute.AttributeHashSetMap;
+import http.attribute.AttributeSetMap;
+import http.header.Header;
+import http.header.SetCookie;
 
 import java.util.*;
 
@@ -78,20 +81,29 @@ public class Message<T> {
 
 
     /**
+     * Create a new Message with an {@link http.attribute.AttributeMap} of headers and a body.
+     *
+     * @param headers the headers that will be contained in this message.
+     * @param body    an object that represents to body of the message.
+     */
+    public Message(Collection<Header> headers, T body) {
+
+        this.headers = new AttributeHashSetMap<Header>(headers);
+        this.body = body;
+    }
+
+    /**
      * Create a new Message with an {@link http.attribute.AttributeMap} of headers.
      *
      * @param headers the headers that will be contained in this message.
      */
-    public Message(Collection<Header> headers, T body) {
+    public Message(Collection<Header> headers) {
 
-        this.headers = new AttributeHashSetMap<Header>();
-        this.body = body;
-
-        addHeaders(headers);
+        this(headers, null);
     }
 
     /**
-     * Create a new {@code Message} that doesn't contain any {@link Header}s.
+     * Create a new empty {@code Message}.
      */
     public Message() {
 
@@ -111,33 +123,24 @@ public class Message<T> {
     /**
      * Get all instances of the {@link Header} with the supplied name. If no instances exist this method will return
      * {@code null}.
-     * <p/>
-     * This method will return headers that contain values of any type. It should also be noted that if a header has
-     * been added with a value of one type it cannot be guaranteed to be retrieved through this method with the same
-     * type.
-     * <p/>
-     * This is because the common HTTP header types have their own object definitions and value types. Any header that
-     * is added to the {@code Message} with the name of a common HTTP header will be converted into one of these object
-     * types.
-     * <p/>
-     * <code>
-     * Message message = new Message();
-     * message.addHeader(new Header("Accept", "application/json"));
-     * Collection<Header> headers = message.getHeaders("Accept");
-     * Iterator<Header> iterator headers.iterator();
-     * Header header = iterator.next()
-     * header.getClass().getName() // http.header.JsonAccept
-     * header.getValue().getClass().getName() // javax.activation.MimeType
-     * </code>
      *
      * @param name the name of the header to retrieve.
-     * @return the instances of the requested header if any exists otherwise an empty {@code Set}.
+     * @return the instances of the requested header if any exists otherwise {@code null}.
      */
     public Set<Header> getHeaders(String name) {
 
         return headers.get(name);
     }
 
+    /**
+     * Get all the instances of the {@link Header} of the supplied type. This will return any headers that can be
+     * converted into any of the {@link http.header} types. e.g. any "Set-Cookie" headers could be retrieved as
+     * {@link SetCookie} instances.
+     *
+     * @param headerType the type of header to retrieve.
+     * @param <T>        the type fo the retrieved header.
+     * @return the instances of the requested header types if any exists otherwise {@code null}.
+     */
     public <T extends Header> Set<T> getHeaders(Class<T> headerType) {
 
         return null;
@@ -156,24 +159,20 @@ public class Message<T> {
     }
 
     /**
-     * Add a header to the {@code Message} made up of the supplied name and value. If a header with the supplied name
-     * already exists then the supplied value will be added to the existing headers values.
+     * Add a header to the {@code Message} made up of the supplied name and value. Multiple headers of the same name can
+     * be added as long as they have different values.
      *
      * @param name  the name of the new header.
      * @param value the value for the new header.
      */
     public void addHeader(String name, Object value) {
 
-        addHeader(new Header<>(name, value));
+        addHeader(new Header<Object>(name, value));
     }
 
     /**
-     * Add a {@link Header} to the {@code Message} appending it to any added previously. If a header with a matching
-     * name already exists then the new headers value will be added to the existing headers values.
-     * <p/>
-     * If the supplied {@code Header} is a standard HTTP header ("Set-Cookie", "Content-Type", "Accept"...) it will be
-     * converted internally into an instance of it's corresponding header object ({@link SetCookie},
-     * {@link ContentType}, {@link Accept}...).
+     * Add a {@link Header} to the {@code Message}. Multiple headers of the same name can be added as long as they have
+     * different values.
      *
      * @param header the new header to add to the message.
      */
@@ -195,13 +194,12 @@ public class Message<T> {
     }
 
     /**
-     * Remove the supplied value from the {@link Header} with the supplied name. This will remove all the value from the
-     * {@code Header} entry and then if no values are left it will remove the {@code Header} entry completely.
+     * Remove the supplied value from the {@link Header} with the supplied name.
      *
-     * @param name  the name of the {@code Header} to remove the value from.
-     * @param value the value to remove.
-     * @return a {@code Header} containing the name and value that was removed if a value was removed, otherwise
-     *         {@code null}.
+     * @param name  the name of the {@code Header} to remove.
+     * @param value the value of the {@code Header} to remove.
+     * @return a {@code Header} containing the name and value that were removed if it previously existed in the message,
+     *         otherwise {@code null}.
      */
     public Header removeHeader(String name, Object value) {
 
@@ -209,11 +207,10 @@ public class Message<T> {
     }
 
     /**
-     * Remove the supplied {@link Header} from the request. This will remove all the values in the supplied
-     * {@code Header} and then if no values are left it will remove the {@code Header} entry completely.
+     * Remove the supplied {@link Header} from the request.
      *
      * @param header the {@code Header} to remove.
-     * @return the {@code Header} that was removed if one was removed, otherwise {@code null}.
+     * @return the {@code Header} that was removed if it previously existed in the message, otherwise {@code null}.
      */
     public Header removeHeader(Header header) {
 
@@ -232,6 +229,8 @@ public class Message<T> {
     }
 
     /**
+     * Get the body of the message.
+     *
      * @return the messages body.
      */
     public T getBody() {
