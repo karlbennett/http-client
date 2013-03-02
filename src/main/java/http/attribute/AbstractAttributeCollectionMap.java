@@ -76,6 +76,8 @@ public abstract class AbstractAttributeCollectionMap<A extends Attribute, C exte
         this(backingMap);
 
         assertNotNull("attributes", attributes);
+
+        addAll(attributes);
     }
 
     /**
