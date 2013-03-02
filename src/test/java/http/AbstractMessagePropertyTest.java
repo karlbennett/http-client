@@ -10,9 +10,8 @@ import java.util.HashSet;
 import static org.junit.Assert.*;
 
 /**
- * This is an abstract class that is used to test the common behaviour between the different type of property methods on
- * a {@link Message} object e.g. {@link Message#addHeader(http.header.Header)},
- * {@link Message#addHeader(String, Object)}, and {@link Message#addCookie(Cookie)}.
+ * This is an abstract class that is used to test the common behaviour between the different types of property access
+ * methods on an object.
  *
  * @author Karl Bennett
  */
@@ -29,13 +28,13 @@ public abstract class AbstractMessagePropertyTest<M, P> extends AbstractProperty
 
         public abstract M newMessage();
 
+        public abstract Collection<P> getProperties(M message);
+
         public abstract Collection<P> getProperties(M message, String name);
 
         public abstract void addProperty(M message, P property);
 
         public abstract void addProperties(M message, Collection<P> properties);
-
-        public abstract Collection<P> getProperties(M message);
 
         public abstract void setProperties(M message, Collection<P> properties);
 
