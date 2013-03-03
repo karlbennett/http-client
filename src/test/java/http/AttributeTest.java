@@ -15,7 +15,19 @@ public class AttributeTest {
     @Test
     public void testCreateAttribute() throws Exception {
 
-        new Attribute<>(TEST_ATTRIBUTE_NAME_ONE, new Object(), TEST_ATTRIBUTE_OPERATOR);
+        Attribute<String> attribute = new Attribute<String>(TEST_ATTRIBUTE_NAME_ONE, TEST_ATTRIBUTE_VALUE_ONE,
+                TEST_ATTRIBUTE_OPERATOR);
+
+        assertEquals("the attributes name should be correct.", TEST_ATTRIBUTE_NAME_ONE, attribute.getName());
+        assertEquals("the attributes value should be correct.", TEST_ATTRIBUTE_VALUE_ONE, attribute.getValue());
+        assertEquals("the attributes operator should be correct.", TEST_ATTRIBUTE_OPERATOR, attribute.getOperator());
+    }
+
+    @Test
+    public void testCopyAttribute() throws Exception {
+
+        assertEquals("the attribute should have copied correctly.", TEST_ATTRIBUTE_ONE,
+                new Attribute<String>(TEST_ATTRIBUTE_ONE));
     }
 
     @Test(expected = IllegalArgumentException.class)

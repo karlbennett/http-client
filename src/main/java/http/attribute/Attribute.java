@@ -118,6 +118,16 @@ public class Attribute<T> {
         this.operator = operator;
     }
 
+    /**
+     * {@code Attribute} copy constructor.
+     *
+     * @param attribute the {@code Attribute} to copy.
+     */
+    public Attribute(Attribute<T> attribute) {
+
+        this(attribute.getName(), attribute.getValue(), attribute.getOperator());
+    }
+
 
     /**
      * @return the attributes name.
