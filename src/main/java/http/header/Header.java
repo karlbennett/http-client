@@ -70,4 +70,13 @@ public class Header<T> extends Attribute<T> {
     public Header(String name, T value) {
         super(name, value, OPERATOR);
     }
+
+    /**
+     * {@code Header} copy constructor.
+     *
+     * @param header the {@code Header} to copy.
+     */
+    public Header(Header<T> header) {
+        super(header);
+    }
 }
