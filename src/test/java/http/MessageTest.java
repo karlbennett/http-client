@@ -14,6 +14,7 @@ import static http.Attributes.*;
 import static http.Cookies.COOKIE_ONE;
 import static http.Cookies.COOKIE_TWO;
 import static http.header.Headers.HEADERS;
+import static http.Bodies.*;
 import static org.junit.Assert.*;
 
 /**
@@ -60,6 +61,38 @@ public class MessageTest {
         attributes.add(TEST_ATTRIBUTE_THREE);
 
         attributeMap = new AttributeHashSetMap<Attribute<String>>(attributes);
+    }
+
+
+    @Test
+    public void testCreateMessage() throws Exception {
+
+        Message<String> message = new Message<String>(HEADERS, TEST_STRING_BODY);
+
+        assertEquals("the headers should be added to the message.", new HashSet<Header>(HEADERS), message.getHeaders());
+        assertEquals("the body should have been added to the message.", TEST_STRING_BODY, message.getBody());
+    }
+
+    @Test
+    public void testCreateEmptyMessage() throws Exception {
+
+        Message<Void> message = new Message<Void>();
+
+        assertEquals("no headers should be added to the message.", Collections.emptySet(), message.getHeaders());
+        assertNull("no body should have been added to the message.", message.getBody());
+    }
+
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testCreateMessageWithNullHeadersValue() throws Exception {
+
+        new Message<String>(null, TEST_STRING_BODY);
+    }
+
+    @Test
+    public void testCreateMessageWithNullBodyValue() throws Exception {
+
+        assertNull("the body should be null.", new Message<String>(HEADERS, null).getBody());
     }
 
     @Test
