@@ -49,11 +49,12 @@ public class Converter {
      *
      * @param type the type of object to convert to.
      * @param object the object to convert.
-     * @param <T> the generic type of the attribute to convert to.
+     * @param <T> the generic type of the object to convert to.
+     * @param <O> the generic type of the object to convert.
      * @return the converted attribute.
-     * @throws IllegalArgumentException if there is no converter for the requested attribute type.
+     * @throws IllegalArgumentException if there is no converter for the requested type.
      */
-    public <T, O> T convert(Class<T> type, O object) {
+    public <T, O> T convert(Class type, O object) {
 
         Conversion<T, O> conversion = conversions.get(type);
 
