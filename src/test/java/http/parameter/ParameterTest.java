@@ -38,12 +38,12 @@ public class ParameterTest {
     @Test
     public void testParse() throws Exception {
 
-        assertEquals("Parameter.parse(String) should produce the correct parameters.", new HashSet<>(PARAMETERS),
-                Parameter.parse(PARAMETER_STRING));
+        assertEquals("Parameter.parse(String) should produce the correct parameters.",
+                new HashSet<Parameter<String>>(PARAMETERS), Parameter.parse(PARAMETER_STRING));
 
-        Collection<Parameter<String>> parameters = new HashSet<>(PARAMETERS);
+        Collection<Parameter<String>> parameters = new HashSet<Parameter<String>>(PARAMETERS);
         parameters.remove(PARAMETER_TWO);
-        parameters.add(new Parameter<>(PARAMETER_NAME_ONE, PARAMETER_VALUE_TWO));
+        parameters.add(new Parameter<String>(PARAMETER_NAME_ONE, PARAMETER_VALUE_TWO));
 
         String parametersString = PARAMETER_NAME_ONE + '=' + PARAMETER_VALUE_ONE + '&' +
                 PARAMETER_NAME_ONE + '=' + PARAMETER_VALUE_TWO + '&' +

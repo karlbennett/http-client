@@ -96,7 +96,7 @@ public class Cookie extends Attribute<String> {
 
         Matcher matcher = COOKIE_REGEX.matcher(value);
 
-        Set<Cookie> cookies = new HashSet<>();
+        Set<Cookie> cookies = new HashSet<Cookie>();
 
         Cookie cookie;
 

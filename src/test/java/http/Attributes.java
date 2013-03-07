@@ -23,7 +23,7 @@ public final class Attributes {
     public static final String TEST_ATTRIBUTE_NAME_TWO = "test_attribute_name_two";
     public static final String TEST_ATTRIBUTE_NAME_THREE = "test_attribute_name_three";
 
-    public static final Collection<String> TEST_ATTRIBUTE_NAMES = new HashSet<>(Arrays.asList(
+    public static final Collection<String> TEST_ATTRIBUTE_NAMES = new HashSet<String>(Arrays.asList(
             TEST_ATTRIBUTE_NAME_ONE,
             TEST_ATTRIBUTE_NAME_TWO,
             TEST_ATTRIBUTE_NAME_THREE
@@ -39,14 +39,14 @@ public final class Attributes {
             TEST_ATTRIBUTE_VALUE_THREE
     );
 
-    public static final Attribute<String> TEST_ATTRIBUTE_ONE = new Attribute<>(TEST_ATTRIBUTE_NAME_ONE,
+    public static final Attribute<String> TEST_ATTRIBUTE_ONE = new Attribute<String>(TEST_ATTRIBUTE_NAME_ONE,
             TEST_ATTRIBUTE_VALUE_ONE, TEST_ATTRIBUTE_OPERATOR);
-    public static final Attribute<String> TEST_ATTRIBUTE_TWO = new Attribute<>(TEST_ATTRIBUTE_NAME_TWO,
+    public static final Attribute<String> TEST_ATTRIBUTE_TWO = new Attribute<String>(TEST_ATTRIBUTE_NAME_TWO,
             TEST_ATTRIBUTE_VALUE_TWO, TEST_ATTRIBUTE_OPERATOR);
-    public static final Attribute<String> TEST_ATTRIBUTE_THREE = new Attribute<>(TEST_ATTRIBUTE_NAME_THREE,
+    public static final Attribute<String> TEST_ATTRIBUTE_THREE = new Attribute<String>(TEST_ATTRIBUTE_NAME_THREE,
             TEST_ATTRIBUTE_VALUE_THREE, TEST_ATTRIBUTE_OPERATOR);
 
-    public static final Collection<Attribute<String>> TEST_ATTRIBUTES = new HashSet<>(Arrays.asList(
+    public static final Collection<Attribute<String>> TEST_ATTRIBUTES = new HashSet<Attribute<String>>(Arrays.asList(
             TEST_ATTRIBUTE_ONE,
             TEST_ATTRIBUTE_TWO,
             TEST_ATTRIBUTE_THREE
@@ -56,7 +56,7 @@ public final class Attributes {
 
     static {
 
-        Map<String, Attribute<String>> testAttributesMap = new HashMap<>();
+        Map<String, Attribute<String>> testAttributesMap = new HashMap<String, Attribute<String>>();
 
         testAttributesMap.put(TEST_ATTRIBUTE_NAME_ONE, TEST_ATTRIBUTE_ONE);
         testAttributesMap.put(TEST_ATTRIBUTE_NAME_TWO, TEST_ATTRIBUTE_TWO);
@@ -66,8 +66,8 @@ public final class Attributes {
     }
 
     public static final Set<Entry<String, Attribute<String>>> TEST_ATTRIBUTE_ENTRY_SET = new HashSet<Entry<String, Attribute<String>>>(Arrays.asList(
-            new SimpleEntry<>(TEST_ATTRIBUTE_NAME_ONE, TEST_ATTRIBUTE_ONE),
-            new SimpleEntry<>(TEST_ATTRIBUTE_NAME_TWO, TEST_ATTRIBUTE_TWO),
-            new SimpleEntry<>(TEST_ATTRIBUTE_NAME_THREE, TEST_ATTRIBUTE_THREE)
+            new SimpleEntry<String, Attribute<String>>(TEST_ATTRIBUTE_NAME_ONE, TEST_ATTRIBUTE_ONE),
+            new SimpleEntry<String, Attribute<String>>(TEST_ATTRIBUTE_NAME_TWO, TEST_ATTRIBUTE_TWO),
+            new SimpleEntry<String, Attribute<String>>(TEST_ATTRIBUTE_NAME_THREE, TEST_ATTRIBUTE_THREE)
     ));
 }

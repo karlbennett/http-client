@@ -94,7 +94,7 @@ public class Attribute<T> {
 
         pasrer.parse();
 
-        return new HashSet<>(pasrer.getAttributes());
+        return new HashSet<A>(pasrer.getAttributes());
     }
 
     private final String name;

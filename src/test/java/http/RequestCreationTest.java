@@ -1,5 +1,6 @@
 package http;
 
+import http.parameter.Parameter;
 import org.junit.Test;
 
 import java.net.URI;
@@ -59,7 +60,7 @@ public class RequestCreationTest {
         assertTrue("the request url query string should contain parameter three.",
                 request.getUrl().toString().contains(PARAMETER_THREE.toString()));
 
-        assertEquals("the correct parameters are included in the request.", new HashSet<>(PARAMETERS),
+        assertEquals("the correct parameters are included in the request.", new HashSet<Parameter<String>>(PARAMETERS),
                 request.getParameters());
     }
 }

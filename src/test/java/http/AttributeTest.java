@@ -33,19 +33,19 @@ public class AttributeTest {
     @Test(expected = IllegalArgumentException.class)
     public void testCreateAttributeWithNullName() throws Exception {
 
-        new Attribute<>(null, new Object(), TEST_ATTRIBUTE_OPERATOR);
+        new Attribute<Object>(null, new Object(), TEST_ATTRIBUTE_OPERATOR);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testCreateAttributeWithEmptyName() throws Exception {
 
-        new Attribute<>("", new Object(), TEST_ATTRIBUTE_OPERATOR);
+        new Attribute<Object>("", new Object(), TEST_ATTRIBUTE_OPERATOR);
     }
 
     @Test
     public void testCreateAttributeWithNullValue() throws Exception {
 
-        Attribute attribute = new Attribute<>(TEST_ATTRIBUTE_NAME_ONE, null, TEST_ATTRIBUTE_OPERATOR);
+        Attribute attribute = new Attribute<Object>(TEST_ATTRIBUTE_NAME_ONE, null, TEST_ATTRIBUTE_OPERATOR);
 
         assertNull("attribute value should be null.", attribute.getValue());
     }
@@ -53,7 +53,7 @@ public class AttributeTest {
     @Test(expected = IllegalArgumentException.class)
     public void testCreateAttributeWithNullNameAndValue() throws Exception {
 
-        new Attribute<>(null, null, TEST_ATTRIBUTE_OPERATOR);
+        new Attribute<Object>(null, null, TEST_ATTRIBUTE_OPERATOR);
     }
 
     @Test
@@ -61,13 +61,13 @@ public class AttributeTest {
 
         assertEquals("the attribute name should be correct.",
                 TEST_ATTRIBUTE_NAME_ONE,
-                new Attribute<>(TEST_ATTRIBUTE_NAME_ONE, new Object(), TEST_ATTRIBUTE_OPERATOR).getName());
+                new Attribute<Object>(TEST_ATTRIBUTE_NAME_ONE, new Object(), TEST_ATTRIBUTE_OPERATOR).getName());
     }
 
     @Test
     public void testGetValue() throws Exception {
 
         assertEquals("the attribute value should be correct.", TEST_ATTRIBUTE_VALUE_ONE,
-                new Attribute<>(TEST_ATTRIBUTE_NAME_ONE, TEST_ATTRIBUTE_VALUE_ONE, TEST_ATTRIBUTE_OPERATOR).getValue());
+                new Attribute<String>(TEST_ATTRIBUTE_NAME_ONE, TEST_ATTRIBUTE_VALUE_ONE, TEST_ATTRIBUTE_OPERATOR).getValue());
     }
 }

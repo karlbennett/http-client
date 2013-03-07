@@ -26,15 +26,15 @@ public class AttributeMapTest {
     @Before
     public void setUp() throws Exception {
 
-        emptyAttributes = new AttributeMap<>();
-        attributes = new AttributeMap<>(TEST_ATTRIBUTES);
+        emptyAttributes = new AttributeMap<Attribute>();
+        attributes = new AttributeMap<Attribute<String>>(TEST_ATTRIBUTES);
     }
 
 
     @Test
     public void testCreateAttributeMap() throws Exception {
 
-        Map<String, Attribute<String>> attributes = new AttributeMap<>();
+        Map<String, Attribute<String>> attributes = new AttributeMap<Attribute<String>>();
 
         assertEquals("a new empty attribute map should have size 0.", 0, emptyAttributes.size());
     }
@@ -42,7 +42,7 @@ public class AttributeMapTest {
     @Test
     public void testAttributeMapCopy() throws Exception {
 
-        Map<String, Attribute<String>> attributes = new AttributeMap<>(this.attributes);
+        Map<String, Attribute<String>> attributes = new AttributeMap<Attribute<String>>(this.attributes);
 
         assertEquals(TEST_ATTRIBUTE_ONE + " should be in the copied attribute map.",
                 TEST_ATTRIBUTE_ONE, attributes.get(TEST_ATTRIBUTE_NAME_ONE));
@@ -57,9 +57,9 @@ public class AttributeMapTest {
     @Test
     public void testCreateAttributeMapWithBackingMap() throws Exception {
 
-        Map<String, Attribute<String>> backingMap = new TreeMap<>();
+        Map<String, Attribute<String>> backingMap = new TreeMap<String, Attribute<String>>();
 
-        Map<String, Attribute<String>> attributes = new AttributeMap<>(backingMap);
+        Map<String, Attribute<String>> attributes = new AttributeMap<Attribute<String>>(backingMap);
         attributes.putAll(TEST_ATTRIBUTES_MAP);
 
         assertEquals(TEST_ATTRIBUTE_ONE + " should be in the attribute map that was created from a map.",
@@ -75,7 +75,7 @@ public class AttributeMapTest {
     @Test
     public void testCreateAttributeMapFromCollection() throws Exception {
 
-        Map<String, Attribute<String>> attributes = new AttributeMap<>(TEST_ATTRIBUTES);
+        Map<String, Attribute<String>> attributes = new AttributeMap<Attribute<String>>(TEST_ATTRIBUTES);
 
         assertEquals(TEST_ATTRIBUTE_ONE + " should be in the attribute map that was created from a collection.",
                 TEST_ATTRIBUTE_ONE, attributes.get(TEST_ATTRIBUTE_NAME_ONE));
@@ -90,19 +90,19 @@ public class AttributeMapTest {
     @Test(expected = IllegalArgumentException.class)
     public void testCreateAttributeMapWithNullAttributeMap() throws Exception {
 
-        new AttributeMap<>((AttributeMap<Attribute>) null);
+        new AttributeMap<Attribute>((AttributeMap<Attribute>) null);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testCreateAttributeMapWithNullBackingMap() throws Exception {
 
-        new AttributeMap<>((Map<String, Attribute>) null);
+        new AttributeMap<Attribute>((Map<String, Attribute>) null);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testCreateAttributeMapWithNullCollection() throws Exception {
 
-        new AttributeMap<>((Collection<Attribute>) null);
+        new AttributeMap<Attribute>((Collection<Attribute>) null);
     }
 
     @Test
@@ -266,7 +266,8 @@ public class AttributeMapTest {
     @Test
     public void testValues() throws Exception {
 
-        assertEquals("the attribute map values should be correct.", TEST_ATTRIBUTES, new HashSet<>(attributes.values()));
+        assertEquals("the attribute map values should be correct.", TEST_ATTRIBUTES,
+                new HashSet<Attribute<String>>(attributes.values()));
     }
 
     @Test
