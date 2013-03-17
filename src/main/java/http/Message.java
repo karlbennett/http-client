@@ -4,13 +4,19 @@ import http.attribute.Attribute;
 import http.attribute.AttributeCollectionMap;
 import http.attribute.AttributeHashSetMap;
 import http.attribute.AttributeSetMap;
+import http.header.Accept;
+import http.header.ContentType;
 import http.header.Header;
 import http.header.SetCookie;
+import http.util.Converter;
 
 import java.util.*;
 
 import static http.util.Asserts.assertNotNull;
 import static http.util.Checks.isNotNull;
+import static http.util.Converter.Conversion;
+import static http.util.Maps.populateMap;
+import static java.util.AbstractMap.SimpleEntry;
 
 /**
  * Represents a generic HTTP message and supplies accessor methods for retrieving and populating the common HTTP message
@@ -19,6 +25,51 @@ import static http.util.Checks.isNotNull;
  * @author Karl Bennett
  */
 public class Message<T> {
+
+    private static final Map<Class, Conversion> CONVERSIONS = populateMap(new HashMap<Class, Conversion>(),
+
+            new SimpleEntry<Class, Conversion>(Accept.class,
+                    new Conversion<Collection<Accept>, AttributeSetMap<Header>>() {
+
+                        @Override
+                        public Collection<Accept> convert(AttributeSetMap<Header> object) {
+
+                            return null;
+                        }
+                    }),
+            new SimpleEntry<Class, Conversion>(ContentType.class,
+                    new Conversion<Collection<ContentType>, AttributeSetMap<Header>>() {
+
+                        @Override
+                        public Collection<ContentType> convert(AttributeSetMap<Header> object) {
+
+                            return null;
+                        }
+                    }
+            ),
+            new SimpleEntry<Class, Conversion>(http.header.Cookie.class,
+                    new Conversion<Collection<http.header.Cookie>, AttributeSetMap<Header>>() {
+
+                        @Override
+                        public Collection<http.header.Cookie> convert(AttributeSetMap<Header> object) {
+
+                            return null;
+                        }
+                    }
+            ),
+            new SimpleEntry<Class, Conversion>(SetCookie.class,
+                    new Conversion<Collection<SetCookie>, AttributeSetMap<Header>>() {
+
+                        @Override
+                        public Collection<SetCookie> convert(AttributeSetMap<Header> object) {
+
+                            return null;
+                        }
+                    }
+            )
+    );
+
+    private static final Converter CONVERTER = new Converter(CONVERSIONS);
 
     /**
      * Get all the values within the supplied multi value map by concatenating the value collections together.
@@ -143,7 +194,7 @@ public class Message<T> {
      */
     public <T extends Header> Set<T> getHeaders(Class<T> headerType) {
 
-        return null;
+        return CONVERTER.convert(headerType, headers);
     }
 
     /**
