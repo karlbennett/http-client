@@ -13,6 +13,18 @@ public class Accept extends Header<MimeType> {
 
     public static final String ACCEPT = "Accept";
 
+    private static Accept convert(Header header) {
+
+        if (ACCEPT.equals(header.getName())) {
+
+            return new Accept(quietMimeType(header.getValue().toString()));
+        }
+
+        throw new IllegalArgumentException("An " + Accept.class.getName() +
+                " object can only be created from an \"Accept\" header.");
+    }
+
+
     /**
      * Create a new {@code Accept} header with the supplied {@code MIME} type.
      *
@@ -30,5 +42,23 @@ public class Accept extends Header<MimeType> {
      */
     public Accept(String primary, String sub) {
         super(ACCEPT, quietMimeType(primary, sub));
+    }
+
+    /**
+     * {@code Accept} copy constructor.
+     *
+     * @param accept the {@code Accept} instance to copy.
+     */
+    public Accept(Accept accept) {
+        super(accept);
+    }
+
+    /**
+     * {@code Accept} header conversion constructor, converts an {@code "Accept"} header into an {@code Accept} object.
+     *
+     * @param header the header to convert.
+     */
+    public Accept(Header header) {
+        this(convert(header));
     }
 }
