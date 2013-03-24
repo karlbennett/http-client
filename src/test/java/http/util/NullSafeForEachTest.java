@@ -19,7 +19,7 @@ public class NullSafeForEachTest {
         final int[] sum = {0};
 
         Collection<Integer> numbers = Arrays.asList(1, 2, 3, 4);
-        Collection<String> sums = Arrays.asList("1", "3", "10");
+        Collection<String> sums = new HashSet<String>(Arrays.asList("1", "3", "10"));
 
         Collection<String> results = new NullSafeForEach<Integer, String>(numbers) {
 
@@ -41,7 +41,7 @@ public class NullSafeForEachTest {
 
         final int[] sum = {0};
 
-        Collection<String> sums = Arrays.asList("1", "3", "10");
+        Collection<String> sums = new HashSet<String>(Arrays.asList("1", "3", "10"));
 
         Collection<String> results = new NullSafeForEach<Integer, String>(new Integer[]{1, 2, 3, 4}) {
 
@@ -81,7 +81,7 @@ public class NullSafeForEachTest {
         }.results();
 
         assertEquals("the sum should be correct.", 10, sum[0]);
-        assertEquals("the results should be correct.", new ArrayList<String>(numbers.keySet()), results);
+        assertEquals("the results should be correct.", numbers.keySet(), results);
     }
 
     @Test

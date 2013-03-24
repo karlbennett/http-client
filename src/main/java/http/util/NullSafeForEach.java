@@ -1,9 +1,6 @@
 package http.util;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 import static http.util.Checks.isNotNull;
 
@@ -14,7 +11,7 @@ import static http.util.Checks.isNotNull;
  */
 public abstract class NullSafeForEach<T, R> {
 
-    private final List<R> results;
+    private final Set<R> results;
 
     /**
      * Create a new {@code NullSafeForEach} for the supplied collection.
@@ -25,7 +22,7 @@ public abstract class NullSafeForEach<T, R> {
 
         if (isNotNull(elements)) {
 
-            results = new ArrayList<R>(elements.size());
+            results = new HashSet<R>(elements.size());
 
             R result;
 
@@ -58,7 +55,7 @@ public abstract class NullSafeForEach<T, R> {
      *
      * @return the resulting list.
      */
-    public List<R> results() {
+    public Set<R> results() {
 
         return results;
     }
