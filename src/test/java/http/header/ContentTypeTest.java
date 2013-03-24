@@ -32,7 +32,7 @@ public class ContentTypeTest {
     @Test
     public void testCreateAcceptWithMimeTypeString() throws Exception {
 
-        ContentType contentType = new ContentType(APPLICATION + '/' + JSON);
+        ContentType contentType = new ContentType(APPLICATION + '/' + JSON + "; charset=UTF-8");
 
         assertContentType(contentType);
     }

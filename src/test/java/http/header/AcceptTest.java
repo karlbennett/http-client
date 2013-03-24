@@ -30,7 +30,7 @@ public class AcceptTest {
     @Test
     public void testCreateAcceptWithMimeTypeString() throws Exception {
 
-        Accept accept = new Accept(APPLICATION + '/' + JSON);
+        Accept accept = new Accept(APPLICATION + '/' + JSON + "; charset=UTF-8");
 
         assertAccept(accept);
     }
