@@ -15,6 +15,7 @@ import static http.Cookies.COOKIE_ONE;
 import static http.Cookies.COOKIE_TWO;
 import static http.header.Headers.HEADERS;
 import static http.Bodies.*;
+import static http.util.MimeTypes.*;
 import static org.junit.Assert.*;
 
 /**
@@ -211,28 +212,32 @@ public class MessageTest {
         Message<Void> message = new Message<Void>();
         message.setHeaders(HEADERS);
 
-        message.addHeader(new Header<Object>(Accept.ACCEPT, new FormUrlEncodedAccept().getValue()));
+        ContentType contentTypeFormUrlEncoded = new ContentType(APPLICATION_X_WWW_FORM_URL_ENCODED);
+
+        message.addHeader(new Header<Object>(Accept.ACCEPT, contentTypeFormUrlEncoded.getValue()));
 
         Collection<Accept> accepts = message.getHeaders(Accept.class);
 
         assertNotNull("some accept headers should be returned.", accepts);
         assertEquals("one accept header should be returned.", 1, accepts.size());
         assertTrue("a form url encoded accept header should be returned.",
-                accepts.contains(new FormUrlEncodedAccept()));
+                accepts.contains(contentTypeFormUrlEncoded));
 
         assertNull("still no content type headers should be returned.", message.getHeaders(ContentType.class));
         assertNull("still no cookie headers should be returned.", message.getHeaders(http.header.Cookie.class));
         assertNull("still no set cookie headers should be returned.", message.getHeaders(SetCookie.class));
 
-        message.addHeader(new JsonAccept());
+        Accept acceptJson = new Accept(APPLICATION_JSON);
+
+        message.addHeader(acceptJson);
 
         accepts = message.getHeaders(Accept.class);
 
         assertNotNull("some accept headers should be returned.", accepts);
         assertEquals("two accept headers should be returned.", 2, accepts.size());
         assertTrue("a form url encoded accept header should be returned.",
-                accepts.contains(new FormUrlEncodedAccept()));
-        assertTrue("a json accept header should be returned.", accepts.contains(new JsonAccept()));
+                accepts.contains(contentTypeFormUrlEncoded));
+        assertTrue("a json accept header should be returned.", accepts.contains(acceptJson));
 
         assertNull("still no content type headers should be returned.", message.getHeaders(ContentType.class));
         assertNull("still no cookie headers should be returned.", message.getHeaders(http.header.Cookie.class));
@@ -245,28 +250,32 @@ public class MessageTest {
         Message<Void> message = new Message<Void>();
         message.setHeaders(HEADERS);
 
-        message.addHeader(new Header<Object>(ContentType.CONTENT_TYPE, new FormUrlEncodedContentType().getValue()));
+        ContentType contentTypeFormUrlEncoded = new ContentType(APPLICATION_X_WWW_FORM_URL_ENCODED);
+
+        message.addHeader(new Header<Object>(ContentType.CONTENT_TYPE, contentTypeFormUrlEncoded.getValue()));
 
         Collection<ContentType> contentTypes = message.getHeaders(ContentType.class);
 
         assertNotNull("some content type headers should be returned.", contentTypes);
         assertEquals("one content type header should be returned.", 1, contentTypes.size());
         assertTrue("a form url encoded content type header should be returned.",
-                contentTypes.contains(new FormUrlEncodedContentType()));
+                contentTypes.contains(contentTypeFormUrlEncoded));
 
         assertNull("still no accept headers should be returned.", message.getHeaders(Accept.class));
         assertNull("still no cookie headers should be returned.", message.getHeaders(http.header.Cookie.class));
         assertNull("still no set cookie headers should be returned.", message.getHeaders(SetCookie.class));
 
-        message.addHeader(new JsonContentType());
+        ContentType contentTypeXml = new ContentType(APPLICATION_XML);
+
+        message.addHeader(contentTypeXml);
 
         contentTypes = message.getHeaders(ContentType.class);
 
         assertNotNull("some content type headers should be returned.", contentTypes);
         assertEquals("two content type headers should be returned.", 2, contentTypes.size());
         assertTrue("a form url encoded content type header should be returned.",
-                contentTypes.contains(new FormUrlEncodedContentType()));
-        assertTrue("a json content type header should be returned.", contentTypes.contains(new JsonContentType()));
+                contentTypes.contains(contentTypeFormUrlEncoded));
+        assertTrue("an xml content type header should be returned.", contentTypes.contains(contentTypeXml));
 
         assertNull("still no accept headers should be returned.", message.getHeaders(Accept.class));
         assertNull("still no cookie headers should be returned.", message.getHeaders(http.header.Cookie.class));
