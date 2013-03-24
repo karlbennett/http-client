@@ -14,10 +14,13 @@ import static org.junit.Assert.*;
  */
 public class MimeTypesTest {
 
-    private static final String APPLICATION_X_WWW_FORM_URL_ENCODED_STRING = APPLICATION + '/' + X_WWW_FORM_URL_ENCODED;
-    private static final String APPLICATION_JSON_STRING = APPLICATION + '/' + JSON;
-    private static final String MULTIPART_FORM_DATA_STRING = MULTIPART + '/' + FORM_DATA;
-    private static final String APPLICATION_XML_STRING = APPLICATION + '/' + XML;
+    private static final String CHAR_SET_SUFFIX = "; charset=UTF-8";
+
+    private static final String APPLICATION_X_WWW_FORM_URL_ENCODED_STRING = APPLICATION + '/' + X_WWW_FORM_URL_ENCODED +
+            CHAR_SET_SUFFIX;
+    private static final String APPLICATION_JSON_STRING = APPLICATION + '/' + JSON + CHAR_SET_SUFFIX;
+    private static final String MULTIPART_FORM_DATA_STRING = MULTIPART + '/' + FORM_DATA + CHAR_SET_SUFFIX;
+    private static final String APPLICATION_XML_STRING = APPLICATION + '/' + XML + CHAR_SET_SUFFIX;
 
     private static final MimeType APPLICATION_X_WWW_FORM_URL_ENCODED;
     private static final MimeType APPLICATION_JSON;
