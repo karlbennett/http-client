@@ -1,5 +1,10 @@
 package http.util;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+
 import static http.util.Checks.isNotNull;
 
 /**
@@ -7,16 +12,34 @@ import static http.util.Checks.isNotNull;
  *
  * @author Karl Bennett
  */
-public abstract class NullSafeForEach<T> {
+public abstract class NullSafeForEach<T, R> {
+
+    private final List<R> results;
 
     /**
-     * Create a new {@code NullSafeForEach} for the supplied iterable collection.
+     * Create a new {@code NullSafeForEach} for the supplied collection.
      *
-     * @param iterable the collection to iterate over.
+     * @param elements the collection to iterate over.
      */
-    public NullSafeForEach(Iterable<T> iterable) {
+    public NullSafeForEach(Collection<T> elements) {
 
-        if (isNotNull(iterable)) for (T element : iterable) next(element);
+        if (isNotNull(elements)) {
+
+            results = new ArrayList<R>(elements.size());
+
+            R result;
+
+            for (T element : elements) {
+
+                result = next(element);
+
+                if (null != result) results.add(result);
+            }
+
+        } else {
+
+            results = null;
+        }
     }
 
     /**
@@ -26,13 +49,26 @@ public abstract class NullSafeForEach<T> {
      */
     public NullSafeForEach(T[] elements) {
 
-        if (isNotNull(elements)) for (T element : elements) next(element);
+        this(null == elements ? null : Arrays.asList(elements));
+    }
+
+
+    /**
+     * Get the {@link List} created from the result of the for each.
+     *
+     * @return the resulting list.
+     */
+    public List<R> results() {
+
+        return results;
     }
 
     /**
      * Implement this method to get access to each of the collections elements. It will be called once for each element.
      *
      * @param element the next element in the collection.
+     * @return an element that will be added to the {@link #results} list, otherwise return null to add nothing to the
+     *         results list.
      */
-    protected abstract void next(T element);
+    protected abstract R next(T element);
 }

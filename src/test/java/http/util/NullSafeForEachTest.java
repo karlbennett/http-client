@@ -19,17 +19,21 @@ public class NullSafeForEachTest {
         final int[] sum = {0};
 
         Collection<Integer> numbers = Arrays.asList(1, 2, 3, 4);
+        Collection<String> sums = Arrays.asList("1", "3", "10");
 
-        new NullSafeForEach<Integer>(numbers) {
+        Collection<String> results = new NullSafeForEach<Integer, String>(numbers) {
 
             @Override
-            protected void next(Integer number) {
+            protected String next(Integer number) {
 
                 sum[0] += number;
+
+                return 3 == number ? null : String.valueOf(sum[0]);
             }
-        };
+        }.results();
 
         assertEquals("the sum should be correct.", 10, sum[0]);
+        assertEquals("the results should be correct.", sums, results);
     }
 
     @Test
@@ -37,22 +41,26 @@ public class NullSafeForEachTest {
 
         final int[] sum = {0};
 
-        new NullSafeForEach<Integer>(new Integer[]{1, 2, 3, 4}) {
+        Collection<String> sums = Arrays.asList("1", "3", "10");
+
+        Collection<String> results = new NullSafeForEach<Integer, String>(new Integer[]{1, 2, 3, 4}) {
 
             @Override
-            protected void next(Integer number) {
+            protected String next(Integer number) {
 
                 sum[0] += number;
+
+                return 3 == number ? null : String.valueOf(sum[0]);
             }
-        };
+        }.results();
 
         assertEquals("the sum should be correct.", 10, sum[0]);
+        assertEquals("the results should be correct.", sums, results);
     }
 
     @Test
     public void testNullSafeForEachWithMap() throws Exception {
 
-        final StringBuilder builder = new StringBuilder();
         final int[] sum = {0};
 
         Map<String, Integer> numbers = new TreeMap<String, Integer>();
@@ -61,27 +69,28 @@ public class NullSafeForEachTest {
         numbers.put("three", 3);
         numbers.put("four", 4);
 
-        new NullSafeForEach<Entry<String, Integer>>(numbers.entrySet()) {
+        Collection<String> results = new NullSafeForEach<Entry<String, Integer>, String>(numbers.entrySet()) {
 
             @Override
-            protected void next(Entry<String, Integer> number) {
+            protected String next(Entry<String, Integer> number) {
 
-                builder.append(number.getKey());
                 sum[0] += number.getValue();
-            }
-        };
 
-        assertEquals("the string should be correct.", "fouronethreetwo", builder.toString());
+                return number.getKey();
+            }
+        }.results();
+
         assertEquals("the sum should be correct.", 10, sum[0]);
+        assertEquals("the results should be correct.", new ArrayList<String>(numbers.keySet()), results);
     }
 
     @Test
     public void testNullSafeForEachWithEmptyCollection() throws Exception {
 
-        new NullSafeForEach<Object>(Collections.emptySet()) {
+        new NullSafeForEach<Void, Void>(Collections.<Void>emptySet()) {
 
             @Override
-            protected void next(Object number) {
+            protected Void next(Void number) {
 
                 throw new AssertionError("NullSafeForEach.next(T) should not be called.");
             }
@@ -91,10 +100,10 @@ public class NullSafeForEachTest {
     @Test
     public void testNullSafeForEachWithEmptyArray() throws Exception {
 
-        new NullSafeForEach<Object>(new Object[0]) {
+        new NullSafeForEach<Void, Void>(new Void[0]) {
 
             @Override
-            protected void next(Object number) {
+            protected Void next(Void number) {
 
                 throw new AssertionError("NullSafeForEach.next(T) should not be called.");
             }
@@ -104,10 +113,10 @@ public class NullSafeForEachTest {
     @Test
     public void testNullSafeForEachWithNullCollection() throws Exception {
 
-        new NullSafeForEach<Object>((Iterable<Object>) null) {
+        new NullSafeForEach<Void, Void>((Collection<Void>) null) {
 
             @Override
-            protected void next(Object number) {
+            protected Void next(Void number) {
 
                 throw new AssertionError("NullSafeForEach.next(T) should not be called.");
             }
@@ -117,10 +126,10 @@ public class NullSafeForEachTest {
     @Test
     public void testNullSafeForEachWithNullArray() throws Exception {
 
-        new NullSafeForEach<Object>((Object[]) null) {
+        new NullSafeForEach<Void, Void>((Void[]) null) {
 
             @Override
-            protected void next(Object number) {
+            protected Void next(Void number) {
 
                 throw new AssertionError("NullSafeForEach.next(T) should not be called.");
             }
