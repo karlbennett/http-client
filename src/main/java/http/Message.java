@@ -9,6 +9,7 @@ import http.header.ContentType;
 import http.header.Header;
 import http.header.SetCookie;
 import http.util.Converter;
+import http.util.NullSafeForEach;
 
 import java.util.*;
 
@@ -32,18 +33,35 @@ public class Message<T> {
                     new Conversion<Collection<Accept>, AttributeSetMap<Header>>() {
 
                         @Override
-                        public Collection<Accept> convert(AttributeSetMap<Header> object) {
+                        public Collection<Accept> convert(AttributeSetMap<Header> headers) {
 
-                            return null;
+                            return new NullSafeForEach<Header, Accept>(headers.get(Accept.ACCEPT)) {
+
+                                @Override
+                                protected Accept next(Header header) {
+
+                                    return new Accept(header);
+                                }
+
+                            }.results();
                         }
-                    }),
+                    }
+            ),
             new SimpleEntry<Class, Conversion>(ContentType.class,
                     new Conversion<Collection<ContentType>, AttributeSetMap<Header>>() {
 
                         @Override
-                        public Collection<ContentType> convert(AttributeSetMap<Header> object) {
+                        public Collection<ContentType> convert(AttributeSetMap<Header> headers) {
 
-                            return null;
+                            return new NullSafeForEach<Header, ContentType>(headers.get(ContentType.CONTENT_TYPE)) {
+
+                                @Override
+                                protected ContentType next(Header header) {
+
+                                    return new ContentType(header);
+                                }
+
+                            }.results();
                         }
                     }
             ),
@@ -51,7 +69,7 @@ public class Message<T> {
                     new Conversion<Collection<http.header.Cookie>, AttributeSetMap<Header>>() {
 
                         @Override
-                        public Collection<http.header.Cookie> convert(AttributeSetMap<Header> object) {
+                        public Collection<http.header.Cookie> convert(AttributeSetMap<Header> headers) {
 
                             return null;
                         }
@@ -61,7 +79,7 @@ public class Message<T> {
                     new Conversion<Collection<SetCookie>, AttributeSetMap<Header>>() {
 
                         @Override
-                        public Collection<SetCookie> convert(AttributeSetMap<Header> object) {
+                        public Collection<SetCookie> convert(AttributeSetMap<Header> headers) {
 
                             return null;
                         }
