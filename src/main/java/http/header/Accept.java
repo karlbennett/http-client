@@ -14,7 +14,7 @@ public class Accept extends Header<MimeType> {
     public static final String ACCEPT = "Accept";
 
     /**
-     * Convert the supplied {@code Header} into an {@code Accept} instance.
+     * Convert the supplied {@link Header} into an {@code Accept} instance.
      *
      * @param header the {@code Header} to convert.
      * @return the new {@code Accept} instance built from the {@code Header}.
