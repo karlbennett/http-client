@@ -105,7 +105,7 @@ public final class MimeTypes {
 
         } catch (MimeTypeParseException e) {
 
-            throw new IllegalStateException(e);
+            throw new IllegalArgumentException(e);
         }
     }
 
@@ -126,7 +126,7 @@ public final class MimeTypes {
 
         } catch (MimeTypeParseException e) {
 
-            throw new IllegalStateException(e);
+            throw new IllegalArgumentException(e);
         }
     }
 }

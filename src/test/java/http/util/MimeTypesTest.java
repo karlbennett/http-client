@@ -65,6 +65,12 @@ public class MimeTypesTest {
                 APPLICATION_XML, quietMimeType(APPLICATION_XML_STRING));
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void testQuietMimeTypeWithInvalidRawData() throws Exception {
+
+        quietMimeType("test");
+    }
+
     @Test
     public void testQuietMimeTypeWithPrimaryAndSub() throws Exception {
 
@@ -79,6 +85,37 @@ public class MimeTypesTest {
 
         assertEquals("application/xml mime type should be created correctly.",
                 APPLICATION_XML, quietMimeType(APPLICATION, XML));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testQuietMimeTypeWithInvalidPrimaryAndSub() throws Exception {
+
+        quietMimeType("t3$t", ":t3$t");
+    }
+
+    @Test
+    public void testCreateComparableMimeType() throws Exception {
+
+        MimeType mimeType = new MimeType(APPLICATION, JSON);
+        MimeType comparableMimeType = new ComparableMimeType(APPLICATION, JSON);
+
+        assertEquals("the MIME type primary value should be correct.", mimeType.getPrimaryType(),
+                comparableMimeType.getPrimaryType());
+
+        assertEquals("the MIME type sub value should be correct.", mimeType.getSubType(),
+                comparableMimeType.getSubType());
+    }
+
+    @Test(expected = MimeTypeParseException.class)
+    public void testCreateComparableMimeTypeWithInvalidRawData() throws Exception {
+
+        new ComparableMimeType("test");
+    }
+
+    @Test(expected = MimeTypeParseException.class)
+    public void testCreateComparableMimeTypeWithInvalidPrimaryAndSub() throws Exception {
+
+        new ComparableMimeType("t3$t", ":t3$t");
     }
 
     @Test
