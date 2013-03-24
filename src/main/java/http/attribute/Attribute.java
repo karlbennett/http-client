@@ -158,7 +158,7 @@ public class Attribute<T> {
 
         if (this == o) return true;
 
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || !(o instanceof Attribute)) return false;
 
         Attribute attribute = (Attribute) o;
 
