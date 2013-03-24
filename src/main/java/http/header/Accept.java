@@ -53,6 +53,15 @@ public class Accept extends Header<MimeType> {
     }
 
     /**
+     * Create a new {@code Accept} header with the supplied {@code MIME} type {@link String}.
+     *
+     * @param rawData a {@link String} containing a MIME type value.
+     */
+    public Accept(String rawData) {
+        super(ACCEPT, quietMimeType(rawData));
+    }
+
+    /**
      * {@code Accept} copy constructor.
      *
      * @param accept the {@code Accept} instance to copy.

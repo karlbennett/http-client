@@ -28,6 +28,14 @@ public class AcceptTest {
     }
 
     @Test
+    public void testCreateAcceptWithMimeTypeString() throws Exception {
+
+        Accept accept = new Accept(APPLICATION + '/' + JSON);
+
+        assertAccept(accept);
+    }
+
+    @Test
     public void testCreateAcceptWithCopyConstructor() throws Exception {
 
         Accept accept = new Accept(APPLICATION_JSON);
@@ -47,6 +55,18 @@ public class AcceptTest {
         Accept accept = new Accept(header);
 
         assertAccept(accept);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testCreateAcceptWithInvalidPrimaryAndSubStrings() throws Exception {
+
+        new Accept("te$t", ":te$t");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testCreateAcceptWithInvalidMimeTypeString() throws Exception {
+
+        new Accept("test");
     }
 
     @Test(expected = IllegalArgumentException.class)
