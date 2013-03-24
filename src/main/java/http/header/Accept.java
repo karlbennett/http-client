@@ -13,6 +13,12 @@ public class Accept extends Header<MimeType> {
 
     public static final String ACCEPT = "Accept";
 
+    /**
+     * Convert the supplied {@code Header} into an {@code Accept} instance.
+     *
+     * @param header the {@code Header} to convert.
+     * @return the new {@code Accept} instance built from the {@code Header}.
+     */
     private static Accept convert(Header header) {
 
         if (ACCEPT.equals(header.getName())) {
