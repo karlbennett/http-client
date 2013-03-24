@@ -18,8 +18,8 @@ public class Accept extends Header<MimeType> {
      *
      * @param header the {@code Header} to convert.
      * @return the new {@code Accept} instance built from the {@code Header}.
-     * @throws IllegalArgumentException if the supplied header doesn't have a name of "Accept".
-     * @throws IllegalStateException if the header value isn't a valid MIME type.
+     * @throws IllegalArgumentException if the supplied header doesn't have a name of "Accept" or the value isn't a
+     *                                  valid MIME type.
      */
     private static Accept convert(Header header) {
 
