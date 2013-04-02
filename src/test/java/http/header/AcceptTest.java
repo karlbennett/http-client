@@ -1,90 +1,46 @@
 package http.header;
 
-import org.junit.Test;
+import javax.activation.MimeType;
 
 import static http.util.MimeTypes.*;
 import static http.header.Accept.ACCEPT;
-import static org.junit.Assert.*;
 
 /**
  * @author Karl Bennett
  */
-public class AcceptTest {
+public class AcceptTest extends AbstractMimeTypeTest<Accept> {
 
-    @Test
-    public void testCreateAccept() throws Exception {
-
-        Accept accept = new Accept(APPLICATION_JSON);
-
-        assertAccept(accept);
+    public AcceptTest() {
+        super(ACCEPT, APPLICATION_JSON);
     }
 
-    @Test
-    public void testCreateAcceptWithPrimaryAndSubStrings() throws Exception {
+    @Override
+    protected Accept createMimeTypeHeader(MimeType mimeType) {
 
-        Accept accept = new Accept(APPLICATION, JSON);
-
-        assertAccept(accept);
+        return new Accept(mimeType);
     }
 
-    @Test
-    public void testCreateAcceptWithMimeTypeString() throws Exception {
+    @Override
+    protected Accept createMimeTypeHeader(String primary, String sub) {
 
-        Accept accept = new Accept(APPLICATION + '/' + JSON + "; charset=UTF-8");
-
-        assertAccept(accept);
+        return new Accept(primary, sub);
     }
 
-    @Test
-    public void testCreateAcceptWithCopyConstructor() throws Exception {
+    @Override
+    protected Accept createMimeTypeHeader(String rawData) {
 
-        Accept accept = new Accept(APPLICATION_JSON);
-
-        Accept acceptCopy = new Accept(accept);
-
-        assertEquals("the copy accept should equal the original.", accept, acceptCopy);
-
-        assertAccept(acceptCopy);
+        return new Accept(rawData);
     }
 
-    @Test
-    public void testCreateAcceptWithConversion() throws Exception {
+    @Override
+    protected Accept copyMimeTypeHeader(Accept accept) {
 
-        Header header = new Header<Object>(ACCEPT, APPLICATION + '/' + JSON);
-
-        Accept accept = new Accept(header);
-
-        assertAccept(accept);
+        return new Accept(accept);
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testCreateAcceptWithInvalidPrimaryAndSubStrings() throws Exception {
+    @Override
+    protected Accept convertMimeTypeHeader(Header header) {
 
-        new Accept("te$t", ":te$t");
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testCreateAcceptWithInvalidMimeTypeString() throws Exception {
-
-        new Accept("test");
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testCreateAcceptWithInvalidHeaderType() throws Exception {
-
-        new Accept(new Header<Object>("Test", new Object()));
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testCreateAcceptWithInvalidHeaderValue() throws Exception {
-
-        new Accept(new Header<Object>("Test", new Object()));
-    }
-
-
-    private static void assertAccept(Accept accept) {
-
-        assertEquals("the accept name should be correct.", ACCEPT, accept.getName());
-        assertEquals("the accept value should be correct.", APPLICATION_JSON, accept.getValue());
+        return new Accept(header);
     }
 }
