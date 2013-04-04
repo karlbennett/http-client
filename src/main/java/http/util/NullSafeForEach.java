@@ -61,6 +61,16 @@ public abstract class NullSafeForEach<T, R> {
     }
 
     /**
+     * Add all the elements within the supplied {@link Collection} to the {@code results} set.
+     *
+     * @param elements the elements to add.
+     */
+    protected void addAll(Collection<R> elements) {
+
+        if (isNotNull(elements)) this.results.addAll(elements);
+    }
+
+    /**
      * Implement this method to get access to each of the collections elements. It will be called once for each element.
      *
      * @param element the next element in the collection.

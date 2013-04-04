@@ -85,6 +85,46 @@ public class NullSafeForEachTest {
     }
 
     @Test
+    public void testAddAll() throws Exception {
+
+        final int[] sum = {0};
+
+        Collection<Integer> numbers = Arrays.asList(1, 2, 3, 4);
+
+        Collection<String> sums = new HashSet<String>(){{
+            addAll(Arrays.asList("11"));
+            addAll(Arrays.asList("21", "23"));
+            addAll(Arrays.asList("31", "33", "36"));
+            addAll(Arrays.asList("41", "43", "46", "410"));
+        }};
+
+        final Collection<String> sumHolder = new HashSet<String>();
+        Collection<String> results = new NullSafeForEach<Integer, String>(numbers) {
+
+            @Override
+            protected String next(Integer number) {
+
+                sum[0] += number;
+                sumHolder.add(String.valueOf(sum[0]));
+
+                Collection<String> numbers = new HashSet<String>();
+
+                for (String sumString : sumHolder) {
+
+                    numbers.add(number.toString() + sumString);
+                }
+
+                addAll(numbers);
+
+                return null;
+            }
+        }.results();
+
+        assertEquals("the sum should be correct.", 10, sum[0]);
+        assertEquals("the results should be correct.", sums, results);
+    }
+
+    @Test
     public void testNullSafeForEachWithEmptyCollection() throws Exception {
 
         new NullSafeForEach<Void, Void>(Collections.<Void>emptySet()) {
