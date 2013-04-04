@@ -23,6 +23,11 @@ public class Accept extends Header<MimeType> {
      */
     private static Accept convert(Header header) {
 
+        if (header instanceof Accept) {
+
+            return (Accept) header;
+        }
+
         if (ACCEPT.equals(header.getName())) {
 
             return new Accept(quietMimeType(header.getValue().toString()));

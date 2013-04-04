@@ -23,6 +23,11 @@ public class ContentType extends Header<MimeType> {
      */
     private static ContentType convert(Header header) {
 
+        if (header instanceof ContentType) {
+
+            return (ContentType) header;
+        }
+
         if (CONTENT_TYPE.equals(header.getName())) {
 
             return new ContentType(quietMimeType(header.getValue().toString()));
