@@ -4,10 +4,8 @@ import http.attribute.Attribute;
 import http.attribute.AttributeCollectionMap;
 import http.attribute.AttributeHashSetMap;
 import http.attribute.AttributeSetMap;
-import http.header.Accept;
-import http.header.ContentType;
-import http.header.Header;
-import http.header.SetCookie;
+import http.header.*;
+import http.header.Cookie;
 import http.util.Converter;
 import http.util.NullSafeForEach;
 
@@ -16,8 +14,6 @@ import java.util.*;
 import static http.util.Asserts.assertNotNull;
 import static http.util.Checks.isNotNull;
 import static http.util.Converter.Conversion;
-import static http.util.Maps.populateMap;
-import static java.util.AbstractMap.SimpleEntry;
 
 /**
  * Represents a generic HTTP message and supplies accessor methods for retrieving and populating the common HTTP message
@@ -27,65 +23,80 @@ import static java.util.AbstractMap.SimpleEntry;
  */
 public class Message<T> {
 
-    private static final Map<Class, Conversion> CONVERSIONS = populateMap(new HashMap<Class, Conversion>(),
+    private static final Map<Class, Conversion> CONVERSIONS = new HashMap<Class, Conversion>() {{
+        put(Accept.class, new Conversion<Collection<Accept>, AttributeSetMap<Header>>() {
 
-            new SimpleEntry<Class, Conversion>(Accept.class,
-                    new Conversion<Collection<Accept>, AttributeSetMap<Header>>() {
+                    @Override
+                    public Collection<Accept> convert(AttributeSetMap<Header> headers) {
 
-                        @Override
-                        public Collection<Accept> convert(AttributeSetMap<Header> headers) {
+                        return new NullSafeForEach<Header, Accept>(headers.get(Accept.ACCEPT)) {
 
-                            return new NullSafeForEach<Header, Accept>(headers.get(Accept.ACCEPT)) {
+                            @Override
+                            protected Accept next(Header header) {
 
-                                @Override
-                                protected Accept next(Header header) {
+                                return new Accept(header);
+                            }
 
-                                    return new Accept(header);
-                                }
-
-                            }.results();
-                        }
+                        }.results();
                     }
-            ),
-            new SimpleEntry<Class, Conversion>(ContentType.class,
-                    new Conversion<Collection<ContentType>, AttributeSetMap<Header>>() {
+                }
+        );
+        put(ContentType.class, new Conversion<Collection<ContentType>, AttributeSetMap<Header>>() {
 
-                        @Override
-                        public Collection<ContentType> convert(AttributeSetMap<Header> headers) {
+                    @Override
+                    public Collection<ContentType> convert(AttributeSetMap<Header> headers) {
 
-                            return new NullSafeForEach<Header, ContentType>(headers.get(ContentType.CONTENT_TYPE)) {
+                        return new NullSafeForEach<Header, ContentType>(headers.get(ContentType.CONTENT_TYPE)) {
 
-                                @Override
-                                protected ContentType next(Header header) {
+                            @Override
+                            protected ContentType next(Header header) {
 
-                                    return new ContentType(header);
-                                }
+                                return new ContentType(header);
+                            }
 
-                            }.results();
-                        }
+                        }.results();
                     }
-            ),
-            new SimpleEntry<Class, Conversion>(http.header.Cookie.class,
-                    new Conversion<Collection<http.header.Cookie>, AttributeSetMap<Header>>() {
+                }
+        );
+        put(Cookie.class, new Conversion<Collection<Cookie>, AttributeSetMap<Header>>() {
 
-                        @Override
-                        public Collection<http.header.Cookie> convert(AttributeSetMap<Header> headers) {
+                    @Override
+                    public Collection<Cookie> convert(AttributeSetMap<Header> headers) {
 
-                            return null;
-                        }
+                        return new NullSafeForEach<Header, Cookie>(headers.get(Cookie.COOKIE)) {
+
+                            @Override
+                            protected Cookie next(Header header) {
+
+                                addAll(Cookie.convert(header));
+
+                                return null;
+                            }
+
+                        }.results();
                     }
-            ),
-            new SimpleEntry<Class, Conversion>(SetCookie.class,
-                    new Conversion<Collection<SetCookie>, AttributeSetMap<Header>>() {
+                }
+        );
+        put(SetCookie.class, new Conversion<Collection<SetCookie>, AttributeSetMap<Header>>() {
 
-                        @Override
-                        public Collection<SetCookie> convert(AttributeSetMap<Header> headers) {
+                    @Override
+                    public Collection<SetCookie> convert(AttributeSetMap<Header> headers) {
 
-                            return null;
-                        }
+                        return new NullSafeForEach<Header, SetCookie>(headers.get(SetCookie.SET_COOKIE)) {
+
+                            @Override
+                            protected SetCookie next(Header header) {
+
+                                addAll(SetCookie.convert(header));
+
+                                return null;
+                            }
+
+                        }.results();
                     }
-            )
-    );
+                }
+        );
+    }};
 
     private static final Converter CONVERTER = new Converter(CONVERSIONS);
 
