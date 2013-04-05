@@ -10,18 +10,18 @@ import static org.junit.Assert.assertEquals;
 /**
  * @author Karl Bennett
  */
-public class NullSafeForEachTest {
+public class MapperTest {
 
 
     @Test
-    public void testNullSafeForEachWithCollection() throws Exception {
+    public void testMapperWithCollection() throws Exception {
 
         final int[] sum = {0};
 
         Collection<Integer> numbers = Arrays.asList(1, 2, 3, 4);
-        Collection<String> sums = new HashSet<String>(Arrays.asList("1", "3", "10"));
+        List<String> sums = new ArrayList<String>(Arrays.asList("1", "3", "10"));
 
-        Collection<String> results = new NullSafeForEach<Integer, String>(numbers) {
+        List<String> results = new Mapper<Integer, String>(numbers) {
 
             @Override
             protected String next(Integer number) {
@@ -37,13 +37,13 @@ public class NullSafeForEachTest {
     }
 
     @Test
-    public void testNullSafeForEachWithArray() throws Exception {
+    public void testMapperWithArray() throws Exception {
 
         final int[] sum = {0};
 
-        Collection<String> sums = new HashSet<String>(Arrays.asList("1", "3", "10"));
+        List<String> sums = new ArrayList<String>(Arrays.asList("1", "3", "10"));
 
-        Collection<String> results = new NullSafeForEach<Integer, String>(new Integer[]{1, 2, 3, 4}) {
+        List<String> results = new Mapper<Integer, String>(new Integer[]{1, 2, 3, 4}) {
 
             @Override
             protected String next(Integer number) {
@@ -59,7 +59,7 @@ public class NullSafeForEachTest {
     }
 
     @Test
-    public void testNullSafeForEachWithMap() throws Exception {
+    public void testMapperWithMap() throws Exception {
 
         final int[] sum = {0};
 
@@ -69,7 +69,7 @@ public class NullSafeForEachTest {
         numbers.put("three", 3);
         numbers.put("four", 4);
 
-        Collection<String> results = new NullSafeForEach<Entry<String, Integer>, String>(numbers.entrySet()) {
+        List<String> results = new Mapper<Entry<String, Integer>, String>(numbers.entrySet()) {
 
             @Override
             protected String next(Entry<String, Integer> number) {
@@ -81,7 +81,7 @@ public class NullSafeForEachTest {
         }.results();
 
         assertEquals("the sum should be correct.", 10, sum[0]);
-        assertEquals("the results should be correct.", numbers.keySet(), results);
+        assertEquals("the results should be correct.", new ArrayList<String>(numbers.keySet()), results);
     }
 
     @Test
@@ -91,15 +91,15 @@ public class NullSafeForEachTest {
 
         Collection<Integer> numbers = Arrays.asList(1, 2, 3, 4);
 
-        Collection<String> sums = new HashSet<String>(){{
+        List<String> sums = new ArrayList<String>(){{
             addAll(Arrays.asList("11"));
             addAll(Arrays.asList("21", "23"));
             addAll(Arrays.asList("31", "33", "36"));
             addAll(Arrays.asList("41", "43", "46", "410"));
         }};
 
-        final Collection<String> sumHolder = new HashSet<String>();
-        Collection<String> results = new NullSafeForEach<Integer, String>(numbers) {
+        final List<String> sumHolder = new ArrayList<String>();
+        List<String> results = new Mapper<Integer, String>(numbers) {
 
             @Override
             protected String next(Integer number) {
@@ -107,7 +107,7 @@ public class NullSafeForEachTest {
                 sum[0] += number;
                 sumHolder.add(String.valueOf(sum[0]));
 
-                Collection<String> numbers = new HashSet<String>();
+                List<String> numbers = new ArrayList<String>();
 
                 for (String sumString : sumHolder) {
 
@@ -118,61 +118,61 @@ public class NullSafeForEachTest {
 
                 return null;
             }
-        }.results();
+        }.results(sums.size());
 
         assertEquals("the sum should be correct.", 10, sum[0]);
         assertEquals("the results should be correct.", sums, results);
     }
 
     @Test
-    public void testNullSafeForEachWithEmptyCollection() throws Exception {
+    public void testMapperWithEmptyCollection() throws Exception {
 
-        new NullSafeForEach<Void, Void>(Collections.<Void>emptySet()) {
+        new Mapper<Void, Void>(Collections.<Void>emptySet()) {
 
             @Override
             protected Void next(Void number) {
 
-                throw new AssertionError("NullSafeForEach.next(T) should not be called.");
+                throw new AssertionError("Mapper.next(T) should not be called.");
             }
         };
     }
 
     @Test
-    public void testNullSafeForEachWithEmptyArray() throws Exception {
+    public void testMapperWithEmptyArray() throws Exception {
 
-        new NullSafeForEach<Void, Void>(new Void[0]) {
+        new Mapper<Void, Void>(new Void[0]) {
 
             @Override
             protected Void next(Void number) {
 
-                throw new AssertionError("NullSafeForEach.next(T) should not be called.");
+                throw new AssertionError("Mapper.next(T) should not be called.");
             }
-        };
+        }.results();
     }
 
     @Test
-    public void testNullSafeForEachWithNullCollection() throws Exception {
+    public void testMapperWithNullCollection() throws Exception {
 
-        new NullSafeForEach<Void, Void>((Collection<Void>) null) {
+        new Mapper<Void, Void>((Collection<Void>) null) {
 
             @Override
             protected Void next(Void number) {
 
-                throw new AssertionError("NullSafeForEach.next(T) should not be called.");
+                throw new AssertionError("Mapper.next(T) should not be called.");
             }
-        };
+        }.results();
     }
 
     @Test
-    public void testNullSafeForEachWithNullArray() throws Exception {
+    public void testMapperWithNullArray() throws Exception {
 
-        new NullSafeForEach<Void, Void>((Void[]) null) {
+        new Mapper<Void, Void>((Void[]) null) {
 
             @Override
             protected Void next(Void number) {
 
-                throw new AssertionError("NullSafeForEach.next(T) should not be called.");
+                throw new AssertionError("Mapper.next(T) should not be called.");
             }
-        };
+        }.results();
     }
 }

@@ -1,6 +1,6 @@
 package http.header;
 
-import http.util.NullSafeForEach;
+import http.util.Mapper;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -33,7 +33,7 @@ public class Cookie extends Header<http.Cookie> {
         if (COOKIE.equals(header.getName())) {
 
             return new ArrayList<Cookie>(
-                    new NullSafeForEach<http.Cookie, Cookie>(http.Cookie.parse(header.getValue().toString())) {
+                    new Mapper<http.Cookie, Cookie>(http.Cookie.parse(header.getValue().toString())) {
 
                         @Override
                         protected Cookie next(http.Cookie element) {

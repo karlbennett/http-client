@@ -2,10 +2,7 @@ package http;
 
 import org.junit.Test;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
+import java.util.*;
 
 import static org.junit.Assert.*;
 
@@ -123,11 +120,11 @@ public abstract class AbstractMessagePropertyTest<M, P> extends AbstractProperty
         M message = messageExecutor.newMessage();
         messageExecutor.setProperties(message, properties);
 
-        assertEquals("property one is retrieved correctly.", new HashSet<P>(Arrays.asList(propertyOne)),
+        assertEquals("property one is retrieved correctly.", Arrays.asList(propertyOne),
                 messageExecutor.getProperties(message, propertyExecutor.getName(propertyOne)));
-        assertEquals("property two is retrieved correctly.", new HashSet<P>(Arrays.asList(propertyTwo)),
+        assertEquals("property two is retrieved correctly.", Arrays.asList(propertyTwo),
                 messageExecutor.getProperties(message, propertyExecutor.getName(propertyTwo)));
-        assertEquals("property three is retrieved correctly.", new HashSet<P>(Arrays.asList(propertyThree)),
+        assertEquals("property three is retrieved correctly.", Arrays.asList(propertyThree),
                 messageExecutor.getProperties(message, propertyExecutor.getName(propertyThree)));
     }
 
@@ -157,7 +154,7 @@ public abstract class AbstractMessagePropertyTest<M, P> extends AbstractProperty
                         propertyExecutor.getValue(propertyOne)));
 
         assertEquals("one property should exist", 1, messageExecutor.getProperties(message).size());
-        assertEquals("property one should have been added", new HashSet<P>(Arrays.asList(propertyOne)),
+        assertEquals("property one should have been added", Arrays.asList(propertyOne),
                 messageExecutor.getProperties(message, propertyExecutor.getName(propertyOne)));
 
         messageExecutor.addProperty(message,
@@ -165,7 +162,7 @@ public abstract class AbstractMessagePropertyTest<M, P> extends AbstractProperty
                         propertyExecutor.getValue(propertyTwo)));
 
         assertEquals("two properties should exist", 2, messageExecutor.getProperties(message).size());
-        assertEquals("property two should have been added", new HashSet<P>(Arrays.asList(propertyTwo)),
+        assertEquals("property two should have been added", Arrays.asList(propertyTwo),
                 messageExecutor.getProperties(message, propertyExecutor.getName(propertyTwo)));
 
         messageExecutor.addProperty(message,
@@ -173,7 +170,7 @@ public abstract class AbstractMessagePropertyTest<M, P> extends AbstractProperty
                         propertyExecutor.getValue(propertyThree)));
 
         assertEquals("three properties should exist", 3, messageExecutor.getProperties(message).size());
-        assertEquals("property three should have been added", new HashSet<P>(Arrays.asList(propertyThree)),
+        assertEquals("property three should have been added", Arrays.asList(propertyThree),
                 messageExecutor.getProperties(message, propertyExecutor.getName(propertyThree)));
     }
 
@@ -223,11 +220,11 @@ public abstract class AbstractMessagePropertyTest<M, P> extends AbstractProperty
         messageExecutor.addProperties(message, properties);
 
         assertEquals("three properties should exist", 3, messageExecutor.getProperties(message).size());
-        assertEquals("property one should have been added", new HashSet<P>(Arrays.asList(propertyOne)),
+        assertEquals("property one should have been added", Arrays.asList(propertyOne),
                 messageExecutor.getProperties(message, propertyExecutor.getName(propertyOne)));
-        assertEquals("property two should have been added", new HashSet<P>(Arrays.asList(propertyTwo)),
+        assertEquals("property two should have been added", Arrays.asList(propertyTwo),
                 messageExecutor.getProperties(message, propertyExecutor.getName(propertyTwo)));
-        assertEquals("property three should have been added", new HashSet<P>(Arrays.asList(propertyThree)),
+        assertEquals("property three should have been added", Arrays.asList(propertyThree),
                 messageExecutor.getProperties(message, propertyExecutor.getName(propertyThree)));
     }
 
@@ -284,13 +281,13 @@ public abstract class AbstractMessagePropertyTest<M, P> extends AbstractProperty
 
         messageExecutor.setProperties(message, removeProperties);
 
-        Collection<P> removedProperties = new HashSet<P>(Arrays.asList(propertyTwo, propertyThree));
+        List<P> removedProperties = Arrays.asList(propertyTwo, propertyThree);
 
         assertEquals("properties removed correctly.", removedProperties,
                 messageExecutor.removeProperties(message, removedProperties));
         assertFalse("properties no longer in the message.",
                 messageExecutor.getProperties(message).containsAll(removedProperties));
-        assertEquals("properties should not be able to be removed again.", Collections.emptySet(),
+        assertEquals("properties should not be able to be removed again.", Collections.emptyList(),
                 messageExecutor.removeProperties(message, removedProperties));
         assertTrue("property one is still in the message.",
                 messageExecutor.getProperties(message).contains(propertyOne));
@@ -319,13 +316,13 @@ public abstract class AbstractMessagePropertyTest<M, P> extends AbstractProperty
         messageExecutor.addProperty(message, property);
 
         assertEquals("one property should exist", 1, messageExecutor.getProperties(message).size());
-        assertEquals("property one should have an empty value", new HashSet<P>(Arrays.asList(property)),
+        assertEquals("property one should have an empty value", Arrays.asList(property),
                 messageExecutor.getProperties(message, propertyExecutor.getName(property)));
 
         messageExecutor.addProperty(message, property);
 
-        assertEquals("one property should exist", 1, messageExecutor.getProperties(message).size());
-        assertEquals("property one should have an empty value", new HashSet<P>(Arrays.asList(property)),
+        assertEquals("two properties should exist", 2, messageExecutor.getProperties(message).size());
+        assertEquals("property one should have an empty value", Arrays.asList(property, property),
                 messageExecutor.getProperties(message, propertyExecutor.getName(property)));
     }
 }

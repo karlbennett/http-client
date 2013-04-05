@@ -1,7 +1,7 @@
 package http.header;
 
 import http.Cookie;
-import http.util.NullSafeForEach;
+import http.util.Mapper;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -34,7 +34,7 @@ public class SetCookie extends Header<Cookie> {
         if (SET_COOKIE.equals(header.getName())) {
 
             return new ArrayList<SetCookie>(
-                    new NullSafeForEach<Cookie, SetCookie>(Cookie.parse(header.getValue().toString())) {
+                    new Mapper<Cookie, SetCookie>(Cookie.parse(header.getValue().toString())) {
 
                         @Override
                         protected SetCookie next(Cookie element) {

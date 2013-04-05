@@ -1,13 +1,10 @@
 package http;
 
-import http.attribute.Attribute;
-import http.attribute.AttributeCollectionMap;
-import http.attribute.AttributeHashSetMap;
-import http.attribute.AttributeSetMap;
+import http.attribute.*;
 import http.header.*;
 import http.header.Cookie;
 import http.util.Converter;
-import http.util.NullSafeForEach;
+import http.util.Mapper;
 
 import java.util.*;
 
@@ -24,12 +21,12 @@ import static http.util.Converter.Conversion;
 public class Message<T> {
 
     private static final Map<Class, Conversion> CONVERSIONS = new HashMap<Class, Conversion>() {{
-        put(Accept.class, new Conversion<Collection<Accept>, AttributeSetMap<Header>>() {
+        put(Accept.class, new Conversion<Collection<Accept>, AttributeListMap<Header>>() {
 
                     @Override
-                    public Collection<Accept> convert(AttributeSetMap<Header> headers) {
+                    public Collection<Accept> convert(AttributeListMap<Header> headers) {
 
-                        return new NullSafeForEach<Header, Accept>(headers.get(Accept.ACCEPT)) {
+                        return new Mapper<Header, Accept>(headers.get(Accept.ACCEPT)) {
 
                             @Override
                             protected Accept next(Header header) {
@@ -41,12 +38,12 @@ public class Message<T> {
                     }
                 }
         );
-        put(ContentType.class, new Conversion<Collection<ContentType>, AttributeSetMap<Header>>() {
+        put(ContentType.class, new Conversion<Collection<ContentType>, AttributeListMap<Header>>() {
 
                     @Override
-                    public Collection<ContentType> convert(AttributeSetMap<Header> headers) {
+                    public Collection<ContentType> convert(AttributeListMap<Header> headers) {
 
-                        return new NullSafeForEach<Header, ContentType>(headers.get(ContentType.CONTENT_TYPE)) {
+                        return new Mapper<Header, ContentType>(headers.get(ContentType.CONTENT_TYPE)) {
 
                             @Override
                             protected ContentType next(Header header) {
@@ -58,12 +55,12 @@ public class Message<T> {
                     }
                 }
         );
-        put(Cookie.class, new Conversion<Collection<Cookie>, AttributeSetMap<Header>>() {
+        put(Cookie.class, new Conversion<Collection<Cookie>, AttributeListMap<Header>>() {
 
                     @Override
-                    public Collection<Cookie> convert(AttributeSetMap<Header> headers) {
+                    public Collection<Cookie> convert(AttributeListMap<Header> headers) {
 
-                        return new NullSafeForEach<Header, Cookie>(headers.get(Cookie.COOKIE)) {
+                        return new Mapper<Header, Cookie>(headers.get(Cookie.COOKIE)) {
 
                             @Override
                             protected Cookie next(Header header) {
@@ -77,12 +74,12 @@ public class Message<T> {
                     }
                 }
         );
-        put(SetCookie.class, new Conversion<Collection<SetCookie>, AttributeSetMap<Header>>() {
+        put(SetCookie.class, new Conversion<Collection<SetCookie>, AttributeListMap<Header>>() {
 
                     @Override
-                    public Collection<SetCookie> convert(AttributeSetMap<Header> headers) {
+                    public Collection<SetCookie> convert(AttributeListMap<Header> headers) {
 
-                        return new NullSafeForEach<Header, SetCookie>(headers.get(SetCookie.SET_COOKIE)) {
+                        return new Mapper<Header, SetCookie>(headers.get(SetCookie.SET_COOKIE)) {
 
                             @Override
                             protected SetCookie next(Header header) {
@@ -106,15 +103,21 @@ public class Message<T> {
      * @param map the map that will have it's values concatenated.
      * @param <K> the type of the maps keys.
      * @param <V> the type of the maps values.
-     * @return all the values concatenated together into a single {@link Set}.
+     * @return all the values concatenated together into a single {@link List}.
      */
-    protected static <K, V> Set<V> getAllValues(Map<K, Set<V>> map) {
+    protected static <K, V> List<V> getAllValues(Map<K, List<V>> map) {
 
-        Set<V> allValues = new HashSet<V>();
+        return new Mapper<List<V>, V>(map.values()) {
 
-        for (Set<V> values : map.values()) allValues.addAll(values);
+            @Override
+            protected V next(List<V> element) {
 
-        return allValues;
+                addAll(element);
+
+                return null;
+            }
+
+        }.results(map.size() * 2);
     }
 
     /**
@@ -140,12 +143,12 @@ public class Message<T> {
      * @param attributes the attributes to remove.
      * @param <A>        the type of the attribute.
      * @param <C>        the type of the maps value collection.
-     * @return a collection containing only those attributes that were removed.
+     * @return a list containing only those attributes that were removed.
      */
-    protected static <A extends Attribute, C extends Collection<A>> Collection<A> removeAll(
+    protected static <A extends Attribute, C extends Collection<A>> List<A> removeAll(
             AttributeCollectionMap<A, C> map, Collection<A> attributes) {
 
-        Collection<A> removedAttributes = new HashSet<A>();
+        List<A> removedAttributes = new ArrayList<A>();
 
         for (A attribute : attributes) {
 
@@ -156,7 +159,7 @@ public class Message<T> {
     }
 
 
-    private final AttributeSetMap<Header> headers;
+    private final AttributeListMap<Header> headers;
     private T body;
 
 
@@ -168,7 +171,7 @@ public class Message<T> {
      */
     public Message(Collection<Header> headers, T body) {
 
-        this.headers = new AttributeHashSetMap<Header>(headers);
+        this.headers = new AttributeArrayListMap<Header>(headers);
         this.body = body;
     }
 
@@ -195,7 +198,7 @@ public class Message<T> {
      *
      * @return the message headers.
      */
-    public Set<Header> getHeaders() {
+    public List<Header> getHeaders() {
 
         return getAllValues(headers);
     }
@@ -207,7 +210,7 @@ public class Message<T> {
      * @param name the name of the header to retrieve.
      * @return the instances of the requested header if any exists otherwise {@code null}.
      */
-    public Set<Header> getHeaders(String name) {
+    public List<Header> getHeaders(String name) {
 
         return headers.get(name);
     }
@@ -221,7 +224,7 @@ public class Message<T> {
      * @param <T>        the type fo the retrieved header.
      * @return the instances of the requested header types if any exists otherwise {@code null}.
      */
-    public <T extends Header> Set<T> getHeaders(Class<T> headerType) {
+    public <T extends Header> List<T> getHeaders(Class<T> headerType) {
 
         return CONVERTER.convert(headerType, headers);
     }
@@ -303,7 +306,7 @@ public class Message<T> {
      * @param headers the {@code Header}s to remove.
      * @return the {@code Header}s that were removed.
      */
-    public Collection<Header> removeHeaders(Collection<Header> headers) {
+    public List<Header> removeHeaders(Collection<Header> headers) {
 
         return removeAll(this.headers, headers);
     }

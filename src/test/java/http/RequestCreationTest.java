@@ -61,6 +61,6 @@ public class RequestCreationTest {
                 request.getUrl().toString().contains(PARAMETER_THREE.toString()));
 
         assertEquals("the correct parameters are included in the request.", new HashSet<Parameter<String>>(PARAMETERS),
-                request.getParameters());
+                new HashSet<Parameter<String>>(request.getParameters()));
     }
 }

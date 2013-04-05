@@ -3,6 +3,7 @@ package http.header;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 
 /**
  * A utility class containing constant header values that can be used within tests.
@@ -25,6 +26,6 @@ public final class Headers {
     public static final Header<String> HEADER_TWO = new Header<String>(HEADER_NAME_TWO, HEADER_VALUE_TWO);
     public static final Header<String> HEADER_THREE = new Header<String>(HEADER_NAME_THREE, HEADER_VALUE_THREE);
 
-    public static final Collection<Header> HEADERS = Collections.unmodifiableCollection(
-            Arrays.<Header>asList((Header) HEADER_ONE, (Header) HEADER_TWO, (Header) HEADER_THREE));
+    public static final Collection<Header> HEADERS = Collections.unmodifiableSet(new HashSet<Header>(
+            Arrays.<Header>asList((Header) HEADER_ONE, (Header) HEADER_THREE, (Header) HEADER_TWO)));
 }

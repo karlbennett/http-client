@@ -1,8 +1,9 @@
 package http;
 
 import http.attribute.Attribute;
+import http.attribute.AttributeArrayListMap;
 import http.attribute.AttributeHashSetMap;
-import http.attribute.AttributeSetMap;
+import http.attribute.AttributeListMap;
 import http.header.*;
 import http.header.Cookie;
 import org.junit.Before;
@@ -11,10 +12,10 @@ import org.junit.Test;
 import java.util.*;
 
 import static http.Attributes.*;
+import static http.Bodies.TEST_STRING_BODY;
 import static http.Cookies.COOKIE_ONE;
 import static http.Cookies.COOKIE_TWO;
 import static http.header.Headers.HEADERS;
-import static http.Bodies.*;
 import static http.util.MimeTypes.*;
 import static org.junit.Assert.*;
 
@@ -36,12 +37,8 @@ public class MessageTest {
             )
     );
 
-    private static final Collection<Attribute<String>> TEST_ATTRIBUTE_TWOS = new HashSet<Attribute<String>>(
-            Arrays.asList(
-                    TEST_ATTRIBUTE_TWO,
-                    TEST_ATTRIBUTE_TWO_THREE
-            )
-    );
+    private static final List<Attribute<String>> TEST_ATTRIBUTE_TWOS = Arrays.asList(TEST_ATTRIBUTE_TWO,
+            TEST_ATTRIBUTE_TWO_THREE);
 
     private static final Attribute<String> NON_EXISTENT_ATTRIBUTE_ONE =
             new Attribute<String>("this should", "not exist", ".");
@@ -50,18 +47,19 @@ public class MessageTest {
 
     private Set<Attribute<String>> attributes;
 
-    private AttributeSetMap<Attribute<String>> attributeMap;
+    private AttributeListMap<Attribute<String>> attributeMap;
 
 
     @Before
     public void setUp() throws Exception {
 
-        attributes = new HashSet<Attribute<String>>();
-        attributes.addAll(TEST_ATTRIBUTE_ONES);
-        attributes.addAll(TEST_ATTRIBUTE_TWOS);
-        attributes.add(TEST_ATTRIBUTE_THREE);
+        attributes = new HashSet<Attribute<String>>() {{
+            addAll(TEST_ATTRIBUTE_ONES);
+            addAll(TEST_ATTRIBUTE_TWOS);
+            add(TEST_ATTRIBUTE_THREE);
+        }};
 
-        attributeMap = new AttributeHashSetMap<Attribute<String>>(attributes);
+        attributeMap = new AttributeArrayListMap<Attribute<String>>(attributes);
     }
 
 
@@ -70,7 +68,7 @@ public class MessageTest {
 
         Message<String> message = new Message<String>(HEADERS, TEST_STRING_BODY);
 
-        assertEquals("the headers should be added to the message.", new HashSet<Header>(HEADERS), message.getHeaders());
+        assertEquals("the headers should be added to the message.", HEADERS, new HashSet<Header>(message.getHeaders()));
         assertEquals("the body should have been added to the message.", TEST_STRING_BODY, message.getBody());
     }
 
@@ -79,7 +77,7 @@ public class MessageTest {
 
         Message<Void> message = new Message<Void>();
 
-        assertEquals("no headers should be added to the message.", Collections.emptySet(), message.getHeaders());
+        assertEquals("no headers should be added to the message.", Collections.emptyList(), message.getHeaders());
         assertNull("no body should have been added to the message.", message.getBody());
     }
 
@@ -99,14 +97,15 @@ public class MessageTest {
     @Test
     public void testGetAllValues() throws Exception {
 
-        assertEquals("the correct attributes should be returned.", attributes, Message.getAllValues(attributeMap));
+        assertEquals("the correct attributes should be returned.", attributes,
+                new HashSet<Attribute<String>>(Message.getAllValues(attributeMap)));
     }
 
     @Test
     public void testGetAllValuesWithEmptyMap() throws Exception {
 
-        assertEquals("an empty should be returned.", Collections.<Attribute>emptySet(),
-                Message.getAllValues(new AttributeHashSetMap<Attribute>()));
+        assertEquals("an empty should be returned.", Collections.<Attribute>emptyList(),
+                Message.getAllValues(new AttributeArrayListMap<Attribute>()));
     }
 
     @Test(expected = NullPointerException.class)
@@ -165,13 +164,13 @@ public class MessageTest {
 
         assertEquals("the attribute map should have three entries.", 3, attributeMap.size());
 
-        Collection<Attribute<String>> attributes = Arrays.asList(NON_EXISTENT_ATTRIBUTE_ONE, NON_EXISTENT_ATTRIBUTE_TWO);
+        List<Attribute<String>> attributes = Arrays.asList(NON_EXISTENT_ATTRIBUTE_ONE, NON_EXISTENT_ATTRIBUTE_TWO);
 
-        assertEquals("non existent attributes should not be removed", Collections.emptySet(),
+        assertEquals("non existent attributes should not be removed", Collections.emptyList(),
                 Message.removeAll(attributeMap, attributes));
         assertEquals("the attribute map should still have three entries.", 3, attributeMap.size());
 
-        attributes = new HashSet<Attribute<String>>(Arrays.asList(TEST_ATTRIBUTE_ONE, TEST_ATTRIBUTE_THREE));
+        attributes = Arrays.asList(TEST_ATTRIBUTE_ONE, TEST_ATTRIBUTE_THREE);
 
         assertEquals("attributes one and three should be removed", attributes,
                 Message.removeAll(attributeMap, attributes));
@@ -181,7 +180,7 @@ public class MessageTest {
                 Message.removeAll(attributeMap, TEST_ATTRIBUTE_TWOS));
         assertEquals("the attribute map should still have one entry.", 1, attributeMap.size());
 
-        attributes = new HashSet<Attribute<String>>(Arrays.asList(TEST_ATTRIBUTE_ONE_TWO));
+        attributes = Arrays.asList(TEST_ATTRIBUTE_ONE_TWO);
 
         assertEquals("the last attribute one entry should be removed", attributes,
                 Message.removeAll(attributeMap, attributes));

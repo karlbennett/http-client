@@ -1,8 +1,6 @@
 package http.parameter;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
+import java.util.*;
 
 /**
  * A utility class containing constant parameter values that can be used within tests.
@@ -31,6 +29,6 @@ public final class Parameters {
     public static final Parameter<String> PARAMETER_THREE = new Parameter<String>(PARAMETER_NAME_THREE,
             PARAMETER_VALUE_THREE);
 
-    public static final Collection<Parameter<String>> PARAMETERS = Collections.unmodifiableCollection(
+    public static final Collection<Parameter<String>> PARAMETERS = Collections.unmodifiableList(
             Arrays.asList(PARAMETER_ONE, PARAMETER_TWO, PARAMETER_THREE));
 }

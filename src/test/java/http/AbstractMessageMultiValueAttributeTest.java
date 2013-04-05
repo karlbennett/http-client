@@ -112,8 +112,8 @@ public abstract class AbstractMessageMultiValueAttributeTest<M, A extends Attrib
 
         addedAttributes = messageExecutor.getProperties(message, attributeOne.getName());
 
-        assertEquals("two attributes should have been added.", 2, addedAttributes.size());
-        assertTrue("the blank attribute should only exist once.", addedAttributes.contains(blankAttribute));
+        assertEquals("three attributes should have been added.", 3, addedAttributes.size());
+        assertTrue("the blank attribute should exist twice.", addedAttributes.contains(blankAttribute));
         assertTrue("attribute one should still exist.", addedAttributes.contains(attributeOne));
     }
 
@@ -134,7 +134,7 @@ public abstract class AbstractMessageMultiValueAttributeTest<M, A extends Attrib
 
         addedAttributes = messageExecutor.getProperties(message, attributeOne.getName());
 
-        assertEquals("one attribute should have been added.", 1, addedAttributes.size());
-        assertTrue("the blank attribute should only exist once.", addedAttributes.contains(blankAttribute));
+        assertEquals("two attributes should have been added.", 2, addedAttributes.size());
+        assertTrue("the blank attribute should exist twice.", addedAttributes.contains(blankAttribute));
     }
 }

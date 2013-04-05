@@ -1,13 +1,16 @@
 package http;
 
 import http.attribute.AbstractAttributeCollectionMap;
+import http.attribute.AttributeArrayListMap;
 import http.attribute.AttributeHashSetMap;
+import http.attribute.AttributeListMap;
 import http.header.Header;
 import http.parameter.Parameter;
 
 import java.net.URL;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 import static http.util.Asserts.assertNotNull;
@@ -37,7 +40,7 @@ public class Request<T> extends Message<T> {
 
 
     private final URL url;
-    private AbstractAttributeCollectionMap<Parameter<String>, Set<Parameter<String>>> parameters;
+    private AttributeListMap<Parameter<String>> parameters;
 
     /**
      * Create a new {@code Request} that will be sent to the {@code HTTP} server at the supplied {@link URL}.
@@ -142,7 +145,7 @@ public class Request<T> extends Message<T> {
 
         this.url = urlMinusQuery(url.toString());
 
-        this.parameters = new AttributeHashSetMap<Parameter<String>>(parameters);
+        this.parameters = new AttributeArrayListMap<Parameter<String>>(parameters);
         this.parameters.addAll(Parameter.parse(url.getQuery()));
     }
 
@@ -166,7 +169,7 @@ public class Request<T> extends Message<T> {
      *
      * @return the message parameters.
      */
-    public Set<Parameter<String>> getParameters() {
+    public List<Parameter<String>> getParameters() {
 
         return getAllValues(parameters);
     }
@@ -177,7 +180,7 @@ public class Request<T> extends Message<T> {
      * @param name the name of the parameter to retrieve.
      * @return the requested parameter if it exists otherwise null.
      */
-    public Set<Parameter<String>> getParameters(String name) {
+    public List<Parameter<String>> getParameters(String name) {
 
         return parameters.get(name);
     }
