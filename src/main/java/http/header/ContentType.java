@@ -1,5 +1,7 @@
 package http.header;
 
+import http.header.util.AbstractHeaderConverter;
+
 import javax.activation.MimeType;
 
 import static http.util.MimeTypes.quietMimeType;
@@ -9,7 +11,7 @@ import static http.util.MimeTypes.quietMimeType;
  *
  * @author Karl Bennett
  */
-public class ContentType extends Header<MimeType> {
+public class ContentType extends AbstractMimeTypeHeader {
 
     public static final String CONTENT_TYPE = "Content-Type";
 
@@ -23,18 +25,18 @@ public class ContentType extends Header<MimeType> {
      */
     private static ContentType convert(Header header) {
 
-        if (header instanceof ContentType) {
+        return new AbstractHeaderConverter<Header, ContentType>(ContentType.class, header, CONTENT_TYPE) {
 
-            return (ContentType) header;
-        }
+            @Override
+            protected ContentType create(Header header) {
 
-        if (CONTENT_TYPE.equals(header.getName())) {
+                Object value = header.getValue();
 
-            return new ContentType(quietMimeType(header.getValue().toString()));
-        }
+                return new ContentType(value instanceof MimeType ?
+                        (MimeType) value : quietMimeType(value.toString()));
+            }
 
-        throw new IllegalArgumentException("An " + ContentType.class.getName() +
-                " object can only be created from an \"ContentType\" header.");
+        }.convert();
     }
 
 
@@ -54,7 +56,7 @@ public class ContentType extends Header<MimeType> {
      * @param sub     the sub type of the {@code MIME} type e.g. "json" from "application/json".
      */
     public ContentType(String primary, String sub) {
-        super(CONTENT_TYPE, quietMimeType(primary, sub));
+        super(CONTENT_TYPE, primary, sub);
     }
 
     /**
@@ -63,7 +65,16 @@ public class ContentType extends Header<MimeType> {
      * @param rawData a {@link String} containing a MIME type value.
      */
     public ContentType(String rawData) {
-        super(CONTENT_TYPE, quietMimeType(rawData));
+        super(CONTENT_TYPE, rawData);
+    }
+
+    /**
+     * {@code ContentType} copy constructor.
+     *
+     * @param contentType the {@code ContentType} instance to copy.
+     */
+    public ContentType(ContentType contentType) {
+        super(contentType);
     }
 
     /**

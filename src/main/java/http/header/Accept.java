@@ -1,5 +1,7 @@
 package http.header;
 
+import http.header.util.AbstractHeaderConverter;
+
 import javax.activation.MimeType;
 
 import static http.util.MimeTypes.quietMimeType;
@@ -9,7 +11,7 @@ import static http.util.MimeTypes.quietMimeType;
  *
  * @author Karl Bennett
  */
-public class Accept extends Header<MimeType> {
+public class Accept extends AbstractMimeTypeHeader {
 
     public static final String ACCEPT = "Accept";
 
@@ -23,18 +25,18 @@ public class Accept extends Header<MimeType> {
      */
     private static Accept convert(Header header) {
 
-        if (header instanceof Accept) {
+        return new AbstractHeaderConverter<Header, Accept>(Accept.class, header, ACCEPT) {
 
-            return (Accept) header;
-        }
+            @Override
+            protected Accept create(Header header) {
 
-        if (ACCEPT.equals(header.getName())) {
+                Object value = header.getValue();
 
-            return new Accept(quietMimeType(header.getValue().toString()));
-        }
+                return new Accept(value instanceof MimeType ?
+                        (MimeType) value : quietMimeType(value.toString()));
+            }
 
-        throw new IllegalArgumentException("An " + Accept.class.getName() +
-                " object can only be created from an \"Accept\" header.");
+        }.convert();
     }
 
 
@@ -54,7 +56,7 @@ public class Accept extends Header<MimeType> {
      * @param sub     the sub type of the {@code MIME} type e.g. "json" from "application/json".
      */
     public Accept(String primary, String sub) {
-        super(ACCEPT, quietMimeType(primary, sub));
+        super(ACCEPT, primary, sub);
     }
 
     /**
@@ -63,7 +65,7 @@ public class Accept extends Header<MimeType> {
      * @param rawData a {@link String} containing a MIME type value.
      */
     public Accept(String rawData) {
-        super(ACCEPT, quietMimeType(rawData));
+        super(ACCEPT, rawData);
     }
 
     /**
