@@ -1,6 +1,7 @@
 package http.header;
 
 import http.header.util.AbstractHeaderConverter;
+import http.header.util.AbstractMimeTypeHeaderConverter;
 
 import javax.activation.MimeType;
 
@@ -25,15 +26,12 @@ public class ContentType extends AbstractMimeTypeHeader {
      */
     private static ContentType convert(Header header) {
 
-        return new AbstractHeaderConverter<Header, ContentType>(ContentType.class, header, CONTENT_TYPE) {
+        return new AbstractMimeTypeHeaderConverter<Header, ContentType>(ContentType.class, header, CONTENT_TYPE) {
 
             @Override
-            protected ContentType create(Header header) {
+            protected ContentType createWithMimeType(MimeType mimeType) {
 
-                Object value = header.getValue();
-
-                return new ContentType(value instanceof MimeType ?
-                        (MimeType) value : quietMimeType(value.toString()));
+                return new ContentType(mimeType);
             }
 
         }.convert();
