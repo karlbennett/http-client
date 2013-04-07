@@ -8,7 +8,7 @@ import static http.util.MimeTypes.APPLICATION_JSON;
 /**
  * @author Karl Bennett
  */
-public class ContentTypeTest extends AbstractMimeTypeTest<ContentType>{
+public class ContentTypeTest extends AbstractMimeTypeTest<ContentType> {
 
     public ContentTypeTest() {
         super(CONTENT_TYPE, APPLICATION_JSON);

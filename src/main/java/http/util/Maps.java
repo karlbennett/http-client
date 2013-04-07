@@ -2,8 +2,8 @@ package http.util;
 
 import java.util.Map;
 
-import static java.util.Map.Entry;
 import static http.util.Asserts.assertNotNull;
+import static java.util.Map.Entry;
 
 /**
  * This utility class contains helper methods for working with Java {@link Map}s.

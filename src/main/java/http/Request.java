@@ -1,8 +1,6 @@
 package http;
 
-import http.attribute.AbstractAttributeCollectionMap;
 import http.attribute.AttributeArrayListMap;
-import http.attribute.AttributeHashSetMap;
 import http.attribute.AttributeListMap;
 import http.header.Header;
 import http.parameter.Parameter;
@@ -11,7 +9,6 @@ import java.net.URL;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 import static http.util.Asserts.assertNotNull;
 import static http.util.Checks.isNotEmpty;

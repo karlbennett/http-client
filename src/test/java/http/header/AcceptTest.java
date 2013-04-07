@@ -2,8 +2,8 @@ package http.header;
 
 import javax.activation.MimeType;
 
-import static http.util.MimeTypes.*;
 import static http.header.Accept.ACCEPT;
+import static http.util.MimeTypes.APPLICATION_JSON;
 
 /**
  * @author Karl Bennett

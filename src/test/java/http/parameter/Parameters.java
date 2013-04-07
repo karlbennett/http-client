@@ -1,6 +1,8 @@
 package http.parameter;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 
 /**
  * A utility class containing constant parameter values that can be used within tests.

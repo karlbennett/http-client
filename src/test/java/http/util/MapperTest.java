@@ -91,7 +91,7 @@ public class MapperTest {
 
         Collection<Integer> numbers = Arrays.asList(1, 2, 3, 4);
 
-        List<String> sums = new ArrayList<String>(){{
+        List<String> sums = new ArrayList<String>() {{
             addAll(Arrays.asList("11"));
             addAll(Arrays.asList("21", "23"));
             addAll(Arrays.asList("31", "33", "36"));

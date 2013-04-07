@@ -47,10 +47,10 @@ public class Converter {
     /**
      * Convert the supplied object into the requested type.
      *
-     * @param type the type of object to convert to.
+     * @param type   the type of object to convert to.
      * @param object the object to convert.
-     * @param <T> the generic type of the object to convert to.
-     * @param <O> the generic type of the object to convert.
+     * @param <T>    the generic type of the object to convert to.
+     * @param <O>    the generic type of the object to convert.
      * @return the converted attribute.
      * @throws IllegalArgumentException if there is no converter for the requested type.
      */

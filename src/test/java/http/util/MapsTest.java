@@ -6,9 +6,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import static java.util.AbstractMap.SimpleEntry;
 import static http.util.Maps.populateMap;
-import static org.junit.Assert.*;
+import static java.util.AbstractMap.SimpleEntry;
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Karl Bennett
@@ -24,6 +24,7 @@ public class MapsTest {
     private static final String THREE_STRING = "three";
 
     public static final Map<Integer, String> TEST_MAP;
+
     static {
 
         Map<Integer, String> testMap = new HashMap<Integer, String>();

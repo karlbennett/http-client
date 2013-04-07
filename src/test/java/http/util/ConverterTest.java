@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static http.util.Converter.Conversion;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Karl Bennett
