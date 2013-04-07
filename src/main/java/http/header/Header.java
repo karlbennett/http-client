@@ -64,8 +64,8 @@ public class Header<T> extends Attribute<T> {
     /**
      * Create a {@code Header} with a name and value.
      *
-     * @param name  the name of the attribute.
-     * @param value the single value for the attribute.
+     * @param name  the name of the header.
+     * @param value the single value for the header.
      */
     public Header(String name, T value) {
         super(name, value, OPERATOR);
