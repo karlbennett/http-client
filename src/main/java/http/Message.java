@@ -1,6 +1,9 @@
 package http;
 
-import http.attribute.*;
+import http.attribute.Attribute;
+import http.attribute.AttributeArrayListMap;
+import http.attribute.AttributeCollectionMap;
+import http.attribute.AttributeListMap;
 import http.header.*;
 import http.header.Cookie;
 import http.util.Converter;
@@ -20,78 +23,81 @@ import static http.util.Converter.Conversion;
  */
 public class Message<T> {
 
+    /**
+     * A map of conversions that will be used to convert from generic {@link Header} types to specific sub types.
+     */
     private static final Map<Class, Conversion> CONVERSIONS = new HashMap<Class, Conversion>() {{
         put(Accept.class, new Conversion<Collection<Accept>, AttributeListMap<Header>>() {
 
+            @Override
+            public Collection<Accept> convert(AttributeListMap<Header> headers) {
+
+                return new Mapper<Header, Accept>(headers.get(Accept.ACCEPT)) {
+
                     @Override
-                    public Collection<Accept> convert(AttributeListMap<Header> headers) {
+                    protected Accept next(Header header) {
 
-                        return new Mapper<Header, Accept>(headers.get(Accept.ACCEPT)) {
-
-                            @Override
-                            protected Accept next(Header header) {
-
-                                return new Accept(header);
-                            }
-
-                        }.results();
+                        return new Accept(header);
                     }
-                }
+
+                }.results();
+            }
+        }
         );
         put(ContentType.class, new Conversion<Collection<ContentType>, AttributeListMap<Header>>() {
 
+            @Override
+            public Collection<ContentType> convert(AttributeListMap<Header> headers) {
+
+                return new Mapper<Header, ContentType>(headers.get(ContentType.CONTENT_TYPE)) {
+
                     @Override
-                    public Collection<ContentType> convert(AttributeListMap<Header> headers) {
+                    protected ContentType next(Header header) {
 
-                        return new Mapper<Header, ContentType>(headers.get(ContentType.CONTENT_TYPE)) {
-
-                            @Override
-                            protected ContentType next(Header header) {
-
-                                return new ContentType(header);
-                            }
-
-                        }.results();
+                        return new ContentType(header);
                     }
-                }
+
+                }.results();
+            }
+        }
         );
         put(Cookie.class, new Conversion<Collection<Cookie>, AttributeListMap<Header>>() {
 
+            @Override
+            public Collection<Cookie> convert(AttributeListMap<Header> headers) {
+
+                return new Mapper<Header, Cookie>(headers.get(Cookie.COOKIE)) {
+
                     @Override
-                    public Collection<Cookie> convert(AttributeListMap<Header> headers) {
+                    protected Cookie next(Header header) {
 
-                        return new Mapper<Header, Cookie>(headers.get(Cookie.COOKIE)) {
+                        addAll(Cookie.convert(header));
 
-                            @Override
-                            protected Cookie next(Header header) {
-
-                                addAll(Cookie.convert(header));
-
-                                return null;
-                            }
-
-                        }.results();
+                        return null;
                     }
-                }
+
+                }.results();
+            }
+        }
         );
         put(SetCookie.class, new Conversion<Collection<SetCookie>, AttributeListMap<Header>>() {
 
+            @Override
+            public Collection<SetCookie> convert(AttributeListMap<Header> headers) {
+
+                return new Mapper<Header, SetCookie>(headers.get(SetCookie.SET_COOKIE)) {
+
                     @Override
-                    public Collection<SetCookie> convert(AttributeListMap<Header> headers) {
+                    protected SetCookie next(Header header) {
 
-                        return new Mapper<Header, SetCookie>(headers.get(SetCookie.SET_COOKIE)) {
+                        addAll(SetCookie.convert(header));
 
-                            @Override
-                            protected SetCookie next(Header header) {
-
-                                addAll(SetCookie.convert(header));
-
-                                return null;
-                            }
-
-                        }.results();
+                        return null;
                     }
-                }
+
+                }.results();
+            }
+        }
         );
     }};
 
