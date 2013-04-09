@@ -11,23 +11,6 @@ import static http.util.Asserts.assertNotNull;
  */
 public class Converter {
 
-    /**
-     * This interface should be implemented to convert the supplied object into the generically set type.
-     *
-     * @param <T> the type to convert into.
-     */
-    public static interface Conversion<T, O> {
-
-        /**
-         * Convert the supplied object into the returned type.
-         *
-         * @param object the object to convert.
-         * @return the converted object.
-         */
-        T convert(O object);
-    }
-
-
     private final Map<Class, Conversion> conversions;
 
 

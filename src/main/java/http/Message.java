@@ -13,7 +13,8 @@ import java.util.*;
 
 import static http.util.Asserts.assertNotNull;
 import static http.util.Checks.isNotNull;
-import static http.util.Converter.Conversion;
+
+import http.util.Conversion;
 
 /**
  * Represents a generic HTTP message and supplies accessor methods for retrieving and populating the common HTTP message

@@ -1,11 +1,8 @@
 package http.header;
 
-import http.header.util.AbstractHeaderConverter;
-import http.header.util.AbstractMimeTypeHeaderConverter;
+import http.header.util.AbstractMimeTypeHeaderConversion;
 
 import javax.activation.MimeType;
-
-import static http.util.MimeTypes.quietMimeType;
 
 /**
  * An HTTP {@code Accept} header.
@@ -26,7 +23,7 @@ public class Accept extends AbstractMimeTypeHeader {
      */
     private static Accept convert(Header header) {
 
-        return new AbstractMimeTypeHeaderConverter<Header, Accept>(Accept.class, header, ACCEPT) {
+        return new AbstractMimeTypeHeaderConversion<Header, Accept>(Accept.class, header, ACCEPT) {
 
             @Override
             protected Accept createWithMimeType(MimeType mimeType) {

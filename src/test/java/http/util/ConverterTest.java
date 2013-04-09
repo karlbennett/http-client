@@ -6,7 +6,6 @@ import org.junit.Test;
 import java.util.HashMap;
 import java.util.Map;
 
-import static http.util.Converter.Conversion;
 import static org.junit.Assert.assertEquals;
 
 /**

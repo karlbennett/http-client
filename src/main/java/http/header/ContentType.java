@@ -1,11 +1,8 @@
 package http.header;
 
-import http.header.util.AbstractHeaderConverter;
-import http.header.util.AbstractMimeTypeHeaderConverter;
+import http.header.util.AbstractMimeTypeHeaderConversion;
 
 import javax.activation.MimeType;
-
-import static http.util.MimeTypes.quietMimeType;
 
 /**
  * An HTTP {@code Content-Type} header.
@@ -26,7 +23,7 @@ public class ContentType extends AbstractMimeTypeHeader {
      */
     private static ContentType convert(Header header) {
 
-        return new AbstractMimeTypeHeaderConverter<Header, ContentType>(ContentType.class, header, CONTENT_TYPE) {
+        return new AbstractMimeTypeHeaderConversion<Header, ContentType>(ContentType.class, header, CONTENT_TYPE) {
 
             @Override
             protected ContentType createWithMimeType(MimeType mimeType) {
