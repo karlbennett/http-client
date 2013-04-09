@@ -1,6 +1,6 @@
 package http.header;
 
-import http.header.util.CookieConversion;
+import http.header.util.AbstractCookieConversion;
 
 import java.util.List;
 
@@ -23,10 +23,10 @@ public class Cookie extends Header<http.Cookie> {
      */
     public static List<Cookie> convert(Header header) {
 
-        return new CookieConversion<Header, Cookie>(Cookie.class, header, COOKIE) {
+        return new AbstractCookieConversion<Cookie, Header>(Cookie.class, header, COOKIE) {
 
             @Override
-            public Cookie create(http.Cookie cookie) {
+            public Cookie convert(http.Cookie cookie) {
 
                 return new Cookie(cookie);
             }
