@@ -5,6 +5,7 @@ import org.junit.Test;
 import javax.activation.MimeType;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Abstract test class that contains the common tests for MIME type headers.
@@ -106,6 +107,16 @@ public abstract class AbstractMimeTypeTest<H extends Header> {
     public void testCreateAcceptWithConversion() throws Exception {
 
         Header header = new Header<Object>(name, mimeType.toString());
+
+        H convertedHeader = convertMimeTypeHeader(header);
+
+        assertMimeTypeHeader(convertedHeader);
+    }
+
+    @Test
+    public void testCreateAcceptWithUnnecessaryConversion() throws Exception {
+
+        Header header = createMimeTypeHeader(mimeType);
 
         H convertedHeader = convertMimeTypeHeader(header);
 
