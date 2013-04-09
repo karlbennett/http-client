@@ -1,9 +1,7 @@
 package http.header;
 
-import http.util.Mapper;
+import http.header.util.CookieConversion;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -25,28 +23,15 @@ public class Cookie extends Header<http.Cookie> {
      */
     public static List<Cookie> convert(Header header) {
 
-        if (header instanceof Cookie) {
+        return new CookieConversion<Header, Cookie>(Cookie.class, header, COOKIE) {
 
-            return Collections.singletonList((Cookie) header);
-        }
+            @Override
+            public Cookie create(http.Cookie cookie) {
 
-        if (COOKIE.equals(header.getName())) {
+                return new Cookie(cookie);
+            }
 
-            return new ArrayList<Cookie>(
-                    new Mapper<http.Cookie, Cookie>(http.Cookie.parse(header.getValue().toString())) {
-
-                        @Override
-                        protected Cookie next(http.Cookie element) {
-
-                            return new Cookie(element);
-                        }
-
-                    }.results()
-            );
-        }
-
-        throw new IllegalArgumentException("An " + Cookie.class.getName() +
-                " object can only be created from an \"Cookie\" header.");
+        }.convert();
     }
 
     /**

@@ -1,10 +1,8 @@
 package http.header;
 
 import http.Cookie;
-import http.util.Mapper;
+import http.header.util.CookieConversion;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -26,28 +24,15 @@ public class SetCookie extends Header<Cookie> {
      */
     public static List<SetCookie> convert(Header header) {
 
-        if (header instanceof SetCookie) {
+        return new CookieConversion<Header, SetCookie>(SetCookie.class, header, SET_COOKIE) {
 
-            return Collections.singletonList((SetCookie) header);
-        }
+            @Override
+            public SetCookie create(Cookie cookie) {
 
-        if (SET_COOKIE.equals(header.getName())) {
+                return new SetCookie(cookie);
+            }
 
-            return new ArrayList<SetCookie>(
-                    new Mapper<Cookie, SetCookie>(Cookie.parse(header.getValue().toString())) {
-
-                        @Override
-                        protected SetCookie next(Cookie element) {
-
-                            return new SetCookie(element);
-                        }
-
-                    }.results()
-            );
-        }
-
-        throw new IllegalArgumentException("An " + SetCookie.class.getName() +
-                " object can only be created from an \"Set-Cookie\" header.");
+        }.convert();
     }
 
     /**
