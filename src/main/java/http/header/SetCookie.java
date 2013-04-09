@@ -1,7 +1,7 @@
 package http.header;
 
 import http.Cookie;
-import http.header.util.AbstractCookieConversion;
+import http.header.util.AbstractCookieHeaderConversion;
 
 import java.util.List;
 
@@ -24,7 +24,7 @@ public class SetCookie extends Header<Cookie> {
      */
     public static List<SetCookie> convert(Header header) {
 
-        return new AbstractCookieConversion<SetCookie, Header>(SetCookie.class, header, SET_COOKIE) {
+        return new AbstractCookieHeaderConversion<SetCookie, Header>(SetCookie.class, header, SET_COOKIE) {
 
             @Override
             public SetCookie convert(Cookie cookie) {

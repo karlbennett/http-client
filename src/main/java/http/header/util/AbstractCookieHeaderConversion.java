@@ -17,7 +17,7 @@ import static http.util.Checks.isNotNull;
  *
  * @author Karl Bennett
  */
-public abstract class AbstractCookieConversion<C extends Header<Cookie>, O extends Header> implements
+public abstract class AbstractCookieHeaderConversion<C extends Header<Cookie>, O extends Header> implements
         Conversion<C, Cookie> {
 
     private List<C> headers;
@@ -25,14 +25,14 @@ public abstract class AbstractCookieConversion<C extends Header<Cookie>, O exten
 
 
     /**
-     * Create an {@code AbstractCookieConversion} that converts the supplied {@code Header} into the required
+     * Create an {@code AbstractCookieHeaderConversion} that converts the supplied {@code Header} into the required
      * {@code type} with the required {@code name}.
      *
      * @param type   the type of cookie header to convert to.
      * @param header the header to convert.
      * @param name   the name of the required cookie header.
      */
-    public AbstractCookieConversion(Class type, O header, String name) {
+    public AbstractCookieHeaderConversion(Class type, O header, String name) {
 
         conversion = new AbstractHeaderConversion<C, O>(type, header, name) {
 
@@ -44,7 +44,7 @@ public abstract class AbstractCookieConversion<C extends Header<Cookie>, O exten
                     @Override
                     protected C next(Cookie cookie) {
 
-                        return AbstractCookieConversion.this.convert(cookie);
+                        return AbstractCookieHeaderConversion.this.convert(cookie);
                     }
 
                 }.results();
