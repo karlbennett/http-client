@@ -1,5 +1,7 @@
 package http.util;
 
+import static http.util.Checks.isNotNull;
+
 /**
  * Abstract class that provides the common logic required for converting one object type into another.
  *
@@ -12,6 +14,7 @@ public abstract class AbstractConversion<T, O> implements Conversion<T, O> {
 
     private final Class<T> type;
     private final O object;
+    private T conversion;
 
 
     /**
@@ -36,11 +39,15 @@ public abstract class AbstractConversion<T, O> implements Conversion<T, O> {
     @SuppressWarnings("unchecked")
     public T convert() {
 
+        // Check to see if the conversion has already been run and if it has return the converted value.
+        if (isNotNull(conversion)) return conversion;
+
+        // Otherwise convert, cache, and return the converted value.
         if (type.isAssignableFrom(object.getClass())) {
 
-            return (T) object;
+            return (conversion = (T) object);
         }
 
-        return convert(object);
+        return (conversion = convert(object));
     }
 }
