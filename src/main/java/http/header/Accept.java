@@ -1,6 +1,6 @@
 package http.header;
 
-import http.header.util.AbstractMimeTypeHeaderConversion;
+import http.header.util.HeaderToMimeTypeConversion;
 
 import javax.activation.MimeType;
 
@@ -12,28 +12,6 @@ import javax.activation.MimeType;
 public class Accept extends AbstractMimeTypeHeader {
 
     public static final String ACCEPT = "Accept";
-
-    /**
-     * Convert the supplied {@link Header} into an {@code Accept} instance.
-     *
-     * @param header the {@code Header} to convert.
-     * @return the new {@code Accept} instance built from the {@code Header}.
-     * @throws IllegalArgumentException if the supplied header doesn't have a name of "Accept" or the value isn't a
-     *                                  valid MIME type.
-     */
-    private static Accept convert(Header header) {
-
-        return new AbstractMimeTypeHeaderConversion<Header, Accept>(Accept.class, header, ACCEPT) {
-
-            @Override
-            protected Accept createWithMimeType(MimeType mimeType) {
-
-                return new Accept(mimeType);
-            }
-
-        }.convert();
-    }
-
 
     /**
      * Create a new {@code Accept} header with the supplied {@code MIME} type.
@@ -78,6 +56,7 @@ public class Accept extends AbstractMimeTypeHeader {
      * @param header the header to convert.
      */
     public Accept(Header header) {
-        this(convert(header));
+
+        this(new HeaderToMimeTypeConversion<Header>(header, ACCEPT).convert());
     }
 }

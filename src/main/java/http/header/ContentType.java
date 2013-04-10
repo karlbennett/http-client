@@ -1,6 +1,6 @@
 package http.header;
 
-import http.header.util.AbstractMimeTypeHeaderConversion;
+import http.header.util.HeaderToMimeTypeConversion;
 
 import javax.activation.MimeType;
 
@@ -12,27 +12,6 @@ import javax.activation.MimeType;
 public class ContentType extends AbstractMimeTypeHeader {
 
     public static final String CONTENT_TYPE = "Content-Type";
-
-    /**
-     * Convert the supplied {@link Header} into an {@code ContentType} instance.
-     *
-     * @param header the {@code Header} to convert.
-     * @return the new {@code ContentType} instance built from the {@code Header}.
-     * @throws IllegalArgumentException if the supplied header doesn't have a name of "ContentType" or the value isn't a
-     *                                  valid MIME type.
-     */
-    private static ContentType convert(Header header) {
-
-        return new AbstractMimeTypeHeaderConversion<Header, ContentType>(ContentType.class, header, CONTENT_TYPE) {
-
-            @Override
-            protected ContentType createWithMimeType(MimeType mimeType) {
-
-                return new ContentType(mimeType);
-            }
-
-        }.convert();
-    }
 
 
     /**
@@ -79,6 +58,7 @@ public class ContentType extends AbstractMimeTypeHeader {
      * @param header the header to convert.
      */
     public ContentType(Header header) {
-        super(convert(header));
+
+        this(new HeaderToMimeTypeConversion<Header>(header, CONTENT_TYPE).convert());
     }
 }

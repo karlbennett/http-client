@@ -1,6 +1,7 @@
 package http.util;
 
 import static http.util.Checks.isNotNull;
+import static http.util.Asserts.assertNotNull;
 
 /**
  * Abstract class that provides the common logic required for converting one object type into another.
@@ -23,8 +24,12 @@ public abstract class AbstractConversion<T, O> implements Conversion<T, O> {
      *
      * @param type   the required destination object type.
      * @param object the original object instance.
+     * @throws IllegalArgumentException if either the {@code type} or {@code object} arguments are {@code null}.
      */
     protected AbstractConversion(Class<T> type, O object) {
+
+        assertNotNull("type", type);
+        assertNotNull("object", object);
 
         this.type = type;
         this.object = object;
